@@ -1,0 +1,27 @@
+.test {
+  background-color: skyblue;
+}
+
+.sum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5px 10px 5px;
+}
+
+.sumbox {
+  width: 70px;
+  height: 45px;
+  background-color: white;
+  text-align: center;
+  font-size: 30px;
+}
+
+.plusImg {
+  width: 25px;
+  height: 25px;
+}
+
+.chartBox {
+  background-color: pink;
+}
