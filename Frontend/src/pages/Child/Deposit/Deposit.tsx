@@ -18,7 +18,9 @@ const Deposit: React.FC = () => {
             <div>예금 상품1</div>
         </div>
         <Link to="/DepositJoinDetail">
-        <div>예금 가입하기</div>
+            <div className=' rounded-md shadow-md m-4'>
+                <p className='text-lg'>예금 가입하기+</p>
+            </div>
         </Link>
         </div>
     )
