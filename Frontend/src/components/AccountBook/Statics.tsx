@@ -1,13 +1,8 @@
 import React from "react";
-import styles from "./test.module.css";
+import styles from "./Statics.module.css";
 import ReactApexChart from "react-apexcharts";
 
-// 컴포넌트의 속성(props) 정의
-interface Props {
-  name: string;
-}
-
-const Test: React.FC<Props> = ({ name }) => {
+const Statics: React.FC = () => {
   const donutData = {
     series: [10000, 5000, 1000, 200, 0],
     options: {
@@ -49,17 +44,23 @@ const Test: React.FC<Props> = ({ name }) => {
     },
   };
 
+  const needExpense = 10;
+  const wantExpense = 20;
+  const totalExpense = needExpense + wantExpense;
+
+  const needWidth = (needExpense / totalExpense) * 100;
+  const wantWidth = (wantExpense / totalExpense) * 100;
+
   return (
-    <div>
-      <div>2023.09.08</div>
+    <div className={styles.testcomponenet}>
+      <div style={{color:"black"}}>2023.09</div>
       <div className={styles.test}>
-        {/* <h2>{name}</h2> */}
         <div className={styles.sum}>
           <div className={styles.sumbox}>수입</div>
           <div>
             <img
               className={styles.plusImg}
-              src="src/assets/plus.png"
+              src="plus.png"
               alt="plus"
             />
           </div>
@@ -67,19 +68,13 @@ const Test: React.FC<Props> = ({ name }) => {
           <div>
             <img
               className={styles.plusImg}
-              src="src/assets/equal.png"
+              src="equal.png"
               alt="equal"
             />
           </div>
           <div className={styles.sumbox}>합계</div>
         </div>
-        <div className={styles.chartBox}>
-          <ReactApexChart
-            options={donutData.options}
-            series={donutData.series}
-            type="donut"
-          />
-        </div>
+        <div>수입</div>
         <div className={styles.chartBox}>
           <ReactApexChart
             options={donutData.options}
@@ -88,8 +83,21 @@ const Test: React.FC<Props> = ({ name }) => {
           />
         </div>
       </div>
+      
+      <div style={{textAlign:"left"}}>
+        <div style={{color:"black"}}>지출</div>
+        <div style={{ backgroundColor: "yellow", height: '20px', position: 'relative', borderRadius:'50px', overflow: 'hidden' }}>
+          <div style={{ backgroundColor: "green", height: '100%', width: `${needWidth}%`, position: 'absolute', left: 0 }}> </div>
+          <div style={{ backgroundColor: "blue", height: '100%', width: `${wantWidth}%`, position: 'absolute', left: `${needWidth}%` }}> </div>
+        </div>
+        <div>
+          <div style={{color:"black"}}>필요소비 : { needExpense }</div>
+          <div style={{color:"black"}}>욕구소비 : { wantExpense }</div>
+        </div>
+      </div>
+
     </div>
   );
 };
 
-export default Test;
+export default Statics;

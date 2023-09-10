@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Main: React.FC = () => {
     return (
-        <div>
+        <div style={{marginTop:'45px'}}>
         <h2>자식-메인</h2>
         <Link to='/AccountBook'><span>가계부</span></Link>
         <Link to='/Alba'><span>아르바이트</span></Link>
