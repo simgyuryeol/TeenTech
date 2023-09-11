@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 const Backdrop: React.FC = () => {
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen z-10 bg-black bg-opacity-60" />
+    <div className="fixed top-0 left-0 w-screen h-screen z-20 bg-black bg-opacity-60" />
   );
 };
 

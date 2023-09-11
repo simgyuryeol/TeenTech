@@ -42,8 +42,8 @@ const AlbaCompleted: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>자식 완료한 알바</h2>
+    <div className="mt-10">
+      <p className="text-2xl">자식 완료한 알바</p>
       <hr />
       {completedJobs.map((job, index) => (
         <AlbaDetail
