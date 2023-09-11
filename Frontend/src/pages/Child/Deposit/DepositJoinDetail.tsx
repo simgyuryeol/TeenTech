@@ -15,11 +15,11 @@ const DepositJoinDetail: React.FC = () => {
         <div className='border shadow-md rounded-md flex-col m-6'>입력창
             <div className='m-4 flex'>
                 <label htmlFor='name' className='flex w-[100%] text-lg'>예금 이름</label>
-                <input className='border flex' type='text' id='name' placeholder='' value={depositName} onChange={e=> setDepositname(e.target.value)} required/>
+                <input className='border flex text-center' type='text' id='name' placeholder='' value={depositName} onChange={e=> setDepositname(e.target.value)} required/>
             </div>
             <div className='m-4 flex'>
                 <label htmlFor='money' className='flex w-[100%] text-lg'>예치 금액</label>
-                <input className='border flex' type='number' id='money' placeholder='최소 금액 5,000원' value={depositMoney} onChange={e=> setDepositmoney(e.target.value)} required/>                
+                <input className='border flex text-center' type='number' id='money' placeholder='최소 금액 5,000원' value={depositMoney} onChange={e=> setDepositmoney(e.target.value)} required/>                
             </div>
             <div className='m-4 flex'>
                 <label htmlFor='date' className='flex w-[100%] text-lg'>예치 기간</label>
