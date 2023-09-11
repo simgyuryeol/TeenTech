@@ -46,8 +46,7 @@ import Mypage from './pages/Child/Mypage';
 
 const App: React.FC = () => {
   return (
-    <div>
-
+    <React.Fragment>
       <Router>
         <Routes>
           <Route path="/" element={<Login/>} />
@@ -97,7 +96,7 @@ const App: React.FC = () => {
 
         </Routes>
       </Router>
-    </div>
+    </React.Fragment>
   );
 };
 
