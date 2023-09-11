@@ -104,6 +104,7 @@ const Alba: React.FC = () => {
             </div>
           </div>
 
+          <hr className="m-2"/>
           <div className="flex items-start rounded-xl bg-white p-4 shadow-lg">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-orange-100 bg-orange-50">
               <svg

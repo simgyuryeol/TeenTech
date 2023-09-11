@@ -67,6 +67,7 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
             pay={selectedJob?.pay || ""}
             due={selectedJob?.due || new Date()}
             description={selectedJob?.description || ""}
+            stage={selectedJob?.stage || ""}
           />
           {selectedJob?.stage === "pre" ? (
             <button onClick={closeModal}>할래요😉</button>

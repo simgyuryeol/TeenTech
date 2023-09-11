@@ -7,6 +7,7 @@ interface Job {
   pay: string;
   due: Date;
   description: string;
+  stage: string;
 }
 
 const AlbaCompleted: React.FC = () => {
@@ -29,12 +30,14 @@ const AlbaCompleted: React.FC = () => {
           pay: "1000원",
           due: currentDate,
           description: "완료한 알바1 설명",
+          stage: "true",
         },
         {
           title: "완료한 알바2",
           pay: "1000원",
           due: currentDate,
           description: "완료한 알바2 설명",
+          stage: "true",
         },
       ]);
     };
@@ -52,6 +55,7 @@ const AlbaCompleted: React.FC = () => {
           pay={job.pay}
           due={job.due}
           description={job.description}
+          stage={job.stage}
         />
       ))}
     </div>
