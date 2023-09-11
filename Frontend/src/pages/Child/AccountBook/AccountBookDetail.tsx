@@ -1,6 +1,7 @@
 import React from "react";
 import Statics from "../../../components/AccountBook/Statics";
 import AccountBotton from "../../../components/AccountBook/AccountButton";
+import { useParams } from "react-router-dom";
 
 const Data = [
   {
@@ -24,9 +25,11 @@ const Data = [
 ];
 
 const AccountBookDetail: React.FC = () => {
+  const { dateParam } = useParams<{ dateParam: string }>();
   return (
     <div>
       <div style={{ width: "100%", paddingTop: "50px" }}>
+        <div>{dateParam}ddfdf</div>
         <Statics />
       </div>
       <div style={{ backgroundColor: "white" }}>
