@@ -1,0 +1,10 @@
+.container {
+  height: 100vh;
+  background-color: #ebf0f3;
+}
+
+.borderBottom {
+  border-bottom-width: 2px;
+  border-bottom-style: dashed;
+  border-bottom-color: gray;
+}
