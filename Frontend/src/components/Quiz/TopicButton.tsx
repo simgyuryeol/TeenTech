@@ -1,9 +1,21 @@
 import React from "react";
 
-const TopicButton: React.FC = () => {
+interface Topic {
+  kor: string;
+  eng: string;
+}
+
+interface TopicButtonProps {
+  topic: Topic;
+}
+
+const TopicButton: React.FC<TopicButtonProps> = (props) => {
+  const {kor, eng} = props.topic;
+
   return (
     <div className="mt-10">
-      <h2>주제별 퀴즈 버튼</h2>
+      <img src="" alt={eng} />
+      <p>{kor}</p>
     </div>
   );
 };
