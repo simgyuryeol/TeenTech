@@ -49,51 +49,277 @@ const App: React.FC = () => {
     <React.Fragment>
       <Router>
         <Routes>
-          <Route path="/" element={<Login/>} />
-          <Route path="/test" element={<Test />} />
+          <Route path="/" element={<Login />} />
 
           {/* 부모 */}
-          <Route path="/Pmain" element={[<Pheader key="pheader-component" />, <Pmain key="pmain-component"/>]}/>
-          <Route path="/Pchilddetail" element={[<Pheader key="pheader-component" />, <PchildDetail key="pchilddetail-component"/>]}/>
-          <Route path="/Ptransfer" element={[<Pheader key="pheader-component" />, <Ptransfer key="ptransfer-component"/>]}/>
-          <Route path="/Pinterest" element={[<Pheader key="pheader-component" />, <Pinterest key="pinterest-component"/>]}/>
-          <Route path="/Palba" element={[<Pheader key="pheader-component" />, <Palba key="palba-component"/>]}/>
-          <Route path="/Pdeposit" element={[<Pheader key="pheader-component" />, <Pdeposit key="pdeposit-component"/>]}/>
-          <Route path="/Pquiz" element={[<Pheader key="pheader-component" />, <Pquiz key="pquiz-component"/>]}/>
-          <Route path="/Plotto" element={[<Pheader key="pheader-component" />, <Plotto key="plotto-component"/>]}/>
-          <Route path="/Ploan" element={[<Pheader key="pheader-component" />, <Ploan key="ploan-component"/>]}/>
-          <Route path="/Ploandetail" element={[<Pheader key="pheader-component" />, <Ploandetail key="ploandetail-component"/>]}/>
+          <Route
+            path="/Pmain"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Pmain key="pmain-component" />,
+            ]}
+          />
+          <Route
+            path="/Pchilddetail"
+            element={[
+              <Pheader key="pheader-component" />,
+              <PchildDetail key="pchilddetail-component" />,
+            ]}
+          />
+          <Route
+            path="/Ptransfer"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Ptransfer key="ptransfer-component" />,
+            ]}
+          />
+          <Route
+            path="/Pinterest"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Pinterest key="pinterest-component" />,
+            ]}
+          />
+          <Route
+            path="/Palba"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Palba key="palba-component" />,
+            ]}
+          />
+          <Route
+            path="/Pdeposit"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Pdeposit key="pdeposit-component" />,
+            ]}
+          />
+          <Route
+            path="/Pquiz"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Pquiz key="pquiz-component" />,
+            ]}
+          />
+          <Route
+            path="/Plotto"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Plotto key="plotto-component" />,
+            ]}
+          />
+          <Route
+            path="/Ploan"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Ploan key="ploan-component" />,
+            ]}
+          />
+          <Route
+            path="/Ploandetail"
+            element={[
+              <Pheader key="pheader-component" />,
+              <Ploandetail key="ploandetail-component" />,
+            ]}
+          />
 
           {/* 자식 */}
-          <Route path="/Main" element={[<Header key="header-component" />,<Main key="main-component" />]} />
-          <Route path="/Mypage" element={[<Header key="header-component"/>, <Mypage key="mypage-component"/>]}/>
-          <Route path="/AccountBook" element={[<Header key="header-component"/>, <AccountBook key="accountbook-component"/>]}/>
-          <Route path="/AccountBookDetail" element={[<Header key="header-component"/>, <AccountBookDetail key="accountbookdetail-component"/>]}/>
-          <Route path="/AccountBookAdd" element={[<Header key="header-component"/>, <AccountBookAdd key="accountbookadd-component"/>]}/>
-          <Route path="/Alba" element={[<Header key="header-component"/>, <Alba key="alba-component"/>]}/>
-          <Route path="/AlbaCompleted" element={[<Header key="header-component"/>, <AlbaCompleted key="albacompleted-component"/>]}/>
-          <Route path="/Deposit" element={[<Header key="header-component"/>, <Deposit key="deposit-component"/>]}/>
-          <Route path="/DepositJoinDetail" element={[<Header key="header-component"/>, <DepositJoinDetail key="depositjoindetail-component"/>]}/>
-          <Route path="/DepositJoinSuccess" element={[<Header key="header-component"/>, <DepositJoinSuccess key="depositjoinsuccess-component"/>]}/>
-          <Route path="/DepositDetail" element={[<Header key="header-component"/>, <DepositDetail key="depositdetail-component"/>]}/>
-          <Route path="/Loan" element={[<Header key="header-component"/>, <Loan key="loan-component"/>]}/>
-          <Route path="/LoanCompleted" element={[<Header key="header-component"/>, <LoanCompleted key="loancompleted-component"/>]}/>
-          <Route path="/Quiz" element={[<Header key="header-component"/>, <Quiz key="quiz-component"/>]}/>
-          <Route path="/QuizList" element={[<Header key="header-component"/>, <QuizList key="quizlist-component"/>]}/>
-          <Route path="/QuizPlay" element={[<Header key="header-component"/>, <QuizPlay key="quizplay-component"/>]}/>
-          <Route path="/QuizCommentary" element={[<Header key="header-component"/>, <QuizCommentary key="quizcommentary-component"/>]}/>
-          <Route path="/Stock" element={[<Header key="header-component"/>, <Stock key="stock-component"/>]}/>
-          <Route path="/StockTuto" element={[<Header key="header-component"/>, <StockTuto key="stocktuto-component"/>]}/>
-          <Route path="/StockMarket" element={[<Header key="header-component"/>, <StockMarket key="stockmarket-component"/>]}/>
-          <Route path="/StockDetail" element={[<Header key="header-component"/>, <StockDetail key="stockdetail-component"/>]}/>
-          <Route path="/StockBuy" element={[<Header key="header-component"/>, <StockBuy key="stockbuy-component"/>]}/>
-          <Route path="/StockSell" element={[<Header key="header-component"/>, <StockSell key="stocksell-component"/>]}/>
-          <Route path="/StockTradingList" element={[<Header key="header-component"/>, <StockTradingList key="stocktradinglist-component"/>]}/>
-          <Route path="/Lotto" element={[<Header key="header-component"/>, <Lotto key="lotto-component"/>]}/>
-          <Route path="/LottoChange" element={[<Header key="header-component"/>, <LottoChange key="lottochange-component"/>]}/>
-          <Route path="/Bot" element={[<Header key="header-component"/>, <Bot key="bot-component"/>]}/>
-          <Route path="/BotChat" element={[<Header key="header-component"/>, <BotChat key="botchat-component"/>]}/>
-
+          <Route
+            path="/Main"
+            element={[
+              <Header key="header-component" />,
+              <Main key="main-component" />,
+            ]}
+          />
+          <Route
+            path="/Mypage"
+            element={[
+              <Header key="header-component" />,
+              <Mypage key="mypage-component" />,
+            ]}
+          />
+          <Route
+            path="/AccountBook"
+            element={[
+              <Header key="header-component" />,
+              <AccountBook key="accountbook-component" />,
+            ]}
+          />
+          <Route
+            path="/AccountBookDetail"
+            element={[
+              <Header key="header-component" />,
+              <AccountBookDetail key="accountbookdetail-component" />,
+            ]}
+          />
+          <Route
+            path="/AccountBookAdd"
+            element={[
+              <Header key="header-component" />,
+              <AccountBookAdd key="accountbookadd-component" />,
+            ]}
+          />
+          <Route
+            path="/Alba"
+            element={[
+              <Header key="header-component" />,
+              <Alba key="alba-component" />,
+            ]}
+          />
+          <Route
+            path="/AlbaCompleted"
+            element={[
+              <Header key="header-component" />,
+              <AlbaCompleted key="albacompleted-component" />,
+            ]}
+          />
+          <Route
+            path="/Deposit"
+            element={[
+              <Header key="header-component" />,
+              <Deposit key="deposit-component" />,
+            ]}
+          />
+          <Route
+            path="/DepositJoinDetail"
+            element={[
+              <Header key="header-component" />,
+              <DepositJoinDetail key="depositjoindetail-component" />,
+            ]}
+          />
+          <Route
+            path="/DepositJoinSuccess"
+            element={[
+              <Header key="header-component" />,
+              <DepositJoinSuccess key="depositjoinsuccess-component" />,
+            ]}
+          />
+          <Route
+            path="/DepositDetail"
+            element={[
+              <Header key="header-component" />,
+              <DepositDetail key="depositdetail-component" />,
+            ]}
+          />
+          <Route
+            path="/Loan"
+            element={[
+              <Header key="header-component" />,
+              <Loan key="loan-component" />,
+            ]}
+          />
+          <Route
+            path="/LoanCompleted"
+            element={[
+              <Header key="header-component" />,
+              <LoanCompleted key="loancompleted-component" />,
+            ]}
+          />
+          <Route
+            path="/Quiz"
+            element={[
+              <Header key="header-component" />,
+              <Quiz key="quiz-component" />,
+            ]}
+          />
+          <Route
+            path="/QuizList"
+            element={[
+              <Header key="header-component" />,
+              <QuizList key="quizlist-component" />,
+            ]}
+          />
+          <Route
+            path="/QuizPlay"
+            element={[
+              <Header key="header-component" />,
+              <QuizPlay key="quizplay-component" />,
+            ]}
+          />
+          <Route
+            path="/QuizCommentary"
+            element={[
+              <Header key="header-component" />,
+              <QuizCommentary key="quizcommentary-component" />,
+            ]}
+          />
+          <Route
+            path="/Stock"
+            element={[
+              <Header key="header-component" />,
+              <Stock key="stock-component" />,
+            ]}
+          />
+          <Route
+            path="/StockTuto"
+            element={[
+              <Header key="header-component" />,
+              <StockTuto key="stocktuto-component" />,
+            ]}
+          />
+          <Route
+            path="/StockMarket"
+            element={[
+              <Header key="header-component" />,
+              <StockMarket key="stockmarket-component" />,
+            ]}
+          />
+          <Route
+            path="/StockDetail"
+            element={[
+              <Header key="header-component" />,
+              <StockDetail key="stockdetail-component" />,
+            ]}
+          />
+          <Route
+            path="/StockBuy"
+            element={[
+              <Header key="header-component" />,
+              <StockBuy key="stockbuy-component" />,
+            ]}
+          />
+          <Route
+            path="/StockSell"
+            element={[
+              <Header key="header-component" />,
+              <StockSell key="stocksell-component" />,
+            ]}
+          />
+          <Route
+            path="/StockTradingList"
+            element={[
+              <Header key="header-component" />,
+              <StockTradingList key="stocktradinglist-component" />,
+            ]}
+          />
+          <Route
+            path="/Lotto"
+            element={[
+              <Header key="header-component" />,
+              <Lotto key="lotto-component" />,
+            ]}
+          />
+          <Route
+            path="/LottoChange"
+            element={[
+              <Header key="header-component" />,
+              <LottoChange key="lottochange-component" />,
+            ]}
+          />
+          <Route
+            path="/Bot"
+            element={[
+              <Header key="header-component" />,
+              <Bot key="bot-component" />,
+            ]}
+          />
+          <Route
+            path="/BotChat"
+            element={[
+              <Header key="header-component" />,
+              <BotChat key="botchat-component" />,
+            ]}
+          />
         </Routes>
       </Router>
     </React.Fragment>

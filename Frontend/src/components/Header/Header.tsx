@@ -1,5 +1,5 @@
-import React from 'react';
-import Back from './Back';
+import React from "react";
+import Back from "./Back";
 
 const Header : React.FC = () => {
     return (
