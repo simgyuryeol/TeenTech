@@ -5,7 +5,7 @@ import Test from './pages/test';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Pheader from './components/Header/Pheader';
 import Pmain from './pages/Parents/Pmain';
-import PchildDetail from './pages/Parents/Pchilddetail';
+import PchildDetail from './pages/Parents/PchildDetail';
 import Ptransfer from './pages/Parents/Ptransfer';
 import Pinterest from './pages/Parents/Pinterest';
 import Palba from './pages/Parents/Palba';
@@ -47,7 +47,7 @@ import Mypage from './pages/Child/Mypage';
 const App: React.FC = () => {
   return (
     <div>
-      <div className="text-3xl font-bold underline">hello, world!</div>
+
       <Router>
         <Routes>
           <Route path="/" element={<Login/>} />
