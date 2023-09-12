@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import StockPortfolio from "../../../components/Stock/StockPortfolio";
 import MyStock from "../../../components/Stock/MyStock";
 
@@ -12,6 +13,12 @@ interface Stock {
 }
 
 const Stock: React.FC = () => {
+  const navigator = useNavigate();
+
+  const handleClick = () => {
+    navigator("/StockMarket");
+  };
+
   const sampleData: Stock[] = [
     {
       koName: "삼성전자",
@@ -36,10 +43,10 @@ const Stock: React.FC = () => {
       <StockPortfolio />
       <p className="font-bold text-xl">내 주식</p>
       {sampleData.map((stock, index) => (
-        <MyStock key={index} stock={stock}/>
+        <MyStock key={index} stock={stock} />
       ))}
       <div>
-        <button>주식시장 둘러보기</button>
+        <button onClick={handleClick}>주식시장 둘러보기</button>
       </div>
     </div>
   );

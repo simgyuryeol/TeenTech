@@ -3,14 +3,14 @@ import Card from "../Common/Card";
 import { useNavigate } from "react-router-dom";
 
 const StockPortfolio: React.FC = () => {
-  const navigate = useNavigate();
+  const navigator = useNavigate();
 
   const currentValue = "38,640";
   const totalGain = "3,290";
   const rateOfReturn = 9.87;
 
   const handleClick = () => {
-    navigate("/StockTradingList");
+    navigator("/StockTradingList");
   };
 
   return (

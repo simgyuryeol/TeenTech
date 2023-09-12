@@ -13,7 +13,7 @@ interface ModalOverlayProps {
 
 const ModalOverlay: React.FC<ModalOverlayProps> = (props) => {
   return (
-    <div className="fixed top-30vh left-10 w-80 z-50 overflow-hidden p-4 flex items-center flex-col bg-white rounded">
+    <div className="fixed top-40 left-10 w-80 z-50 overflow-hidden p-4 flex items-center flex-col bg-white rounded">
       {props.children}
     </div>
   );
