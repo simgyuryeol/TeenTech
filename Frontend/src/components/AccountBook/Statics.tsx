@@ -53,8 +53,7 @@ const Statics: React.FC = () => {
 
   return (
     <div className="mx-4">
-      <div style={{ color: "black" }}>2023.09</div>
-      <div className="drop-shadow-lg rounded-xl bg-blue-100 mb-5">
+      <div className="drop-shadow-lg rounded-xl bg-white mb-5">
         <div className="flex justify-between items-center my-3 pt-3">
           <div className={`${styles.sumbox} mx-2`}>수입</div>
           <div>

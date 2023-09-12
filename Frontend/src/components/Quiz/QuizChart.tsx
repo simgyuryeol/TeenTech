@@ -1,10 +1,38 @@
 import React from "react";
+import ReactApexChart from "react-apexcharts";
 
 const QuizChart: React.FC = () => {
+  const pieData = {
+    series: [75, 25],
+    options: {
+      chart: {
+        width: 380,
+        type: "pie",
+      },
+      labels: ["정답", "오답"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      ],
+    },
+  };
+
   return (
-    <div className="mt-10">
-      <h2>퀴즈 정답률 파이차트</h2>
-    </div>
+    <ReactApexChart
+      options={pieData.options}
+      series={pieData.series}
+      type="pie"
+      width={380}
+    />
   );
 };
 
