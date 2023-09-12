@@ -6,8 +6,8 @@
   font-size: 15px;
   width: 100px;
   height: 45px;
-  background-color: white;
-  border-radius: 10px;
+  background-color: pink;
+  border-radius: 15px;
   text-align: center;
   font-size: 30px;
   color: black;
@@ -16,8 +16,4 @@
 .plusImg {
   width: 15px;
   height: 15px;
-}
-
-.chartBox {
-  background-color: pink;
 }
