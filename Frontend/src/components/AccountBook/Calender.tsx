@@ -12,6 +12,7 @@ import {
   endOfWeek,
   addDays,
 } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 interface sampleDate {
   date: string;
@@ -32,6 +33,21 @@ const Data: sampleDate[] = [
   },
   {
     date: "2023-08-22",
+    income: 1000,
+    exp: -8000,
+  },
+  {
+    date: "2023-09-05",
+    income: 2000,
+    exp: 0,
+  },
+  {
+    date: "2023-09-11",
+    income: 0,
+    exp: -5000,
+  },
+  {
+    date: "2023-09-22",
     income: 1000,
     exp: -8000,
   },
@@ -153,6 +169,7 @@ const RenderCells: React.FC<{
 const Calendar: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate();
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -163,7 +180,16 @@ const Calendar: React.FC = () => {
   };
 
   const handleDateClick = (date: Date) => {
-    setSelectedDate(date);
+    const formattedDate = formatDate(date);
+    console.log(formattedDate);
+    const dataItem = Data.find((item) => item.date === formattedDate);
+
+    if (dataItem) {
+      setSelectedDate(date);
+      navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+    } else {
+      alert("이날은 작성한 가계부가 없어요~~");
+    }
   };
 
   return (

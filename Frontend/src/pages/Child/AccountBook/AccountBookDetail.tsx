@@ -1,7 +1,7 @@
 import React from "react";
 import Statics from "../../../components/AccountBook/Statics";
 import AccountBotton from "../../../components/AccountBook/AccountButton";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom"; // Import useLocation
 
 const Data = [
   {
@@ -24,12 +24,17 @@ const Data = [
   },
 ];
 
-const AccountBookDetail: React.FC = () => {
-  const { dateParam } = useParams<{ dateParam: string }>();
+interface Props {
+  date: string;
+}
+
+const AccountBookDetail: React.FC<Props> = () => {
+  const location = useLocation();
+  const date = location.state.date;
   return (
     <div>
-      <div style={{ width: "100%", paddingTop: "50px" }}>
-        <div>{dateParam}ddfdf</div>
+      <div style={{ width: "100%", paddingTop: "60px" }}>
+        <div>{date}</div>
         <Statics />
       </div>
       <div style={{ backgroundColor: "white" }}>
