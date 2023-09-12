@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Total from "../../components/Main/total";
 
 const Main: React.FC = () => {
   return (
-    <div className="mt-12">
+    <div className="pt-16">
       <h2>자식-메인</h2>
+      <Total />
       <Link to="/AccountBook">
         <span>가계부</span>
       </Link>

@@ -61,8 +61,8 @@ const AccountBookAdd: React.FC = () => {
     <div
       className={`${styles.container} flex pt-14 container flex-col flex-wrap items-center`}
     >
-      <div className="py-3">2023.08.30 수</div>
       <div className="flex flex-col w-11/12">
+        <div className="py-3 container">2023.08.30 수</div>
         <div className="items-center justify-center bg-white rounded-xl drop-shadow-lg mb-4">
           <div className={`${styles.borderBottom} p-3`}>[가계부]</div>
           {Data.map((item, index) => (
@@ -94,8 +94,8 @@ const AccountBookAdd: React.FC = () => {
         <div className="justify-start">
           <button>다 썼어요!</button>
         </div>
+        <h2>가계부 작성 페이지</h2>
       </div>
-      <h2>가계부 작성 페이지</h2>
     </div>
   );
 };
