@@ -72,10 +72,10 @@ const AccountBookAdd: React.FC = () => {
                 <div className="w-1/3">{item.case2}</div>
                 <div className="w-1/3">{item.case3}</div>
               </div>
-              <div className="flex flex-row flex-wrap">
+              <div className="flex flex-row flex-wrap text-start mx-5">
                 {item.case3 < 0 ? (
                   Data2.map((qitem, qindex) => (
-                    <label key={qindex} className="basis-1/2 pb-1">
+                    <label key={qindex} className="basis-1/2 pb-3">
                       <input type="radio" />
                       {qitem.q1}
                     </label>
