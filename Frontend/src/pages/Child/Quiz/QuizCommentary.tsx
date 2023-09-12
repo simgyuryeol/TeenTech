@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
 import prizeImage from "../../../assets/temp-prize.png";
+import { useRecoilValue } from "recoil";
+import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
 
 const QuizCommentary: React.FC = () => {
-  // const [score, setScore] = useState(3);
-  const [score, setScore] = useState(0);
-  const prize = score * 100;
+  const score = useRecoilValue(quizScoreAtom);
+
+  const prize = score !== null ? score * 100 : 0;
   const topic = "돈, 화폐";
   const navigate = useNavigate();
 
@@ -20,12 +22,15 @@ const QuizCommentary: React.FC = () => {
       </div>
       <div>
         <p>
-          <strong>{topic}</strong>에 대해 <strong>{score}</strong> 문제를 맞혔어요!
+          <strong>{topic}</strong>에 대해 <strong>{score}</strong> 문제를
+          맞혔어요!
         </p>
       </div>
       {score !== 0 ? (
         <div>
-          <p>퀴즈를 맞혀 상금 <strong>{prize}</strong>원을 얻었어요.</p>
+          <p>
+            퀴즈를 맞혀 상금 <strong>{prize}</strong>원을 얻었어요.
+          </p>
           <p>내일 새로운 문제로 다시 만나요!</p>
         </div>
       ) : (

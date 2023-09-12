@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
 
 interface Choice {
   text: string;
@@ -23,6 +25,7 @@ const QuizPlay: React.FC = () => {
   );
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
+  const setQuizScore = useSetRecoilState(quizScoreAtom);
 
   const handleChoice = (choice: Choice, index: number) => {
     if (choice.correct) {
@@ -42,6 +45,8 @@ const QuizPlay: React.FC = () => {
   };
 
   const handleNextPage = () => {
+
+    setQuizScore(score);
     navigate("/QuizCommentary");
   };
 

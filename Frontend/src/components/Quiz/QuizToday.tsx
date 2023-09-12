@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { quizScoreAtom } from "../../recoil/quizScoreAtom";
 
 interface QuizTopic {
   topic?: string;
@@ -7,8 +9,15 @@ interface QuizTopic {
 
 const QuizToday: React.FC<QuizTopic> = (props) => {
   const eng = props.topic;
-  //   const solved = true;
-  const solved = false;
+
+  const quizScore = useRecoilValue(quizScoreAtom);
+  const [solved, setSolved] = useState(false);
+
+  useEffect(() => {
+    if (quizScore !== null) {
+      setSolved(true);
+    }
+  }, [quizScore]);
 
   return (
     <div className="bg-white m-5 rounded-xl p-4">
@@ -18,8 +27,8 @@ const QuizToday: React.FC<QuizTopic> = (props) => {
         <div>
           <p className="text-right">주제: 물가</p>
           <div className="flex justify-between mt-2">
-            <p>맞힌 문제: 4</p>
-            <p>틀린 문제: 1</p>
+            <p>맞힌 문제: {quizScore ? quizScore : 0}</p>
+            <p>틀린 문제: {quizScore ? 3 - quizScore : 0}</p>
           </div>
           <div className="mt-5 text-left">
             <p>오늘 퀴즈는 이미 다 풀었어요!</p>
