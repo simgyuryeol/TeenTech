@@ -3,6 +3,8 @@ package com.ssafy.teentech.common.oauth;
 import static com.ssafy.teentech.common.oauth.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 import static com.ssafy.teentech.common.oauth.HttpCookieOAuth2AuthorizationRequestRepository.REFRESH_TOKEN;
 
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.common.jwt.JwtTokenProvider;
 import com.ssafy.teentech.common.util.CookieUtil;
 import com.ssafy.teentech.common.util.TokenInfo;
@@ -51,7 +53,7 @@ public class OAuth2AuthenticationSuccessHandler extends
             .map(Cookie::getValue);
 
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new RuntimeException("Unauthorized Redirect URI.");
+            throw new InvalidRequestException(ErrorCode.UNAUTHORIZED_REDIRECT_URI);
         }
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 

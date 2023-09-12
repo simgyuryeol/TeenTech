@@ -2,15 +2,18 @@ package com.ssafy.teentech.user.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.common.util.CookieUtil;
 import com.ssafy.teentech.common.util.HeaderUtil;
 import com.ssafy.teentech.common.util.JwtService;
-import com.ssafy.teentech.user.domain.User;
-import com.ssafy.teentech.user.dto.response.UserInfoResponseDto;
 import com.ssafy.teentech.common.util.TokenInfo;
+import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.dto.response.AccessTokenResponseDto;
+import com.ssafy.teentech.user.dto.response.UserInfoResponseDto;
 import com.ssafy.teentech.user.service.UserService;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +33,15 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
+    private static final String REFRESH_TOKEN = "refresh_token";
+
     @GetMapping
     public ResponseEntity<ApiResponse> getUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
         User user = userService.getUser(principal.getUsername());
-        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(user.getNickname(), user.getProfileImageUrl());
+        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(user.getNickname(),
+            user.getProfileImageUrl());
 
         ApiResponse apiResponse = ApiResponse.builder()
             .message("회원정보")
@@ -49,11 +55,11 @@ public class UserController {
     public ResponseEntity<ApiResponse> reissueAccessToken(HttpServletRequest request,
         HttpServletResponse response) {
         String accessToken = HeaderUtil.getAccessToken(request);
-        String refreshToken = CookieUtil.getCookie(request, "refresh_token")
-            .orElseThrow(() -> new RuntimeException()).getValue();
+        String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN).map(Cookie::getValue)
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
         TokenInfo tokenInfo = jwtService.reissueToken(accessToken, refreshToken);
 
-        CookieUtil.addCookie(response, "refresh_token", tokenInfo.getRefreshToken(),
+        CookieUtil.addCookie(response, REFRESH_TOKEN, tokenInfo.getRefreshToken(),
             60 * 60 * 24 * 7);
 
         ApiResponse apiResponse = ApiResponse.builder()
@@ -70,8 +76,8 @@ public class UserController {
             .getAuthentication().getPrincipal();
         User user = userService.getUser(principal.getUsername());
         String accessToken = HeaderUtil.getAccessToken(request);
-        String refreshToken = CookieUtil.getCookie(request, "refresh_token")
-            .orElseThrow(() -> new RuntimeException()).getValue();
+        String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN).map(Cookie::getValue)
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         jwtService.logout(user.getEmail(), accessToken, refreshToken);
 
@@ -91,8 +97,8 @@ public class UserController {
             .getAuthentication().getPrincipal();
         User user = userService.getUser(principal.getUsername());
         String accessToken = HeaderUtil.getAccessToken(request);
-        String refreshToken = CookieUtil.getCookie(request, "refresh_token")
-            .orElseThrow(() -> new RuntimeException()).getValue();
+        String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN).map(Cookie::getValue)
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         jwtService.logout(user.getEmail(), accessToken, refreshToken);
 

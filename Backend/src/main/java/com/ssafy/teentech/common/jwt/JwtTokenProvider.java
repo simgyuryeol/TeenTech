@@ -1,5 +1,7 @@
 package com.ssafy.teentech.common.jwt;
 
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.util.RedisService;
 import com.ssafy.teentech.common.util.TokenInfo;
 import io.jsonwebtoken.Claims;
@@ -100,7 +102,7 @@ public class JwtTokenProvider {
         Claims claims = getClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new AuthException(ErrorCode.NO_AUTHORITY_TOKEN);
         }
 
         Collection<? extends GrantedAuthority> authorities =

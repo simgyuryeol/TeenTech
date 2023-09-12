@@ -1,5 +1,7 @@
 package com.ssafy.teentech.common.util;
 
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.jwt.JwtTokenProvider;
 import java.time.Duration;
 import java.util.Date;
@@ -21,15 +23,15 @@ public class JwtService {
 
     public TokenInfo reissueToken(String requestAccessToken, String requestRefreshToken) {
         if (!jwtTokenProvider.validateToken(requestAccessToken)) {
-            throw new RuntimeException();
+            throw new AuthException(ErrorCode.INVALID_ACCESS_TOKEN);
         }
 
         if (!jwtTokenProvider.validateToken(requestRefreshToken)) {
-            throw new RuntimeException();
+            throw new AuthException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         if (LOGOUT.equals(redisService.getValues(requestAccessToken))) {
-            throw new RuntimeException("이미 로그아웃된 토큰");
+            throw new AuthException(ErrorCode.TOKEN_EXPIRED);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(requestAccessToken);
@@ -40,10 +42,10 @@ public class JwtService {
 
     public void logout(String userEmail, String accessToken, String refreshToken) {
         if (!jwtTokenProvider.validateToken(accessToken)) {
-            throw new RuntimeException();
+            throw new AuthException(ErrorCode.INVALID_ACCESS_TOKEN);
         }
         if (LOGOUT.equals(redisService.getValues(accessToken))) {
-            throw new RuntimeException("이미 로그아웃된 토큰");
+            throw new AuthException(ErrorCode.TOKEN_EXPIRED);
         }
 
         Long time = jwtTokenProvider.getTokenExpirationTime(accessToken) - new Date().getTime();

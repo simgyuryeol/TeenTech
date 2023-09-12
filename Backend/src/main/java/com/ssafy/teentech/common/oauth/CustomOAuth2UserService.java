@@ -1,7 +1,7 @@
 package com.ssafy.teentech.common.oauth;
 
 import com.ssafy.teentech.common.error.ErrorCode;
-import com.ssafy.teentech.common.error.exception.OAuthException;
+import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.UserRepository;
@@ -31,11 +31,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     protected OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest,
         OAuth2User oAuth2User) {
-        
+
         OAuth2UserInfo oAuth2UserInfo = new OAuth2UserInfo(oAuth2User.getAttributes());
 
         if (!StringUtils.hasText(oAuth2UserInfo.getEmail())) {
-            throw new OAuthException(ErrorCode.OAUTH_EMAIL_REQUIRED);
+            throw new AuthException(ErrorCode.OAUTH_EMAIL_REQUIRED);
         }
 
         User user = userRepository.findByEmail(oAuth2UserInfo.getEmail())

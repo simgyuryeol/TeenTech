@@ -1,7 +1,7 @@
 package com.ssafy.teentech.user.service;
 
 import com.ssafy.teentech.common.error.ErrorCode;
-import com.ssafy.teentech.common.error.exception.OAuthException;
+import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.UserRepository;
 import javax.transaction.Transactional;
@@ -58,7 +58,7 @@ public class UserService {
             "https://kapi.kakao.com/v1/user/unlink", formEntity, String.class);
 
         if (responseEntity.getStatusCode().value() != 200) {
-            throw new OAuthException(ErrorCode.FAIL_UNLINKING_KAKAO_ACCOUNT);
+            throw new AuthException(ErrorCode.FAIL_UNLINKING_KAKAO_ACCOUNT);
         }
     }
 }
