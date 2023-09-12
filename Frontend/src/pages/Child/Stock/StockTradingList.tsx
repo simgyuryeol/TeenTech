@@ -1,12 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const StockTradingList: React.FC = () => {
-    return (
-        <div>
-
-        <h2>주식 매매 내역</h2>
-        </div>
-    )
+  return (
+    <div className="mt-12">
+      <p className="font-bold text-xl">주식 매매 내역</p>
+    </div>
+  );
 };
 
 export default StockTradingList;
