@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Test from './pages/test';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Pheader from './components/Header/Pheader';
@@ -43,6 +43,7 @@ import LottoChange from './pages/Child/Lotto/LottoChange';
 import Bot from './pages/Child/Bot/Bot';
 import BotChat from './pages/Child/Bot/BotChat';
 import Mypage from './pages/Child/Mypage';
+import LoginRedirect from './pages/Login/LoginRedirect';
 
 const App: React.FC = () => {
   return (
@@ -50,7 +51,7 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
-
+          <Route path="/oauth/redirect" element={<LoginRedirect/>} />
           {/* 부모 */}
           <Route
             path="/Pmain"
