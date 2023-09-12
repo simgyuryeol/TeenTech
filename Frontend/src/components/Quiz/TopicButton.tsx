@@ -1,4 +1,9 @@
 import React from "react";
+import money from "../../../src/assets/quiz/money.png";
+import investment from "../../../src/assets/quiz/investment.png";
+import price from "../../../src/assets/quiz/price.png";
+import tax from "../../../src/assets/quiz/tax.png";
+import asset from "../../../src/assets/quiz/asset.png";
 
 interface Topic {
   kor: string;
@@ -10,12 +15,42 @@ interface TopicButtonProps {
 }
 
 const TopicButton: React.FC<TopicButtonProps> = (props) => {
-  const {kor, eng} = props.topic;
+  const { kor, eng } = props.topic;
+  let imageSrc;
+
+  switch (eng) {
+    case "money":
+      imageSrc = money;
+      break;
+    case "investment":
+      imageSrc = investment;
+      break;
+    case "price":
+      imageSrc = price;
+      break;
+    case "tax":
+      imageSrc = tax;
+      break;
+    case "asset":
+      imageSrc = asset;
+      break;
+    default:
+      imageSrc = "";
+      break;
+  }
 
   return (
-    <div className="mt-10">
-      <img src="" alt={eng} />
-      <p>{kor}</p>
+    <div className="p-4 bg-white rounded-xl w-5/12 m-4">
+      <div className="flex items-center">
+        <img
+          className="relative p-4 bg-purple-200 rounded-full"
+          src={imageSrc}
+          alt={eng}
+        />
+      </div>
+      <p className="my-1 text-lg font-bold">
+        {kor}
+      </p>
     </div>
   );
 };
