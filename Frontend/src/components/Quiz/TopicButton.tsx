@@ -1,4 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+// 이미지 불러오기
 import money from "../../../src/assets/quiz/money.png";
 import investment from "../../../src/assets/quiz/investment.png";
 import price from "../../../src/assets/quiz/price.png";
@@ -14,8 +17,8 @@ interface TopicButtonProps {
   topic: Topic;
 }
 
-const TopicButton: React.FC<TopicButtonProps> = (props) => {
-  const { kor, eng } = props.topic;
+const TopicButton: React.FC<TopicButtonProps> = ({ topic }) => {
+  const { kor, eng } = topic;
   let imageSrc;
 
   switch (eng) {
@@ -41,16 +44,16 @@ const TopicButton: React.FC<TopicButtonProps> = (props) => {
 
   return (
     <div className="p-4 bg-white rounded-xl w-5/12 m-4">
-      <div className="flex items-center">
-        <img
-          className="relative p-4 bg-purple-200 rounded-full"
-          src={imageSrc}
-          alt={eng}
-        />
-      </div>
-      <p className="my-1 text-lg font-bold">
-        {kor}
-      </p>
+      <Link to={`/QuizList/${eng}`}>
+        <div className="flex items-center">
+          <img
+            className="relative p-4 bg-purple-200 rounded-full"
+            src={imageSrc}
+            alt={eng}
+          />
+        </div>
+        <p className="my-1 text-lg font-bold">{kor}</p>
+      </Link>
     </div>
   );
 };

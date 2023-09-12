@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 
 interface Choice {
   text: string;
@@ -14,6 +15,7 @@ interface Quiz {
 
 const QuizPlay: React.FC = () => {
   const navigate = useNavigate();
+  const { eng } = useParams();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedChoiceIndex, setSelectedChoiceIndex] = useState<number | null>(
@@ -85,6 +87,7 @@ const QuizPlay: React.FC = () => {
       <div className="h-5" />
 
       <div className="bg-white p-2 rounded-xl m-8 border-b border-grey">
+        <p>{eng}</p>
         <div className="flex justify-between m-3">
           <p>{currentQuestionIndex + 1}번 문제</p>
           <p>맞힌 문제: {score}개</p>
