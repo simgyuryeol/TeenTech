@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Login from './pages/Login/Login';
-import Test from './pages/test';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Pheader from './components/Header/Pheader';
 import Pmain from './pages/Parents/Pmain';
@@ -224,14 +223,14 @@ const App: React.FC = () => {
             ]}
           />
           <Route
-            path="/QuizList"
+            path="/QuizList/:eng"
             element={[
               <Header key="header-component" />,
               <QuizList key="quizlist-component" />,
             ]}
           />
           <Route
-            path="/QuizPlay"
+            path="/QuizPlay/:eng"
             element={[
               <Header key="header-component" />,
               <QuizPlay key="quizplay-component" />,
