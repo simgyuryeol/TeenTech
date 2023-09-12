@@ -23,7 +23,6 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     setCurr((curr) => (curr === jobs.length - 1 ? 0 : curr + 1));
 
   const openModal = (job: Job) => {
-    console.log("clicked!");
     setSelectedJob(job);
     setIsModalOpen(true);
   };
