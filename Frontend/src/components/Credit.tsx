@@ -5,7 +5,7 @@ const Credit: React.FC = () => {
     const credit = 5
     const creditNumber = (credit >= 1 && credit <= 10) ? (0.05 + (credit - 1) * 0.1) : 0.95;
     return (
-        <div className="border rounded-md mr-6 ml-6 mb-4">
+        <div className="border border-2 rounded-xl mr-6 ml-6 mb-4 bg-white" style={{borderColor: '#ABD0CE'}}>
         <h2>신용 정보</h2>
         <GaugeChart id="gauge-chart1" 
   nrOfLevels={10}
@@ -14,7 +14,7 @@ const Credit: React.FC = () => {
   hideText={true}
 />
         <h2 className='text-2xl font-bold'>신용등급: {credit}</h2>
-        <h2 className='text-xl'>알바횟수: 2/3</h2>
+        <h2 className='text-xl mb-1'>알바횟수: 2/3</h2>
         </div>
     )
 };
