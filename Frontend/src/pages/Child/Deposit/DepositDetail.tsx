@@ -11,7 +11,7 @@ const DepositDetail: React.FC = () => {
             {/* <p>xx정기예금</p> */}
             <div className=''>
                 <p className='m-4 text-2xl flex justify-center'>만기일까지 <span className='font-bold text-3xl'>{maturitydate}</span>일</p>
-                <p className='m-4 text-2xl flex justify-center'>지금까지 쌓인 이자 <span className='font-bold text-3xl'>{interest.toLocaleString()}</span>원</p>
+                <p className='m-4 mb-8 text-2xl flex justify-center'>지금까지 쌓인 이자 <span className='font-bold text-3xl'>{interest.toLocaleString()}</span>원</p>
                 <p className='m-4 text-2xl'>만기 해지 시 </p>
                 <p className='m-4 text-2xl flex justify-center'><span className='font-bold text-3xl'>{total.toLocaleString()}</span>원을 받을 수 있어요!</p>
             </div>
