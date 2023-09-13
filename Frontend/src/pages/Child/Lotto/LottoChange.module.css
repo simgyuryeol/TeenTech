@@ -1,0 +1,6 @@
+.selectedcircle {
+  background-color: lightblue;
+  border: 1px solid #ccc;
+  width: 30px;
+  height: 30px;
+}
