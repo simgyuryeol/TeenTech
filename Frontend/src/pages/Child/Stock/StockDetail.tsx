@@ -51,7 +51,7 @@ const StockDetail: React.FC = () => {
       <div className="mt-12">
         <p className="font-bold text-2xl">{eng}</p>
         <StockChart />
-        <p className="font-bold text-lg">뉴스</p>
+        <p className="font-bold text-lg text-left ml-7">뉴스</p>
         {newsList.map((news, index) => (
           <StockNews key={index} news={news} />
         ))}
@@ -66,15 +66,25 @@ const StockDetail: React.FC = () => {
 
       {isBuyModalOpen && (
         <Modal>
-          <BuyStock />
-          <button onClick={handleBuyClose}>닫기</button>
+          <button
+            className="rounded-full relative inset-x-32"
+            onClick={handleBuyClose}
+          >
+            x
+          </button>
+          <BuyStock onClose={handleBuyClose}/>
         </Modal>
       )}
 
       {isSellModalOpen && (
         <Modal>
-          <SellStock />
-          <button onClick={handleSellClose}>닫기</button>
+          <button
+            className="rounded-full relative inset-x-32"
+            onClick={handleSellClose}
+          >
+            x
+          </button>
+          <SellStock onClose={handleSellClose}/>
         </Modal>
       )}
     </React.Fragment>
