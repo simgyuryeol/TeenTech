@@ -2,11 +2,15 @@ package com.ssafy.teentech.accountbook.service;
 
 import com.ssafy.teentech.accountbook.domain.AccountBook;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
+import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
 import com.ssafy.teentech.accountbook.repository.AccountBookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +51,36 @@ public class AccountBookService {
                 .build();
 
         return accountBookAmountResponseDto;
+
+    }
+
+    public List<AccountBookDateResponseDto> accountBookDate(AccountBookDateRequestDto accountBookDateRequestDto) {
+        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookDateRequestDto.getDate());
+
+        Map<LocalDate,Integer[]> account = new HashMap<>();
+
+        for (AccountBook accountBook : accountBookList) {
+            Integer dateAccount[] = new Integer[2]; //수입, 소비 순
+            if(account.containsKey(accountBook.getTransactionDate())){ //값이 있으면 더해준다.
+                dateAccount = account.get(accountBook.getTransactionDate());
+            }
+            dateAccount[0] += accountBook.getDepositAmount();
+            dateAccount[1] += accountBook.getWithdrawalAmount();
+
+            account.put(accountBook.getTransactionDate(),dateAccount);
+        }
+        List<AccountBookDateResponseDto> accountBookDateResponseDtoList = new ArrayList<>();
+        for (LocalDate localDate : account.keySet()) {
+            AccountBookDateResponseDto accountBookDateResponseDto = AccountBookDateResponseDto.builder()
+                    .date(localDate)
+                    .importAmount((account.get(localDate))[0])
+                    .spendingAmount(account.get(localDate)[1])
+                    .build();
+
+            accountBookDateResponseDtoList.add(accountBookDateResponseDto);
+        }
+
+        return accountBookDateResponseDtoList;
 
     }
 }
