@@ -72,7 +72,7 @@ const StockDetail: React.FC = () => {
           >
             x
           </button>
-          <BuyStock onClose={handleBuyClose}/>
+          <BuyStock price={1200} onClose={handleBuyClose}/>
         </Modal>
       )}
 
@@ -84,7 +84,7 @@ const StockDetail: React.FC = () => {
           >
             x
           </button>
-          <SellStock onClose={handleSellClose}/>
+          <SellStock price={1200} onClose={handleSellClose}/>
         </Modal>
       )}
     </React.Fragment>
