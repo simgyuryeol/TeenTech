@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./LottoChange.module.css";
 
 const LottoChange: React.FC = () => {
@@ -38,8 +38,137 @@ const LottoChange: React.FC = () => {
     }
   };
 
+  const [winningNumbers, setWinningNumbers] = useState<Array<number | null>>([
+    null,
+    null,
+    null,
+  ]);
+  const [displayNumbers, setDisplayNumbers] = useState<Array<number | "?">>([
+    "?",
+    "?",
+    "?",
+  ]);
+  const [isLotteryRunning, setIsLotteryRunning] = useState<boolean>(false);
+
+  // Interval ID들을 저장하기 위한 ref
+  const intervalsRef = useRef<NodeJS.Timeout[]>([]);
+
+  useEffect(() => {
+    return () => {
+      // 컴포넌트가 unmount될 때 interval clear
+      intervalsRef.current.forEach(clearInterval);
+    };
+  }, []);
+
+  const startLottery = () => {
+    setIsLotteryRunning(true);
+    let numbers: number[] = Array.from({ length: 6 }, (_, i) => i + 1);
+    let winningNums: number[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      // 각 공마다 새로운 interval 시작
+      intervalsRef.current[i] = setInterval(() => {
+        let randomIndex: number;
+        randomIndex = Math.floor(Math.random() * numbers.length);
+        setDisplayNumbers((prevState) => {
+          const newState = [...prevState];
+          newState[i] = numbers[randomIndex];
+          return newState;
+        });
+      }, 50);
+
+      setTimeout(() => {
+        clearInterval(intervalsRef.current[i]); // 해당 공의 interval 종료
+
+        let finalRandomIndex: number = 1;
+        //finalRandomIndex = Math.floor(Math.random() * numbers.length);
+        if (i == 0) {
+          finalRandomIndex = 2;
+        }
+        if (i == 1) {
+          finalRandomIndex = 3;
+        }
+        if (i == 2) {
+          finalRandomIndex = 4;
+        }
+        console.log("finalRandomIndex");
+        console.log(finalRandomIndex);
+        winningNums.push(numbers[finalRandomIndex]);
+
+        //numbers.splice(finalRandomIndex, 1);
+
+        setWinningNumbers([...winningNums]);
+
+        setDisplayNumbers((prevState) => {
+          const newState = [...prevState];
+          newState[i] = winningNums[i];
+          return newState;
+        });
+      }, (i + 1) * 2000);
+    }
+
+    setTimeout(() => {
+      let same = 0;
+
+      console.log("당첨번호");
+      for (let num of winningNums) {
+        console.log(num);
+      }
+
+      console.log("내꺼");
+      for (let num of selectedNumbers) {
+        console.log(num);
+      }
+
+      for (let num of winningNums) {
+        if (selectedNumbers.includes(num)) {
+          same++;
+        }
+      }
+
+      if (same === selectedNumbers.length) {
+        alert("당첨!");
+      } else {
+        alert("아쉽다.");
+      }
+    }, 2000 * 3 + 500);
+  };
+
   return (
     <div className="pt-16">
+      <div>
+        <div>
+          {displayNumbers.map((num, index) => (
+            <div key={index}>{num}</div>
+          ))}
+        </div>
+        {selectedNumbers.length === 3 ? (
+          <button onClick={startLottery} disabled={isLotteryRunning}>
+            응모하기
+          </button>
+        ) : (
+          <div>번호골라</div>
+        )}
+
+        {winningNumbers[2] !== null && (
+          <button
+            onClick={() => {
+              setWinningNumbers([null, null, null]);
+              setDisplayNumbers(["?", "?", "?"]);
+              setIsLotteryRunning(false);
+
+              intervalsRef.current.forEach((intervalId) =>
+                clearInterval(intervalId)
+              );
+              intervalsRef.current = [];
+            }}
+          >
+            다시 시작
+          </button>
+        )}
+
+        <div>숫자가 뭘까</div>
+      </div>
       <div>선택한 숫자</div>
       {selectedNumbers.length === 0 ? (
         <div>x</div>
@@ -80,7 +209,7 @@ const LottoChange: React.FC = () => {
         <button onClick={() => resetClick()}>초기화</button>
         <button onClick={() => rendomClick()}>rendom</button>
       </div>
-      <button>응모하기</button>
+      {/* <button onClick={() => startAnimation()}>응모하기</button> */}
     </div>
   );
 };
