@@ -1,5 +1,6 @@
 package com.ssafy.teentech.user.domain;
 
+import com.ssafy.teentech.common.entity.BaseEntity;
 import com.ssafy.teentech.common.util.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "USER")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @Column(name = "USER_ID")
