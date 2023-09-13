@@ -2,6 +2,7 @@ package com.ssafy.teentech.user.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import com.ssafy.teentech.common.entity.CurrentUser;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.common.response.ApiResponse;
@@ -36,10 +37,9 @@ public class UserController {
     private static final String REFRESH_TOKEN = "refresh_token";
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getUser() {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        User user = userService.getUser(principal.getUsername());
+    public ResponseEntity<ApiResponse> getUser(@CurrentUser
+    org.springframework.security.core.userdetails.User currentUser) {
+        User user = userService.getUser(currentUser.getUsername());
         UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(user.getNickname(),
             user.getProfileImageUrl());
 
@@ -71,10 +71,10 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse> logout(HttpServletRequest request) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        User user = userService.getUser(principal.getUsername());
+    public ResponseEntity<ApiResponse> logout(
+        @CurrentUser org.springframework.security.core.userdetails.User currentUser,
+        HttpServletRequest request) {
+        User user = userService.getUser(currentUser.getUsername());
         String accessToken = HeaderUtil.getAccessToken(request);
         String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN).map(Cookie::getValue)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
@@ -92,17 +92,17 @@ public class UserController {
      * 회원 탈퇴
      */
     @DeleteMapping
-    public ResponseEntity<ApiResponse> deleteUser(HttpServletRequest request) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        User user = userService.getUser(principal.getUsername());
+    public ResponseEntity<ApiResponse> deleteUser(
+        @CurrentUser org.springframework.security.core.userdetails.User currentUser,
+        HttpServletRequest request) {
+        User user = userService.getUser(currentUser.getUsername());
         String accessToken = HeaderUtil.getAccessToken(request);
         String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN).map(Cookie::getValue)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         jwtService.logout(user.getEmail(), accessToken, refreshToken);
 
-        userService.deleteUser(principal.getUsername());
+        userService.deleteUser(user.getUsername());
 
         ApiResponse apiResponse = ApiResponse.builder()
             .message("회원 탈퇴 성공")
