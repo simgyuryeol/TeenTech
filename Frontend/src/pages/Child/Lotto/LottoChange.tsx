@@ -5,7 +5,10 @@ const LottoChange: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
 
   // 1~6까지 숫자배열
-  const availableNumbers = Array.from({ length: 6 }, (_, index) => index + 1);
+  const availableNumbers: number[] = Array.from(
+    { length: 6 },
+    (_, index) => index + 1
+  );
 
   const resetClick = () => {
     setSelectedNumbers([]);
@@ -13,13 +16,16 @@ const LottoChange: React.FC = () => {
 
   const rendomClick = () => {
     setSelectedNumbers([]);
-    console.log(setSelectedNumbers.length);
-    while (selectedNumbers.length < 3) {
+
+    const rendomNumbers: number[] = [];
+
+    while (rendomNumbers.length < 3) {
       const randomNum = Math.floor(Math.random() * 6) + 1;
-      if (!selectedNumbers.includes(randomNum)) {
-        setSelectedNumbers([...selectedNumbers, randomNum]);
+      if (!rendomNumbers.includes(randomNum)) {
+        rendomNumbers.push(randomNum);
       }
     }
+    setSelectedNumbers(rendomNumbers);
   };
 
   const handleNumberClick = (number: number) => {
@@ -42,7 +48,7 @@ const LottoChange: React.FC = () => {
           {selectedNumbers.map((number) => (
             <div
               key={number}
-              className={`${styles.selectedcircle} cursor-pointer m-1 rounded-full`}
+              className={`${styles.selectedcircle} m-1 rounded-full`}
               onClick={() => handleNumberClick(number)}
             >
               {number}
@@ -55,7 +61,7 @@ const LottoChange: React.FC = () => {
         {availableNumbers.map((number) => (
           <div
             key={number}
-            className="cursor-pointer m-1 rounded-full inline-block text-center"
+            className="m-1 rounded-full inline-block text-center"
             onClick={() => handleNumberClick(number)}
             style={{
               backgroundColor: selectedNumbers.includes(number)
