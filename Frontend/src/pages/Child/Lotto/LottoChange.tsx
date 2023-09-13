@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./LottoChange.module.css";
 
+import { CreateTypes } from "canvas-confetti";
+import ReactCanvasConfetti from "./ReactCanvasConfetti";
+
 const LottoChange: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
 
@@ -49,6 +52,7 @@ const LottoChange: React.FC = () => {
     "?",
   ]);
   const [isLotteryRunning, setIsLotteryRunning] = useState<boolean>(false);
+  const [isWinning,setIsWinning] = useState<boolean>(false);
 
   // Interval ID들을 저장하기 위한 ref
   const intervalsRef = useRef<NodeJS.Timeout[]>([]);
@@ -127,12 +131,77 @@ const LottoChange: React.FC = () => {
       }
 
       if (same === selectedNumbers.length) {
+        handlerFire();
+        setIsWinning(true);
         alert("당첨!");
       } else {
         alert("아쉽다.");
       }
     }, 2000 * 3 + 500);
   };
+
+  /*여기부터*/
+  
+  const [isAnimationEnabled, setIsAnimationEnabled] = useState(false);
+  const animationInstance = useRef<CreateTypes | null>(null);
+
+  const makeShot = (particleRatio: number, opts: object) => {
+    animationInstance.current &&
+      animationInstance.current({
+        ...opts,
+        origin: { y: 0.8 },
+        particleCount: Math.floor(200 * particleRatio),
+      });
+  };
+
+  // 이 부분에서 사용하고 싶은 설정을 하면 된다.
+  const fire = () => {
+    console.log("fire함수 안" + isAnimationEnabled)
+      if (!isAnimationEnabled) {
+    return;
+  }
+    makeShot(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+
+    makeShot(0.2, {
+      spread: 20,
+    });
+
+    makeShot(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8,
+    });
+
+    makeShot(0.1, {
+      spread: 120,
+      startVelocity:25 ,
+       decay : .92 ,
+       scalar :1.2
+     });
+  
+     makeShot(.1 ,{
+       spread :120 ,
+       startVelocity :45 
+     });
+  }
+
+  const handlerFire = () => {
+    console.log("handlerFire" + isAnimationEnabled);
+     if (!isAnimationEnabled) {
+       setIsAnimationEnabled(true);
+
+     }
+    console.log("handlerFire 2번째" + isAnimationEnabled);
+            requestAnimationFrame(fire);
+     fire();
+   };
+  
+  const getInstance = (instance : CreateTypes | null) => { 
+     animationInstance.current= instance;
+   };
 
   return (
     <div className="pt-16">
@@ -209,7 +278,15 @@ const LottoChange: React.FC = () => {
         <button onClick={() => resetClick()}>초기화</button>
         <button onClick={() => rendomClick()}>rendom</button>
       </div>
-      {/* <button onClick={() => startAnimation()}>응모하기</button> */}
+      <div>
+        {/* <div onClick={handlerFire}>
+         클릭하시오
+       </div> */}
+        <ReactCanvasConfetti
+        refConfetti={getInstance}
+          className="canvas"/>
+      </div>
+      
     </div>
   );
 };
