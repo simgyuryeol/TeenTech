@@ -16,9 +16,15 @@ const Lotto: React.FC = () => {
         </div>
       </div>
       <div>
+        <div className="mx-4 mt-4 p-3" style={{ backgroundColor: "yellow" }}>
+          <Link to="/LottoChange">복권 교환하기</Link>
+        </div>
+      </div>
+
+      <div className="my-3 mx-4">
         <LottoList />
       </div>
-      <Link to="/LottoChange">복권 바꾸기</Link>
+
       <h2>자식 복권 페이지</h2>
     </div>
   );
