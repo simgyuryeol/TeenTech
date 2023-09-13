@@ -28,4 +28,8 @@ public class AccountBook {
     private LocalTime transactionTime;//거래시간
     private String consumptionType;//소비유형
 
+    public void setConsumptionType(String consumptionType){
+        this.consumptionType = consumptionType;
+    }
+
 }

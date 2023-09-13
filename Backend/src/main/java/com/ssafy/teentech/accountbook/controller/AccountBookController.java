@@ -1,5 +1,6 @@
 package com.ssafy.teentech.accountbook.controller;
 
+import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
@@ -8,10 +9,7 @@ import com.ssafy.teentech.accountbook.service.AccountBookService;
 import com.ssafy.teentech.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class AccountBookController {
         AccountBookAmountResponseDto accountBookAmountResponseDto = accountBookService.accountBookAmount(accountBookAmountRequestDto);
 
         ApiResponse apiResponse = ApiResponse.builder()
-                .message("회원정보")
+                .message("가계부 가격 내역")
                 .status(OK.value())
                 .data(accountBookAmountResponseDto)
                 .build();
@@ -44,6 +42,19 @@ public class AccountBookController {
                 .message("가계부 날짜 내역")
                 .status(OK.value())
                 .data(accountBookDateResponseDtoList)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping()
+    public ResponseEntity<ApiResponse> accountBookAdd(@RequestBody AccountBookAddRequestDto accountBookAddRequestDto){
+        accountBookService.accountBookAdd(accountBookAddRequestDto);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("가계부 추가")
+                .status(OK.value())
+                .data(null)
                 .build();
 
         return ResponseEntity.ok(apiResponse);

@@ -1,19 +1,19 @@
 package com.ssafy.teentech.accountbook.service;
 
 import com.ssafy.teentech.accountbook.domain.AccountBook;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
 import com.ssafy.teentech.accountbook.repository.AccountBookRepository;
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -81,6 +81,15 @@ public class AccountBookService {
         }
 
         return accountBookDateResponseDtoList;
+
+    }
+
+    public void accountBookAdd(AccountBookAddRequestDto accountBookAddRequestDto) {
+        AccountBook accountBook = accountBookRepository.findById(accountBookAddRequestDto.getAccountBookId())
+                .orElseThrow(() ->new IllegalArgumentException());
+
+        accountBook.setConsumptionType(accountBookAddRequestDto.getConsumptionType());
+        AccountBook save = accountBookRepository.save(accountBook);
 
     }
 }
