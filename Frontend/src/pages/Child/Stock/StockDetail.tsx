@@ -55,12 +55,12 @@ const StockDetail: React.FC = () => {
         {newsList.map((news, index) => (
           <StockNews key={index} news={news} />
         ))}
-        <button onClick={handleBuyClick} className="bg-red-300">
+        <button onClick={handleBuyClick} className="border-2 border-red-300 w-32 font-bold">
           살래요
         </button>
         <span className="m-5" />
-        <button onClick={handleSellClick} className="bg-blue-300">
-          팔래요
+        <button onClick={handleSellClick} className="border-2 border-blue-300 w-32 font-bold">
+      팔래요
         </button>
       </div>
 
@@ -72,7 +72,7 @@ const StockDetail: React.FC = () => {
           >
             x
           </button>
-          <BuyStock price={1200} onClose={handleBuyClose}/>
+          <BuyStock price={1200} onClose={handleBuyClose} />
         </Modal>
       )}
 
@@ -84,7 +84,7 @@ const StockDetail: React.FC = () => {
           >
             x
           </button>
-          <SellStock price={1200} onClose={handleSellClose}/>
+          <SellStock price={1200} onClose={handleSellClose} />
         </Modal>
       )}
     </React.Fragment>
