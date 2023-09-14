@@ -14,7 +14,7 @@ const DepositList: React.FC<DepositListProps> = (props) => {
     return (
 
         <div className="border border-2 rounded-xl shadow-md bg-white" style={{borderColor: '#ABD0CE'}}>
-        <h2 className='mt-2 mb-1 font-bold'>{depositName}</h2>
+        <h2 className='mt-2 mb-1 font-bold flex justify-center'>{depositName}</h2>
         <div className='flex justify-around'>
         <h2 className='flex items-center m-1'>예치금:</h2>
         <div className='flex flex-col items-end'>

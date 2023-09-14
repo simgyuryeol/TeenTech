@@ -6,7 +6,8 @@ const DepositDetail: React.FC = () => {
     const interest = 110;
     const total = 100110;
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
+        <div className='mt-20'>
+        <div className="flex flex-col items-center justify-center">
             <h2 className="fixed inset-x-0 top-10 z-50 left-0">자식 보유예금 상세</h2>
             {/* <p>xx정기예금</p> */}
             <div className=''>
@@ -18,6 +19,7 @@ const DepositDetail: React.FC = () => {
             <div className='ml-4 mr-4 mt-8 w-[75%]'>
                 <DepositList></DepositList>
             </div>
+        </div>
         </div>
     )
 };
