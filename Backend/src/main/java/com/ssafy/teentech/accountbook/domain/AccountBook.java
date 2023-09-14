@@ -1,5 +1,6 @@
 package com.ssafy.teentech.accountbook.domain;
 
+import com.ssafy.teentech.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor
@@ -27,6 +30,10 @@ public class AccountBook {
     private LocalDate transactionDate;//거래일자
     private LocalTime transactionTime;//거래시간
     private String consumptionType;//소비유형
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     public void setConsumptionType(String consumptionType){
         this.consumptionType = consumptionType;

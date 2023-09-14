@@ -1,6 +1,9 @@
 package com.ssafy.teentech.accountbook.controller;
 
-import com.ssafy.teentech.accountbook.dto.request.*;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookDetailRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto;
@@ -21,8 +24,8 @@ public class AccountBookController {
 
     final private AccountBookService accountBookService;
     @GetMapping()
-    public ResponseEntity<ApiResponse> accountBookAmount(@RequestBody AccountBookAmountRequestDto accountBookAmountRequestDto){
-        AccountBookAmountResponseDto accountBookAmountResponseDto = accountBookService.accountBookAmount(accountBookAmountRequestDto);
+    public ResponseEntity<ApiResponse> accountBookAmount(@RequestBody AccountBookAmountRequestDto accountBookAmountRequestDto, @PathVariable Long child_id){
+        AccountBookAmountResponseDto accountBookAmountResponseDto = accountBookService.accountBookAmount(accountBookAmountRequestDto,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("가계부 가격 내역")
@@ -34,8 +37,8 @@ public class AccountBookController {
     }
 
     @GetMapping("/date")
-    public ResponseEntity<ApiResponse> accountBookDate(@RequestBody AccountBookDateRequestDto accountBookDateRequestDto){
-        List<AccountBookDateResponseDto> accountBookDateResponseDtoList = accountBookService.accountBookDate(accountBookDateRequestDto);
+    public ResponseEntity<ApiResponse> accountBookDate(@RequestBody AccountBookDateRequestDto accountBookDateRequestDto, @PathVariable Long child_id){
+        List<AccountBookDateResponseDto> accountBookDateResponseDtoList = accountBookService.accountBookDate(accountBookDateRequestDto,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("가계부 날짜 내역")

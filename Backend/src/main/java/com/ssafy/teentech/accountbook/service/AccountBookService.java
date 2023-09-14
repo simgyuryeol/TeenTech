@@ -1,25 +1,35 @@
 package com.ssafy.teentech.accountbook.service;
 
 import com.ssafy.teentech.accountbook.domain.AccountBook;
-import com.ssafy.teentech.accountbook.dto.request.*;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.AccountBookDetailRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto;
 import com.ssafy.teentech.accountbook.repository.AccountBookRepository;
+import com.ssafy.teentech.user.domain.User;
+import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AccountBookService {
 
     final private AccountBookRepository accountBookRepository;
+    final private UserRepository userRepository;
 
-    public AccountBookAmountResponseDto accountBookAmount(AccountBookAmountRequestDto accountBookAmountRequestDto) {
-        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookAmountRequestDto.getDate());
+    public AccountBookAmountResponseDto accountBookAmount(AccountBookAmountRequestDto accountBookAmountRequestDto,Long child_id) {
+        User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
+        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookAmountRequestDto.getDate(),user);
 
         Map<String,Integer> account = new HashMap<>();
         //수입
@@ -51,8 +61,9 @@ public class AccountBookService {
 
     }
 
-    public List<AccountBookDateResponseDto> accountBookDate(AccountBookDateRequestDto accountBookDateRequestDto) {
-        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookDateRequestDto.getDate());
+    public List<AccountBookDateResponseDto> accountBookDate(AccountBookDateRequestDto accountBookDateRequestDto, Long child_id) {
+        User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
+        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookDateRequestDto.getDate(),user);
 
         Map<LocalDate,Integer[]> account = new HashMap<>();
 
@@ -86,7 +97,7 @@ public class AccountBookService {
                 .orElseThrow(() ->new IllegalArgumentException());
 
         accountBook.setConsumptionType(accountBookAddRequestDto.getConsumptionType());
-        AccountBook save = accountBookRepository.save(accountBook);
+        accountBookRepository.save(accountBook);
 
     }
 
