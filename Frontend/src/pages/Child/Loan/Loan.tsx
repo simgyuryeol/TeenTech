@@ -3,8 +3,15 @@ import Credit from '../../../components/Credit';
 import LoanStatus from '../../../components/Loan/LoanStatus';
 import { Link } from 'react-router-dom';
 import LoanList from '../../../components/Loan/LoanList';
+import LoanCreate from '../../../components/Loan/LoanCreate';
+import LoanrepaymentButton from '../../../components/Loan/LoanrepaymentButton';
 
 const Loan: React.FC = () => {
+
+    const [open, setOpen] = React.useState(0);
+ 
+    const handleOpen = (value) => setOpen(open === value ? 0 : value);
+
     return (
         <div className='mt-20'>
             <h2 className="fixed inset-x-0 top-10 z-50 left-0">자식 대출 페이지</h2>
@@ -12,7 +19,7 @@ const Loan: React.FC = () => {
             <div className='flex flex-col justify-center'>
                 <LoanStatus>
                     <div className='flex justify-end'>
-                        <button className='font-bold p-2 pt-1 pb-1 ml-6 mr-6 mt-2 mb-2' style={{color:'#363636', backgroundColor:'#ABC3D0'}}>대출 신청</button>
+                        <button onClick={() => handleOpen(1)} className='font-bold p-2 pt-1 pb-1 ml-6 mr-6 mt-2 mb-2' style={{color:'#363636', backgroundColor:'#ABC3D0'}}>대출 신청</button>
                     </div>
                 </LoanStatus>
             </div>
@@ -24,16 +31,31 @@ const Loan: React.FC = () => {
                 <p className='m-4 text-lg'>대출 리스트</p>
             </div>
             <div>
-                <LoanList>
-                    
+                <LoanList children2={
+                    <div className='border-2 border-black rounded-md'>
+                        <div className='p-6 pt-1 pb-1'>
+                            <LoanrepaymentButton></LoanrepaymentButton>
+                        </div>
+                    </div>}>
+                    <div className='border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300'>
+                        <LoanrepaymentButton></LoanrepaymentButton>
+                    </div>
                 </LoanList>
                 <LoanList>
-
+                    <div className='border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300'>
+                        <LoanrepaymentButton></LoanrepaymentButton>
+                    </div>
                 </LoanList>
                 <LoanList>
-
+                    <div className='border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300'>
+                        <LoanrepaymentButton></LoanrepaymentButton>
+                    </div>
                 </LoanList>
             </div>
+            {open === 1 && (
+            <LoanCreate closeModal={handleOpen}>
+            </LoanCreate>
+             )}
         </div>
     )
 };
