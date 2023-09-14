@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '../../../components/Common/Modal';
-import DepositList from '../../../components/DepositList';
+import DepositList from '../../../components/Deposit/DepositList';
 
 const DepositJoinSuccess: React.FC = () => {
     return (

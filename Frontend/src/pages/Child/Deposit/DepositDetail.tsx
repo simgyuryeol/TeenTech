@@ -1,5 +1,5 @@
 import React from 'react';
-import DepositList from '../../../components/DepositList';
+import DepositList from '../../../components/Deposit/DepositList';
 
 const DepositDetail: React.FC = () => {
     const maturitydate = 100;
