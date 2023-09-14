@@ -39,7 +39,7 @@ const Header: React.FC = () => {
         {/* 메뉴 */}
         <div
           className={`fixed inset-y-0 right-0 transform ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
+            isMenuOpen ? "" : "translate-x-full"
           } bg-white w-64 p-4 transition-transform duration-300 ease-in-out shadow-lg`}
         >
           {/* 메뉴 내용 */}
