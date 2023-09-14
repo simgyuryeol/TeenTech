@@ -52,7 +52,7 @@ const LottoChange: React.FC = () => {
     "?",
   ]);
   const [isLotteryRunning, setIsLotteryRunning] = useState<boolean>(false);
-  const [isWinning,setIsWinning] = useState<boolean>(false);
+  const [isWinning, setIsWinning] = useState<boolean>(false);
 
   // Interval ID들을 저장하기 위한 ref
   const intervalsRef = useRef<NodeJS.Timeout[]>([]);
@@ -95,8 +95,7 @@ const LottoChange: React.FC = () => {
         if (i == 2) {
           finalRandomIndex = 4;
         }
-        console.log("finalRandomIndex");
-        console.log(finalRandomIndex);
+        console.log("finalRandomIndex " + finalRandomIndex);
         winningNums.push(numbers[finalRandomIndex]);
 
         //numbers.splice(finalRandomIndex, 1);
@@ -131,18 +130,22 @@ const LottoChange: React.FC = () => {
       }
 
       if (same === selectedNumbers.length) {
-        handlerFire();
+        // 번호뽑는중에는 응모하기 버튼 못눌리게
+        setIsLotteryRunning(false);
         setIsWinning(true);
+        handlerFire();
         alert("당첨!");
       } else {
+        setIsLotteryRunning(false);
+        setIsWinning(false);
         alert("아쉽다.");
       }
-    }, 2000 * 3 + 500);
+    }, 2000 * 3 + 150);
   };
 
   /*여기부터*/
-  
-  const [isAnimationEnabled, setIsAnimationEnabled] = useState(false);
+
+  const [isAnimationEnabled, setIsAnimationEnabled] = useState(true);
   const animationInstance = useRef<CreateTypes | null>(null);
 
   const makeShot = (particleRatio: number, opts: object) => {
@@ -154,12 +157,8 @@ const LottoChange: React.FC = () => {
       });
   };
 
-  // 이 부분에서 사용하고 싶은 설정을 하면 된다.
+  // 이 부분에서 사용하고 싶은 설정을 하면 됨.
   const fire = () => {
-    console.log("fire함수 안" + isAnimationEnabled)
-      if (!isAnimationEnabled) {
-    return;
-  }
     makeShot(0.25, {
       spread: 26,
       startVelocity: 55,
@@ -177,38 +176,33 @@ const LottoChange: React.FC = () => {
 
     makeShot(0.1, {
       spread: 120,
-      startVelocity:25 ,
-       decay : .92 ,
-       scalar :1.2
-     });
-  
-     makeShot(.1 ,{
-       spread :120 ,
-       startVelocity :45 
-     });
-  }
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2,
+    });
+
+    makeShot(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
+  };
 
   const handlerFire = () => {
-    console.log("handlerFire" + isAnimationEnabled);
-     if (!isAnimationEnabled) {
-       setIsAnimationEnabled(true);
+    fire();
+  };
 
-     }
-    console.log("handlerFire 2번째" + isAnimationEnabled);
-            requestAnimationFrame(fire);
-     fire();
-   };
-  
-  const getInstance = (instance : CreateTypes | null) => { 
-     animationInstance.current= instance;
-   };
+  const getInstance = (instance: CreateTypes | null) => {
+    animationInstance.current = instance;
+  };
 
   return (
     <div className="pt-16">
       <div>
-        <div>
+        <div className="flex justify-center">
           {displayNumbers.map((num, index) => (
-            <div key={index}>{num}</div>
+            <div className="mx-4" key={index}>
+              {num}
+            </div>
           ))}
         </div>
         {selectedNumbers.length === 3 ? (
@@ -218,25 +212,6 @@ const LottoChange: React.FC = () => {
         ) : (
           <div>번호골라</div>
         )}
-
-        {winningNumbers[2] !== null && (
-          <button
-            onClick={() => {
-              setWinningNumbers([null, null, null]);
-              setDisplayNumbers(["?", "?", "?"]);
-              setIsLotteryRunning(false);
-
-              intervalsRef.current.forEach((intervalId) =>
-                clearInterval(intervalId)
-              );
-              intervalsRef.current = [];
-            }}
-          >
-            다시 시작
-          </button>
-        )}
-
-        <div>숫자가 뭘까</div>
       </div>
       <div>선택한 숫자</div>
       {selectedNumbers.length === 0 ? (
@@ -255,6 +230,7 @@ const LottoChange: React.FC = () => {
         </div>
       )}
 
+      {/* */}
       <div>
         {availableNumbers.map((number) => (
           <div
@@ -279,14 +255,8 @@ const LottoChange: React.FC = () => {
         <button onClick={() => rendomClick()}>rendom</button>
       </div>
       <div>
-        {/* <div onClick={handlerFire}>
-         클릭하시오
-       </div> */}
-        <ReactCanvasConfetti
-        refConfetti={getInstance}
-          className="canvas"/>
+        <ReactCanvasConfetti refConfetti={getInstance} className="canvas" />
       </div>
-      
     </div>
   );
 };
