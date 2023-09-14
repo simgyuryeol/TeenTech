@@ -4,6 +4,8 @@ import styles from "./LottoChange.module.css";
 import { CreateTypes } from "canvas-confetti";
 import ReactCanvasConfetti from "./ReactCanvasConfetti";
 
+import { FaRedo, FaRandom } from "react-icons/fa"; // 추가된 아이콘 패키지
+
 const LottoChange: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
 
@@ -196,64 +198,89 @@ const LottoChange: React.FC = () => {
   };
 
   return (
-    <div className="pt-16">
+    <div className="pt-16  font-sans">
       <div>
+        <h1 className="text-center text-4xl font-bold py-5 text-purple-700">
+          당첨번호
+        </h1>
         <div className="flex justify-center">
           {displayNumbers.map((num, index) => (
-            <div className="mx-4" key={index}>
+            <div
+              key={index}
+              className="mx-4 text-xl font-bold text-purple-800 rounded-full bg-white w-10 h-10 flex items-center justify-center"
+            >
               {num}
             </div>
           ))}
         </div>
-        {selectedNumbers.length === 3 ? (
-          <button onClick={startLottery} disabled={isLotteryRunning}>
-            응모하기
-          </button>
-        ) : (
-          <div>번호골라</div>
-        )}
+        <p className="text-center text-lg m-3">원하는 번호 3개 골라주세요</p>
       </div>
-      <div>선택한 숫자</div>
-      {selectedNumbers.length === 0 ? (
-        <div>x</div>
-      ) : (
-        <div className="flex justify-center items-center">
-          {selectedNumbers.map((number) => (
-            <div
-              key={number}
-              className={`${styles.selectedcircle} m-1 rounded-full`}
-              onClick={() => handleNumberClick(number)}
-            >
-              {number}
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* */}
-      <div>
+      <div className="h-32 bg-blue-500 rounded-lg my-5">
+        <div className="h-full flex items-center justify-center">
+          {selectedNumbers.length === 0 ? (
+            <div>선택한 숫자가 없어요!</div>
+          ) : (
+            selectedNumbers.map((number) => (
+              <button
+                key={number}
+                onClick={() => handleNumberClick(number)}
+                className={`${styles.selectedcircle} m-3 rounded-full border-none bg-white text-blue-dark`}
+                style={{ width: "50px", height: "50px" }}
+              >
+                {number}
+              </button>
+            ))
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-around">
         {availableNumbers.map((number) => (
-          <div
+          <button
             key={number}
-            className="m-1 rounded-full inline-block text-center"
             onClick={() => handleNumberClick(number)}
+            className="rounded-full"
             style={{
               backgroundColor: selectedNumbers.includes(number)
                 ? "lightblue"
                 : "white",
-              border: "1px solid #ccc",
-              width: "30px",
-              height: "30px",
+              border: "none",
+              width: "50px",
+              height: "50px",
             }}
           >
             {number}
-          </div>
+          </button>
         ))}
       </div>
-      <div>
-        <button onClick={() => resetClick()}>초기화</button>
-        <button onClick={() => rendomClick()}>rendom</button>
+
+      <div className="flex space-x4 justify-evenly my-5 ">
+        <button
+          className="bg-transparent hover:bg-blue-dark p2 border border-blue-dark hover:text-white rounded transition ease-in-out duration200"
+          onClick={() => resetClick()}
+        >
+          초기화
+        </button>
+
+        <button
+          className="bg-transparent hover:bg-blue-dark p2 border border-blue-dark hover:text-white rounded transition ease-in-out duration200"
+          onClick={() => rendomClick()}
+        >
+          rendom
+        </button>
       </div>
+      {selectedNumbers.length === 3 && (
+        <button
+          className={`font-semibold py2 px4 rounded ${
+            isLotteryRunning ? "opacity50 cursor-notallowed" : ""
+          }`}
+          disabled={isLotteryRunning}
+          onClick={startLottery}
+        >
+          응모하기
+        </button>
+      )}
       <div>
         <ReactCanvasConfetti refConfetti={getInstance} className="canvas" />
       </div>
