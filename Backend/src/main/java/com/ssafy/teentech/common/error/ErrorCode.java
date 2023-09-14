@@ -20,10 +20,20 @@ public enum ErrorCode {
     INVALID_ACCESS_TOKEN(500, "유효하지 않은 엑세스 토큰입니다."),
     INVALID_REFRESH_TOKEN(500, "유효하지 않은 리프레시 토큰입니다."),
     TOKEN_EXPIRED(500, "이미 만료된 토큰입니다."),
+    RESOURCE_PERMISSION_DENIED(400, "해당 리소스에 대한 작업 권한이 없습니다."),
 
     // InvalidRequestException
     UNAUTHORIZED_REDIRECT_URI(400, "Unauthorized Redirect URI."),
-    REFRESH_TOKEN_NOT_FOUND(500, "리프레시 토큰을 찾을 수 없습니다.");
+    REFRESH_TOKEN_NOT_FOUND(500, "리프레시 토큰을 찾을 수 없습니다."),
+    USER_NOT_FOUND(404, "해당 유저를 찾을 수 없습니다."),
+    ALBA_NOT_FOUND(404, "해당 아르바이트를 찾을 수 없습니다."),
+    ALREADY_ACCEPTED_ALBA(400, "이미 수락된적 있는 아르바이트입니다."),
+    INVALID_ALBA_DATE(400, "유효하지 않은 아르바이트 기간입니다."),
+    ALBA_NOT_ACCEPTED(400, "수락된 적 없는 아르바이트입니다."),
+    ALREADY_GIVE_UP_ALBA(400, "이미 포기한 아르바이트입니다."),
+    FCM_TOKEN_NOT_FOUND(400, "FCM TOKEN을 찾을 수 없습니다."),
+
+    FAIL_SEND_FCM_MESSAGE(400, "알림 보내기를 실패하였습니다.");
 
     private int status;
     private String message;
