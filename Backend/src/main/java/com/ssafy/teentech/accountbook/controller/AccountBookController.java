@@ -1,10 +1,9 @@
 package com.ssafy.teentech.accountbook.controller;
 
-import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.*;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
+import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto;
 import com.ssafy.teentech.accountbook.service.AccountBookService;
 import com.ssafy.teentech.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +54,19 @@ public class AccountBookController {
                 .message("가계부 추가")
                 .status(OK.value())
                 .data(null)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<ApiResponse>  accountBookDetail(@RequestBody AccountBookDetailRequestDto accountBookDetailRequestDto){
+        List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = accountBookService.accountBookDetail(accountBookDetailRequestDto);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("가계부 상세보기")
+                .status(OK.value())
+                .data(accountBookDetailResponseDtoList)
                 .build();
 
         return ResponseEntity.ok(apiResponse);

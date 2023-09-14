@@ -1,14 +1,11 @@
 package com.ssafy.teentech.accountbook.service;
 
 import com.ssafy.teentech.accountbook.domain.AccountBook;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
+import com.ssafy.teentech.accountbook.dto.request.*;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
+import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto;
 import com.ssafy.teentech.accountbook.repository.AccountBookRepository;
-import com.ssafy.teentech.common.error.ErrorCode;
-import com.ssafy.teentech.common.error.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -91,5 +88,25 @@ public class AccountBookService {
         accountBook.setConsumptionType(accountBookAddRequestDto.getConsumptionType());
         AccountBook save = accountBookRepository.save(accountBook);
 
+    }
+
+    public List<AccountBookDetailResponseDto> accountBookDetail(AccountBookDetailRequestDto accountBookDetailRequestDto) {
+        List<AccountBook> byDay = accountBookRepository.findByDay(accountBookDetailRequestDto.getDate());
+        List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = new ArrayList<>();
+        for (AccountBook accountBook : byDay) {
+            AccountBookDetailResponseDto accountBookDetailResponseDto = AccountBookDetailResponseDto.builder()
+                    .accountBookId(accountBook.getAccountBookId())
+                    .assetType(accountBook.getAssetType())
+                    .consumptionType(accountBook.getConsumptionType())
+                    .content(accountBook.getContent())
+                    .depositAmount(accountBook.getDepositAmount())
+                    .transactionTime(accountBook.getTransactionTime())
+                    .withdrawalAmount(accountBook.getWithdrawalAmount())
+                    .build();
+
+            accountBookDetailResponseDtoList.add(accountBookDetailResponseDto);
+        }
+
+        return accountBookDetailResponseDtoList;
     }
 }

@@ -14,4 +14,8 @@ public interface AccountBookRepository extends JpaRepository<AccountBook,Long> {
     @Query("SELECT ac FROM AccountBook ac WHERE month(ac.transactionDate) = :date")
     List<AccountBook> findByDate(LocalDate date);
 
+    //일차로 출력
+    @Query("SELECT ac FROM AccountBook ac WHERE day (ac.transactionDate) = :date")
+    List<AccountBook> findByDay(LocalDate date);
+
 }
