@@ -34,8 +34,6 @@ import Stock from './pages/Child/Stock/Stock';
 import StockTuto from './pages/Child/Stock/StockTuto';
 import StockMarket from './pages/Child/Stock/StockMarket';
 import StockDetail from './pages/Child/Stock/StockDetail';
-import StockBuy from './pages/Child/Stock/StockBuy';
-import StockSell from './pages/Child/Stock/StockSell';
 import StockTradingList from './pages/Child/Stock/StockTradingList';
 import Lotto from './pages/Child/Lotto/Lotto';
 import LottoChange from './pages/Child/Lotto/LottoChange';
@@ -269,20 +267,6 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <StockDetail key="stockdetail-component" />,
-            ]}
-          />
-          <Route
-            path="/StockBuy"
-            element={[
-              <Header key="header-component" />,
-              <StockBuy key="stockbuy-component" />,
-            ]}
-          />
-          <Route
-            path="/StockSell"
-            element={[
-              <Header key="header-component" />,
-              <StockSell key="stocksell-component" />,
             ]}
           />
           <Route
