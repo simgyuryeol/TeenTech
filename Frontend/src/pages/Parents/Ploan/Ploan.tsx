@@ -19,7 +19,7 @@ const Ploan: React.FC = () => {
             <hr className='border-2'></hr>
             <div>
                 <p>대출 리스트</p>
-                <LoanList></LoanList>
+                <LoanList children={undefined} children2={undefined}></LoanList>
             </div>
         </div>
     )
