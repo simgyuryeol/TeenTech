@@ -4,11 +4,12 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.ssafy.teentech.alba.dto.response.AlbasForChildResponseDto;
 import com.ssafy.teentech.alba.service.AlbaService;
+import com.ssafy.teentech.common.entity.CurrentUser;
 import com.ssafy.teentech.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +24,10 @@ public class AlbaChildController {
     private final AlbaService albaService;
 
     @GetMapping("/lists")
-    public ResponseEntity<ApiResponse<AlbasForChildResponseDto>> getAlbaList() {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
+    public ResponseEntity<ApiResponse<AlbasForChildResponseDto>> getAlbaList(
+        @CurrentUser User user) {
         AlbasForChildResponseDto albasForChildResponseDto = albaService.getChildAlbaList(
-            principal.getUsername());
+            user.getUsername());
 
         ApiResponse apiResponse = ApiResponse.builder().message("아르바이트 목록 조회 완료")
             .status(HttpStatus.OK.value()).data(albasForChildResponseDto).build();
@@ -35,10 +35,9 @@ public class AlbaChildController {
     }
 
     @PostMapping("/{albaId}/accept")
-    public ResponseEntity<ApiResponse> acceptAlba(@PathVariable Long albaId) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        albaService.acceptAlba(principal.getUsername(), albaId);
+    public ResponseEntity<ApiResponse> acceptAlba(@PathVariable Long albaId,
+        @CurrentUser User user) {
+        albaService.acceptAlba(user.getUsername(), albaId);
 
         ApiResponse apiResponse = ApiResponse.builder()
             .message("아르바이트 수락 완료.")
@@ -48,10 +47,9 @@ public class AlbaChildController {
     }
 
     @PostMapping("/{albaId}/complete")
-    public ResponseEntity<ApiResponse> albaCompleteRequest(@PathVariable Long albaId) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        albaService.albaCompleteRequest(principal.getUsername(), albaId);
+    public ResponseEntity<ApiResponse> albaCompleteRequest(@PathVariable Long albaId,
+        @CurrentUser User user) {
+        albaService.albaCompleteRequest(user.getUsername(), albaId);
 
         ApiResponse apiResponse = ApiResponse.builder()
             .message("아르바이트 완료 검수 요청 성공")
@@ -61,10 +59,9 @@ public class AlbaChildController {
     }
 
     @PostMapping("/{albaId}/giveup")
-    public ResponseEntity<ApiResponse> giveUpAlba(@PathVariable Long albaId) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        albaService.giveUpAlba(principal.getUsername(), albaId);
+    public ResponseEntity<ApiResponse> giveUpAlba(@PathVariable Long albaId,
+        @CurrentUser User user) {
+        albaService.giveUpAlba(user.getUsername(), albaId);
 
         ApiResponse apiResponse = ApiResponse.builder()
             .message("아르바이트 포기 완료.")
