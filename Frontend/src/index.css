@@ -72,3 +72,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.canvas {
+  height: 100vh;
+  left: 0px;
+  pointer-events: none;
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+}

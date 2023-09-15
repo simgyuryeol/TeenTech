@@ -1,9 +1,9 @@
 import React from 'react';
-import LoanCompo from './LoanCompo';
+import LoanCompoAcco from './LoanCompoAcco';
 
 const LoanReview: React.FC = () => {
   return (
-    <LoanCompo children='' children2={
+    <LoanCompoAcco children='' children2={
     <div className='flex justify-around mb-4'>
         <div className='border-2 border-blue-500 rounded-md'>
             <p className='p-10 pt-1 pb-1'>수락</p>

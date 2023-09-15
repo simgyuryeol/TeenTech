@@ -1,5 +1,5 @@
 import React from 'react';
-import DepositList from '../../components/DepositList';
+import DepositList from '../../components/Deposit/DepositList';
 
 const Pdeposit: React.FC = () => {
     return (

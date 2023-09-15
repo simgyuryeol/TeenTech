@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./LottoChange.module.css";
 
+import { CreateTypes } from "canvas-confetti";
+import ReactCanvasConfetti from "./ReactCanvasConfetti";
+
+import { FaRedo, FaRandom } from "react-icons/fa"; // 추가된 아이콘 패키지
+
 const LottoChange: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
 
@@ -49,6 +54,7 @@ const LottoChange: React.FC = () => {
     "?",
   ]);
   const [isLotteryRunning, setIsLotteryRunning] = useState<boolean>(false);
+  const [isWinning, setIsWinning] = useState<boolean>(false);
 
   // Interval ID들을 저장하기 위한 ref
   const intervalsRef = useRef<NodeJS.Timeout[]>([]);
@@ -91,8 +97,7 @@ const LottoChange: React.FC = () => {
         if (i == 2) {
           finalRandomIndex = 4;
         }
-        console.log("finalRandomIndex");
-        console.log(finalRandomIndex);
+        console.log("finalRandomIndex " + finalRandomIndex);
         winningNums.push(numbers[finalRandomIndex]);
 
         //numbers.splice(finalRandomIndex, 1);
@@ -127,89 +132,158 @@ const LottoChange: React.FC = () => {
       }
 
       if (same === selectedNumbers.length) {
+        // 번호뽑는중에는 응모하기 버튼 못눌리게
+        setIsLotteryRunning(false);
+        setIsWinning(true);
+        handlerFire();
         alert("당첨!");
       } else {
+        setIsLotteryRunning(false);
+        setIsWinning(false);
         alert("아쉽다.");
       }
-    }, 2000 * 3 + 500);
+    }, 2000 * 3 + 150);
+  };
+
+  /*여기부터*/
+
+  const [isAnimationEnabled, setIsAnimationEnabled] = useState(true);
+  const animationInstance = useRef<CreateTypes | null>(null);
+
+  const makeShot = (particleRatio: number, opts: object) => {
+    animationInstance.current &&
+      animationInstance.current({
+        ...opts,
+        origin: { y: 0.8 },
+        particleCount: Math.floor(200 * particleRatio),
+      });
+  };
+
+  // 이 부분에서 사용하고 싶은 설정을 하면 됨.
+  const fire = () => {
+    makeShot(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+
+    makeShot(0.2, {
+      spread: 20,
+    });
+
+    makeShot(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8,
+    });
+
+    makeShot(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2,
+    });
+
+    makeShot(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
+  };
+
+  const handlerFire = () => {
+    fire();
+  };
+
+  const getInstance = (instance: CreateTypes | null) => {
+    animationInstance.current = instance;
   };
 
   return (
-    <div className="pt-16">
+    <div className="pt-16  font-sans">
       <div>
-        <div>
+        <h1 className="text-center text-4xl font-bold py-5 text-purple-700">
+          당첨번호
+        </h1>
+        <div className="flex justify-center">
           {displayNumbers.map((num, index) => (
-            <div key={index}>{num}</div>
-          ))}
-        </div>
-        {selectedNumbers.length === 3 ? (
-          <button onClick={startLottery} disabled={isLotteryRunning}>
-            응모하기
-          </button>
-        ) : (
-          <div>번호골라</div>
-        )}
-
-        {winningNumbers[2] !== null && (
-          <button
-            onClick={() => {
-              setWinningNumbers([null, null, null]);
-              setDisplayNumbers(["?", "?", "?"]);
-              setIsLotteryRunning(false);
-
-              intervalsRef.current.forEach((intervalId) =>
-                clearInterval(intervalId)
-              );
-              intervalsRef.current = [];
-            }}
-          >
-            다시 시작
-          </button>
-        )}
-
-        <div>숫자가 뭘까</div>
-      </div>
-      <div>선택한 숫자</div>
-      {selectedNumbers.length === 0 ? (
-        <div>x</div>
-      ) : (
-        <div className="flex justify-center items-center">
-          {selectedNumbers.map((number) => (
             <div
-              key={number}
-              className={`${styles.selectedcircle} m-1 rounded-full`}
-              onClick={() => handleNumberClick(number)}
+              key={index}
+              className="mx-4 text-xl font-bold text-purple-800 rounded-full bg-white w-10 h-10 flex items-center justify-center"
             >
-              {number}
+              {num}
             </div>
           ))}
         </div>
-      )}
+        <p className="text-center text-lg m-3">원하는 번호 3개 골라주세요</p>
+      </div>
 
-      <div>
+      <div className="h-32 bg-blue-500 rounded-lg my-5">
+        <div className="h-full flex items-center justify-center">
+          {selectedNumbers.length === 0 ? (
+            <div>선택한 숫자가 없어요!</div>
+          ) : (
+            selectedNumbers.map((number) => (
+              <button
+                key={number}
+                onClick={() => handleNumberClick(number)}
+                className={`${styles.selectedcircle} m-3 rounded-full border-none bg-white text-blue-dark`}
+                style={{ width: "50px", height: "50px" }}
+              >
+                {number}
+              </button>
+            ))
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-around">
         {availableNumbers.map((number) => (
-          <div
+          <button
             key={number}
-            className="m-1 rounded-full inline-block text-center"
             onClick={() => handleNumberClick(number)}
+            className="rounded-full"
             style={{
               backgroundColor: selectedNumbers.includes(number)
                 ? "lightblue"
                 : "white",
-              border: "1px solid #ccc",
-              width: "30px",
-              height: "30px",
+              border: "none",
+              width: "50px",
+              height: "50px",
             }}
           >
             {number}
-          </div>
+          </button>
         ))}
       </div>
-      <div>
-        <button onClick={() => resetClick()}>초기화</button>
-        <button onClick={() => rendomClick()}>rendom</button>
+
+      <div className="flex space-x4 justify-evenly my-5 ">
+        <button
+          className="bg-transparent hover:bg-blue-dark p2 border border-blue-dark hover:text-white rounded transition ease-in-out duration200"
+          onClick={() => resetClick()}
+        >
+          초기화
+        </button>
+
+        <button
+          className="bg-transparent hover:bg-blue-dark p2 border border-blue-dark hover:text-white rounded transition ease-in-out duration200"
+          onClick={() => rendomClick()}
+        >
+          rendom
+        </button>
       </div>
-      {/* <button onClick={() => startAnimation()}>응모하기</button> */}
+      {selectedNumbers.length === 3 && (
+        <button
+          className={`font-semibold py2 px4 rounded ${
+            isLotteryRunning ? "opacity50 cursor-notallowed" : ""
+          }`}
+          disabled={isLotteryRunning}
+          onClick={startLottery}
+        >
+          응모하기
+        </button>
+      )}
+      <div>
+        <ReactCanvasConfetti refConfetti={getInstance} className="canvas" />
+      </div>
     </div>
   );
 };

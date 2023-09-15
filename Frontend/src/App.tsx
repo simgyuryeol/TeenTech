@@ -48,7 +48,7 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/oauth/redirect" element={<LoginRedirect/>} />
+          <Route path="/oauth/redirect" element={<LoginRedirect />} />
           {/* 부모 */}
           <Route
             path="/Pmain"

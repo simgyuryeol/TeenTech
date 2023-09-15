@@ -1,11 +1,11 @@
 import React from 'react';
 import Modal from '../../../components/Common/Modal';
-import DepositList from '../../../components/DepositList';
+import DepositList from '../../../components/Deposit/DepositList';
 
 const DepositJoinSuccess: React.FC = () => {
     return (
         <Modal>
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 overflow-hidden bg-white rounded-xl  w-[70%] sm:w-[70%] md:w-[60%] lg:w-[50%]">
+            <div className="">
             <div className="p-4 flex flex-col items-center justify-center">
                 <div className='flex justify-end w-full'>
                     <p className='mr-2'>x</p>

@@ -1,5 +1,5 @@
 import React from "react";
-import Total from "../../components/Main/Total";
+import Total from "../../components/Main/total";
 import MenuList from "../../components/Main/MenuList";
 
 const Main: React.FC = () => {

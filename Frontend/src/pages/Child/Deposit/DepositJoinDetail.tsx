@@ -11,7 +11,8 @@ const DepositJoinDetail: React.FC = () => {
     const [depositInterest, setDepositinterest] = useState('');
     const deposittotal = 0;
     return (
-        <div className='flex flex-col items-center justify-center h-screen'>
+      <div className='mt-20'>
+        <div className='flex flex-col items-center justify-center'>
         <h2 className="fixed inset-x-0 top-10 z-50 left-0">신규 예금 가입</h2>
         <div className='border border-2 shadow-md rounded-xl flex-col m-6 bg-white' style={{borderColor: '#ABD0CE'}}>입력창
             <div className='m-4 mt-6 flex'>
@@ -81,6 +82,7 @@ const DepositJoinDetail: React.FC = () => {
         </Link>
         </div>
         </div>
+      </div>
     )
 };
 
