@@ -8,9 +8,10 @@ interface Menu {
 
 const PMenuList: React.FC = () => {
   const menuList: Menu[] = [
-    { kor: "용돈/이자율 설정", eng: "deposit" },
-    { kor: "가계부", eng: "accountbook" },
+    { kor: "용돈/이자율 설정", eng: "interest" },
     { kor: "아르바이트", eng: "alba" },
+    { kor: "가계부", eng: "accountbook" },
+    { kor: "예금", eng: "deposit" },
     { kor: "대출", eng: "loan" },
     { kor: "퀴즈", eng: "quiz" },
     { kor: "복권", eng: "lotto" },
