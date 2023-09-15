@@ -5,17 +5,34 @@ import StockChart from "../../../components/Stock/StockChart";
 import StockNews from "../../../components/Stock/StockNews";
 import BuyStock from "../../../components/Stock/BuyStock";
 import SellStock from "../../../components/Stock/SellStock";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
-interface News {
-  title: string;
-  content: string;
-  date: string;
-}
+import "intro.js/introjs.css";
+import { Steps } from "intro.js-react";
+import {
+  tourOptions,
+  tourSteps,
+} from "../../../components/Tutorial/StockDetailTutorial";
 
 const StockDetail: React.FC = () => {
   const { eng } = useParams();
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
+
+  const [stepsEnabled, setStepsEnabled] = useState(false);
+  const [initialStep] = useState(0);
+  const [tour] = useState({
+    options: tourOptions,
+    steps: tourSteps,
+  });
+
+  const onExit = () => {
+    setStepsEnabled(false);
+  };
+
+  const handleHelp = () => {
+    setStepsEnabled((prev) => !prev);
+  };
 
   const newsList: News[] = [
     {
@@ -48,19 +65,45 @@ const StockDetail: React.FC = () => {
 
   return (
     <React.Fragment>
+      <Steps
+        enabled={stepsEnabled}
+        steps={tour.steps}
+        initialStep={initialStep}
+        onExit={onExit}
+        options={tour.options}
+      />
+
       <div className="mt-12">
         <p className="font-bold text-2xl">{eng}</p>
+        <div className="flex justify-end mr-4">
+          <Icon
+            icon="mdi:help-circle-outline"
+            className="w-6 h-6 text-gray-400"
+            onClick={handleHelp}
+          />
+        </div>
+
         <StockChart />
+
         <p className="font-bold text-lg text-left ml-7">뉴스</p>
         {newsList.map((news, index) => (
           <StockNews key={index} news={news} />
         ))}
-        <button onClick={handleBuyClick} className="border-2 border-red-300 w-32 font-bold">
+
+        <button
+          onClick={handleBuyClick}
+          className="border-2 border-red-300 w-32 font-bold"
+          id="buy-btn"
+        >
           살래요
         </button>
         <span className="m-5" />
-        <button onClick={handleSellClick} className="border-2 border-blue-300 w-32 font-bold">
-      팔래요
+        <button
+          onClick={handleSellClick}
+          className="border-2 border-blue-300 w-32 font-bold"
+          id="sell-btn"
+        >
+          팔래요
         </button>
       </div>
 

@@ -39,7 +39,6 @@ const StockChart: React.FC = () => {
     ],
     options: {
       chart: {
-        type: "area",
         stacked: false,
         height: 250,
         zoom: {
@@ -110,7 +109,7 @@ const StockChart: React.FC = () => {
 
   return (
     <Card>
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center p-4" id="stock-today">
         <div>
           <p className="text-2xl font-bold">1,200원</p>
           <p className="text-gray-500">오늘 가격</p>
@@ -122,6 +121,7 @@ const StockChart: React.FC = () => {
         series={stockData.series}
         type="area"
         height={250}
+        id="stock-chart"
       />
     </Card>
   );

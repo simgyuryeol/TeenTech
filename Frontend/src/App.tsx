@@ -1,47 +1,46 @@
-import React from "react";
-import "./App.css";
-import Login from "./pages/Login/Login";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Pheader from "./components/Header/Pheader";
-import Pmain from "./pages/Parents/Pmain";
-import PchildDetail from "./pages/Parents/PchildDetail";
-import Ptransfer from "./pages/Parents/Ptransfer";
-import Pinterest from "./pages/Parents/Pinterest";
-import Palba from "./pages/Parents/Palba";
-import Pdeposit from "./pages/Parents/Pdeposit";
-import PaccountBook from "./pages/Parents/PaccountBook";
-import Pquiz from "./pages/Parents/Pquiz";
-import Plotto from "./pages/Parents/Plotto";
-import Ploan from "./pages/Parents/Ploan/Ploan";
-import Ploandetail from "./pages/Parents/Ploan/Ploandetail";
-import Header from "./components/Header/Header";
-import Main from "./pages/Child/Main";
-import AccountBook from "./pages/Child/AccountBook/AccountBook";
-import AccountBookDetail from "./pages/Child/AccountBook/AccountBookDetail";
-import AccountBookAdd from "./pages/Child/AccountBook/AccountBookAdd";
-import Alba from "./pages/Child/Alba/Alba";
-import AlbaCompleted from "./pages/Child/Alba/AlbaCompleted";
-import Deposit from "./pages/Child/Deposit/Deposit";
-import DepositJoinDetail from "./pages/Child/Deposit/DepositJoinDetail";
-import DepositJoinSuccess from "./pages/Child/Deposit/DepositJoinSuccess";
-import DepositDetail from "./pages/Child/Deposit/DepositDetail";
-import Loan from "./pages/Child/Loan/Loan";
-import LoanCompleted from "./pages/Child/Loan/LoanCompleted";
-import Quiz from "./pages/Child/Quiz/Quiz";
-import QuizList from "./pages/Child/Quiz/QuizList";
-import QuizPlay from "./pages/Child/Quiz/QuizPlay";
-import QuizCommentary from "./pages/Child/Quiz/QuizCommentary";
-import Stock from "./pages/Child/Stock/Stock";
-import StockTuto from "./pages/Child/Stock/StockTuto";
-import StockMarket from "./pages/Child/Stock/StockMarket";
-import StockDetail from "./pages/Child/Stock/StockDetail";
-import StockTradingList from "./pages/Child/Stock/StockTradingList";
-import Lotto from "./pages/Child/Lotto/Lotto";
-import LottoChange from "./pages/Child/Lotto/LottoChange";
-import Bot from "./pages/Child/Bot/Bot";
-import BotChat from "./pages/Child/Bot/BotChat";
-import Mypage from "./pages/Child/Mypage";
-import LoginRedirect from "./pages/Login/LoginRedirect";
+import React from 'react';
+import './App.css';
+import Login from './pages/Login/Login';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Pheader from './components/Header/Pheader';
+import Pmain from './pages/Parents/Pmain';
+import PchildDetail from './pages/Parents/PchildDetail';
+import Ptransfer from './pages/Parents/Ptransfer';
+import Pinterest from './pages/Parents/Pinterest';
+import Palba from './pages/Parents/Palba';
+import Pdeposit from './pages/Parents/Pdeposit';
+import PaccountBook from './pages/Parents/PaccountBook';
+import Pquiz from './pages/Parents/Pquiz';
+import Plotto from './pages/Parents/Plotto';
+import Ploan from './pages/Parents/Ploan/Ploan';
+import Ploandetail from './pages/Parents/Ploan/Ploandetail';
+import Header from './components/Header/Header';
+import Main from './pages/Child/Main';
+import AccountBook from './pages/Child/AccountBook/AccountBook';
+import AccountBookDetail from './pages/Child/AccountBook/AccountBookDetail';
+import AccountBookAdd from './pages/Child/AccountBook/AccountBookAdd';
+import Alba from './pages/Child/Alba/Alba';
+import AlbaCompleted from './pages/Child/Alba/AlbaCompleted';
+import Deposit from './pages/Child/Deposit/Deposit';
+import DepositJoinDetail from './pages/Child/Deposit/DepositJoinDetail';
+import DepositJoinSuccess from './pages/Child/Deposit/DepositJoinSuccess';
+import DepositDetail from './pages/Child/Deposit/DepositDetail';
+import Loan from './pages/Child/Loan/Loan';
+import LoanCompleted from './pages/Child/Loan/LoanCompleted';
+import Quiz from './pages/Child/Quiz/Quiz';
+import QuizList from './pages/Child/Quiz/QuizList';
+import QuizPlay from './pages/Child/Quiz/QuizPlay';
+import QuizCommentary from './pages/Child/Quiz/QuizCommentary';
+import Stock from './pages/Child/Stock/Stock';
+import StockMarket from './pages/Child/Stock/StockMarket';
+import StockDetail from './pages/Child/Stock/StockDetail';
+import StockTradingList from './pages/Child/Stock/StockTradingList';
+import Lotto from './pages/Child/Lotto/Lotto';
+import LottoChange from './pages/Child/Lotto/LottoChange';
+import Bot from './pages/Child/Bot/Bot';
+import BotChat from './pages/Child/Bot/BotChat';
+import Mypage from './pages/Child/Mypage';
+import LoginRedirect from './pages/Login/LoginRedirect';
 
 const App: React.FC = () => {
   return (
@@ -254,13 +253,6 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Stock key="stock-component" />,
-            ]}
-          />
-          <Route
-            path="/StockTuto"
-            element={[
-              <Header key="header-component" />,
-              <StockTuto key="stocktuto-component" />,
             ]}
           />
           <Route
