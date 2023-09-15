@@ -26,16 +26,18 @@ const StockNews: React.FC<StockNewsProps> = (props) => {
   return (
     <React.Fragment>
       <Card className="p-3">
-        <p className="text-left">{news.date}</p>
-        <p className="font-semibold text-left">
-          {news.title}
-          <span
-            onClick={handleClick}
-            className="cursor-pointer text-gray-400 ml-3 text-sm font-light"
-          >
-            더보기
-          </span>
-        </p>
+        <div id="stock-news">
+          <p className="text-left">{news.date}</p>
+          <p className="font-semibold text-left">
+            {news.title}
+            <span
+              onClick={handleClick}
+              className="cursor-pointer text-gray-400 ml-3 text-sm font-light"
+            >
+              더보기
+            </span>
+          </p>
+        </div>
       </Card>
 
       {isModalOpen && (
