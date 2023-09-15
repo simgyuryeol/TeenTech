@@ -24,25 +24,25 @@ const MenuButton: React.FC<MenuButtonProps> = ({ menu }) => {
   let imageSrc;
 
   switch (eng) {
-    case "accountbook":
+    case "AccountBook":
       imageSrc = AccountBook;
       break;
-    case "alba":
+    case "Alba":
       imageSrc = Alba;
       break;
-    case "deposit":
+    case "Deposit":
       imageSrc = Deposit;
       break;
-    case "loan":
+    case "Loan":
       imageSrc = Loan;
       break;
-    case "lotto":
+    case "Lotto":
       imageSrc = Lotto;
       break;
-    case "quiz":
+    case "Quiz":
       imageSrc = Quiz;
       break;
-    case "stock":
+    case "Stock":
       imageSrc = Stock;
       break;
     default:

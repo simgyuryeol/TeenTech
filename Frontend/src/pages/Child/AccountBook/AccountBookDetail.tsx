@@ -25,7 +25,7 @@ const Data = [
 ];
 
 interface Props {
-  date: string;
+  date?: string;
 }
 
 const AccountBookDetail: React.FC<Props> = () => {

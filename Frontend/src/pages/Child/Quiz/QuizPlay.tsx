@@ -4,16 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
 
-interface Choice {
-  text: string;
-  correct: boolean;
-}
 
-interface Quiz {
-  question: string;
-  choices: Choice[];
-  explanation: string;
-}
 
 const QuizPlay: React.FC = () => {
   const navigate = useNavigate();

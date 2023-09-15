@@ -32,7 +32,6 @@ import QuizList from './pages/Child/Quiz/QuizList';
 import QuizPlay from './pages/Child/Quiz/QuizPlay';
 import QuizCommentary from './pages/Child/Quiz/QuizCommentary';
 import Stock from './pages/Child/Stock/Stock';
-import StockTuto from './pages/Child/Stock/StockTuto';
 import StockMarket from './pages/Child/Stock/StockMarket';
 import StockDetail from './pages/Child/Stock/StockDetail';
 import StockTradingList from './pages/Child/Stock/StockTradingList';
@@ -49,7 +48,7 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/oauth/redirect" element={<LoginRedirect/>} />
+          <Route path="/oauth/redirect" element={<LoginRedirect />} />
           {/* 부모 */}
           <Route
             path="/Pmain"
@@ -254,13 +253,6 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Stock key="stock-component" />,
-            ]}
-          />
-          <Route
-            path="/StockTuto"
-            element={[
-              <Header key="header-component" />,
-              <StockTuto key="stocktuto-component" />,
             ]}
           />
           <Route
