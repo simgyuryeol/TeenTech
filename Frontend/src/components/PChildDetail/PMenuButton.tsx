@@ -32,6 +32,9 @@ const PMenuButton: React.FC<PMenuButtonProps> = ({ menu }) => {
     case "deposit":
       imageSrc = Deposit;
       break;
+    case "interest":
+      imageSrc = Loan;
+      break;
     case "loan":
       imageSrc = Loan;
       break;
