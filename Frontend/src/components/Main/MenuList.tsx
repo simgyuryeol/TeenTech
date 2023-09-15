@@ -8,13 +8,13 @@ interface Menu {
 
 const MenuList: React.FC = () => {
   const menuList: Menu[] = [
-    { kor: "가계부", eng: "accountbook" },
-    { kor: "아르바이트", eng: "alba" },
-    { kor: "예금", eng: "deposit" },
-    { kor: "대출", eng: "loan" },
-    { kor: "퀴즈", eng: "quiz" },
-    { kor: "주식", eng: "stock" },
-    { kor: "복권", eng: "lotto" },
+    { kor: "가계부", eng: "AccountBook" },
+    { kor: "아르바이트", eng: "Alba" },
+    { kor: "예금", eng: "Deposit" },
+    { kor: "대출", eng: "Loan" },
+    { kor: "퀴즈", eng: "Quiz" },
+    { kor: "주식", eng: "Stock" },
+    { kor: "복권", eng: "Lotto" },
     { kor: "틴구", eng: "" },
   ];
 
