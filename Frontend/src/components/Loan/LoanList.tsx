@@ -1,7 +1,9 @@
 import React, { ReactNode } from 'react';
+import LoanCompo from './LoanCompo';
 
 interface LoanListProps {
     children: ReactNode;
+    children2: ReactNode;
   }
 
 const LoanList: React.FC<LoanListProps> = (props) => {
@@ -10,6 +12,10 @@ const LoanList: React.FC<LoanListProps> = (props) => {
     // const depositMoney2 = depositMoney >= 10000 ? depositMoney / 10000 +'만' : depositMoney;
     // const interestrate = '2'
     const maturity = '2023.10.04'
+
+    const [open, setOpen] = React.useState(0);
+ 
+    const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
     return (
         <div>
@@ -30,10 +36,14 @@ const LoanList: React.FC<LoanListProps> = (props) => {
                 </div>
             </div>
             <div className='flex justify-end'>
-                <p className='border-2 rounded-md pl-2 pr-2 mb-1 bg-gray-300'>더보기</p>
-                <p className='border-2 rounded-md pl-2 pr-2 ml-4 mr-4 mb-1 bg-gray-300'>상환하기</p>
+                <p onClick={() => handleOpen(1)} className='border-2 rounded-md pl-2 pr-2 mb-1 mr-4 bg-gray-300'>자세히 보기</p>
+                {props.children}
             </div>
         </div>
+        {open === 1 && (
+            <LoanCompo closeModal={handleOpen} children2={props.children2}>
+            </LoanCompo>
+             )}
         <br></br>
         </div>
     )

@@ -9,6 +9,7 @@ import Ptransfer from "./pages/Parents/Ptransfer";
 import Pinterest from "./pages/Parents/Pinterest";
 import Palba from "./pages/Parents/Palba";
 import Pdeposit from "./pages/Parents/Pdeposit";
+import PaccountBook from "./pages/Parents/PaccountBook";
 import Pquiz from "./pages/Parents/Pquiz";
 import Plotto from "./pages/Parents/Plotto";
 import Ploan from "./pages/Parents/Ploan/Ploan";
@@ -58,7 +59,7 @@ const App: React.FC = () => {
             ]}
           />
           <Route
-            path="/Pchilddetail"
+            path="/Pchilddetail/:id"
             element={[
               <Pheader key="pheader-component" />,
               <PchildDetail key="pchilddetail-component" />,
@@ -90,6 +91,13 @@ const App: React.FC = () => {
             element={[
               <Pheader key="pheader-component" />,
               <Pdeposit key="pdeposit-component" />,
+            ]}
+          />
+          <Route
+            path="/PaccountBook"
+            element={[
+              <Pheader key="pheader-component" />,
+              <PaccountBook key="paccountbook-component" />,
             ]}
           />
           <Route

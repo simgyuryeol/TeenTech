@@ -1,6 +1,8 @@
 import React, { useState, ReactNode } from 'react';
 import Credit from '../../components/Credit';
 import { Icon } from "@iconify/react";
+import InterestInfo from '../../components/Deposit/DepositInterestInfo';
+import LoanInterestInfo from '../../components/Loan/LoanInterestInfo';
 
 const Pinterest: React.FC = () => {
     const [pocketMoney, setPocketmoney] = useState('')
@@ -8,6 +10,9 @@ const Pinterest: React.FC = () => {
     const [depositInterest, setDepositinterest] = useState('');
     const [loanInterest, setLoaninterest] = useState('');
 
+    const [open, setOpen] = React.useState(0);
+ 
+    const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
     return (
         <div>
@@ -42,7 +47,7 @@ const Pinterest: React.FC = () => {
 {/* //////////////////////////////////////////////////////////////////////////////////////////////// */}
                 <div className="flex border-2 rounded-xl mr-6 ml-6 mb-4 p-2 pt-4 bg-white" style={{borderColor: '#ABD0CE'}}>
                     <div className='mt-4'>
-                        <Icon className='text-2xl' icon='ant-design:exclamation-circle-outlined'/>
+                        <Icon onClick={() => handleOpen(1)} className='text-2xl' icon='ant-design:exclamation-circle-outlined'/>
                     </div>
                     <p className='w-[20%] text-xl font-bold mt-4'>예금</p>
                     <div className='w-[80%] flex flex-col'>
@@ -56,7 +61,7 @@ const Pinterest: React.FC = () => {
 {/* //////////////////////////////////////////////////////////////////////////////////////////////// */}
                 <div className="flex border-2 rounded-xl mr-6 ml-6 mb-4 p-2 pt-4 bg-white" style={{borderColor: '#ABD0CE'}}>
                     <div className='mt-4'>
-                        <Icon className='text-2xl' icon='ant-design:exclamation-circle-outlined'/>
+                        <Icon onClick={() => handleOpen(2)} className='text-2xl' icon='ant-design:exclamation-circle-outlined'/>
                     </div>
                     <p className='w-[20%] text-xl font-bold mt-4'>대출</p>
                     <div className='w-[80%] flex flex-col'>
@@ -73,6 +78,14 @@ const Pinterest: React.FC = () => {
                 </div>
                 <br></br>
             </div>
+            {open === 1 && (
+            <InterestInfo closeModal={handleOpen}>
+            </InterestInfo>
+             )}
+             {open === 2&& (
+            <LoanInterestInfo closeModal={handleOpen}>
+            </LoanInterestInfo>
+             )}
         </div>
     )
 };
