@@ -11,8 +11,7 @@ const fetchFCMtoken = () => {
         console.log("Notification permission granted.");
         // getToken(messaging)
         getToken(messaging, {
-          vapidKey:
-            "BCxYPHCKrkFJYaOZ8pojCegexFYFJjwwd3GPDpU6DxlIaW_zxtb5YUjbYPMp-miyhZYr_KLlBcKdCZJ1IKRxtdE",
+          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         })
           .then(async (currentToken) => {
             if (currentToken) {
