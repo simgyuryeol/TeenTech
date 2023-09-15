@@ -31,8 +31,8 @@ const menulist = [
     name: "복권",
   },
   {
-    link: "/tingoo",
-    name: "틴구",
+    link: "/Mypage",
+    name: "마이페이지",
   },
 ];
 
@@ -92,8 +92,6 @@ const Header: React.FC = () => {
                 <img src="../../../src/assets/main/back.png" />
               </div>
             )}
-
-            {/* {nowPath === locationNow.pathname && <div className="w-2/6"></div>} */}
 
             <div className="p-2">{now}</div>
           </div>
