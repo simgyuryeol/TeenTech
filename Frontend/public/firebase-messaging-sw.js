@@ -12,20 +12,18 @@ self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
 
   const resultData = e.data.json().data;
-  // const notificationTitle = resultData.title;
-  // const notificationOptions = {
-  //     body: resultData.body,
-  //     icon: resultData.image,
-  //     tag: resultData.tag,
-  //     ...resultData,
-  // };
   const notificationTitle = resultData.title;
+
   const notificationOptions = {
     body: resultData.content,
+    //     body: resultData.body,
+    //     icon: resultData.image,
+    //     tag: resultData.tag,
+    //     ...resultData,
   };
 
   console.log("push: ", { resultData, notificationTitle, notificationOptions });
-//   console.log("push: ", { notificationTitle, notificationOptions });
+  //   console.log("push: ", { notificationTitle, notificationOptions });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
