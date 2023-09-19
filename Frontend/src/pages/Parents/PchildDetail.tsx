@@ -43,6 +43,12 @@ const PchildDetail: React.FC = () => {
     }
   }, [id]);
 
+  const handleLinkClick = (id?: number, name?: string) => {
+    if (id && name) {
+      setChildData({ id, name });
+    }
+  };
+
   return (
     <div className="pt-24">
       <div className="flex overflow-x-scroll mx-3 mb-2">
@@ -51,13 +57,14 @@ const PchildDetail: React.FC = () => {
             to={`/Pchilddetail/${list.id}`}
             key={list.id}
             className="flex flex-col items-center m-1"
+            onClick={() => handleLinkClick(list.id, list.name)}
           >
             <div className="w-16 h-16 rounded-full bg-blue-500 mb-2"></div>
             <p>{list.name}</p>
           </Link>
         ))}
       </div>
-      <div className="bg-white mx-4">
+      <div className="bg-white mx-4 relative rounded-2xl">
         <Ptotal />
       </div>
       <PMenuList />

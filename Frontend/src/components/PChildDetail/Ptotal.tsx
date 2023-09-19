@@ -2,12 +2,20 @@ import React from "react";
 import Credit from "../Credit";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilState } from "recoil";
+import { Link } from "react-router-dom";
 
 const Ptotal: React.FC = () => {
   const [childData] = useRecoilState(childIdAtom);
   return (
     <div className="mx-3 py-5">
-      <div className=" text-start	">{childData.name}이 코 묻은 돈</div>
+      <div className="flex justify-between	">
+        <div className=" text-start	">{childData.name}이 코 묻은 돈</div>
+        <div>
+          <Link to="/Ptransfer" style={{ marginRight: "10px" }}>
+            송금하기
+          </Link>
+        </div>
+      </div>
       <div className="my-3 rounded-2xl	" style={{ backgroundColor: "#D8E6EE" }}>
         <div className="text-start p-3">용돈 (쓸 수 있는 돈)</div>
         <div className="text-end p-3">170,000원</div>

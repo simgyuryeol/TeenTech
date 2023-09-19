@@ -59,7 +59,7 @@ const AccountBookAdd: React.FC = () => {
 
   return (
     <div
-      className={`${styles.container} flex pt-14 container flex-col flex-wrap items-center`}
+      className={`${styles.container} flex pt-20 container flex-col flex-wrap items-center`}
     >
       <div className="flex flex-col w-11/12">
         <div className="py-3 container">2023.08.30 수</div>

@@ -32,7 +32,7 @@ const AccountBookDetail: React.FC<Props> = () => {
   const location = useLocation();
   const date = location.state.date;
   return (
-    <div>
+    <div className="pt-8">
       <div style={{ width: "100%", paddingTop: "60px" }}>
         <div>{date}</div>
         <Statics />

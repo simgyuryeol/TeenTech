@@ -9,15 +9,11 @@ const menulist = [
   },
   {
     link: "/Paccountbook",
-    name: "상세 가계부",
+    name: "가계부",
   },
   {
     link: "/Palba",
     name: "아르바이트",
-  },
-  {
-    link: "/Paccountbook",
-    name: "가계부",
   },
   {
     link: "/Ploan",
@@ -43,7 +39,7 @@ const Pheader: React.FC = () => {
 
   useEffect(() => {
     console.log(locationNow);
-
+    console.log(childData.id);
     for (let i = 0; i < menulist.length; i++) {
       if (menulist[i].link.includes(locationNow.pathname)) {
         setNow(menulist[i].name);
@@ -121,7 +117,7 @@ const Pheader: React.FC = () => {
           <ul>
             {menulist.map((menu) => (
               <li
-                key={menu.link}
+                key={menu.link} // menu.link를 key로 사용
                 onClick={() => handleLinkClick(menu.link)}
                 style={{ padding: "10px" }}
               >
