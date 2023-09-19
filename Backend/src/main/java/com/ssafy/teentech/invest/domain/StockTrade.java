@@ -1,4 +1,4 @@
-package com.ssafy.teentech.invest.dto;
+package com.ssafy.teentech.invest.domain;
 
 import com.ssafy.teentech.user.domain.User;
 import lombok.Getter;
