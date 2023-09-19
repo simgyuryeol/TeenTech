@@ -4,8 +4,12 @@ import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilState } from "recoil";
 const menulist = [
   {
-    link: "/AccountBook",
+    link: "/Pinterest",
     name: "이자율/용돈주기 설정",
+  },
+  {
+    link: "/Paccountbook",
+    name: "상세 가계부",
   },
   {
     link: "/Palba",
@@ -39,6 +43,7 @@ const Pheader: React.FC = () => {
 
   useEffect(() => {
     console.log(locationNow);
+
     for (let i = 0; i < menulist.length; i++) {
       if (menulist[i].link.includes(locationNow.pathname)) {
         setNow(menulist[i].name);
@@ -115,8 +120,14 @@ const Pheader: React.FC = () => {
           </div>
           <ul>
             {menulist.map((menu) => (
-              <li key={menu.link} onClick={() => handleLinkClick(menu.link)}>
-                <Link to={menu.link}>{menu.name}</Link>
+              <li
+                key={menu.link}
+                onClick={() => handleLinkClick(menu.link)}
+                style={{ padding: "10px" }}
+              >
+                <Link to={menu.link} style={{ color: "black" }}>
+                  {menu.name}
+                </Link>
               </li>
             ))}
           </ul>

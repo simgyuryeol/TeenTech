@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { stateAtom, state } from "../../recoil/stateAtom";
 
 const Pmain: React.FC = () => {
+  const [state, setState] = useRecoilState(stateAtom);
+
+  useEffect(() => {
+    setState({ id: 1 });
+  }, []);
+
   return (
     <div className="pt-24">
       <h2>부모-메인페이지</h2>
