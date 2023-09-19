@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Statics from "./Statics";
 import styles from "./Calender.module.css";
 import { Icon } from "@iconify/react";
@@ -13,6 +13,9 @@ import {
   addDays,
 } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { stateAtom, state } from "../../recoil/stateAtom";
+import { childIdAtom } from "../../recoil/childIdAtom";
 
 interface sampleDate {
   date: string;
@@ -169,6 +172,9 @@ const RenderCells: React.FC<{
 const Calendar: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [state, setState] = useRecoilState(stateAtom);
+  const [childData] = useRecoilState(childIdAtom);
+
   const navigate = useNavigate();
 
   const prevMonth = () => {
@@ -186,7 +192,11 @@ const Calendar: React.FC = () => {
 
     if (dataItem) {
       setSelectedDate(date);
-      navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+      if (state.id === 1) {
+        navigate(`/PaccountbookDetail`, { state: { date: formattedDate } });
+      } else {
+        navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+      }
     } else {
       alert("이날은 작성한 가계부가 없어요~~");
     }

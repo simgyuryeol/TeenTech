@@ -71,7 +71,7 @@ const Palba: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-12 mx-4">
+    <div className="pt-24 mx-4">
       <div className="flex rounded-xl bg-white p-4 shadow-lg">
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-blue-50">
           <Icon icon="circum:view-list" className="h-8 w-8" />

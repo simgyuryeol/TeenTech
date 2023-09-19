@@ -1,9 +1,12 @@
 import React from "react";
+import LottoList from "../../components/Lotto/LottoList";
 
 const Plotto: React.FC = () => {
   return (
-    <div className="mt-12">
-      <h2>부모 - 복권 내역 조회</h2>
+    <div className="pt-24">
+      <div>
+        <LottoList />
+      </div>
     </div>
   );
 };
