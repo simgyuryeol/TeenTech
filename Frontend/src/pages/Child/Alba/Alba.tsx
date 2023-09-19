@@ -48,6 +48,13 @@ const Alba: React.FC = () => {
           description: "진행중 알바2 설명",
           stage: "ing",
         },
+        {
+          title: "진행중 알바3",
+          pay: "1000원",
+          due: currentDate,
+          description: "진행중 알바3 설명",
+          stage: "ing",
+        },
       ]);
       setAvailableJobs([
         {

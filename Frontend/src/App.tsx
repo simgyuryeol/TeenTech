@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Login from "./pages/Login/Login";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -42,8 +42,13 @@ import Bot from "./pages/Child/Bot/Bot";
 import BotChat from "./pages/Child/Bot/BotChat";
 import Mypage from "./pages/Child/Mypage";
 import LoginRedirect from "./pages/Login/LoginRedirect";
+import fetchFCMtoken from "./hooks/fetchFCMToken";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    fetchFCMtoken();
+  }, []);
+
   return (
     <React.Fragment>
       <Router>
