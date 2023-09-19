@@ -7,13 +7,13 @@ type Props = {
 
 const Total: React.FC<Props> = ({ id }) => {
   return (
-    <div className="mx-3 py-5">
-      <div className=" text-start	">{id}규렬이 코 묻은 돈</div>
-      <div className="my-3 rounded-2xl	" style={{ backgroundColor: "#D8E6EE" }}>
+    <div className="mx-2 pt-2">
+      {/* <div className=" text-start	">{id}규렬이 코 묻은 돈</div> */}
+      {/* <div className="rounded-2xl	" style={{ backgroundColor: "#D8E6EE" }}>
         <div className="text-start p-3">용돈 (쓸 수 있는 돈)</div>
         <div className="text-end p-3">170,000원</div>
-      </div>
-      <div className="flex justify-center my-3">
+      </div> */}
+      {/* <div className="flex justify-center">
         <div
           className="w-1/2 mr-2 rounded-2xl	"
           style={{ backgroundColor: "#D8E6EE" }}
@@ -39,12 +39,52 @@ const Total: React.FC<Props> = ({ id }) => {
             </div>
           </div>
         </div>
+      </div> */}
+      <div
+        className="rounded-2xl drop-shadow-lg	mb-3"
+        style={{
+          backgroundColor: "#FF76BA",
+        }}
+      >
+        <div className="text-2xl pt-2 pl-3 text-start text-white	">
+          나의 예금 내역 확인하기
+        </div>
+        <div>
+          <div className=" pl-3 text-start text-white">
+            얼마가 모였는지 확인해 볼까요?
+          </div>
+          <div className="px-3 pb-2 text-end">
+            <div className="text-white text-xl">+얼마</div>
+            <div className="text-white text-xl">10,500</div>
+          </div>
+        </div>
       </div>
-      <div>
+
+      <div
+        className="rounded-2xl drop-shadow-lg	mb-3"
+        style={{
+          backgroundColor: "#7AC2E7",
+        }}
+      >
+        <div className="text-2xl pt-2 pl-3 text-start text-white	">
+          나의 예금 내역 확인하기
+        </div>
+        <div>
+          <div className="pl-3 text-start text-white">
+            얼마가 모였는지 확인해 볼까요?
+          </div>
+          <div className="px-3 pb-2 text-end">
+            <div className="text-white text-xl">+얼마</div>
+            <div className="text-white text-xl">10,500</div>
+          </div>
+        </div>
+      </div>
+
+      {/* <div>
         <div className="my-3" style={{ backgroundColor: "green" }}>
           <Credit />
         </div>
-      </div>
+      </div> */}
       <div className="flex justify-center">
         <div
           className="w-1/2 mr-2 rounded-2xl"
