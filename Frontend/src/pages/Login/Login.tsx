@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Bot from '../Child/Bot/Bot';
 
 // const base_URL = import.meta.env.VITE_SERVER_URL;
 const Login: React.FC = () => {
@@ -19,7 +20,9 @@ const Login: React.FC = () => {
             <div className=''>
                 <Link to='/Main'><span>로그인</span></Link>
             </div>
-            <div className="fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 overflow-hidden bg-white rounded-xl w-[70%] sm:w-[70%] md:w-[50%] lg:w-[30%]">
+            <div><Bot></Bot></div>
+
+            <div className="fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 overflow-hidden bg-white rounded-xl w-[70%] sm:w-[70%] md:w-[50%] lg:w-[30%]">
                 <Link to={KAKAO_AUTH_URI}>
                     <img src='src/assets/kakao_login_large_narrow.png' width={'100%'} alt=''></img>
                 </Link>
