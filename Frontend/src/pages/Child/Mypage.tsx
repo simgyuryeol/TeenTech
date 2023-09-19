@@ -1,12 +1,18 @@
-import React from 'react';
+import React from "react";
 
 const Mypage: React.FC = () => {
-    return (
-        <div>
-
-        <h2>자식-마이페이지</h2>
-        </div>
-    )
+  return (
+    <div className="pt-24">
+      <section>
+        <div>인증코드</div>
+        <input placeholder="인증코드" style={{ borderRadius: "15px" }}></input>
+      </section>
+      <section>
+        <div>틴구사진</div>
+        <button>틴구변경</button>
+      </section>
+    </div>
+  );
 };
 
 export default Mypage;
