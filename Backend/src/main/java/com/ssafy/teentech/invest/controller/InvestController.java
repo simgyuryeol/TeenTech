@@ -2,14 +2,12 @@ package com.ssafy.teentech.invest.controller;
 
 
 import com.ssafy.teentech.common.response.ApiResponse;
+import com.ssafy.teentech.invest.dto.request.StockSellRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
 import com.ssafy.teentech.invest.service.InvestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,18 @@ public class InvestController {
                 .message("보유 주식 조회")
                 .status(OK.value())
                 .data(stockHoldingsResponseDtoList)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/sell")
+    public ResponseEntity<ApiResponse> stockSell(@RequestBody StockSellRequestDto stockSellRequestDto, @PathVariable Long child_id){
+
+        investService.stockSell(stockSellRequestDto,child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("보유 주식 판매")
+                .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

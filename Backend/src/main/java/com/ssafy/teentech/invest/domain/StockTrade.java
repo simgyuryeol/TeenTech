@@ -1,6 +1,7 @@
 package com.ssafy.teentech.invest.domain;
 
 import com.ssafy.teentech.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,14 +12,17 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "STOCKTRADE")
+
 public class StockTrade {
     @Id
     @Column(name = "STOCK_TRADE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stockTradeId;
 
-    private Integer volume;
+    private Integer amount;
+    private Integer price;
     private LocalDate tradeDate;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
@@ -27,4 +31,14 @@ public class StockTrade {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stockId")
     private Stock stock;
+
+    @Builder
+    public StockTrade(Integer amount, Integer price, LocalDate tradeDate, User user,Stock stock){
+        this.stockTradeId = null;
+        this.amount=amount;
+        this.price=price;
+        this.tradeDate = tradeDate;
+        this.user = user;
+        this.stock = stock;
+    }
 }

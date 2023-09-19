@@ -1,5 +1,6 @@
 package com.ssafy.teentech.invest.repository;
 
+import com.ssafy.teentech.invest.domain.Stock;
 import com.ssafy.teentech.invest.domain.StocksHeld;
 import com.ssafy.teentech.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import java.util.Optional;
 @Repository
 public interface StocksHeldRepository extends JpaRepository<StocksHeld,Long> {
     Optional<List<StocksHeld>> findAllByUser(User user);
+
+    Optional<StocksHeld> findByStock(Stock stock);
 }
