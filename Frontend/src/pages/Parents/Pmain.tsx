@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { stateAtom } from "../../recoil/stateAtom";
+import ChildAdd from "../../components/AccountBook/PMain/ChildAdd";
 
 const Data = [
   {
@@ -23,6 +24,32 @@ const Data = [
 
 const Pmain: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 변수
+  const [name, setName] = useState("");
+  const [code, setCode] = useState("");
+
+  // 모달 열기 함수
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 모달 닫기 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const generateCode = () => {
+    // 인증 코드 생성 로직
+    const generatedCode = "ABC123"; // 예시로 고정된 인증 코드를 생성합니다.
+    setCode(generatedCode);
+  };
+
+  const sendCode = () => {
+    // 인증 코드 전송 로직
+    console.log(`인증 코드(${code})를 ${name}에게 전송합니다.`);
+    setCode("");
+    closeModal();
+  };
 
   useEffect(() => {
     setState({ id: 1 });
@@ -63,8 +90,36 @@ const Pmain: React.FC = () => {
         </ul>
       </div>
       <div className="text-end mr-4 my-3">
-        <button>추가</button>
+        <button onClick={openModal}>추가</button>
       </div>
+      {isModalOpen && (
+        <ChildAdd>
+          <h2>누굴 추가할거야?</h2>
+          <div className="my-4">
+            <label htmlFor="name">이름: </label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{ backgroundColor: "#E5F0F8", borderRadius: "15px" }}
+            />
+          </div>
+          <div className="my-4">
+            {code ? (
+              <div className="text-center">
+                <p>인증 코드: {code}</p>
+                <button onClick={sendCode}>전송</button>
+              </div>
+            ) : (
+              <>
+                <button onClick={generateCode}>인증 코드 생성</button>
+              </>
+            )}
+          </div>
+          <button onClick={closeModal}>Close</button>
+        </ChildAdd>
+      )}
     </div>
   );
 };

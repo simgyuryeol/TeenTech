@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 // 이미지 불러오기
 import AccountBook from "../../../src/assets/main/accountbook.png";
 import Alba from "../../../src/assets/main/alba.png";
-import Deposit from "../../../src/assets/main/deposit.png";
+// import Deposit from "../../../src/assets/main/deposit.png";
 import Loan from "../../../src/assets/main/loan.png";
 import Lotto from "../../../src/assets/main/lotto.png";
 import Quiz from "../../../src/assets/main/quiz.png";
-import Stock from "../../../src/assets/main/stock.png";
+// import Stock from "../../../src/assets/main/stock.png";
 
 interface Menu {
   kor: string;
@@ -30,33 +30,35 @@ const MenuButton: React.FC<MenuButtonProps> = ({ menu }) => {
     case "Alba":
       imageSrc = Alba;
       break;
-    case "Deposit":
-      imageSrc = Deposit;
-      break;
-    case "Loan":
-      imageSrc = Loan;
-      break;
+    // case "Deposit":
+    //   imageSrc = Deposit;
+    //   break;
+    // case "Loan":
+    //   imageSrc = Loan;
+    //   break;
     case "Lotto":
       imageSrc = Lotto;
       break;
     case "Quiz":
       imageSrc = Quiz;
       break;
-    case "Stock":
-      imageSrc = Stock;
-      break;
+    // case "Stock":
+    //   imageSrc = Stock;
+    //   break;
     default:
       imageSrc = "";
       break;
   }
 
   return (
-    <div className="p-4 bg-white hover:bg-blue-200 rounded-2xl w-5/12 m-4">
-      <Link to={`/${eng}`}>
-        <div className="flex items-center">
-          <img className="relative p-4" src={imageSrc} alt={eng} />
+    <div className="px-4 pb-1 rounded-full w-20 flex-shrink-0">
+      <Link to={`/${eng}`} style={{ color: "black" }}>
+        <div className="flex flex-col items-center ">
+          <div className="rounded-full bg-gray-300 p-2">
+            <img className="w-full" src={imageSrc} alt={eng} />
+          </div>
+          <p className="font-bold">{kor}</p>
         </div>
-        <p className="my-1 text-lg font-bold">{kor}</p>
       </Link>
     </div>
   );
