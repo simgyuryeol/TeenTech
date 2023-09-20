@@ -4,11 +4,8 @@ import { Link } from "react-router-dom";
 // 이미지 불러오기
 import AccountBook from "../../../src/assets/main/accountbook.png";
 import Alba from "../../../src/assets/main/alba.png";
-// import Deposit from "../../../src/assets/main/deposit.png";
-import Loan from "../../../src/assets/main/loan.png";
 import Lotto from "../../../src/assets/main/lotto.png";
 import Quiz from "../../../src/assets/main/quiz.png";
-// import Stock from "../../../src/assets/main/stock.png";
 
 interface Menu {
   kor: string;
@@ -30,21 +27,12 @@ const MenuButton: React.FC<MenuButtonProps> = ({ menu }) => {
     case "Alba":
       imageSrc = Alba;
       break;
-    // case "Deposit":
-    //   imageSrc = Deposit;
-    //   break;
-    // case "Loan":
-    //   imageSrc = Loan;
-    //   break;
     case "Lotto":
       imageSrc = Lotto;
       break;
     case "Quiz":
       imageSrc = Quiz;
       break;
-    // case "Stock":
-    //   imageSrc = Stock;
-    //   break;
     default:
       imageSrc = "";
       break;

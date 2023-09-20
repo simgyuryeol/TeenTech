@@ -21,20 +21,20 @@ const Total: React.FC<Props> = ({ id }) => {
       <div
         className="rounded-2xl drop-shadow	mb-3"
         style={{
-          backgroundColor: "#E961A4",
+          backgroundColor: "#FFA9B8",
         }}
         onClick={clickDeposit}
       >
-        <div className="text-2xl pt-2 pl-3 text-start text-white">
+        <div className="text-2xl pt-2 pl-3 text-start text-gray-700">
           나의 예금 내역 확인하기
         </div>
         <div>
-          <div className=" pl-3 text-start text-white">
+          <div className=" pl-3 text-start text-gray-700">
             얼마가 모였는지 확인해 볼까요?
           </div>
           <div className="px-3 pb-2 text-end">
             {/* <div className="text-white text-xl">+얼마</div> */}
-            <div className="text-white text-2xl">10,500 모았어요!</div>
+            <div className="text-gray-700 text-2xl">10,500 모았어요!</div>
           </div>
         </div>
       </div>
@@ -46,16 +46,16 @@ const Total: React.FC<Props> = ({ id }) => {
         }}
         onClick={clickStock}
       >
-        <div className="text-2xl pt-2 pl-3 text-start text-white">
+        <div className="text-2xl pt-2 pl-3 text-start text-gray-700">
           나의 주식 내역 확인하기
         </div>
         <div>
-          <div className="pl-3 text-start text-white">
+          <div className="pl-3 text-start text-gray-700">
             오늘 주식시장엔 어떤 변화가 있을까요?
           </div>
           <div className="px-3 pb-2 text-end">
-            <div className="text-white text-xl">+ 얼마</div>
-            <div className="text-white text-3xl">10,500</div>
+            <div className="text-gray-700 text-xl">+ 얼마</div>
+            <div className="text-gray-700 text-3xl">10,500</div>
           </div>
         </div>
       </div>
@@ -90,14 +90,14 @@ const Total: React.FC<Props> = ({ id }) => {
         <div className="justify-center w-1/2">
           <div
             className="rounded-2xl drop-shadow mb-3 text-xl"
-            style={{ backgroundColor: "#D8E6EE" }}
+            style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">대출잔액</div>
             <div className="px-3 pt-4 pb-2 text-end">대출잔액</div>
           </div>
           <div
             className="rounded-2xl drop-shadow text-xl"
-            style={{ backgroundColor: "#D8E6EE" }}
+            style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">대출 상환일</div>
             <div className="px-3 pt-4 pb-2 text-end">D - 10</div>

@@ -69,7 +69,7 @@ const RenderHeader: React.FC<{
         <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
       </div>
       <div className="col col-start">
-        <span className="text">
+        <span className="text text-3xl">
           {format(currentMonth, "yyyy")}. {format(currentMonth, "M")}월
         </span>
       </div>
@@ -86,7 +86,12 @@ const RenderDay: React.FC = () => {
 
   for (let i = 0; i < 7; i++) {
     days.push(
-      <div key={i} className="mb-3">
+      <div
+        key={i}
+        className={`mb-3 text-xl ${i === 0 ? styles.sun : ""} ${
+          i === 6 ? styles.sat : ""
+        }`}
+      >
         {date[i]}
       </div>
     );
@@ -129,8 +134,9 @@ const RenderCells: React.FC<{
 
       days.push(
         <div
-          className={`container h-24 
-            ${i < 6 ? styles.calendarRightBorder : ""} 
+          className={`container h-24
+            ${i < 6 ? styles.calendarRightBorder : ""}
+            ${i === 0 ? styles.sun : ""} ${i === 6 ? styles.sat : ""}
             ${
               day < monthStart || day > monthEnd
                 ? styles.minMonthStart

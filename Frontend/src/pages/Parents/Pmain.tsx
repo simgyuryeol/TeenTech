@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { stateAtom } from "../../recoil/stateAtom";
-import ChildAdd from "../../components/AccountBook/PMain/ChildAdd";
+import ChildAdd from "../../components/PMain/ChildAdd";
 
 const Data = [
   {
