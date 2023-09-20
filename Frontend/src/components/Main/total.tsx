@@ -77,7 +77,13 @@ const Total: React.FC<Props> = ({ id }) => {
           </div>
           <img
             src="../../../src/assets/main/loan.png"
-            style={{ width: "70%", position: "absolute", bottom: 0, right: 0 }}
+            style={{
+              maxWidth: "80%",
+              maxHeight: "80%",
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+            }}
           />
         </div>
 
