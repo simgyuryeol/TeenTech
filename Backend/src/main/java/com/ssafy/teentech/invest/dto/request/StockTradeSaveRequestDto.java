@@ -16,6 +16,7 @@ public class StockTradeSaveRequestDto {
     private Integer amount;
     private Integer price;
     private LocalDate tradeDate;
+    private Integer type;
 
     public StockTrade toEntity(){
         return StockTrade.builder()
@@ -24,6 +25,7 @@ public class StockTradeSaveRequestDto {
                 .price(price)
                 .tradeDate(tradeDate)
                 .user(user)
+                .type(type)
                 .build();
     }
 }

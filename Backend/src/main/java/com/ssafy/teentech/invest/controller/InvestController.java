@@ -2,7 +2,7 @@ package com.ssafy.teentech.invest.controller;
 
 
 import com.ssafy.teentech.common.response.ApiResponse;
-import com.ssafy.teentech.invest.dto.request.StockSellRequestDto;
+import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
 import com.ssafy.teentech.invest.service.InvestService;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +31,24 @@ public class InvestController {
     }
 
     @PostMapping("/sell")
-    public ResponseEntity<ApiResponse> stockSell(@RequestBody StockSellRequestDto stockSellRequestDto, @PathVariable Long child_id){
+    public ResponseEntity<ApiResponse> stockSell(@RequestBody StockTransactionRequestDto stockSellRequestDto, @PathVariable Long child_id){
 
         investService.stockSell(stockSellRequestDto,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("보유 주식 판매")
+                .status(OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/buy")
+    public ResponseEntity<ApiResponse> stockBuy(@RequestBody StockTransactionRequestDto stockSellRequestDto, @PathVariable Long child_id){
+
+        investService.stockBuy(stockSellRequestDto,child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("보유 주식 구매")
                 .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);

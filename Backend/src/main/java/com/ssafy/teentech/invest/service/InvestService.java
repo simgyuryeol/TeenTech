@@ -3,7 +3,7 @@ package com.ssafy.teentech.invest.service;
 import com.ssafy.teentech.invest.domain.Stock;
 import com.ssafy.teentech.invest.domain.StocksHeld;
 import com.ssafy.teentech.invest.dto.request.StockHeldSaveRequestDto;
-import com.ssafy.teentech.invest.dto.request.StockSellRequestDto;
+import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTradeSaveRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
 import com.ssafy.teentech.invest.repository.NewsRepository;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,12 +57,59 @@ public class InvestService {
      *
      *  주식 갯수는 보유 갯수를 넘어 오지 않음을 보장함
      */
-    public void stockSell(StockSellRequestDto stockSellRequestDto, Long childId) {
+    public void stockSell(StockTransactionRequestDto stockSellRequestDto, Long childId) {
+        Stock stock = stockRepository.findByCompanyName(stockSellRequestDto.getCompanyName()).orElseThrow(() -> new IllegalArgumentException());
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
+
         // 1. 은행 서버로 거래 요청
 
         //2.주식 거래 내역에 추가
+        addStockTransactionHistory(stock,user,stockSellRequestDto,0);
+
+        // 3. 보유 주식 갯수 줄어듬
+        stocksHeldUpdate(-stockSellRequestDto.getAmount(), stock,byStock,byStock.getAveragePrice());
+
+
+    }
+
+    /**
+     * 1. 은행 서버로 거래 요청을 보낸다.
+     * 2. 주식 거래 내역에 추가
+     * 3. 보유 주식 갯수(count) 늘어남, 평단가 조정
+     */
+    public void stockBuy(StockTransactionRequestDto stockSellRequestDto,Long childId) {
         Stock stock = stockRepository.findByCompanyName(stockSellRequestDto.getCompanyName()).orElseThrow(() -> new IllegalArgumentException());
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
+
+        // 1. 은행으로 거래 요청
+
+        // 2. 주식 거래 내역 추가
+        addStockTransactionHistory(stock,user,stockSellRequestDto,1);
+
+        // 3. 보유 주식 갯수 늘어남
+        // 평단가 계산 -> (보유 갯수 * 평단가 + 구매 갯수 * 구매 가격) //  (보유 갯수 + 구매 갯수)
+        Integer averagePrice = (byStock.getAmount() * byStock.getAveragePrice() + stockSellRequestDto.getPrice() * stockSellRequestDto.getAmount()) / (byStock.getAmount()+ stockSellRequestDto.getAmount());
+        stocksHeldUpdate(stockSellRequestDto.getAmount(), stock,byStock,averagePrice);
+
+    }
+
+    private void stocksHeldUpdate(Integer amount, Stock stock,StocksHeld byStock,Integer averagePrice ) {
+
+
+        StockHeldSaveRequestDto stockHeldSaveRequestDto = StockHeldSaveRequestDto.builder()
+                .stock(byStock.getStock())
+                .amount(byStock.getAmount()+ amount)
+                .averagePrice(averagePrice)
+                .user(byStock.getUser())
+                .build();
+
+        stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
+    }
+
+    private void addStockTransactionHistory(Stock stock, User user,StockTransactionRequestDto stockSellRequestDto,Integer type) {
+
 
         StockTradeSaveRequestDto stockTradeSaveRequestDto = StockTradeSaveRequestDto.builder()
                 .stock(stock)
@@ -71,23 +117,10 @@ public class InvestService {
                 .amount(stockSellRequestDto.getAmount())
                 .price(stockSellRequestDto.getPrice())
                 .tradeDate(LocalDate.now()) //은행 서버에서 온 값을 저장
+                .type(type)
                 .build();
 
         stockTradeRepository.save(stockTradeSaveRequestDto.toEntity());
-
-        // 3. 보유 주식 갯수 줄어듬
-       StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
-
-        StockHeldSaveRequestDto stockHeldSaveRequestDto = StockHeldSaveRequestDto.builder()
-                .stock(byStock.getStock())
-                .amount(byStock.getAmount()- stockSellRequestDto.getAmount())
-                .averagePrice(byStock.getAveragePrice())
-                .user(byStock.getUser())
-                .build();
-
-
-        stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
-
 
     }
 }
