@@ -8,7 +8,7 @@ const TableHeader: React.FC<TableHeaderProp> = ({ title }) => {
   return (
     <th
       scope="col"
-      className="p-4 text-xs font-medium text-gray-500 tracking-wider"
+      className="p-4 font-medium text-gray-500 tracking-wider"
     >
       {title}
     </th>
@@ -78,7 +78,7 @@ const TradingRecords: React.FC = () => {
   ];
 
   return (
-    <div className="overflow-x-auto rounded-lg m-3">
+    <div className="overflow-x-auto rounded-lg m-3 pl-6">
       <table className="divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
