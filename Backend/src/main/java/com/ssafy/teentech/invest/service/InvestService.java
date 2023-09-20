@@ -1,11 +1,14 @@
 package com.ssafy.teentech.invest.service;
 
+import com.ssafy.teentech.invest.domain.News;
 import com.ssafy.teentech.invest.domain.Stock;
 import com.ssafy.teentech.invest.domain.StocksHeld;
 import com.ssafy.teentech.invest.dto.request.StockHeldSaveRequestDto;
+import com.ssafy.teentech.invest.dto.request.StockInquiryDetailsRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTradeSaveRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
+import com.ssafy.teentech.invest.dto.response.StockInquiryDetailResponseDto;
 import com.ssafy.teentech.invest.repository.NewsRepository;
 import com.ssafy.teentech.invest.repository.StockRepository;
 import com.ssafy.teentech.invest.repository.StockTradeRepository;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,20 +61,18 @@ public class InvestService {
      *
      *  주식 갯수는 보유 갯수를 넘어 오지 않음을 보장함
      */
-    public void stockSell(StockTransactionRequestDto stockSellRequestDto, Long childId) {
-        Stock stock = stockRepository.findByCompanyName(stockSellRequestDto.getCompanyName()).orElseThrow(() -> new IllegalArgumentException());
+    public void stockSell(StockTransactionRequestDto stockTransactionRequestDto, Long childId) {
+        Stock stock = stockRepository.findByCompanyNameAndDate(stockTransactionRequestDto.getCompanyName(),stockTransactionRequestDto.getDate()).orElseThrow(() -> new IllegalArgumentException());
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
 
         // 1. 은행 서버로 거래 요청
 
         //2.주식 거래 내역에 추가
-        addStockTransactionHistory(stock,user,stockSellRequestDto,0);
+        addStockTransactionHistory(stock,user,stockTransactionRequestDto,0);
 
         // 3. 보유 주식 갯수 줄어듬
-        stocksHeldUpdate(-stockSellRequestDto.getAmount(), stock,byStock,byStock.getAveragePrice());
-
-
+        stocksHeldUpdate(-stockTransactionRequestDto.getAmount(), stock,byStock,byStock.getAveragePrice());
     }
 
     /**
@@ -78,21 +80,61 @@ public class InvestService {
      * 2. 주식 거래 내역에 추가
      * 3. 보유 주식 갯수(count) 늘어남, 평단가 조정
      */
-    public void stockBuy(StockTransactionRequestDto stockSellRequestDto,Long childId) {
-        Stock stock = stockRepository.findByCompanyName(stockSellRequestDto.getCompanyName()).orElseThrow(() -> new IllegalArgumentException());
+    public void stockBuy(StockTransactionRequestDto stockTransactionRequestDto,Long childId) {
+        Stock stock = stockRepository.findByCompanyNameAndDate(stockTransactionRequestDto.getCompanyName(),stockTransactionRequestDto.getDate()).orElseThrow(() -> new IllegalArgumentException());
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
 
         // 1. 은행으로 거래 요청
 
         // 2. 주식 거래 내역 추가
-        addStockTransactionHistory(stock,user,stockSellRequestDto,1);
+        addStockTransactionHistory(stock,user,stockTransactionRequestDto,1);
 
         // 3. 보유 주식 갯수 늘어남
         // 평단가 계산 -> (보유 갯수 * 평단가 + 구매 갯수 * 구매 가격) //  (보유 갯수 + 구매 갯수)
-        Integer averagePrice = (byStock.getAmount() * byStock.getAveragePrice() + stockSellRequestDto.getPrice() * stockSellRequestDto.getAmount()) / (byStock.getAmount()+ stockSellRequestDto.getAmount());
-        stocksHeldUpdate(stockSellRequestDto.getAmount(), stock,byStock,averagePrice);
+        Integer averagePrice = (byStock.getAmount() * byStock.getAveragePrice() + stockTransactionRequestDto.getPrice() * stockTransactionRequestDto.getAmount()) / (byStock.getAmount()+ stockTransactionRequestDto.getAmount());
+        stocksHeldUpdate(stockTransactionRequestDto.getAmount(), stock,byStock,averagePrice);
 
+    }
+
+    /**
+     * 1.회사 이름으로 주식 찾기
+     * 2.주식 ID로 뉴스 찾기
+     */
+    public StockInquiryDetailResponseDto stockInquiryDetails(StockInquiryDetailsRequestDto stockInquiryDetailsRequestDto, Long childId) {
+        List<Stock> stockList = stockRepository.findAllByCompanyName(stockInquiryDetailsRequestDto.getCompanyName()).orElseThrow(() -> new IllegalArgumentException());
+
+        List<StockInquiryDetailResponseDto.Stock> stocks = new ArrayList<>();
+        List<StockInquiryDetailResponseDto.News> news = new ArrayList<>();
+
+        for (Stock stock : stockList) {
+            StockInquiryDetailResponseDto.Stock stockDto =  StockInquiryDetailResponseDto.Stock.builder()
+                    .companyName(stock.getCompanyName())
+                    .stockDate(stock.getDate())
+                    .price(stock.getPrice())
+                    .build();
+
+            stocks.add(stockDto);
+
+            List<News> newsList = newsRepository.findAllByStockAAndDate(stock,stock.getDate()).orElseThrow(() -> new IllegalArgumentException());
+
+            for (News newsInfo : newsList) {
+                StockInquiryDetailResponseDto.News newsDto = StockInquiryDetailResponseDto.News.builder()
+                        .title(newsInfo.getTitle())
+                        .content(newsInfo.getContent())
+                        .newsDate(newsInfo.getDate())
+                        .build();
+
+                news.add(newsDto);
+            }
+        }
+
+        StockInquiryDetailResponseDto stockInquiryDetailResponseDto = StockInquiryDetailResponseDto.builder()
+                .stockList(stocks)
+                .newsList(news)
+                .build();
+
+        return stockInquiryDetailResponseDto;
     }
 
     private void stocksHeldUpdate(Integer amount, Stock stock,StocksHeld byStock,Integer averagePrice ) {
@@ -123,4 +165,6 @@ public class InvestService {
         stockTradeRepository.save(stockTradeSaveRequestDto.toEntity());
 
     }
+
+
 }

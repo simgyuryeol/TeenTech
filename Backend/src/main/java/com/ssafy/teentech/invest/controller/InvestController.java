@@ -2,8 +2,10 @@ package com.ssafy.teentech.invest.controller;
 
 
 import com.ssafy.teentech.common.response.ApiResponse;
+import com.ssafy.teentech.invest.dto.request.StockInquiryDetailsRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
+import com.ssafy.teentech.invest.dto.response.StockInquiryDetailResponseDto;
 import com.ssafy.teentech.invest.service.InvestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,19 @@ public class InvestController {
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("보유 주식 구매")
                 .status(OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/detail")
+    public ResponseEntity<ApiResponse> stockInquiryDetails(@RequestBody StockInquiryDetailsRequestDto stockInquiryDetailsRequestDto, @PathVariable Long child_id){
+
+        StockInquiryDetailResponseDto stockInquiryDetailResponseDto = investService.stockInquiryDetails(stockInquiryDetailsRequestDto, child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("주식 종목 상세 보기")
+                .status(OK.value())
+                .data(stockInquiryDetailResponseDto)
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
