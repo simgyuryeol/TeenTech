@@ -2,6 +2,7 @@ package com.ssafy.teentech.invest.service;
 
 import com.ssafy.teentech.invest.domain.News;
 import com.ssafy.teentech.invest.domain.Stock;
+import com.ssafy.teentech.invest.domain.StockTrade;
 import com.ssafy.teentech.invest.domain.StocksHeld;
 import com.ssafy.teentech.invest.dto.request.StockHeldSaveRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockInquiryDetailsRequestDto;
@@ -9,6 +10,7 @@ import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTradeSaveRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
 import com.ssafy.teentech.invest.dto.response.StockInquiryDetailResponseDto;
+import com.ssafy.teentech.invest.dto.response.TradingRecordsResponseDto;
 import com.ssafy.teentech.invest.repository.NewsRepository;
 import com.ssafy.teentech.invest.repository.StockRepository;
 import com.ssafy.teentech.invest.repository.StockTradeRepository;
@@ -137,6 +139,28 @@ public class InvestService {
         return stockInquiryDetailResponseDto;
     }
 
+
+    public List<TradingRecordsResponseDto> tradingRecords(Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        List<StockTrade> stockTradeList = stockTradeRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        List<TradingRecordsResponseDto> tradingRecordsResponseDtoList = new ArrayList<>();
+
+        for (StockTrade stockTrade : stockTradeList) {
+            TradingRecordsResponseDto tradingRecordsResponseDto = TradingRecordsResponseDto.builder()
+                    .companyName(stockTrade.getStock().getCompanyName())
+                    .date(stockTrade.getTradeDate())
+                    .amount(stockTrade.getAmount())
+                    .price(stockTrade.getPrice())
+                    .type(stockTrade.getType())
+                    .build();
+
+            tradingRecordsResponseDtoList.add(tradingRecordsResponseDto);
+        }
+        return tradingRecordsResponseDtoList;
+    }
+
+
     private void stocksHeldUpdate(Integer amount, Stock stock,StocksHeld byStock,Integer averagePrice ) {
 
 
@@ -165,6 +189,7 @@ public class InvestService {
         stockTradeRepository.save(stockTradeSaveRequestDto.toEntity());
 
     }
+
 
 
 }

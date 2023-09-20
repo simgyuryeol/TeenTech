@@ -6,6 +6,7 @@ import com.ssafy.teentech.invest.dto.request.StockInquiryDetailsRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
 import com.ssafy.teentech.invest.dto.response.StockInquiryDetailResponseDto;
+import com.ssafy.teentech.invest.dto.response.TradingRecordsResponseDto;
 import com.ssafy.teentech.invest.service.InvestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +66,18 @@ public class InvestController {
                 .message("주식 종목 상세 보기")
                 .status(OK.value())
                 .data(stockInquiryDetailResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/sales")
+    public ResponseEntity<ApiResponse> tradingRecords(@PathVariable Long child_id){
+        List<TradingRecordsResponseDto> tradingRecordsResponseDtoList = investService.tradingRecords(child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("매매 기록")
+                .status(OK.value())
+                .data(tradingRecordsResponseDtoList)
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
