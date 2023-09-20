@@ -10,6 +10,17 @@ const QuizChart: React.FC = () => {
         type: "pie",
       },
       labels: ["정답", "오답"],
+      dataLabels: {
+        formatter: function (val) {
+          return val.toFixed(0) + "%";
+        },
+        style: {
+          fontSize: "14px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "light",
+        },
+      },
+      colors: ["#B6DBEE", "#eeb6bf", "#bfeeb6", "#b6bfee", "#eec9b6"],
       responsive: [
         {
           breakpoint: 480,

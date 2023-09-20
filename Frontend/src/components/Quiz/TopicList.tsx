@@ -16,7 +16,7 @@ const TopicList: React.FC = () => {
     ];
   
     return (
-      <div className="flex flex-wrap justify-between">
+      <div className="flex flex-wrap justify-around m-3">
         {topicList.map((topic, index) => (
           <TopicButton key={index} topic={topic} />
         ))}

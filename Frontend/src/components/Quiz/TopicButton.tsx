@@ -43,15 +43,9 @@ const TopicButton: React.FC<TopicButtonProps> = ({ topic }) => {
   }
 
   return (
-    <div className="p-4 bg-white rounded-xl w-5/12 m-4">
-      <Link to={`/QuizList/${eng}`}>
-        <div className="flex items-center">
-          <img
-            className="relative p-4 bg-purple-200 rounded-full"
-            src={imageSrc}
-            alt={eng}
-          />
-        </div>
+    <div className="p-2 bg-white rounded-xl w-5/12 m-2">
+      <Link to={`/QuizList/${eng}`} className="text-black flex flex-col items-center">
+        <img className="relative w-12 h-12" src={imageSrc} alt={eng} />
         <p className="my-1 text-lg font-bold">{kor}</p>
       </Link>
     </div>
