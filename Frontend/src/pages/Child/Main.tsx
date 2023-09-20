@@ -20,7 +20,7 @@ const Main: React.FC = () => {
         style={{
           display: "flex",
           height: "150px",
-          backgroundColor: "#CCE5F2",
+          backgroundColor: "#B6DBEE",
           position: "relative", // 추가: 부모 요소를 relative로 설정
           borderRadius: "0px 0px 20px 20px",
         }}
@@ -29,19 +29,17 @@ const Main: React.FC = () => {
         <div
           className="bg-white m-3 rounded-2xl mb-4 drop-shadow-xl"
           style={{
-            position: "absolute", // 추가: 겹치게 하기 위해 absolute로 설정
-            top: 100, // 추가: 부모 요소 상단에 배치
-            left: 0, // 추가: 부모 요소 왼쪽에 배치
-            width: "94%", // 추가: 부모 요소와 같은 너비
-            height: "100%", // 추가: 부모 요소와 같은 높이
-            zIndex: 1, // 추가: 다른 요소 위에 표시
-            display: "flex", // 부모 div를 flex 컨테이너로 만듭니다.
-            flexDirection: "column", // 자식 요소들을 세로로 배치합니다.
+            position: "absolute", // 겹치게 하기 위해 absolute로 설정
+            top: 100,
+            left: 0,
+            width: "94%",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          {/* 내용 추가 */}
           <div
-            className="text-xl mt-4 text-center "
+            className="text-xl mt-4 text-start mx-5"
             style={{
               flex: "25%",
             }}
@@ -49,35 +47,41 @@ const Main: React.FC = () => {
             내 용돈은 얼마 남았을까?
           </div>
           <div
-            className="text-4xl my-5 text-center"
+            className="text-5xl mt-1 mb-6 text-start mx-5"
             style={{
               flex: "75%",
+              marginRight: "10px",
             }}
           >
             100000
           </div>
+          <div>
+            <MenuList />
+          </div>
+        </div>
+        <div
+          style={{
+            position: "absolute", // 겹치게 하기 위해 absolute로 설정
+            bottom: -15,
+            right: 40,
+          }}
+        >
+          <img
+            src="../../../src/assets/main/boy_1.png"
+            style={{
+              height: "145px",
+              objectFit: "cover",
+            }}
+          />
         </div>
         <div className="text-2xl text-start pl-3">
           <div>심규렬님의</div>
           <div>현재 잔액은</div>
         </div>
-        <div className="mb-7">
-          <img
-            src="../../../src/assets/Teen9/Dog.png"
-            style={{
-              height: "120px",
-              objectFit: "cover",
-            }}
-            alt=""
-          />
-        </div>
       </div>
-      <div style={{ height: "120px" }}></div>
-      <div className="mx-4 rounded-2xl">
+      <div style={{ height: "65px" }}></div>
+      <div className="mx-4 rounded-2xl mt-28">
         <Total childId={id} />
-      </div>
-      <div>
-        <MenuList />
       </div>
     </div>
   );
