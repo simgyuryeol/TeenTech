@@ -89,4 +89,20 @@ public class DepositService {
 
         return depositInquiryResponseDtoList;
     }
+
+    public DepositInquiryResponseDto depositSingleInquiry(Integer depositId) {
+        Deposit deposit = depositRepository.findById(depositId).orElseThrow(() -> new IllegalArgumentException());
+
+        DepositInquiryResponseDto  depositInquiryResponseDto = DepositInquiryResponseDto.builder()
+                .depositName(deposit.getDepositName())
+                .endDate(deposit.getEndDate())
+                .interest(deposit.getInterest())
+                .interestType(deposit.getInterestType())
+                .maturityPaymentAmount(deposit.getMaturityPaymentAmount())
+                .money(deposit.getMoney())
+                .startDate(deposit.getStartDate())
+                .build();
+
+        return depositInquiryResponseDto;
+    }
 }

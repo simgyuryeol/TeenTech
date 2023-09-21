@@ -7,6 +7,7 @@ import com.ssafy.teentech.deposit.dto.response.DepositInquiryResponseDto;
 import com.ssafy.teentech.deposit.service.DepositService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,18 @@ public class DepositController {
                 .message("예금 다건 조회")
                 .status(OK.value())
                 .data(depositInquiryResponseDtoList)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/{deposit_id}")
+    public ResponseEntity<ApiResponse> depositSingleInquiry( @PathVariable Integer deposit_id){
+        DepositInquiryResponseDto depositInquiryResponseDto = depositService.depositSingleInquiry(deposit_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("예금 단건 조회")
+                .status(OK.value())
+                .data(depositInquiryResponseDto)
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

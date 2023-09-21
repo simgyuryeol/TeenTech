@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DepositRepository extends JpaRepository<Deposit,Long> {
+public interface DepositRepository extends JpaRepository<Deposit,Integer> {
     Optional<List<Deposit>> findAllByUser(User user);
 }
