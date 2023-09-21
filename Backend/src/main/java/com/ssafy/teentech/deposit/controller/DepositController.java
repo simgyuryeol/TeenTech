@@ -7,7 +7,6 @@ import com.ssafy.teentech.deposit.dto.response.DepositInquiryResponseDto;
 import com.ssafy.teentech.deposit.service.DepositService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,14 +43,26 @@ public class DepositController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/{deposit_id}")
-    public ResponseEntity<ApiResponse> depositSingleInquiry( @PathVariable Integer deposit_id){
-        DepositInquiryResponseDto depositInquiryResponseDto = depositService.depositSingleInquiry(deposit_id);
+    @GetMapping("/{depositId}")
+    public ResponseEntity<ApiResponse> depositSingleInquiry( @PathVariable Integer depositId){
+        DepositInquiryResponseDto depositInquiryResponseDto = depositService.depositSingleInquiry(depositId);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("예금 단건 조회")
                 .status(OK.value())
                 .data(depositInquiryResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/{depositId}")
+    public ResponseEntity<ApiResponse> depositExpiration(@PathVariable Integer depositId) {
+
+        depositService.depositExpiration(depositId);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("예금 만료")
+                .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

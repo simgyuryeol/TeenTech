@@ -105,4 +105,14 @@ public class DepositService {
 
         return depositInquiryResponseDto;
     }
+
+    public void depositExpiration(Integer depositId) {
+        Deposit deposit = depositRepository.findById(depositId).orElseThrow(() -> new IllegalArgumentException());
+
+        // 만료 금액 이체 로직 추가
+
+
+
+        depositRepository.delete(deposit);
+    }
 }
