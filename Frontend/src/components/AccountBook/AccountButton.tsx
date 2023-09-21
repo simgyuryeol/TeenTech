@@ -1,13 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const AccountBotton: React.FC = () => { 
-    return (
-        <div style={{display:"flex", justifyContent:"flex-end"}}>
-            <Link to='/AccountBookAdd' style={{marginRight:'10px'}}>가계부 수정</Link>
-            <Link to='/AccountBookAdd'>가계부 쓰기</Link>
-        </div>
-    )
+interface AccountBottonProps {
+  date?: string;
 }
+
+const AccountBotton: React.FC<AccountBottonProps> = ({ date }) => {
+  const navigate = useNavigate();
+
+  const handleLinkClick = () => {
+    navigate("/AccountBookAdd", { state: { date } });
+  };
+
+  return (
+    <div className="flex justify-end mr-4">
+      {/* 가계부 수정 링크 */}
+      <button onClick={handleLinkClick} className="text-black bg-white mr-3">
+        가계부 수정
+      </button>
+      {/* 가계부 쓰기 링크 */}
+      <button onClick={handleLinkClick} className="text-black bg-white">
+        가계부 쓰기
+      </button>
+    </div>
+  );
+};
 
 export default AccountBotton;

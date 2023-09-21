@@ -66,7 +66,11 @@ const RenderHeader: React.FC<{
   return (
     <div className="flex justify-center items-center p-1">
       <div className="px-4">
-        <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
+        <Icon
+          icon="bi:arrow-left-circle-fill"
+          style={{ fontSize: "20px" }}
+          onClick={prevMonth}
+        />
       </div>
       <div className="col col-start">
         <span className="text text-3xl">
@@ -74,7 +78,11 @@ const RenderHeader: React.FC<{
         </span>
       </div>
       <div className="px-4">
-        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
+        <Icon
+          icon="bi:arrow-right-circle-fill"
+          style={{ fontSize: "20px" }}
+          onClick={nextMonth}
+        />
       </div>
     </div>
   );
@@ -178,6 +186,8 @@ const RenderCells: React.FC<{
 const Calendar: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [selectedYear, setSelectedYear] = useState(new Date());
   const [state, setState] = useRecoilState(stateAtom);
   const [childData] = useRecoilState(childIdAtom);
 

@@ -7,6 +7,7 @@ type Props = {
 
 const Total: React.FC<Props> = ({ id }) => {
   const navigate = useNavigate();
+
   const clickDeposit = () => {
     navigate(`/Deposit`);
   };
@@ -19,7 +20,7 @@ const Total: React.FC<Props> = ({ id }) => {
   return (
     <div className="mx-2">
       <div
-        className="rounded-2xl drop-shadow	mb-3"
+        className="rounded-2xl drop-shadow mb-3"
         style={{
           backgroundColor: "#FFA9B8",
         }}
@@ -59,12 +60,6 @@ const Total: React.FC<Props> = ({ id }) => {
           </div>
         </div>
       </div>
-
-      {/* <div>
-        <div className="my-3" style={{ backgroundColor: "green" }}>
-          <Credit />
-        </div>
-      </div> */}
       <div className="flex justify-between">
         <div
           className="rounded-2xl drop-shadow bg-blue-200 w-1/2 mr-4 text-start"
