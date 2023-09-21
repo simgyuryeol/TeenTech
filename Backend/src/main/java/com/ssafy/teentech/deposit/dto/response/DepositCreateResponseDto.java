@@ -28,6 +28,7 @@ public class DepositCreateResponseDto {
                 .interestType(interestType)
                 .money(money)
                 .startDate(startDate)
+                .maturityPaymentAmount(maturityPaymentAmount)
                 .user(user)
                 .build();
     }

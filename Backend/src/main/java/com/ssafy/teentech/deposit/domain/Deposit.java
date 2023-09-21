@@ -27,12 +27,13 @@ public class Deposit {
     private LocalDate startDate;
     private LocalDate endDate;
     private Float interest;
+    private Integer maturityPaymentAmount;
 
     @Enumerated(EnumType.STRING)
     private InterestType interestType;
 
     @Builder
-    public Deposit(User user,String depositName, Integer money, LocalDate startDate, LocalDate endDate, Float interest, InterestType interestType ){
+    public Deposit(User user,String depositName, Integer money, LocalDate startDate, LocalDate endDate, Float interest, InterestType interestType, Integer maturityPaymentAmount ){
         this.depositId = null;
         this.user = user;
         this.depositName =depositName;
@@ -41,6 +42,7 @@ public class Deposit {
         this.endDate = endDate;
         this.interest = interest;
         this.interestType = interestType;
+        this.maturityPaymentAmount = maturityPaymentAmount;
     }
 
 }

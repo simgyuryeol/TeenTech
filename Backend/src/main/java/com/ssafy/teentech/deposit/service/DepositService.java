@@ -1,10 +1,11 @@
 package com.ssafy.teentech.deposit.service;
 
+import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.domain.InterestType;
 import com.ssafy.teentech.deposit.dto.request.DepositCreateRequestDto;
 import com.ssafy.teentech.deposit.dto.response.DepositCreateResponseDto;
+import com.ssafy.teentech.deposit.dto.response.DepositInquiryResponseDto;
 import com.ssafy.teentech.deposit.repository.DepositRepository;
-import com.ssafy.teentech.deposit.repository.DepositTransactionRepository;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.ChildDetailRepository;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,6 @@ public class DepositService {
     private final UserRepository userRepository;
     private final ChildDetailRepository childDetailRepository;
     private final DepositRepository depositRepository;
-    private final DepositTransactionRepository depositTransactionRepository;
 
 
     /**
@@ -64,5 +66,27 @@ public class DepositService {
         depositRepository.save(depositCreateResponseDto.toEntity(user));
 
         return depositCreateResponseDto;
+    }
+
+    public List<DepositInquiryResponseDto> depositInquiry(Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        List<Deposit> depositList = depositRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        List<DepositInquiryResponseDto> depositInquiryResponseDtoList = new ArrayList<>();
+        for (Deposit deposit : depositList) {
+            DepositInquiryResponseDto  depositInquiryResponseDto = DepositInquiryResponseDto.builder()
+                    .depositName(deposit.getDepositName())
+                    .endDate(deposit.getEndDate())
+                    .interest(deposit.getInterest())
+                    .interestType(deposit.getInterestType())
+                    .maturityPaymentAmount(deposit.getMaturityPaymentAmount())
+                    .money(deposit.getMoney())
+                    .startDate(deposit.getStartDate())
+                    .build();
+
+            depositInquiryResponseDtoList.add(depositInquiryResponseDto);
+        }
+
+        return depositInquiryResponseDtoList;
     }
 }
