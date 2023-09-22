@@ -3,7 +3,7 @@ import Modal from '../Common/Modal';
 
 interface LoanrepaymentProps {
     children: ReactNode;
-    closeModal: () => void;
+    closeModal: (value: any) => void;
   }
 
 const Loanrepayment: React.FC<LoanrepaymentProps> = (props) => {

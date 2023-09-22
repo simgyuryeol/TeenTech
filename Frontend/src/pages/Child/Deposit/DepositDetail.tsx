@@ -17,7 +17,9 @@ const DepositDetail: React.FC = () => {
                 <p className='m-4 text-2xl flex justify-center'><span className='font-bold text-3xl'>{total.toLocaleString()}</span>원을 받을 수 있어요!</p>
             </div>
             <div className='ml-4 mr-4 mt-8 w-[75%]'>
-                <DepositList></DepositList>
+                <DepositList>
+                    
+                </DepositList>
             </div>
         </div>
         </div>

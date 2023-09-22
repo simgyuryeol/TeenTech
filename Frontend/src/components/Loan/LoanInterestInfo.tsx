@@ -2,11 +2,10 @@ import React, { useState, ReactNode } from "react";
 import Modal from "../Common/Modal";
 
 interface LoanInterestInfoProps {
-    children: ReactNode;
-    closeModal: () => void;
+    closeModal: (value: any) => void;
   }
 
-const LoanInterestInfo: React.FC<LoanInterestInfoProps> = ({closeModal, children}) => {
+const LoanInterestInfo: React.FC<LoanInterestInfoProps> = ({closeModal}) => {
 
   return (
     <div className="overflow-hidden relative">
