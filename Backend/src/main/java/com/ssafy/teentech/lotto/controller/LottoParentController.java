@@ -26,6 +26,9 @@ public class LottoParentController {
                 .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
-
     }
+
+
+
+
 }
