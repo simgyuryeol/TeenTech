@@ -13,7 +13,7 @@ const Credit: React.FC<CreditProps> = (props) => {
         width: '80%',
       }
     return (
-    <div className=" flex flex-col rounded-xl mr-6 ml-6 bg-white" style={{borderColor: '#ABD0CE'}}>
+    <div className=" flex flex-col rounded-xl mr-6 ml-6 bg-white shadow-md" style={{borderColor: '#ABD0CE'}}>
         <div className='flex'>
             <div className='flex flex-col'>
             <h2 className="text-xl">신용 정보</h2>
