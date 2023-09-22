@@ -37,3 +37,6 @@ out/
 .vscode/
 
 ../Backend/
+
+/src/main/resources/application-local.properties
+/src/main/resources/application-prod.properties
