@@ -22,7 +22,7 @@ public class LottoParentController {
         lottoParentService.lottoSet(lottoSetRequestDto,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
-                .message("보유 주식 조회")
+                .message("복권 당첨금 설정")
                 .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
