@@ -49,7 +49,7 @@ const Ptotal: React.FC = () => {
       </div>
       <div>
         <div className="my-3" style={{ backgroundColor: "green" }}>
-          <Credit />
+          <Credit children/>
         </div>
       </div>
       <div className="flex justify-center">

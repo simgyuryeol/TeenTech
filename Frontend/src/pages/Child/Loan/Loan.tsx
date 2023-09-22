@@ -13,7 +13,9 @@ const Loan: React.FC = () => {
 
   return (
     <div className="pt-24">
-      <Credit></Credit>
+      <Credit>
+
+      </Credit>
       <div className="flex flex-col justify-center">
         <LoanStatus>
           <div className="flex justify-end">
@@ -48,12 +50,12 @@ const Loan: React.FC = () => {
             <LoanrepaymentButton></LoanrepaymentButton>
           </div>
         </LoanList>
-        <LoanList>
+        <LoanList children2>
           <div className="border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300">
             <LoanrepaymentButton></LoanrepaymentButton>
           </div>
         </LoanList>
-        <LoanList>
+        <LoanList children2>
           <div className="border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300">
             <LoanrepaymentButton></LoanrepaymentButton>
           </div>

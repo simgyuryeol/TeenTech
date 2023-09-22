@@ -2,11 +2,10 @@ import React, { useState, ReactNode } from 'react';
 import Modal from '../Common/Modal';
 
 interface LoanCreateProps {
-    children: ReactNode;
-    closeModal: () => void;
+    closeModal: (value: any) => void;
   }
 
-const LoanCreate: React.FC<LoanCreateProps> = ({closeModal, children}) => {
+const LoanCreate: React.FC<LoanCreateProps> = ({closeModal}) => {
     const interestrate = 2;
     // const LoanName= '세진이 생일 선물'
     // const LoanMoney = 100000;

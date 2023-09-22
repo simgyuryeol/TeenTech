@@ -8,7 +8,9 @@ const Ploan: React.FC = () => {
         <div>
             <h2>부모 대출 페이지</h2>
             <div className='mt-2 mb-2 flex flex-col'>
-                <LoanStatus></LoanStatus>
+                <LoanStatus>
+                    
+                </LoanStatus>
                 <p className='mt-2 mr-6 text-xs flex justify-end'>지난 대출 보기</p>
             </div>
             <hr className='border-2'></hr>
