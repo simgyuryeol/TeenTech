@@ -9,7 +9,7 @@ import Ptransfer from "./pages/Parents/Ptransfer";
 import Pinterest from "./pages/Parents/Pinterest";
 import Palba from "./pages/Parents/Palba";
 import Pdeposit from "./pages/Parents/Pdeposit";
-import Paccountbook from "./pages/Parents/Paccountbook";
+import PaccountBook from "./pages/Parents/Paccountbook";
 import PaccountbookDetail from "./pages/Parents/PaccountbookDetail";
 import Pquiz from "./pages/Parents/Pquiz";
 import Plotto from "./pages/Parents/Plotto";
@@ -102,7 +102,7 @@ const App: React.FC = () => {
             path="/Paccountbook"
             element={[
               <Pheader key="pheader-component" />,
-              <Paccountbook key="paccountbook-component" />,
+              <PaccountBook key="paccountbook-component" />,
             ]}
           />
           <Route

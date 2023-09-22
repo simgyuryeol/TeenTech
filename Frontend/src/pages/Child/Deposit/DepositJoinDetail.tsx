@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 const DepositJoinDetail: React.FC = () => {
     const interestrate = 2;
     const [depositName, setDepositname] = useState('');
-    const [depositMoney, setDepositmoney] = useState('');
-    const depositMoney2 = depositMoney >= 10000 ? depositMoney / 10000 +'만' : depositMoney;
+    const [depositMoney, setDepositmoney] = useState('0');
+    const depositMoney2 = parseInt(depositMoney) >= 10000 ? parseInt(depositMoney) / 10000 + '만' : depositMoney;
     const [depositDate, setDepositdate] = useState('');
     const [depositInterest, setDepositinterest] = useState('');
     const deposittotal = 0;
