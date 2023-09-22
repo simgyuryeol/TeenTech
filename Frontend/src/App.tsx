@@ -10,6 +10,7 @@ import Pinterest from "./pages/Parents/Pinterest";
 import Palba from "./pages/Parents/Palba";
 import Pdeposit from "./pages/Parents/Pdeposit";
 import PaccountBook from "./pages/Parents/PaccountBook";
+import PaccountbookDetail from "./pages/Parents/PaccountbookDetail";
 import Pquiz from "./pages/Parents/Pquiz";
 import Plotto from "./pages/Parents/Plotto";
 import Ploan from "./pages/Parents/Ploan/Ploan";
@@ -44,9 +45,9 @@ import LoginRedirect from "./pages/Login/LoginRedirect";
 import fetchFCMtoken from "./hooks/fetchFCMToken";
 
 const App: React.FC = () => {
-  useEffect(() => {
-    fetchFCMtoken();
-  }, []);
+  // useEffect(() => {
+  //   fetchFCMtoken();
+  // }, []);
 
   return (
     <React.Fragment>
@@ -102,6 +103,13 @@ const App: React.FC = () => {
             element={[
               <Pheader key="pheader-component" />,
               <PaccountBook key="paccountbook-component" />,
+            ]}
+          />
+          <Route
+            path="/PaccountbookDetail"
+            element={[
+              <Pheader key="pheader-component" />,
+              <PaccountbookDetail key="PaccountbookDetail-component" />,
             ]}
           />
           <Route

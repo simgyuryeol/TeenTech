@@ -4,10 +4,15 @@ import styles from "./LottoChange.module.css";
 import { CreateTypes } from "canvas-confetti";
 import ReactCanvasConfetti from "./ReactCanvasConfetti";
 
-import { FaRedo, FaRandom } from "react-icons/fa"; // 추가된 아이콘 패키지
-
 const LottoChange: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const drumSound = new Audio("../../../src/assets/audio/drum.mp3");
+  const yeah = new Audio("../../../src/assets/audio/yeah.mp3");
+  yeah.volume = 0.3;
+  const playAudio = (audio: HTMLAudioElement) => {
+    audio.play();
+  };
 
   // 1~6까지 숫자배열
   const availableNumbers: number[] = Array.from(
@@ -67,6 +72,7 @@ const LottoChange: React.FC = () => {
   }, []);
 
   const startLottery = () => {
+    playAudio(drumSound);
     setIsLotteryRunning(true);
     let numbers: number[] = Array.from({ length: 6 }, (_, i) => i + 1);
     let winningNums: number[] = [];
@@ -109,7 +115,7 @@ const LottoChange: React.FC = () => {
           newState[i] = winningNums[i];
           return newState;
         });
-      }, (i + 1) * 2000);
+      }, (i + 1) * 1500);
     }
 
     setTimeout(() => {
@@ -136,13 +142,14 @@ const LottoChange: React.FC = () => {
         setIsLotteryRunning(false);
         setIsWinning(true);
         handlerFire();
+        playAudio(yeah);
         alert("당첨!");
       } else {
         setIsLotteryRunning(false);
         setIsWinning(false);
         alert("아쉽다.");
       }
-    }, 2000 * 3 + 150);
+    }, 1500 * 3 + 150);
   };
 
   /*여기부터*/
@@ -159,7 +166,7 @@ const LottoChange: React.FC = () => {
       });
   };
 
-  // 이 부분에서 사용하고 싶은 설정을 하면 됨.
+  // 폭죽효과
   const fire = () => {
     makeShot(0.25, {
       spread: 26,
@@ -198,24 +205,49 @@ const LottoChange: React.FC = () => {
   };
 
   return (
-    <div className="pt-16  font-sans">
+    <div
+      className="pt-20 px-4 bg-gray-900 pb-1 text-white"
+      style={{
+        height: "100vh",
+        // border: "0.3rem solid #fff",
+        // //padding: "0.4em",
+        // borderRadius: "2rem;",
+        // boxShadow:
+        //   "0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem #FFE03D, 0 0 0.8rem #FFE03D, 0 0 2.8rem #FFE03D, inset 0 0 1.3rem #FFE03D",
+      }}
+    >
       <div>
-        <h1 className="text-center text-4xl font-bold py-5 text-purple-700">
-          당첨번호
+        <h1
+          className="text-center text-4-5xl font-bold py-5 text-purple-700"
+          style={{
+            color: "#fff",
+            textShadow:
+              "0 0 1px #fff, 0 0 5px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa",
+            //animation: "flicker 1.5s infinite alternate",
+          }}
+        >
+          당 첨 번 호
         </h1>
-        <div className="flex justify-center">
+        <div
+          className="flex justify-center py-7 mx-8"
+          style={{
+            border: "0.1rem solid #fff",
+            borderRadius: "15px",
+            boxShadow:
+              "0 0 0 #fff, 0 0 0 #fff, 0 0 1rem #3EACFC, 0 0 0.5rem #3EACFC, 0 0 0.5rem #3EACFC, inset 0 0 0.2rem #3EACFC",
+          }}
+        >
           {displayNumbers.map((num, index) => (
             <div
               key={index}
-              className="mx-4 text-xl font-bold text-purple-800 rounded-full bg-white w-10 h-10 flex items-center justify-center"
+              className="mx-4 text-2xl font-bold text-purple-800 rounded-full bg-white w-12 h-12 flex items-center justify-center"
             >
               {num}
             </div>
           ))}
         </div>
-        <p className="text-center text-lg m-3">원하는 번호 3개 골라주세요</p>
+        <p className="text-center text-xl m-4">원하는 번호 3개 골라주세요</p>
       </div>
-
       <div className="h-32 bg-blue-500 rounded-lg my-5">
         <div className="h-full flex items-center justify-center">
           {selectedNumbers.length === 0 ? (
@@ -226,7 +258,7 @@ const LottoChange: React.FC = () => {
                 key={number}
                 onClick={() => handleNumberClick(number)}
                 className={`${styles.selectedcircle} m-3 rounded-full border-none bg-white text-blue-dark`}
-                style={{ width: "50px", height: "50px" }}
+                style={{ width: "50px", height: "50px", color: "black" }}
               >
                 {number}
               </button>
@@ -234,7 +266,6 @@ const LottoChange: React.FC = () => {
           )}
         </div>
       </div>
-
       <div className="flex flex-wrap justify-around">
         {availableNumbers.map((number) => (
           <button
@@ -248,13 +279,13 @@ const LottoChange: React.FC = () => {
               border: "none",
               width: "50px",
               height: "50px",
+              color: "black",
             }}
           >
             {number}
           </button>
         ))}
       </div>
-
       <div className="flex space-x4 justify-evenly my-5 ">
         <button
           className="bg-transparent hover:bg-blue-dark p2 border border-blue-dark hover:text-white rounded transition ease-in-out duration200"
@@ -272,7 +303,7 @@ const LottoChange: React.FC = () => {
       </div>
       {selectedNumbers.length === 3 && (
         <button
-          className={`font-semibold py2 px4 rounded ${
+          className={`font-semibold py2 px4 rounded text-black ${
             isLotteryRunning ? "opacity50 cursor-notallowed" : ""
           }`}
           disabled={isLotteryRunning}
@@ -284,6 +315,7 @@ const LottoChange: React.FC = () => {
       <div>
         <ReactCanvasConfetti refConfetti={getInstance} className="canvas" />
       </div>
+      <audio ref={audioRef} src="../../../src/assets/audio/drum.mp3" />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Statics from "./Statics";
 import styles from "./Calender.module.css";
 import { Icon } from "@iconify/react";
@@ -13,6 +13,9 @@ import {
   addDays,
 } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { stateAtom, state } from "../../recoil/stateAtom";
+import { childIdAtom } from "../../recoil/childIdAtom";
 
 interface sampleDate {
   date: string;
@@ -63,15 +66,23 @@ const RenderHeader: React.FC<{
   return (
     <div className="flex justify-center items-center p-1">
       <div className="px-4">
-        <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
+        <Icon
+          icon="bi:arrow-left-circle-fill"
+          style={{ fontSize: "20px" }}
+          onClick={prevMonth}
+        />
       </div>
       <div className="col col-start">
-        <span className="text">
+        <span className="text text-3xl">
           {format(currentMonth, "yyyy")}. {format(currentMonth, "M")}월
         </span>
       </div>
       <div className="px-4">
-        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
+        <Icon
+          icon="bi:arrow-right-circle-fill"
+          style={{ fontSize: "20px" }}
+          onClick={nextMonth}
+        />
       </div>
     </div>
   );
@@ -83,7 +94,12 @@ const RenderDay: React.FC = () => {
 
   for (let i = 0; i < 7; i++) {
     days.push(
-      <div key={i} className="mb-3">
+      <div
+        key={i}
+        className={`mb-3 text-xl ${i === 0 ? styles.sun : ""} ${
+          i === 6 ? styles.sat : ""
+        }`}
+      >
         {date[i]}
       </div>
     );
@@ -126,8 +142,9 @@ const RenderCells: React.FC<{
 
       days.push(
         <div
-          className={`container h-24 
-            ${i < 6 ? styles.calendarRightBorder : ""} 
+          className={`container h-24
+            ${i < 6 ? styles.calendarRightBorder : ""}
+            ${i === 0 ? styles.sun : ""} ${i === 6 ? styles.sat : ""}
             ${
               day < monthStart || day > monthEnd
                 ? styles.minMonthStart
@@ -169,6 +186,11 @@ const RenderCells: React.FC<{
 const Calendar: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [selectedYear, setSelectedYear] = useState(new Date());
+  const [state, setState] = useRecoilState(stateAtom);
+  const [childData] = useRecoilState(childIdAtom);
+
   const navigate = useNavigate();
 
   const prevMonth = () => {
@@ -186,7 +208,11 @@ const Calendar: React.FC = () => {
 
     if (dataItem) {
       setSelectedDate(date);
-      navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+      if (state.id === 1) {
+        navigate(`/PaccountbookDetail`, { state: { date: formattedDate } });
+      } else {
+        navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+      }
     } else {
       alert("이날은 작성한 가계부가 없어요~~");
     }

@@ -31,8 +31,8 @@ const menulist = [
     name: "복권",
   },
   {
-    link: "/tingoo",
-    name: "틴구",
+    link: "/Mypage",
+    name: "마이페이지",
   },
 ];
 
@@ -93,8 +93,6 @@ const Header: React.FC = () => {
               </div>
             )}
 
-            {/* {nowPath === locationNow.pathname && <div className="w-2/6"></div>} */}
-
             <div className="p-2">{now}</div>
           </div>
           <div className="flex w-2/6 justify-end">
@@ -123,8 +121,14 @@ const Header: React.FC = () => {
           </div>
           <ul>
             {menulist.map((menu) => (
-              <li key={menu.link} onClick={() => handleLinkClick(menu.link)}>
-                <Link to={menu.link}>{menu.name}</Link>
+              <li
+                key={menu.link}
+                onClick={() => handleLinkClick(menu.link)}
+                style={{ padding: "10px" }}
+              >
+                <Link to={menu.link} style={{ color: "black" }}>
+                  {menu.name}
+                </Link>
               </li>
             ))}
           </ul>
