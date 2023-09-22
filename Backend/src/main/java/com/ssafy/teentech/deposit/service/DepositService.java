@@ -46,10 +46,10 @@ public class DepositService {
         int maturityPaymentAmount = 0;
         // 단리면
         if (depositCreateRequestDto.getInterestType()== InterestType.SIMPLEINTEREST){
-            maturityPaymentAmount = depositCreateRequestDto.getMoney() + depositCreateRequestDto.getMoney() * (childDetail.get()/100) * depositCreateRequestDto.getWeeks();
+            maturityPaymentAmount = (int)(depositCreateRequestDto.getMoney() + depositCreateRequestDto.getMoney() * (childDetail.getDepositInterestRate()/100) * depositCreateRequestDto.getWeeks());
         }
         else{ //복리면
-            maturityPaymentAmount = depositCreateRequestDto.getMoney() * Math.pow(1+(childDetail.get()/100),depositCreateRequestDto.getWeeks());
+            maturityPaymentAmount = (int)(depositCreateRequestDto.getMoney() * Math.pow(1+(childDetail.getDepositInterestRate()/100),depositCreateRequestDto.getWeeks()));
         }
 
         // 3. 가입 저장
@@ -59,7 +59,7 @@ public class DepositService {
                 .endDate(LocalDate.now().plusDays(depositCreateRequestDto.getWeeks()*7))
                 .money(depositCreateRequestDto.getMoney())
                 .interestType(depositCreateRequestDto.getInterestType())
-                .interest(childDetail.get())
+                .interest(childDetail.getDepositInterestRate())
                 .maturityPaymentAmount(maturityPaymentAmount)
                 .build();
 
