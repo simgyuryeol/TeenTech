@@ -14,6 +14,6 @@ public class LottoParentService {
      * 자식 금융 정보에 로또 정보 수정
      */
     public void lottoSet(LottoSetRequestDto lottoSetRequestDto, Long childId) {
-
+        
     }
 }

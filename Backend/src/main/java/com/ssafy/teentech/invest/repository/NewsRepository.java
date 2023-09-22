@@ -11,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface NewsRepository extends JpaRepository<News,Long> {
-    Optional<List<News>> findAllByStockAAndDate(Stock stock, LocalDate date);
+    Optional<List<News>> findAllByStockAndDate(Stock stock, LocalDate date);
 }
