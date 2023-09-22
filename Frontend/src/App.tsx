@@ -45,9 +45,9 @@ import LoginRedirect from "./pages/Login/LoginRedirect";
 import fetchFCMtoken from "./hooks/fetchFCMToken";
 
 const App: React.FC = () => {
-  useEffect(() => {
-    fetchFCMtoken();
-  }, []);
+  // useEffect(() => {
+  //   fetchFCMtoken();
+  // }, []);
 
   return (
     <React.Fragment>
