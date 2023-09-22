@@ -15,23 +15,10 @@
     "jsx": "react-jsx",
 
     /* Linting */
-<<<<<<< HEAD
-    "strict": false /* 모든 엄격한 유형 검사 옵션 활성화 */,
-    "noImplicitAny": false /* 명시적이지 않은 'any' 유형으로 표현식 및 선언 사용 시 오류 발생 */,
-    "strictNullChecks": false /* 엄격한 null 검사 사용 */,
-    "strictFunctionTypes": false /* 엄격한 함수 유형 검사 사용 */,
-    "strictBindCallApply": false /* 엄격한 'bind', 'call', 'apply' 함수 메서드 사용 */,
-    "strictPropertyInitialization": false /* 클래스에서 속성 초기화 엄격 검사 사용 */,
-    "noImplicitThis": false /* 명시적이지 않은 'any'유형으로 'this' 표현식 사용 시 오류 발생 */,
-    "alwaysStrict": false,
-    "noUnusedLocals": false /* 사용되지 않은 로컬이 있을 경우, 오류로 보고 */,
-    "noUnusedParameters": false
-=======
     "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
->>>>>>> f05d38ea9df523edc11b2c8483476822c6c70b3a
   },
   "include": ["src", "postcss.config.cjs", "types.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
