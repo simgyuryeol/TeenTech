@@ -2,10 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  id: number | null;
+  childId: number | null;
 };
 
-const Total: React.FC<Props> = ({ id }) => {
+const Total: React.FC<Props> = ({ childId }) => {
   const navigate = useNavigate();
 
   const clickDeposit = () => {

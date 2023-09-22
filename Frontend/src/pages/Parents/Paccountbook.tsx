@@ -1,7 +1,7 @@
 import React from "react";
 import Calendar from "../../components/AccountBook/Calender";
 
-const PaccountBook: React.FC = () => {
+const Paccountbook: React.FC = () => {
   return (
     <div className="pt-24">
       <Calendar />
@@ -10,4 +10,4 @@ const PaccountBook: React.FC = () => {
   );
 };
 
-export default PaccountBook;
+export default Paccountbook;
