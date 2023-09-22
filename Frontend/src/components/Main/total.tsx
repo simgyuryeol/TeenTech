@@ -18,7 +18,7 @@ const Total: React.FC<Props> = ({ id }) => {
     navigate(`/Loan`);
   };
   return (
-    <div className="mx-2">
+    <div className="mx-2 pb-2">
       <div
         className="rounded-2xl drop-shadow mb-3"
         style={{

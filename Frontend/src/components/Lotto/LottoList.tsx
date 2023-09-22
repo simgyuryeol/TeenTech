@@ -15,7 +15,7 @@ const Data: Winning[] = [
 
 const LottoList: React.FC = () => {
   return (
-    <div>
+    <div className="text-2xl">
       <div className="p-3">당첨내역</div>
       <div>
         {Data.map((winning, index) => (
