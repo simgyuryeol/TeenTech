@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../../../components/Common/Modal';
 import DepositList from '../../../components/Deposit/DepositList';
+import { Link } from 'react-router-dom';
 
 const DepositJoinSuccess: React.FC = () => {
     return (
@@ -8,7 +9,9 @@ const DepositJoinSuccess: React.FC = () => {
             <div className="">
             <div className="p-4 flex flex-col items-center justify-center">
                 <div className='flex justify-end w-full'>
-                    <p className='mr-2'>x</p>
+                    <Link to='/deposit'>
+                    <p className='mr-2 text-black'>x</p>
+                    </Link>
                 </div>
                 <div className="text-center">
                     <div className='flex justify-center'>
@@ -20,14 +23,16 @@ const DepositJoinSuccess: React.FC = () => {
                 <div className='w-[100%] border-2 rounded-lg'>
                     <div className='w-[100%]'>
                         <DepositList>
-                            <div className="flex justify-around w-[100%] mt-1 mb-4">
+                            <div className="flex justify-around w-[100%] mt-1">
                                 <p className='ml-5'>만기 지급액:</p>
                                 <p className='mr-4'>100,000원</p>
                             </div>
                         </DepositList>
                     </div>
                 </div>
-                <div className='border-2 m-2 mt-4 p-2 rounded-md'>확인</div>
+                <Link to = '/deposit'>
+                <div className='border-2 m-2 mt-4 p-2 rounded-md text-black'>확인</div>
+                </Link>
             </div>
             </div>
         </Modal>
