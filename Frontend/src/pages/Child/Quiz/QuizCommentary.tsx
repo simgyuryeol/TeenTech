@@ -18,14 +18,14 @@ const QuizCommentary: React.FC = () => {
   return (
     <div className="grid place-items-center h-screen ">
       <div className="mt-0 p-3 flex-col items-center justify-center">
-        <img src={prizeImage} alt="" />
-
         <div>
           <p className="text-xl">
             <span className="font-bold text-lg">{topic}</span>에 대해{" "}
             <span className="font-bold text-lg">{score}</span> 문제를 맞혔어요!
           </p>
         </div>
+
+        <img src={prizeImage} alt="" />
 
         {score !== 0 ? (
           <div className="text-xl">
@@ -47,7 +47,7 @@ const QuizCommentary: React.FC = () => {
           </div>
         )}
 
-        <button className="mt-3 bg-white" onClick={handleClick}>
+        <button className="mt-6 bg-white" onClick={handleClick}>
           메인으로 돌아가기
         </button>
       </div>

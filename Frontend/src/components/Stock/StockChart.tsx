@@ -90,11 +90,14 @@ const StockChart: React.FC = () => {
           // },
         },
         title: {
-          text: "",
+          text: "가 격",
         },
       },
       xaxis: {
         type: "date",
+        title: {
+          text: "날 짜",
+        },
       },
       tooltip: {
         shared: false,
