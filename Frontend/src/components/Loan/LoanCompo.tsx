@@ -4,7 +4,7 @@ import Modal from '../Common/Modal';
 interface LoanCompoProps {
     children: ReactNode;
     children2: ReactNode;
-    closeModal: () => void;
+    closeModal: (value: any) => void;
   }
 
 const LoanCompo: React.FC<LoanCompoProps> = (props) => {
