@@ -16,26 +16,21 @@ const Main: React.FC = () => {
       style={{ backgroundColor: "#F6F6F6", overflow: "scroll" }}
     >
       <div
-        className="justify-between items-center px-8"
+        className="justify-between items-center px-8 flex relative"
         style={{
-          display: "flex",
           height: "150px",
           backgroundColor: "#B6DBEE",
-          position: "relative", // 추가: 부모 요소를 relative로 설정
           borderRadius: "0px 0px 20px 20px",
         }}
       >
         {/* 추가: 부분적으로 가려질 두 번째 div */}
         <div
-          className="bg-white m-3 rounded-2xl mb-4 drop-shadow-xl"
+          className="bg-white m-3 rounded-2xl mb-4 drop-shadow-xl absolute flex flex-col	"
           style={{
-            position: "absolute", // 겹치게 하기 위해 absolute로 설정
             top: 100,
             left: 0,
             width: "94%",
             zIndex: 1,
-            display: "flex",
-            flexDirection: "column",
           }}
         >
           <div
