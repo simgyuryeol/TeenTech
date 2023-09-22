@@ -1,57 +1,46 @@
 import React, { useState } from "react";
 import styles from "./Statics.module.css";
 import ReactApexChart from "react-apexcharts";
+import ApexOptions from "apexcharts";
 
 const Statics: React.FC = () => {
-  const donutData = {
+  const donutData: ApexCharts.ApexOptions = {
     series: [10000, 5000],
-    options: {
-      chart: {
-        type: "donut",
-      },
-      legend: {
-        position: "bottom",
-      },
-      responsive: [
-        {
-          breakpoint: 200, // 반응형
-        },
-      ],
-      dataLabels: {
-        formatter: function (val) {
-          return val.toFixed(0) + "%";
-        },
-        style: {
-          fontSize: "14px",
-          fontFamily: "mou",
-          fontWeight: "light",
-        },
-      },
-      colors: ["#B6DBEE", "#eeb6bf", "#bfeeb6", "#b6bfee", "#eec9b6"],
-      plotOptions: {
-        pie: {
-          pie: {
-            labels: {
-              showAlways: true,
-              show: true,
-              name: {
-                label: "ALARM",
-                fontSize: "12px",
-                color: "black",
-              },
-              value: {
-                sfontSize: "22px",
-                color: "blue",
-              },
-            },
-          },
-        },
-      },
-      labels: ["욕구", "필요"],
 
-      title: {
-        align: "center",
+    chart: {
+      type: "donut",
+    },
+    legend: {
+      position: "bottom", // Same here
+    },
+    responsive: [
+      {
+        breakpoint: 200, // 반응형
       },
+    ],
+    dataLabels: {
+      // formatter: function (val) {
+      //   return val.toFixed(0) + "%";
+      // },
+      style: {
+        fontSize: "14px",
+        fontFamily: "mou",
+        fontWeight: "light",
+      },
+    },
+    colors: ["#B6DBEE", "#eeb6bf", "#bfeeb6", "#b6bfee", "#eec9b6"],
+    plotOptions: {
+      pie: {
+        customScale: 1,
+        offsetX: 0,
+        offsetY: 0,
+        expandOnClick: true,
+      },
+    },
+    labels: ["욕구", "필요"],
+
+    title: {
+      align: "center",
     },
   };
 
@@ -168,7 +157,7 @@ const Statics: React.FC = () => {
           <div className="flex justify-between items-center">
             <div className="mt-2">
               <ReactApexChart
-                options={donutData.options}
+                options={donutData}
                 series={donutData.series}
                 type="pie"
                 width={180}

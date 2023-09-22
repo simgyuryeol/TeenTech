@@ -11,17 +11,13 @@ const Lotto: React.FC = () => {
 
   return (
     <div
-      className="pt-20 mx-1 bg-gray-900 h-100% pb-1"
+      className="pt-20 h-100% pb-5"
       style={{
-        border: "0.3rem solid #fff",
-        //padding: "0.4em",
-        borderRadius: "2rem;",
-        boxShadow:
-          "0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem #FFE03D, 0 0 0.8rem #FFE03D, 0 0 2.8rem #FFE03D, inset 0 0 1.3rem #FFE03D",
+        backgroundImage: "linear-gradient(180deg, #141E30 0%, #243B55 100%)",
       }}
     >
       <div className="flex justify-center">
-        <div className="relative">
+        <div className="relative flex justify-center" style={{ width: "100%" }}>
           <img
             style={{ width: "auto", height: "200px" }}
             src="../../../src/assets/lotto/jackpot2.png"
@@ -34,11 +30,7 @@ const Lotto: React.FC = () => {
           style={{
             position: "relative",
             backgroundColor: "#3EACFC",
-            border: "0.1rem solid #fff",
-            //padding: "0.4em",
-            borderRadius: "2rem;",
-            boxShadow:
-              "0 0 0 #fff, 0 0 0 #fff, 0 0 2rem #3EACFC, 0 0 0.5rem #3EACFC, 0 0 0.5rem #3EACFC, inset 0 0 0.5rem #3EACFC",
+            boxShadow: "0 0 2rem #3EACFC, inset 0 0 1.3rem #3EACFC",
           }}
           onClick={ClickChange}
         >
@@ -59,7 +51,7 @@ const Lotto: React.FC = () => {
 
         <div className="justify-center w-1/2">
           <div
-            className=" rounded-2xl drop-shadow mb-3 text-xl"
+            className="rounded-2xl drop-shadow mb-3 text-xl"
             style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">당첨금</div>
@@ -75,7 +67,7 @@ const Lotto: React.FC = () => {
         </div>
       </div>
 
-      <div className="my-3 mx-4 pb-2 bg-white	rounded-2xl ">
+      <div className="my-3 mx-4 pb-2 bg-white rounded-2xl">
         <LottoList />
       </div>
     </div>

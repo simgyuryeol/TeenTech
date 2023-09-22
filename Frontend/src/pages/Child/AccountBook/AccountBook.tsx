@@ -4,7 +4,7 @@ import Calender from "../../../components/AccountBook/Calender";
 const AccountBook: React.FC = () => {
   return (
     <div>
-      <div className="pt-24" style={{ width: "100%" }}>
+      <div className="pt-24 pb-5" style={{ width: "100%" }}>
         <Calender />
       </div>
     </div>

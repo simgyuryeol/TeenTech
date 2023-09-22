@@ -36,14 +36,17 @@ const AccountBookDetail: React.FC<Props> = () => {
   const date = location.state.date;
 
   return (
-    <div className="pt-8 h-full" style={{ backgroundColor: "#f6f6f6" }}>
+    <div
+      className="pt-8 pb-5"
+      style={{ height: "100%", backgroundColor: "#f6f6f6" }}
+    >
       <div style={{ width: "100%", paddingTop: "60px" }}>
         <div className="text-2xl">{date}</div>
         <Statics />
       </div>
       <AccountBotton date={date} />
       <div
-        className="text-xl rounded-xl m-3 mb-5 drop-shadow-lg	"
+        className="text-xl rounded-xl m-3 pb-1 drop-shadow-lg	"
         style={{ backgroundColor: "white" }}
       >
         <div className="flex p-3 ml-2">
@@ -73,9 +76,8 @@ const AccountBookDetail: React.FC<Props> = () => {
         <div
           style={{
             width: "100%",
-            height: "1px",
+            height: "1.5px",
             backgroundColor: "pink",
-            // marginTop: "10px",
             marginBottom: "10px",
           }}
         ></div>
@@ -98,7 +100,7 @@ const AccountBookDetail: React.FC<Props> = () => {
 
           return (
             <div
-              className="mx-5 my-3 flex justify-between text-black"
+              className="mx-5 my-3 py-2 flex justify-between text-black"
               key={index}
             >
               {icon && (
