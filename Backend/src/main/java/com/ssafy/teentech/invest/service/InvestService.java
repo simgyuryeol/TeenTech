@@ -118,7 +118,7 @@ public class InvestService {
 
             stocks.add(stockDto);
 
-            List<News> newsList = newsRepository.findAllByStockAAndDate(stock,stock.getDate()).orElseThrow(() -> new IllegalArgumentException());
+            List<News> newsList = newsRepository.findAllByStockAndDate(stock,stock.getDate()).orElseThrow(() -> new IllegalArgumentException());
 
             for (News newsInfo : newsList) {
                 StockInquiryDetailResponseDto.News newsDto = StockInquiryDetailResponseDto.News.builder()
