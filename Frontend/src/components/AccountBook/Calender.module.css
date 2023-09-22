@@ -17,3 +17,9 @@
 .largeMonthStart {
   color: "red";
 }
+.sun {
+  color: red;
+}
+.sat {
+  color: blue;
+}

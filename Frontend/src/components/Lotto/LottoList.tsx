@@ -9,11 +9,13 @@ interface Winning {
 const Data: Winning[] = [
   { id: 1, date: "2023-07-27", price: 5000 },
   { id: 2, date: "2023-08-4", price: 5000 },
+  { id: 2, date: "2023-08-4", price: 5000 },
+  { id: 2, date: "2023-08-4", price: 5000 },
 ];
 
 const LottoList: React.FC = () => {
   return (
-    <div>
+    <div className="text-2xl">
       <div className="p-3">당첨내역</div>
       <div>
         {Data.map((winning, index) => (
