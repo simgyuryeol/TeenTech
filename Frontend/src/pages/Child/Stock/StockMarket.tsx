@@ -1,5 +1,7 @@
 import React from "react";
 import MarketStock from "../../../components/Stock/MarketStock";
+import CountdownTimer from "../../../components/Stock/CountdownTimer/CountdownTimer";
+import Card from "../../../components/Common/Card";
 
 interface Stock {
   koName: string;
@@ -41,9 +43,22 @@ const StockMarket: React.FC = () => {
     },
   ];
 
+  const NOW_IN_MS = new Date().getTime();
+
+  const nextDay = new Date(NOW_IN_MS);
+  nextDay.setDate(nextDay.getDate() + 1);
+  nextDay.setHours(15, 0, 0, 0);
+
+  const handleCountdownZero = () => {
+    console.log("오후 4시 정각");
+  };
+
   return (
     <div className="mt-12">
-      <h2 className="font-bold text-xl">자식 주식 시장 페이지</h2>
+      <Card className="pt-6 border border-red-500">
+        <p className="text-2xl">주식 가격 업뎃까지...</p>
+        <CountdownTimer targetHour={16} onCountdownZero={handleCountdownZero} />
+      </Card>
       {sampleData.map((stock, index) => (
         <MarketStock key={index} stock={stock} />
       ))}
