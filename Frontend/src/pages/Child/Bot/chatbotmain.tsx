@@ -83,7 +83,7 @@ import BotModal from '../../../components/Bot/BotModal';
                   <div>{state.depositDate}</div>
                 </div>
                 <div className='mb-1'>
-                  <div className='font-bold'>이자율</div>
+                  <div className='font-bold'>1주 이자율</div>
                   <div>{interestrate}%</div>
                 </div>
                 <div className='mb-1'>
@@ -134,8 +134,8 @@ import BotModal from '../../../components/Bot/BotModal';
                   <div>{state.loanDate}</div>
                 </div>
                 <div>
-                  <div className='font-bold'>상환 방법</div>
-                  <div>{state.repayment}</div>
+                  {/* <div className='font-bold'>상환 방법</div>
+                  <div>{state.repayment}</div> */}
                 </div>
               </div>
             </div>
@@ -147,8 +147,8 @@ import BotModal from '../../../components/Bot/BotModal';
      };
 
 
-const Chatbotmain = () => {
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+const Chatbotmain = (_closeModal:any) => {
     const theme = {
         background: '#f5f8fb',
         fontFamily: 'Helvetica Neue',
@@ -201,7 +201,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'deposit1',
-                                message: '오 예금이 궁금하냐멍? 예금은 은행에 돈을 맡기는 거다멍 ',
+                                message: '예금이 궁금해? 예금은 은행에 돈을 맡기는 거야',
                                 trigger: 'deposit2',
                             },
                             {
@@ -214,7 +214,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'deposit3',
-                                message: '돈을 맡기면, 맡긴 기간만큼 이자라는 걸 받을 수 있다멍!',
+                                message: '돈을 맡기면, 맡긴 기간만큼 이자라는 걸 받을 수 있어!',
                                 trigger: 'deposit4',
                             },
                             {
@@ -227,7 +227,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'deposit5',
-                                message: '이자는 빌린 돈에 대한 사용료라고 볼 수 있다멍! 우리가 맡긴 돈을 맡긴 기간동안 은행에서 돈을 사용하고 사용료를 준다멍! 이자에는 단리와 복리가 있다멍!',
+                                message: '이자는 빌린 돈에 대한 사용료라고 볼 수 있어. 우리가 맡긴 돈을 맡긴 기간동안 은행에서 사용하고 사용료를 주는거지! 이자에는 단리와 복리가 있어.',
                                 trigger: 'deposit6',
                             },
                             {
@@ -241,12 +241,37 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'deposit7',
-                                message: '단리는 처음 맡긴 돈(원금)에 대한 이자만 적용하는 것이다멍! 예를 들어, 연10% 짜리 예금에 만원을 2년동안 넣었다면, (10,000 x 10% x 2) = 2,000원의 이자가 붙지!',
+                                message: '단리는 처음 맡긴 돈(원금)에 대한 이자만 적용하는거야.',
+                                trigger: 'deposit7-1',
+                            },
+                            {
+                                id: 'deposit7-1',
+                                message: '예를 들어, 연10% 짜리 예금에 만원을 2년동안 넣었다면',
+                                trigger: 'deposit7-2',
+                            },
+                            {
+                                id: 'deposit7-2',
+                                message: '1년 째에 천원. 2년 째에도 천원. 총 (10,000 x 10% x 2) = 2,000원의 이자가 붙지!',
                                 trigger: 'deposit6',
                             },
                             {
                                 id: 'deposit8',
-                                message: '복리는 원금에 대한 이자뿐만 아니라 그 이자에도 이자가 적용되는 것이다멍! 예를 들어, 연10% 짜리 예금에 만원을 2년동안 넣었다면, 1년 (10,000 x 10% = 1,000) + 2년 (11,000x 10% = 1100) = 2100원의 이자가 붙지!',
+                                message: '복리는 원금에 대한 이자뿐만 아니라 그 이자에도 이자가 적용되는거야.',
+                                trigger: 'deposit8-1',
+                            },
+                            {
+                                id: 'deposit8-1',
+                                message: '예를 들어, 연10% 짜리 예금에 만원을 2년동안 넣었다면, 첫 1년은 (10,000 x 10% = 1,000) 천원의 이자가 붙지만',
+                                trigger: 'deposit8-2',
+                            },
+                            {
+                                id: 'deposit8-2',
+                                message: '2년 째에는 원금 만원에 1년 째에 받은 천원을 더해서 (11,000x 10% = 1100) 천백원의 이자가 붙어.',
+                                trigger: 'deposit8-3',
+                            },
+                            {
+                                id: 'deposit8-3',
+                                message: '그래서 복리는 총 2100원의 이자가 생겨. 단리일 때보다 더 많은 이자를 받을 수 있어',
                                 trigger: 'deposit6',
                             },
                             {
@@ -269,7 +294,7 @@ const Chatbotmain = () => {
                               },
                               {
                                 id: 'depositcreate3',
-                                message: '예금 이름을 입력해줘',
+                                message: '예금 이름을 입력해줘. 예금에 대해 기억하기 쉬우면 좋겠지?',
                                 trigger: 'depositName',
                               },
                               {
@@ -279,7 +304,7 @@ const Chatbotmain = () => {
                               },
                               {
                                 id: 'depositcreate4',
-                                message: '좋아. {previousValue}으로 얼마를 넣을거야?!',
+                                message: '좋아. {previousValue} 예금에 얼마를 넣을거야?! 금액을 입력해줘',
                                 trigger: 'depositMoney',
                               },
                               {
@@ -305,23 +330,25 @@ const Chatbotmain = () => {
                                   {
                                   id: 'depositDate',
                                   options: [
-                                      { value: '1달', label: '1달', trigger: 'depositcreate7' },
-                                      { value: '3달', label: '3달', trigger: 'depositcreate7' },
+                                      { value: '1주', label: '1주', trigger: 'depositcreate9' },
+                                      { value: '2주', label: '2주', trigger: 'depositcreate9' },
+                                      { value: '3주', label: '3주', trigger: 'depositcreate9' },
+                                      { value: '4주', label: '4주', trigger: 'depositcreate9' },
                                   ],
                                   },
-                                {
-                                  id: 'depositcreate7',
-                                  message: '{previousValue}동안 {interestrate}%의 이자를 받을 수 있어',
-                                  trigger: 'depositcreate8',
-                                },
-                                  {
-                                  id: 'depositcreate8',
-                                  options: [
-                                      { value: '확인', label: '확인', trigger: 'depositcreate9' },
-                                    //   { value: '분할 상환', label: '분할 상환', trigger: 'loancreate8' },
-                                    //   { value: '일시 상환', label: '일시 상환', trigger: 'loancreate8' },
-                                  ],
-                                  },
+                                // {
+                                //   id: 'depositcreate7',
+                                //   message: `{previousValue}동안 `,
+                                //   trigger: 'depositcreate8',
+                                // },
+                                //   {
+                                //   id: 'depositcreate8',
+                                //   options: [
+                                //     { value: '취소', label: '취소', trigger: '0' },
+                                //       { value: '확인', label: '확인', trigger: 'depositcreate9' },
+                                //     //   { value: '일시 상환', label: '일시 상환', trigger: 'loancreate8' },
+                                //   ],
+                                //   },
                               {
                                 id: 'depositcreate9',
                                 message: '좋아! 답변을 확인했어!',
@@ -341,8 +368,9 @@ const Chatbotmain = () => {
                               {
                                 id: 'depositupdate-question',
                                 options: [
-                                  { value: '응 수정할래', label: 'Yes', trigger: 'depositupdate-yes' },
-                                  { value: '아니 괜찮아', label: 'No', trigger: 'depositsuccess' },
+                                  { value: '0', label: '예금 취소할래', trigger: '0' },
+                                  { value: '1', label: '응 수정할래', trigger: 'depositupdate-yes' },
+                                  { value: '2', label: '아니 괜찮아. 예금 신청할래', trigger: 'depositsuccess' },
                                 ],
                               },
                               {
@@ -412,7 +440,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'loan1',
-                                message: '오 대출이 궁금하냐멍? 대출은 은행에서 돈을 빌리는 거다 멍 ',
+                                message: '대출이 궁금해? 대출은 은행에서 돈을 빌리는 거야',
                                 trigger: 'loan2',
                             },
                             {
@@ -425,7 +453,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'loan3',
-                                message: '돈을 공짜로 빌릴 수는 없다멍. 돈을 빌리면 이자를 내야하고 기간 안에 꼭 갚아야한다멍',
+                                message: '돈을 공짜로 빌릴 수는 없어. 돈을 빌리면 이자를 내야하고 기간 안에 꼭 갚아야해',
                                 trigger: 'loan4',
                             },
                             {
@@ -438,7 +466,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'loan5',
-                                message: '기간 안에 갚지 못하면, 신용등급이 떨어진다멍',
+                                message: '기간 안에 갚지 못하면, 신용등급이 떨어져.',
                                 trigger: 'loan6',
                             },
                             {
@@ -451,7 +479,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'loan7',
-                                message: '신용 등급은 믿을 수 있는 사람인가 평가하는 수치야. 신용등급이 낮으면 은행에서 돈을 빌리지 못하거나 이자가 비싸질 수 있어',
+                                message: '신용 등급은 믿을 수 있는 사람인가 평가하는 수치야. 신용등급이 낮으면 은행에서 돈을 빌리지 못하거나 이자가 비싸질 수 있어. 그래서 신용 등급이 떨어지지 않도록 하는건 아주 중요한 일이야',
                                 trigger: 'loan8',
                             },
                             {
@@ -481,7 +509,7 @@ const Chatbotmain = () => {
                               },
                               {
                                 id: 'loancreate3',
-                                message: '대출 이름을 입력해줘',
+                                message: '대출 이름을 입력해줘. 기억하기 쉬우면 좋겠지?',
                                 trigger: 'loanName',
                               },
                               {
@@ -491,7 +519,7 @@ const Chatbotmain = () => {
                               },
                               {
                                 id: 'loancreate4',
-                                message: '좋아. {previousValue}으로 얼마를 빌릴거야?!',
+                                message: '좋아. {previousValue} 대출로 얼마를 빌릴거야?! 금액을 입력해줘.',
                                 trigger: 'loanMoney',
                               },
                               {
@@ -527,22 +555,23 @@ const Chatbotmain = () => {
                                   {
                                   id: 'loanDate',
                                   options: [
-                                      { value: '1주일 후', label: '1주일 후', trigger: 'loancreate7' },
-                                      { value: '1달 후', label: '1달 후', trigger: 'loancreate7' },
+                                      { value: '1달 후', label: '1달 후', trigger: 'loancreate8' },
+                                      { value: '2달 후', label: '2달 후', trigger: 'loancreate8' },
+                                      { value: '3달 후', label: '3달 후', trigger: 'loancreate8' },
                                   ],
                                   },
-                                {
-                                  id: 'loancreate7',
-                                  message: '어떻게 갚을거야?',
-                                  trigger: 'repayment',
-                                },
-                                  {
-                                  id: 'repayment',
-                                  options: [
-                                      { value: '분할 상환', label: '분할 상환', trigger: 'loancreate8' },
-                                      { value: '일시 상환', label: '일시 상환', trigger: 'loancreate8' },
-                                  ],
-                                  },
+                                // {
+                                //   id: 'loancreate7',
+                                //   message: '어떻게 갚을거야?',
+                                //   trigger: 'repayment',
+                                // },
+                                //   {
+                                //   id: 'repayment',
+                                //   options: [
+                                //       { value: '분할 상환', label: '분할 상환', trigger: 'loancreate8' },
+                                //       { value: '일시 상환', label: '일시 상환', trigger: 'loancreate8' },
+                                //   ],
+                                //   },
               
                               {
                                 id: 'loancreate8',
@@ -563,8 +592,9 @@ const Chatbotmain = () => {
                               {
                                 id: 'loanupdate-question',
                                 options: [
-                                  { value: '응 수정할래', label: 'Yes', trigger: 'loanupdate-yes' },
-                                  { value: '아니 괜찮아', label: 'No', trigger: 'loansuccess' },
+                                  { value: '0', label: '대출 신청 안할래', trigger: '0' },
+                                  { value: '1', label: '응 수정할래', trigger: 'loanupdate-yes' },
+                                  { value: '2', label: '아니 괜찮아. 대출신청 할래', trigger: 'loansuccess' },
                                 ],
                               },
                               {
@@ -579,7 +609,7 @@ const Chatbotmain = () => {
                                   { value: 'loanMoney', label: '대출 금액', trigger: 'update-loanMoney' },
                                   { value: 'reason', label: '대출 사유', trigger: 'update-reason' },
                                   { value: 'loanDate', label: '상환 기간', trigger: 'update-loanDate' },
-                                  { value: 'repayment', label: '상환 방법', trigger: 'update-repayment' },
+                                  // { value: 'repayment', label: '상환 방법', trigger: 'update-repayment' },
                                 ],
                               },
                               {
@@ -646,7 +676,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'accountbook1',
-                                message: '오 가계부가 궁금하냐멍? 가계부는 니가 쓴 돈이나 번 돈을 정리 할 수 있는 페이지다멍',
+                                message: '가계부가 궁금해? 가계부는 니가 쓴 돈이나 번 돈을 정리 할 수 있는 페이지야',
                                 trigger: 'accountbook2',
                             },
                             {
@@ -658,7 +688,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'accountbook3',
-                                message: '가계부 페이지에 들어가서 가계부를 작성하고 싶은 날짜를 누르면 가계부를 작성할 수 있다멍. 더 알고싶냐멍?',
+                                message: '가계부 페이지에 들어가서 가계부를 작성하고 싶은 날짜를 누르면 가계부를 작성할 수 있어. 더 알고싶어?',
                                 trigger: 'accountbook4',
                             },
                             {
@@ -671,7 +701,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'income',
-                                message: '수입에서는 용돈, 아르바이트, 퀴즈, 투자 등 네가 번 금액을 알 수 있다멍',
+                                message: '수입에서는 용돈, 아르바이트, 퀴즈, 투자 등 네가 번 금액을 알 수 있어',
                                 trigger: 'accountbook5',
                             },
                             {
@@ -683,7 +713,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'spending',
-                                message: '지출에서는 니가 쓴 돈을 필요소비, 욕구소비로 나눠서 정리할 수 있다멍',
+                                message: '지출에서는 니가 쓴 돈을 필요소비, 욕구소비로 나눠서 정리할 수 있어',
                                 trigger: 'spending1',
                             },
                             {
@@ -696,7 +726,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'needs',
-                                message: '필요소비는 무언가가 꼭 필요해서 사는 행동이다멍(ex: 학용품)',
+                                message: '필요소비는 무언가가 꼭 필요해서 사는 행동이야(ex: 학용품)',
                                 trigger: 'needs1',
                             },
                             {
@@ -709,7 +739,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'wants',
-                                message: '욕구소비는 꼭 필요하지는 않지만, 먹고싶거나 재미를 위해 구매하는 행동이다멍(ex: 탕후루)',
+                                message: '욕구소비는 꼭 필요하지는 않지만, 먹고싶거나 재미를 위해 구매하는 행동이야(ex: 탕후루)',
                                 trigger: 'wants1',
                             },
                             {
@@ -729,7 +759,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'alba1',
-                                message: '아르바이트가 궁금하냐멍? 아르바이트에서는 부모님이 시키는 일을 성공하면 용돈을 받을 수 있다멍',
+                                message: '아르바이트가 궁금해? 아르바이트에서는 부모님이 시키는 일을 성공하면 용돈을 받을 수 있어',
                                 trigger: 'alba2',
                             },
                             {
@@ -741,7 +771,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'alba3',
-                                message: '아르바이트를 성공하면, 용돈과 복권을 받을 수 있다 멍.',
+                                message: '아르바이트를 성공하면, 용돈과 복권을 받을 수 있어.',
                                 trigger: 'alba4',
                             },
                             {
@@ -760,7 +790,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'quiz1',
-                                message: '퀴즈가 궁금하냐멍? 퀴즈는 직접 풀어봐라멍! 퀴즈를 잘 맞히면 용돈이 더 생긴다멍!',
+                                message: '퀴즈가 궁금해? 퀴즈는 직접 풀어봐! 퀴즈를 잘 맞히면 용돈을 더 받을 수 있을지도?!',
                                 trigger: 'quiz2',
                             },
                             {
@@ -778,7 +808,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'stock1',
-                                message: '주식이 궁금해? 놀이공원이 하나 있어. 놀이공원 주인은 이 놀이공원을 잘개 쪼개서 사람들에게 그 쪼갠 조각을 팔았어. 그리고 놀이 공원이 인기가 많아서 사람이 많이 온다면, 놀이공원의 가격이 오르고 놀이 공원이 인기가 없어서 사람이 적게 온다면 놀이공원의 가격이 떨어져',
+                                message: '주식이 궁금해? 예를 들어, 놀이공원이 하나 있어. 놀이공원 주인은 이 놀이공원의 일부를 잘개 쪼개서 사람들에게 팔았어. 이 조각을 산 사람들은 다시 팔 수도 있어. 이 조각난 놀이공원이 주식이야.',
                                 trigger: 'stock2',
                             },
                             {
@@ -790,9 +820,57 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'stock3',
-                                message: '주식은 기업의 소유권의 일부야. 기업의 주식을 갖고있다면, 소유권이 조금 있는거야. 그래서 회사가 잘되면 너도 이익을 얻게 될 수 있어. 그러나 회사가 잘 된다고해서, 항상 주식 가격이 오르는건 아니야.',
-                                trigger: 'stock2',
+                                message: '놀이공원이 인기가 많아서 사람이 많이 온다면, 조각난 놀이공원의 가격이 올라. 인기가 없어서 사람이 적게 온다면 가격이 떨어져. 조각을 살 때 가격보다, 팔 때 가격이 비싸다면 그만큼의 이득을 볼 수 있어.',
+                                trigger: 'stock4',
                             },
+                            {
+                              id: 'stock4',
+                              options: [
+                                  { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
+                                  { value: '더 알아보기', label: '더 알아보기', trigger: 'stock5' },
+                              ],
+                          },
+                          {
+                            id: 'stock5',
+                            message: '주식은 기업의 소유권의 일부야. 기업의 주식을 갖고있다면, 그 기업의 소유권을 조금 갖고 있는거야. 그래서 회사가 운영을 잘하면 너도 이익을 얻게 될 수 있어. 그러나 회사가 운영을 잘한다고해서, 항상 주식 가격이 오르는건 아니야.',
+                            trigger: 'stock6',
+                        },                            
+                        {
+                          id: 'stock6',
+                          options: [
+                              { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
+                              { value: '더 알아보기', label: '더 알아보기', trigger: 'stock7' },
+                          ],
+                       },
+                       {
+                        id: 'stock7',
+                        message: '전염병이 발생하거나, 사람들이 돈이 없다거나, 놀이공원보다 재미있는 온라인게임이 있다면, 놀이공원의 운영과 관계없이 사람들이 잘 가지 않겠지?',
+                        trigger: 'stock8',
+                      },
+                        {
+                          id: 'stock8',
+                          options: [
+                              { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
+                              { value: '더 알아보기', label: '더 알아보기', trigger: 'stock9' },
+                          ],
+                       },
+                       {
+                        id: 'stock9',
+                        message: '주식은 손해를 볼 수도 있어. 그래서 주식을 구매할 때는 여러 방면에서 생각해보고 신중해야해.',
+                        trigger: 'stock10',
+                      },
+                      {
+                        id: 'stock10',
+                        options: [
+                            { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
+                            { value: '더 알아보기', label: '더 알아보기', trigger: 'stockgo' },
+                        ],
+                     },
+                     {
+                      id: 'stockgo',
+                      component: <Stock/>,
+                      asMessage: true,
+                  },
 //////////복권////////////////////////////////////////////////////////////////////////////////////////////
                             {
                                 id: 'lotto',
@@ -802,7 +880,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'lotto1',
-                                message: '복권이 궁금하냐멍? 아르바이트를 통해 얻은 복권 교환권으로 복권을 살 수 있다멍! 원하는 숫자를 골라봐라멍!',
+                                message: '복권이 궁금해? 아르바이트를 통해 얻은 복권 교환권으로 복권을 살 수 있어! 가서 원하는 숫자를 골라봐!',
                                 trigger: 'lotto2',
                             },
                             {
@@ -814,7 +892,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'lotto3',
-                                message: '복권에 당첨되면 용돈을 더 받을 수 있다멍! 아르바이트를 열심히 하면 좋겠지?',
+                                message: '복권에 당첨되면 용돈을 더 받을 수 있어! 아르바이트를 열심히 하면 좋겠지?',
                                 trigger: 'lotto4',
                             },
                             {
@@ -826,7 +904,7 @@ const Chatbotmain = () => {
                             },
                             {
                                 id: 'lotto5',
-                                message: '복권은 원래 돈을 주고 사는 거다멍! 이 돈들을 모아서 복권당첨금을 분배하고, 나머지는 기부에 쓰인다 멍!',
+                                message: '복권이란건 원래 돈을 주고 사는 거야! 나라에서 이 돈들을 모아서 복권당첨금을 분배하고, 나머지는 금액은 기부에 쓰여!',
                                 trigger: 'lotto6',
                             },
                             {

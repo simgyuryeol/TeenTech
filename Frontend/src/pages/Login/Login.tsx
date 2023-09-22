@@ -10,10 +10,12 @@ const Login: React.FC = () => {
     // const REDIRECT_URI = base_URL + '/login2'; // redirect 주소
     // const REDIRECT_URI = 'http://localhost:8080/login/oauth2/code/kakao'; // redirect 주소
     // const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`;
-    const Backserver_URI = 'http://192.168.30.201:8080';
+    // const Backserver_URI = 'http://192.168.30.201:8080';
+    const Backserver_URI = 'http://j9e207.p.ssafy.io';
     const REDIRECT_URI = 'http://localhost:5173/oauth/redirect'; // redirect 주소
     const KAKAO_AUTH_URI = `${Backserver_URI}/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI}`;
     // const KAKAO_AUTH_URI = `http://192.168.30.201:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:5173/oauth/redirect`;
+    // const KAKAO_AUTH_URI = "http://j9e207.p.ssafy.io/oauth2/authorization/kakao?redirect_uri=http://localhost:5173/oauth/redirect";
     return (
         <div className=''>
             <h2>로그인페이지</h2>
