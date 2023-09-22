@@ -7,7 +7,7 @@ const QuizChart: React.FC = () => {
     options: {
       chart: {
         width: 380,
-        type: "pie",
+        type: "pie" as const,
       },
       labels: ["정답", "오답"],
       responsive: [
