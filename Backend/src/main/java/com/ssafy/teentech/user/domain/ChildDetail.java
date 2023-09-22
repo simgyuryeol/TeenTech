@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
@@ -34,6 +35,7 @@ public class ChildDetail {
     @JoinColumn(name = "userId")
     private User user;
 
+    @Setter
     @Column(name = "CREDIT_RATING")
     @NotNull
     @Min(1)
@@ -41,27 +43,38 @@ public class ChildDetail {
     @ColumnDefault("1")
     private Integer creditRating;
 
+    @Setter
     @Column(name = "LOTTERY_COUPON")
     @ColumnDefault("0")
     private Integer lotteryCoupon;
 
+    @Setter
     @Column(name = "QUIZ_POINT")
     @ColumnDefault("0")
     private Integer quizPoint;
 
+    @Setter
     @Column(name = "POCKET_MONEY")
     private Integer pocketMoney;
 
+    @Setter
     @Column(name = "POCKET_MONEY_CYCLE", columnDefinition = "TINYINT")
     private Cycle pocketMoneyCycle;
 
+    @Setter
     @Column(name = "ALBA_SUCCESS_STREAK")
     private Integer albaSuccessStreak;
 
+    @Setter
     @Column(name = "TOTAL_LOTTERY_PRIZE")
     private Integer totalLotteryPrize;
 
+    @Setter
     @Column(name = "AVATAR_IMAGE_URL", length = 512)
     @Size(max = 512)
     private String avatarImageUrl;
+
+    @Setter
+    @Column(name = "DEPOSIT_INTEREST_RATE")
+    private float depositInterestRate;
 }
