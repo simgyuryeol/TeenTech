@@ -1,5 +1,6 @@
 package com.ssafy.teentech.common.error;
 
+import com.ssafy.teentech.common.error.exception.BankException;
 import com.ssafy.teentech.common.error.exception.BaseException;
 import com.ssafy.teentech.common.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleServerException(Exception e) {
         return handleException(e, ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BankException.class)
+    public ResponseEntity<ErrorResponse> handleBankException(BankException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getStatus(), e.getMessage());
+        return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
     }
 
     @ExceptionHandler(BaseException.class)

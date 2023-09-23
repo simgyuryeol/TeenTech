@@ -4,6 +4,7 @@ import com.ssafy.teentech.account.domain.Account;
 import com.ssafy.teentech.account.repository.AccountRepository;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AccountException;
+import com.ssafy.teentech.common.error.exception.TransactionException;
 import com.ssafy.teentech.transaction.domain.Transaction;
 import com.ssafy.teentech.transaction.dto.TransactionType;
 import com.ssafy.teentech.transaction.dto.request.TransactionListRequestDto;
@@ -25,6 +26,10 @@ public class TransactionService {
     private final AccountRepository accountRepository;
 
     public void executeTransaction(TransactionRequestDto transactionRequestDto) {
+        if (transactionRequestDto.getAmount() < 1) {
+            throw new TransactionException(ErrorCode.INVALID_TRANSFER_AMOUNT);
+        }
+
         String withdrawAccountNumber = transactionRequestDto.getWithdrawAccountNumber();
         String depositAccountNumber = transactionRequestDto.getDepositAccountNumber();
 
