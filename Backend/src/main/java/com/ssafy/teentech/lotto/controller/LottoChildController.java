@@ -36,7 +36,7 @@ public class LottoChildController {
 
 
         ApiResponse apiResponse = ApiResponse.builder()
-                .message("복권 당첨금 받기")
+                .message("복권 당첨금 내역 보기")
                 .status(OK.value())
                 .data(lottoHistoryResponseDto)
                 .build();
