@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @Table(name = "QUIZ_HISTORY")
 public class QuizHistory {
     @Id
-    @Column(name = "QUIZ_ID")
+    @Column(name = "QUIZ_HISTORY_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quizId;
+    private Long quizHistoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
@@ -24,6 +24,9 @@ public class QuizHistory {
     private LocalDate date;
     private Integer point;
     private Answer answer;
-    private Subject subject;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quizId")
+    private Quiz quiz;
 
 }
