@@ -1,6 +1,7 @@
 package com.ssafy.teentech.quiz.domain;
 
 import com.ssafy.teentech.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +29,16 @@ public class QuizHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quizId")
     private Quiz quiz;
+
+
+    @Builder
+    public QuizHistory(User user, LocalDate date, Integer point, Answer answer, Quiz quiz){
+        this.quizHistoryId=null;
+        this.user = user;
+        this.date=date;
+        this.point=point;
+        this.answer=answer;
+        this.quiz = quiz;
+    }
 
 }

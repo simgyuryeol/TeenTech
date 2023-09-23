@@ -2,16 +2,14 @@ package com.ssafy.teentech.quiz.controller;
 
 import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.quiz.domain.Subject;
+import com.ssafy.teentech.quiz.dto.request.QuizMoneyTransfer;
 import com.ssafy.teentech.quiz.dto.response.QuizDetailResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizHistoryResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizListResponseDto;
 import com.ssafy.teentech.quiz.service.QuizChildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,7 +45,7 @@ public class QuizChildController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("{subject}")
+    @GetMapping("/{subject}")
     public ResponseEntity<ApiResponse> quizDetail(@PathVariable Long child_id, @PathVariable Subject subject){
         QuizDetailResponseDto quizDetailResponseDto = quizChildService.quizDetail(child_id,subject);
 
@@ -56,6 +54,17 @@ public class QuizChildController {
                 .message("퀴즈 상세 조회")
                 .status(OK.value())
                 .data(quizDetailResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping()
+    public ResponseEntity<ApiResponse> quizMoneyTransfer(@RequestBody QuizMoneyTransfer quizMoneyTransfer, @PathVariable Long child_id){
+        quizChildService.quizMoneyTransfer(quizMoneyTransfer,child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("퀴즈 용돈 이체")
+                .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

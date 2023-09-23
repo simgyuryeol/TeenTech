@@ -1,14 +1,19 @@
 package com.ssafy.teentech.quiz.service;
 
 import com.ssafy.teentech.quiz.domain.Answer;
+import com.ssafy.teentech.quiz.domain.Quiz;
 import com.ssafy.teentech.quiz.domain.QuizHistory;
 import com.ssafy.teentech.quiz.domain.Subject;
+import com.ssafy.teentech.quiz.dto.request.QuizHistorySaveDto;
+import com.ssafy.teentech.quiz.dto.request.QuizMoneyTransfer;
 import com.ssafy.teentech.quiz.dto.response.QuizDetailResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizHistoryResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizListResponseDto;
 import com.ssafy.teentech.quiz.repository.QuizHistoryRepository;
 import com.ssafy.teentech.quiz.repository.QuizRepository;
+import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
+import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +21,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class QuizChildService {
 
     final private UserRepository userRepository;
+    final private ChildDetailRepository childDetailRepository;
     final private QuizHistoryRepository quizHistoryRepository;
     final private QuizRepository quizRepository;
 
@@ -95,4 +102,34 @@ public class QuizChildService {
     }
 
 
+    /**
+     * 1. 퀴즈 내역에 저장
+     * 2. 이체 로직 실행
+     */
+    public void quizMoneyTransfer(QuizMoneyTransfer quizMoneyTransfer, Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        //1. 퀴즈 내역에 저장
+        List<QuizHistory> quizHistorySaveDtoList = new ArrayList<>();
+
+        for(QuizMoneyTransfer.QuizData quizData :quizMoneyTransfer.getQuizList()){
+            Quiz quiz = quizRepository.findById(quizData.getQuizId()).orElseThrow(() -> new IllegalArgumentException());
+
+            QuizHistorySaveDto quizHistorySaveDto = QuizHistorySaveDto.builder()
+                    .answer(quizData.getAnswer())
+                    .quiz(quiz)
+                    .date(quizMoneyTransfer.getDate())
+                    .point(childDetail.getQuizPoint())
+                    .user(user)
+                    .build();
+
+            quizHistorySaveDtoList.add(quizHistorySaveDto.toEntity());
+        }
+
+        quizHistoryRepository.saveAll(quizHistorySaveDtoList);
+
+
+        //2. 이체 로직
+    }
 }
