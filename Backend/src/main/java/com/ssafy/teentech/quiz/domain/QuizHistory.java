@@ -24,5 +24,6 @@ public class QuizHistory {
     private LocalDate date;
     private Integer point;
     private Answer answer;
+    private Subject subject;
 
 }

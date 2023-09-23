@@ -15,7 +15,7 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quizId;
 
-    private String subject;
+    private Subject subject;
     private String question;
     private String choice;
     private String answer;

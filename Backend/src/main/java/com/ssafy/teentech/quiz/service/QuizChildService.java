@@ -2,7 +2,9 @@ package com.ssafy.teentech.quiz.service;
 
 import com.ssafy.teentech.quiz.domain.Answer;
 import com.ssafy.teentech.quiz.domain.QuizHistory;
+import com.ssafy.teentech.quiz.domain.Subject;
 import com.ssafy.teentech.quiz.dto.response.QuizHistoryResponseDto;
+import com.ssafy.teentech.quiz.dto.response.QuizListResponseDto;
 import com.ssafy.teentech.quiz.repository.QuizHistoryRepository;
 import com.ssafy.teentech.quiz.repository.QuizRepository;
 import com.ssafy.teentech.user.domain.User;
@@ -10,6 +12,8 @@ import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -45,5 +49,19 @@ public class QuizChildService {
                 .point(point)
                 .build();
         return quizHistoryResponseDto;
+    }
+
+    public List<QuizListResponseDto> quizList() {
+        List<Subject> subjects = Arrays.asList(Subject.values());
+
+        List<QuizListResponseDto> quizListResponseDtoList = new ArrayList<>();
+        for (Subject subject : subjects){
+            QuizListResponseDto quizListResponseDto = QuizListResponseDto.builder()
+                    .subject(subject)
+                    .build();
+            quizListResponseDtoList.add(quizListResponseDto);
+        }
+
+        return quizListResponseDtoList;
     }
 }
