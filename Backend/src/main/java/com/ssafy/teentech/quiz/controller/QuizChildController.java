@@ -1,6 +1,8 @@
 package com.ssafy.teentech.quiz.controller;
 
 import com.ssafy.teentech.common.response.ApiResponse;
+import com.ssafy.teentech.quiz.domain.Subject;
+import com.ssafy.teentech.quiz.dto.response.QuizDetailResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizHistoryResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizListResponseDto;
 import com.ssafy.teentech.quiz.service.QuizChildService;
@@ -44,4 +46,18 @@ public class QuizChildController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+
+    @GetMapping("{subject}")
+    public ResponseEntity<ApiResponse> quizDetail(@PathVariable Long child_id, @PathVariable Subject subject){
+        QuizDetailResponseDto quizDetailResponseDto = quizChildService.quizDetail(child_id,subject);
+
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("퀴즈 상세 조회")
+                .status(OK.value())
+                .data(quizDetailResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
 }
