@@ -7,6 +7,7 @@ import com.ssafy.teentech.quiz.domain.Subject;
 import com.ssafy.teentech.quiz.dto.request.QuizHistorySaveDto;
 import com.ssafy.teentech.quiz.dto.request.QuizMoneyTransfer;
 import com.ssafy.teentech.quiz.dto.response.QuizDetailResponseDto;
+import com.ssafy.teentech.quiz.dto.response.QuizGetResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizHistoryResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizListResponseDto;
 import com.ssafy.teentech.quiz.repository.QuizHistoryRepository;
@@ -20,8 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -131,5 +132,33 @@ public class QuizChildService {
 
 
         //2. 이체 로직
+    }
+
+    /**
+     * 해당 주제에 맞는 퀴즈를 찾아서 랜덤으로 5개 리턴해줌
+     * 1. 주제에 맞는 모든 퀴즈 리스트 들고옴
+     * 2. 랜덤으로섞에서 처음부터 5개 리턴
+     *  데이터가 많을 경우 모든 데이터를 메모리에 로딩해야 하므로 성능 문제가 발생할 수 잇음. 리팩토링 해보자
+     */
+    public List<QuizGetResponseDto> quizGet(Subject subject) {
+        List<Quiz> quizList = quizRepository.findAllBySubject(subject).orElseThrow(() -> new IllegalArgumentException());
+        Collections.shuffle(quizList);
+
+        List<QuizGetResponseDto> quizGetResponseDtoList = new ArrayList<>();
+
+        for (Quiz quiz : quizList.subList(0, Math.min(quizList.size(), 5))){
+            QuizGetResponseDto quizGetResponseDto = QuizGetResponseDto.builder()
+                    .quizId(quiz.getQuizId())
+                    .commentary(quiz.getCommentary())
+                    .choice(quiz.getChoice())
+                    .question(quiz.getQuestion())
+                    .answer(quiz.getAnswer())
+                    .build();
+
+            quizGetResponseDtoList.add(quizGetResponseDto);
+        }
+
+        return quizGetResponseDtoList;
+
     }
 }

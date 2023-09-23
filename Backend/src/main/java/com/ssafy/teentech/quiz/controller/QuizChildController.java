@@ -4,6 +4,7 @@ import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.quiz.domain.Subject;
 import com.ssafy.teentech.quiz.dto.request.QuizMoneyTransfer;
 import com.ssafy.teentech.quiz.dto.response.QuizDetailResponseDto;
+import com.ssafy.teentech.quiz.dto.response.QuizGetResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizHistoryResponseDto;
 import com.ssafy.teentech.quiz.dto.response.QuizListResponseDto;
 import com.ssafy.teentech.quiz.service.QuizChildService;
@@ -69,4 +70,15 @@ public class QuizChildController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @GetMapping("/solve/{subject}")
+    public ResponseEntity<ApiResponse> quizGet( @PathVariable Subject subject){
+        List<QuizGetResponseDto> quizGetResponseDtoList  =quizChildService.quizGet(subject);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("퀴즈 풀기")
+                .status(OK.value())
+                .data(quizGetResponseDtoList)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
 }
