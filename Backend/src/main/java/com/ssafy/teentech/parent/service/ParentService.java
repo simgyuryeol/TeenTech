@@ -1,9 +1,6 @@
 package com.ssafy.teentech.parent.service;
 
-import com.ssafy.teentech.parent.dto.request.ChildAddRequestDto;
-import com.ssafy.teentech.parent.dto.request.ChildDeleteRequestDto;
-import com.ssafy.teentech.parent.dto.request.SendPinMoneyRequestDto;
-import com.ssafy.teentech.parent.dto.request.SetUpPinMoneyRequestDto;
+import com.ssafy.teentech.parent.dto.request.*;
 import com.ssafy.teentech.parent.dto.response.ChildDetailResponseDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.user.domain.ChildDetail;
@@ -82,5 +79,11 @@ public class ParentService {
 
 
         return childDetailResponseDto;
+    }
+
+    public void safeAdd(SafeRequestDto safeRequestDto, Long parentId) {
+        User user = userRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException());
+
+        //
     }
 }

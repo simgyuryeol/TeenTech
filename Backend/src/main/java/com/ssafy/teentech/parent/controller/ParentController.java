@@ -2,10 +2,7 @@ package com.ssafy.teentech.parent.controller;
 
 import com.google.protobuf.Api;
 import com.ssafy.teentech.common.response.ApiResponse;
-import com.ssafy.teentech.parent.dto.request.ChildAddRequestDto;
-import com.ssafy.teentech.parent.dto.request.ChildDeleteRequestDto;
-import com.ssafy.teentech.parent.dto.request.SendPinMoneyRequestDto;
-import com.ssafy.teentech.parent.dto.request.SetUpPinMoneyRequestDto;
+import com.ssafy.teentech.parent.dto.request.*;
 import com.ssafy.teentech.parent.dto.response.ChildDetailResponseDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.parent.service.ParentService;
@@ -89,6 +86,17 @@ public class ParentController {
                 .message("자식 상세 조회")
                 .status(OK.value())
                 .data(childDetailResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/safe_add")
+    public ResponseEntity<ApiResponse> safeAdd(@RequestBody SafeRequestDto safeRequestDto, @PathVariable Long parent_id){
+        parentService.safeAdd(safeRequestDto,parent_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("용돈 금고 추가")
+                .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
