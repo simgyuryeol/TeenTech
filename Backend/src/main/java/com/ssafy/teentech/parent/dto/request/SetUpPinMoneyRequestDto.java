@@ -4,7 +4,7 @@ import com.ssafy.teentech.common.util.Cycle;
 import lombok.Getter;
 
 @Getter
-public class SetUpPinMoney {
+public class SetUpPinMoneyRequestDto {
     private Integer pinMoney;
     private Cycle cycle;
 }
