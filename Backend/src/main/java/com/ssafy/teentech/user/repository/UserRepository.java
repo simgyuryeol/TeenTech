@@ -11,4 +11,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByOauthId(String oauthId);
 
     Optional<List<User>> findAllByParentId(Long parentId);
+
+    Optional<User> findByInviteCode(String inviteCode);
 }
