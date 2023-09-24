@@ -4,6 +4,7 @@ import com.ssafy.teentech.parent.dto.request.ChildAddRequestDto;
 import com.ssafy.teentech.parent.dto.request.ChildDeleteRequestDto;
 import com.ssafy.teentech.parent.dto.request.SendPinMoneyRequestDto;
 import com.ssafy.teentech.parent.dto.request.SetUpPinMoneyRequestDto;
+import com.ssafy.teentech.parent.dto.response.ChildDetailResponseDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
@@ -65,5 +66,21 @@ public class ParentService {
         user.setParentId(null);
 
         // 유저 잔액 부모한테 이체 로직
+    }
+
+    public ChildDetailResponseDto childDetail(Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        /**
+         * 추후 추가 필요
+         * 보여주는 기준 정하고 추가
+         */
+        ChildDetailResponseDto childDetailResponseDto = ChildDetailResponseDto.builder()
+                .username(user.getUsername())
+                .build();
+
+
+        return childDetailResponseDto;
     }
 }

@@ -6,6 +6,7 @@ import com.ssafy.teentech.parent.dto.request.ChildAddRequestDto;
 import com.ssafy.teentech.parent.dto.request.ChildDeleteRequestDto;
 import com.ssafy.teentech.parent.dto.request.SendPinMoneyRequestDto;
 import com.ssafy.teentech.parent.dto.request.SetUpPinMoneyRequestDto;
+import com.ssafy.teentech.parent.dto.response.ChildDetailResponseDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.parent.service.ParentService;
 import lombok.RequiredArgsConstructor;
@@ -78,5 +79,17 @@ public class ParentController {
                 .build();
         return ResponseEntity.ok(apiResponse);
 
+    }
+
+    @GetMapping("/child/{child_id}")
+    public ResponseEntity<ApiResponse> childDetail(@PathVariable Long child_id){
+        ChildDetailResponseDto childDetailResponseDto = parentService.childDetail(child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("자식 상세 조회")
+                .status(OK.value())
+                .data(childDetailResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
     }
 }
