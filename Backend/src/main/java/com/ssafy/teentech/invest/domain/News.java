@@ -1,6 +1,7 @@
 package com.ssafy.teentech.invest.domain;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,16 @@ public class News {
     private Stock stock;
 
     private String title;
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
     private LocalDate date;
+
+    @Builder
+    public News(Stock stock, String title, String content, LocalDate date){
+        this.newsId=null;
+        this.stock = stock;
+        this.title=title;
+        this.content = content;
+        this.date = date;
+    }
 }
