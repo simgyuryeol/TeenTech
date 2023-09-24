@@ -1,6 +1,7 @@
 package com.ssafy.teentech.parent.service;
 
 import com.ssafy.teentech.parent.dto.request.ChildAddRequestDto;
+import com.ssafy.teentech.parent.dto.request.ChildDeleteRequestDto;
 import com.ssafy.teentech.parent.dto.request.SendPinMoneyRequestDto;
 import com.ssafy.teentech.parent.dto.request.SetUpPinMoneyRequestDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
@@ -57,5 +58,12 @@ public class ParentService {
 
         user.setParentId(parentId);
         userRepository.save(user);
+    }
+
+    public void childDelete(ChildDeleteRequestDto childDeleteRequestDto) {
+        User user = userRepository.findByInviteCode(childDeleteRequestDto.getInviteCode()).orElseThrow(() -> new IllegalArgumentException());
+        user.setParentId(null);
+
+        // 유저 잔액 부모한테 이체 로직
     }
 }

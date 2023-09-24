@@ -1,7 +1,9 @@
 package com.ssafy.teentech.parent.controller;
 
+import com.google.protobuf.Api;
 import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.parent.dto.request.ChildAddRequestDto;
+import com.ssafy.teentech.parent.dto.request.ChildDeleteRequestDto;
 import com.ssafy.teentech.parent.dto.request.SendPinMoneyRequestDto;
 import com.ssafy.teentech.parent.dto.request.SetUpPinMoneyRequestDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
@@ -43,7 +45,7 @@ public class ParentController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping()
+    @GetMapping("/child")
     public ResponseEntity<ApiResponse> childGet(@PathVariable Long parent_id){
         List<ChildGetResponseDto> childGetResponseDtoList = parentService.childGet(parent_id);
 
@@ -55,7 +57,7 @@ public class ParentController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PostMapping()
+    @PostMapping("/child")
     public ResponseEntity<ApiResponse> childAdd(@RequestBody ChildAddRequestDto childAddRequestDto, @PathVariable Long parent_id){
         parentService.childAdd(childAddRequestDto,parent_id);
 
@@ -64,5 +66,17 @@ public class ParentController {
                 .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/child")
+    public ResponseEntity<ApiResponse> childDelete(@RequestBody ChildDeleteRequestDto childDeleteRequestDto){
+        parentService.childDelete(childDeleteRequestDto);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("자식 삭제")
+                .status(OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+
     }
 }
