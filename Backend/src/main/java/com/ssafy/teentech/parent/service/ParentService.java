@@ -1,5 +1,6 @@
 package com.ssafy.teentech.parent.service;
 
+import com.ssafy.teentech.parent.dto.request.SendPinMoney;
 import com.ssafy.teentech.parent.dto.request.SetUpPinMoney;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
@@ -21,7 +22,11 @@ public class ParentService {
 
         childDetail.setPocketMoney(setUpPinMoney.getPinMoney());
         childDetail.setPocketMoneyCycle(setUpPinMoney.getCycle());
-        
+
         childDetailRepository.save(childDetail);
+    }
+
+    public void sendPinMoney(SendPinMoney sendPinMoney, Long childId, Long parentId) {
+        //이체 로직
     }
 }

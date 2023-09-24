@@ -1,6 +1,7 @@
 package com.ssafy.teentech.parent.controller;
 
 import com.ssafy.teentech.common.response.ApiResponse;
+import com.ssafy.teentech.parent.dto.request.SendPinMoney;
 import com.ssafy.teentech.parent.dto.request.SetUpPinMoney;
 import com.ssafy.teentech.parent.service.ParentService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,17 @@ public class ParentController {
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("용돈 설정")
+                .status(OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/{child_id}/send")
+    public ResponseEntity<ApiResponse> sendPinMoney(@RequestBody SendPinMoney sendPinMoney, @PathVariable Long child_id, @PathVariable Long parent_id){
+        parentService.sendPinMoney(sendPinMoney,child_id,parent_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("용돈 보내기")
                 .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
