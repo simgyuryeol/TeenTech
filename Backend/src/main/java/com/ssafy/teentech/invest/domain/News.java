@@ -23,6 +23,7 @@ public class News {
     private Stock stock;
 
     private String title;
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
     private LocalDate date;
 

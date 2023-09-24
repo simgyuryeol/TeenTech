@@ -31,8 +31,8 @@ public class NewsScheduler {
     private final NewsRepository newsRepository;
     private final StockRepository stockRepository;
 
-    @Scheduled(cron = "0 0 16 * * *") //매일 오후 4시에 실행
-    //@Scheduled(cron = "0/50 * * * * *")
+//    @Scheduled(cron = "0 0 16 * * *") //매일 오후 4시에 실행
+    @Scheduled(cron = "0 32 * * * *")
     public void newsSave(){
         List<News> newsList = new ArrayList<>();
 

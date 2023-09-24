@@ -1,5 +1,6 @@
 package com.ssafy.teentech.invest.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,12 @@ public class Stock {
     private String companyName;
     private LocalDate date;
     private Integer price;
+
+    @Builder
+    public Stock(String companyName, LocalDate date, Integer price){
+        this.stockId=null;
+        this.companyName = companyName;
+        this.date = date;
+        this.price=price;
+    }
 }
