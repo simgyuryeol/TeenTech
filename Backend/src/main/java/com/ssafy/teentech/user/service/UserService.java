@@ -2,6 +2,7 @@ package com.ssafy.teentech.user.service;
 
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
+import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.UserRepository;
 import javax.transaction.Transactional;
@@ -21,13 +22,20 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
 
     @Value("${kakao.admin}")
     private String kakaoAdminKey;
 
     public User getUser(String userId) {
-        return userRepository.findByEmail(userId).orElseThrow(() -> new IllegalArgumentException());
+        return userRepository.findByEmail(userId)
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    public User getUser(Long userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
     }
 
     /**
