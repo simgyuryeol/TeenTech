@@ -48,6 +48,9 @@ dependencies {
 
 	testImplementation 'org.assertj:assertj-core:3.24.2'
 
+	// 크롤링을 위해 사용
+	implementation 'org.jsoup:jsoup:1.14.2'
+
 }
 
 tasks.named('test') {
