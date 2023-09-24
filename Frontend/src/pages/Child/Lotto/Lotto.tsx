@@ -11,7 +11,7 @@ const Lotto: React.FC = () => {
 
   return (
     <div
-      className="pt-20 h-100% pb-5"
+      className="pt-20 max-h pb-3"
       style={{
         backgroundImage: "linear-gradient(180deg, #141E30 0%, #243B55 100%)",
       }}

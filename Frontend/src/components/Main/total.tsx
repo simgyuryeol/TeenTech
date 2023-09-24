@@ -22,11 +22,11 @@ const Total: React.FC<Props> = ({ childId }) => {
       <div
         className="rounded-2xl drop-shadow mb-3"
         style={{
-          backgroundColor: "#FFA9B8",
+          backgroundColor: "#FF7EA5",
         }}
         onClick={clickDeposit}
       >
-        <div className="text-2xl pt-2 pl-3 text-start text-gray-700">
+        <div className="text-2xl pt-2 pl-3 text-start text-white">
           나의 예금 내역 확인하기
         </div>
         <div>
@@ -43,7 +43,7 @@ const Total: React.FC<Props> = ({ childId }) => {
       <div
         className="rounded-2xl drop-shadow mb-3"
         style={{
-          backgroundColor: "#68B9E3",
+          backgroundColor: "#3C95FF",
         }}
         onClick={clickStock}
       >
