@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StockPortfolio from "../../../components/Stock/StockPortfolio";
 import MyStock from "../../../components/Stock/MyStock";
+import EmptyStock from "../../../components/Stock/EmptyStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 import "intro.js/introjs.css";
@@ -82,13 +83,17 @@ const Stock: React.FC = () => {
 
         <StockPortfolio />
 
-        <p className="font-bold text-2xl text-left mt-8 mx-8">
-          나의 주식 살펴보기
-        </p>
-        <div className="bg-bgblue p-2">
-          {sampleData.map((stock, index) => (
-            <MyStock key={index} stock={stock} />
-          ))}
+        <div className="bg-bgblue p-2 m-5 rounded-xl">
+          <p className="font-bold text-2xl text-left mt-4 mx-8">
+            나의 주식 살펴보기
+          </p>
+          {sampleData.length ? (
+            sampleData.map((stock, index) => (
+              <MyStock key={index} stock={stock} />
+            ))
+          ) : (
+            <EmptyStock />
+          )}
         </div>
 
         <button
