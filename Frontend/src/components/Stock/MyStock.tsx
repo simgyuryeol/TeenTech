@@ -1,6 +1,10 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
+import samsungImg from "../../assets/stock/samsung.png";
+import kakaoImg from "../../assets/stock/kakao.png";
+import shinhanImg from "../../assets/stock/shinhan.png";
+import ncsoftImg from "../../assets/stock/ncsoft.png";
 
 interface Stock {
   koName: string;
@@ -17,11 +21,31 @@ interface MyStockProps {
 
 const MyStock: React.FC<MyStockProps> = (props) => {
   const { koName, enName, investment, value, gain, ror } = props.stock;
+  
+  let imageSrc;
+  switch (enName) {
+    case "samsung":
+      imageSrc = samsungImg;
+      break;
+    case "kakao":
+      imageSrc = kakaoImg;
+      break;
+    case "ncsoft":
+      imageSrc = ncsoftImg;
+      break;
+      case "shinhan":
+      imageSrc = shinhanImg;
+      break;
+    default:
+      imageSrc = "";
+      break;
+  }
+
   return (
     <Link to={`/StockDetail/${enName}`}>
       <div className="bg-white m-5 rounded-xl shadow-md flex justify-between p-2 text-black" id="my-stock">
-          <div className="flex flex-col items-center">
-            <img src="" alt={enName} />
+          <div className="flex flex-col items-center p-4 ml-4">
+            <img src={imageSrc} alt={enName} className="w-12 h-12"/>
             <p className="ml-2 text-md font-bold">{koName}</p>
           </div>
 

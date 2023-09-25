@@ -1,7 +1,7 @@
 import React from "react";
 import MarketStock from "../../../components/Stock/MarketStock";
 import CountdownTimer from "../../../components/Stock/CountdownTimer/CountdownTimer";
-import Card from "../../../components/Common/Card";
+import clockImg from "../../../assets/stock/clock.png";
 
 interface Stock {
   koName: string;
@@ -28,18 +28,18 @@ const StockMarket: React.FC = () => {
       priceChangePercentage: 10.0,
     },
     {
-      koName: "엔씨소프트",
-      enName: "ncsoft",
-      value: 900,
-      priceChange: -100,
-      priceChangePercentage: -10.0,
-    },
-    {
       koName: "신한은행",
       enName: "shinhan",
       value: 1100,
       priceChange: 100,
       priceChangePercentage: 10.0,
+    },
+    {
+      koName: "엔씨소프트",
+      enName: "ncsoft",
+      value: 900,
+      priceChange: -100,
+      priceChangePercentage: -10.0,
     },
   ];
 
@@ -54,11 +54,19 @@ const StockMarket: React.FC = () => {
   };
 
   return (
-    <div className="mt-12">
-      <Card className="pt-6 border border-red-500">
-        <p className="text-2xl">주식 가격 업뎃까지...</p>
-        <CountdownTimer targetHour={16} onCountdownZero={handleCountdownZero} />
-      </Card>
+    <div className="mt-20 ">
+      <div className="mx-5 p-8 bg-bgblue rounded-xl drop-shadow-lg flex items-center justify-between">
+        <img src={clockImg} alt="" className="w-20 h-20" />
+
+        <div>
+          <p className="text-xl py-2">주식 가격이 바뀌기까지</p>
+          <CountdownTimer
+            targetHour={16}
+            onCountdownZero={handleCountdownZero}
+          />
+        </div>
+      </div>
+
       {sampleData.map((stock, index) => (
         <MarketStock key={index} stock={stock} />
       ))}

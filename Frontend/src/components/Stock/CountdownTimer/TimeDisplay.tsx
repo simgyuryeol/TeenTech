@@ -9,7 +9,7 @@ interface TimeDisplayProps {
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ value, type, isDanger }) => {
   return (
     // <div className={isDanger ? "countdown danger" : "countdown"}>
-    <div className="flex text-xl mx-2">
+    <div className="flex text-2xl mx-2">
       <p>{value}</p>
       <span>{type}</span>
     </div>
