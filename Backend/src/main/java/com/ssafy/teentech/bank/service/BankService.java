@@ -58,7 +58,7 @@ public class BankService {
             .build();
 
         ApiResponse result = webClient.post()
-            .uri("/api/v1/transaction")
+            .uri("/api/v1/transaction/auto")
             .body(Mono.just(autoTransactionRequestDto), AutoTransactionRequestDto.class)
             .retrieve()
             .onStatus(HttpStatus::is4xxClientError,
