@@ -1,6 +1,7 @@
 package com.ssafy.teentech.transaction.controller;
 
 import com.ssafy.teentech.common.ApiResponse;
+import com.ssafy.teentech.transaction.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.transaction.dto.request.TransactionListRequestDto;
 import com.ssafy.teentech.transaction.dto.request.TransactionRequestDto;
 import com.ssafy.teentech.transaction.dto.response.TransactionListResponseDto;
@@ -21,7 +22,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> transfer(
+    public ResponseEntity transfer(
         @RequestBody TransactionRequestDto transactionRequestDto) {
         transactionService.executeTransaction(transactionRequestDto);
 
@@ -33,17 +34,24 @@ public class TransactionController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @PostMapping("/auto")
+    public ResponseEntity<ApiResponse> autoTransfer(@RequestBody AutoTransactionRequestDto autoTransactionRequestDto) {
+        transactionService.executeAutoTransaction(autoTransactionRequestDto);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+            .message("자동 이체 완료")
+            .status(HttpStatus.OK.value())
+            .data(null)
+            .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @PostMapping("/list")
-    public ResponseEntity<ApiResponse> getTransactions(
+    public ResponseEntity<TransactionListResponseDto> getTransactions(
         @RequestBody TransactionListRequestDto transactionListRequestDto) {
         TransactionListResponseDto transactionListResponseDto = transactionService.getTransactions(
             transactionListRequestDto);
 
-        ApiResponse apiResponse = ApiResponse.builder()
-            .message("이체 내역 조회 완료")
-            .status(HttpStatus.OK.value())
-            .data(transactionListResponseDto)
-            .build();
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok(transactionListResponseDto);
     }
 }
