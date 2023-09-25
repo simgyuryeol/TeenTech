@@ -22,60 +22,61 @@ const LoanList: React.FC<LoanListProps> = (props) => {
   return (
     <div>
       <div
-        className="border border-2 rounded-xl pt-2 mr-6 ml-6 bg-white"
+        className="drop-shadow-xl rounded-xl pt-2 mr-6 ml-6 bg-white"
         style={{ borderColor: "#ABD0CE" }}
       >
-        <div className="flex">
-          <div className=" w-[100%]">
-            <div>
-              {/* <div className='text-sm'>대출 이름</div> */}
-              <div className="text-lg text-start pl-3">{LoanName}</div>
+        <div className="flex mb-4 justify-between">
+              <div className="text-xl text-start pl-3">{LoanName}</div>
+              <div className="text-lg text-start mr-3 rounded-md px-2 bg-red-500 text-white">D-4</div>
+        </div>
+        {/* 진행도 바 */}
+        <div className="h-8">
+          <div className="flex m-3 pb-3 relative">
+            <div
+              className="absolute"
+              style={{
+                left: `calc(${progress}% - 20px)`,
+                top: "8px",
+                transform: "translateY(-50%)",
+              }}
+            >
+              <img
+                src="../../../src/assets/run_bear.gif"
+                style={{ width: "50px", height: "auto" }}
+                alt="Running person"
+                />
             </div>
-            <div>
-              <div className="text-sm">남은 상환액</div>
-              <div className="text-2xl text-red-500">
-                {LoanMoney.toLocaleString()}원
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center items-center w-[100%]">
-            <p className="text-5xl text-red-500 font-bold">D-4</p>
+            <div
+              className="bg-gray-300 h-3 rounded-md absolute"
+              style={{ width: "98%", top: "30px", }}
+            ></div>
+            <div
+              className="bg-red-500 h-3 rounded-md absolute"
+              style={{ width: `${progress}%`, top: "30px", }}
+            ></div>
           </div>
         </div>
+        {/* progress바 여기까지 */}
+        <div className="flex justify-between">
+          <div className="mt-1 mb-3 mx-3 text-red-500">
+            <div className="text-sm text-start">남은 상환액</div>
+            <div>100,000원</div>
+          </div>
+          <div className="mt-1 mb-3 mx-3 text-gray-500">
+            <div>{totalLoanMoney}</div>
+          </div>
+        </div>
+
         <div className="flex justify-end">
           <p
             onClick={() => handleOpen(1)}
-            className="border-2 rounded-md pl-2 pr-2 mb-1 mr-4 bg-gray-300"
+            className="rounded-md px-2 py-1 mb-3 mr-2 bg-gray-300"
           >
             자세히 보기
           </p>
           {props.children}
         </div>
-        {/* 진행도 바 */}
-        <div className="flex m-3 pb-3 relative">
-          <div
-            className="absolute"
-            style={{
-              left: `calc(${progress}% - 20px)`,
-              top: "-25px",
-              transform: "translateY(-50%)",
-            }}
-          >
-            <img
-              src="../../../src/assets/Teen9/Dog.png"
-              style={{ width: "50px", height: "auto" }}
-              alt="Running person"
-            />
-          </div>
-          <div
-            className="bg-gray-300 h-3 rounded-md absolute"
-            style={{ width: "98%" }}
-          ></div>
-          <div
-            className="bg-red-500 h-3 rounded-md absolute"
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
+        
       </div>
       {open === 1 && (
         <LoanCompo

@@ -35,10 +35,10 @@ const LoanCompo: React.FC<LoanCompoProps> = (props) => {
                 <p className='ml-[5%] border rounded-md w-[90%] p-3' style={{backgroundColor:'#EBF0F3'}}>{maturity}</p> 
             </div>
             <div>
-            <div className='flex flex-col w-[100%]'>
+            {/* <div className='flex flex-col w-[100%]'>
               <p className='flex ml-[5%] w-[100%] text-lg'>상환 방법</p>
               <p className='ml-[5%] border rounded-md w-[90%] p-3' style={{backgroundColor:'#EBF0F3'}}>{repayment}</p> 
-            </div>
+            </div> */}
             </div>
             <div className='mb-4'>
                 <p className='flex ml-[5%] w-[100%] text-lg'>대출 사유</p>

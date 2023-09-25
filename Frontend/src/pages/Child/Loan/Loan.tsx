@@ -21,7 +21,7 @@ const Loan: React.FC = () => {
           <div className="flex justify-end">
             <button
               onClick={() => handleOpen(1)}
-              className="font-bold p-2 pt-1 pb-1 ml-6 mr-6 mt-2 mb-2"
+              className="font-bold p-2 pt-1 pb-1 mr-3 mt-3 mb-3"
               style={{ color: "#363636", backgroundColor: "#ABC3D0" }}
             >
               대출 신청
@@ -46,17 +46,17 @@ const Loan: React.FC = () => {
             </div>
           }
         >
-          <div className="border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300">
+          <div className="rounded-md px-2 py-1 mb-3 mr-2 bg-gray-300">
             <LoanrepaymentButton></LoanrepaymentButton>
           </div>
         </LoanList>
         <LoanList children2>
-          <div className="border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300">
+          <div className="rounded-md px-2 py-1 mb-3 mr-2 bg-gray-300">
             <LoanrepaymentButton></LoanrepaymentButton>
           </div>
         </LoanList>
         <LoanList children2>
-          <div className="border-2 rounded-md pl-2 pr-2 mr-4 mb-1 bg-gray-300">
+          <div className="rounded-md px-2 py-1 mb-3 mr-2 bg-gray-300">
             <LoanrepaymentButton></LoanrepaymentButton>
           </div>
         </LoanList>
