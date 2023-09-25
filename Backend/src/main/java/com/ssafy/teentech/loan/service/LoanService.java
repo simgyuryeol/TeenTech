@@ -246,8 +246,7 @@ public class LoanService {
             LocalDate approvalDate = LocalDate.now();
             LocalDate maturityDate = approvalDate.plusMonths(loan.getPeriod());
             BigDecimal totalInterest = new BigDecimal(loan.getAmount()).multiply(
-                    loan.getInterestRate()).divide(new BigDecimal(12))
-                .multiply(new BigDecimal(loan.getPeriod())).setScale(1, RoundingMode.UP);
+                    loan.getInterestRate()).setScale(1, RoundingMode.UP);
             Integer balance = loan.getAmount() + totalInterest.intValue();
 
             loan.updateApprovalDate(approvalDate);
