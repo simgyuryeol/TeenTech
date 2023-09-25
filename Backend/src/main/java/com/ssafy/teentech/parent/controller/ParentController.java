@@ -100,4 +100,15 @@ public class ParentController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+
+    @PostMapping("/safe_sub")
+    public ResponseEntity<ApiResponse> safeSub(@RequestBody SafeRequestDto safeRequestDto, @PathVariable Long parent_id ){
+        parentService.safeSub(safeRequestDto,parent_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("용돈 금고 빼기")
+                .status(OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
 }

@@ -141,6 +141,13 @@ public class ParentService {
     public void safeAdd(SafeRequestDto safeRequestDto, Long parentId) {
         User user = userRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException());
 
-        //
+        // 이체 로직
+
+    }
+
+    public void safeSub(SafeRequestDto safeRequestDto, Long parentId) {
+        User user = userRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException());
+
+        // 이체 로직
     }
 }
