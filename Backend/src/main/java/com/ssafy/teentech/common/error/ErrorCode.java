@@ -32,8 +32,18 @@ public enum ErrorCode {
     ALBA_NOT_ACCEPTED(400, "수락된 적 없는 아르바이트입니다."),
     ALREADY_GIVE_UP_ALBA(400, "이미 포기한 아르바이트입니다."),
     FCM_TOKEN_NOT_FOUND(400, "FCM TOKEN을 찾을 수 없습니다."),
+    LOAN_NOT_FOUND(400, "해당 대출 건을 찾을 수 없습니다."),
+    ALREADY_COMPLETED_REPAYMENT(400, "이미 상환 완료된 대출입니다."),
+    INVALID_REPAYMENT_AMOUNT(400, "상환 금액이 남은 대출 잔액보다 큽니다."),
+    ALREADY_APPROVED_LOAN(400, "이미 승인된 대출입니다."),
+    BALANCE_NOT_ENOUGH(400, "계좌 잔액이 부족합니다."),
+    LOAN_LIMIT_EXCEED(400, "남은 총 상환 금액과 대출 신청 금액의 합이 용돈의 50% 이상입니다."),
 
-    FAIL_SEND_FCM_MESSAGE(400, "알림 보내기를 실패하였습니다.");
+    FAIL_SEND_FCM_MESSAGE(400, "알림 보내기를 실패하였습니다."),
+
+    // PermissionDeniedException
+    NO_PERMISSION_TO_APPLY_LOAN(400, "해당 대출을 상환할 수 없습니다."),
+    NO_PERMISSION_TO_READ_LOAN(400, "해당 유저의 대출을 조회할 수 없습니다.");
 
     private int status;
     private String message;
