@@ -79,4 +79,7 @@ public class ChildDetail {
     @Setter
     @Column(name = "DEPOSIT_INTEREST_RATE")
     private float depositInterestRate;
+
+    @Setter
+    private float loanInterestRate;
 }
