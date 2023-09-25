@@ -8,6 +8,7 @@ import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.parent.service.ParentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -107,6 +108,18 @@ public class ParentController {
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("용돈 금고 빼기")
+                .status(OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/{child_id}/interest")
+    public ResponseEntity<ApiResponse> interestRateSetting(@RequestBody InterestRateSettingRequestDto interestRateSettingRequestDto, @PathVariable Long child_id){
+        parentService.interestRateSetting(interestRateSettingRequestDto,child_id);
+
+        
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("이자율 설정")
                 .status(OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);

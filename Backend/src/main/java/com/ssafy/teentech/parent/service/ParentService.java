@@ -186,4 +186,14 @@ public class ParentService {
         bankService.autoTransfer(autoTransactionRequestDto);
 
     }
+
+    public void interestRateSetting(InterestRateSettingRequestDto interestRateSettingRequestDto, Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        childDetail.setDepositInterestRate(interestRateSettingRequestDto.getDeposit());
+        childDetail.setLoanInterestRate(interestRateSettingRequestDto.getLoan());
+
+        childDetailRepository.save(childDetail);
+    }
 }
