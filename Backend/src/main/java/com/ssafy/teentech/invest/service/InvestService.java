@@ -1,5 +1,8 @@
 package com.ssafy.teentech.invest.service;
 
+import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.invest.domain.News;
 import com.ssafy.teentech.invest.domain.Stock;
 import com.ssafy.teentech.invest.domain.StockTrade;
@@ -33,6 +36,7 @@ public class InvestService {
     private final StockTradeRepository stockTradeRepository;
     private final StockRepository stockRepository;
     private final NewsRepository newsRepository;
+    private final BankService bankService;
 
     public List<CheckStockHoldingsResponseDto> checkStockHoldings(Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
@@ -69,6 +73,22 @@ public class InvestService {
         StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
 
         // 1. 은행 서버로 거래 요청
+        AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                childId,
+                withdrawAccountNumber,
+                depositAccountNumber,
+                (long)stockTransactionRequestDto.getAmount()*stockTransactionRequestDto.getPrice(),
+                "주식 매도"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
 
         //2.주식 거래 내역에 추가
         addStockTransactionHistory(stock,user,stockTransactionRequestDto,0);
@@ -88,6 +108,22 @@ public class InvestService {
         StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
 
         // 1. 은행으로 거래 요청
+        AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                childId,
+                depositAccountNumber,
+                withdrawAccountNumber,
+                (long)stockTransactionRequestDto.getAmount()*stockTransactionRequestDto.getPrice(),
+                "주식 매수"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
 
         // 2. 주식 거래 내역 추가
         addStockTransactionHistory(stock,user,stockTransactionRequestDto,1);

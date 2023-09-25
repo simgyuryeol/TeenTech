@@ -56,9 +56,9 @@ public class DepositController {
     }
 
     @DeleteMapping("/{depositId}")
-    public ResponseEntity<ApiResponse> depositExpiration(@PathVariable Integer depositId) {
+    public ResponseEntity<ApiResponse> depositExpiration(@PathVariable Long child_id,@PathVariable Integer depositId) {
 
-        depositService.depositExpiration(depositId);
+        depositService.depositExpiration(child_id,depositId);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("예금 만료")
