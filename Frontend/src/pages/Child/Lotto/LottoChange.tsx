@@ -144,10 +144,12 @@ const LottoChange: React.FC = () => {
         handlerFire();
         playAudio(yeah);
         alert("당첨!");
+        setSelectedNumbers([]);
       } else {
         setIsLotteryRunning(false);
         setIsWinning(false);
         alert("아쉽다.");
+        setSelectedNumbers([]);
       }
     }, 1500 * 3 + 150);
   };
@@ -206,15 +208,10 @@ const LottoChange: React.FC = () => {
 
   return (
     <div
-      className="pt-20 px-4 bg-gray-900 pb-1 text-white"
-      style={{
-        height: "100vh",
-        // border: "0.3rem solid #fff",
-        // //padding: "0.4em",
-        // borderRadius: "2rem;",
-        // boxShadow:
-        //   "0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem #FFE03D, 0 0 0.8rem #FFE03D, 0 0 2.8rem #FFE03D, inset 0 0 1.3rem #FFE03D",
-      }}
+      className="pt-20 px-4 bg-gray-900 pb-1 text-white h-screen"
+      // style={{
+      //   height: "100vh",
+      //   }}
     >
       <div>
         <h1
@@ -223,7 +220,6 @@ const LottoChange: React.FC = () => {
             color: "#fff",
             textShadow:
               "0 0 1px #fff, 0 0 5px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa",
-            //animation: "flicker 1.5s infinite alternate",
           }}
         >
           당 첨 번 호
@@ -240,7 +236,7 @@ const LottoChange: React.FC = () => {
           {displayNumbers.map((num, index) => (
             <div
               key={index}
-              className="mx-4 text-2xl font-bold text-purple-800 rounded-full bg-white w-12 h-12 flex items-center justify-center"
+              className="text-2xl mx-2 font-bold text-purple-800 rounded-full bg-white w-12 h-12 flex items-center justify-center"
             >
               {num}
             </div>
