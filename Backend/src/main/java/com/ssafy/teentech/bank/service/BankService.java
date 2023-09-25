@@ -1,5 +1,6 @@
 package com.ssafy.teentech.bank.service;
 
+import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.bank.dto.request.TransactionListRequestDto;
 import com.ssafy.teentech.bank.dto.request.TransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
@@ -35,6 +36,30 @@ public class BankService {
         ApiResponse result = webClient.post()
             .uri("/api/v1/transaction")
             .body(Mono.just(transactionRequestDto), TransactionRequestDto.class)
+            .retrieve()
+            .onStatus(HttpStatus::is4xxClientError,
+                response -> {
+                    throw new BankException(400, "400에러");
+                })
+            .onStatus(HttpStatus::is5xxServerError, response -> {
+                throw new BankException(500, "500에러");
+            })
+            .bodyToMono(ApiResponse.class)
+            .block();
+
+        return result;
+    }
+
+    public ApiResponse autoTransfer(AutoTransactionRequestDto autoTransactionRequestDto) {
+        WebClient webClient = WebClient
+            .builder()
+            .baseUrl(bankServerUri)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .build();
+
+        ApiResponse result = webClient.post()
+            .uri("/api/v1/transaction")
+            .body(Mono.just(autoTransactionRequestDto), AutoTransactionRequestDto.class)
             .retrieve()
             .onStatus(HttpStatus::is4xxClientError,
                 response -> {
