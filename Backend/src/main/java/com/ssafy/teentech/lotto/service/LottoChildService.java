@@ -1,5 +1,8 @@
 package com.ssafy.teentech.lotto.service;
 
+import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.lotto.domain.Lotto;
 import com.ssafy.teentech.lotto.dto.request.LottoWinningsRequestDto;
 import com.ssafy.teentech.lotto.dto.response.LottoHistoryResponseDto;
@@ -21,6 +24,7 @@ public class LottoChildService {
     final private UserRepository userRepository;
     final private ChildDetailRepository childDetailRepository;
     final private LottoRepository lottoRepository;
+    final private BankService bankService;
 
     /**
      * 1. 로또 음모권 -1
@@ -36,7 +40,22 @@ public class LottoChildService {
         childDetailRepository.save(childDetail);
 
         if(lottoWinningsRequestDto.getSuccess()==0){ // 성공햇으면 이체 api 실행
+            AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
+            String depositAccountNumber = depositInformation.getAccountNumber();
 
+            AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+            String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+            AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                    childId,
+                    withdrawAccountNumber,
+                    depositAccountNumber,
+                    (long)childDetail.getTotalLotteryPrize(),
+                    "로또 당첨 이체"
+            );
+
+            bankService.autoTransfer(autoTransactionRequestDto);
         }
 
     }

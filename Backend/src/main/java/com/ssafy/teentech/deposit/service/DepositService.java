@@ -1,5 +1,10 @@
 package com.ssafy.teentech.deposit.service;
 
+import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
+import com.ssafy.teentech.bank.dto.request.TransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
+import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.domain.InterestType;
 import com.ssafy.teentech.deposit.dto.request.DepositCreateRequestDto;
@@ -24,6 +29,7 @@ public class DepositService {
     private final UserRepository userRepository;
     private final ChildDetailRepository childDetailRepository;
     private final DepositRepository depositRepository;
+    private final BankService bankService;
 
 
     /**
@@ -106,11 +112,27 @@ public class DepositService {
         return depositInquiryResponseDto;
     }
 
-    public void depositExpiration(Integer depositId) {
+    public void depositExpiration(Long childId,Integer depositId) {
         Deposit deposit = depositRepository.findById(depositId).orElseThrow(() -> new IllegalArgumentException());
 
         // 만료 금액 이체 로직 추가
+        AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
 
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                childId,
+                withdrawAccountNumber,
+                depositAccountNumber,
+                (long)deposit.getMoney(),
+                "예금 만료 이체"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
 
 
         depositRepository.delete(deposit);

@@ -1,5 +1,8 @@
 package com.ssafy.teentech.quiz.service;
 
+import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.quiz.domain.Answer;
 import com.ssafy.teentech.quiz.domain.Quiz;
 import com.ssafy.teentech.quiz.domain.QuizHistory;
@@ -32,6 +35,7 @@ public class QuizChildService {
     final private ChildDetailRepository childDetailRepository;
     final private QuizHistoryRepository quizHistoryRepository;
     final private QuizRepository quizRepository;
+    final private BankService bankService;
 
     public QuizHistoryResponseDto quizHistory(Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
@@ -110,11 +114,16 @@ public class QuizChildService {
     public void quizMoneyTransfer(QuizMoneyTransfer quizMoneyTransfer, Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        Long amount = 0L;
 
         //1. 퀴즈 내역에 저장
         List<QuizHistory> quizHistorySaveDtoList = new ArrayList<>();
 
         for(QuizMoneyTransfer.QuizData quizData :quizMoneyTransfer.getQuizList()){
+            if(quizData.getAnswer()==Answer.CORRECT){
+                amount+=(childDetail.getQuizPoint());
+            }
+
             Quiz quiz = quizRepository.findById(quizData.getQuizId()).orElseThrow(() -> new IllegalArgumentException());
 
             QuizHistorySaveDto quizHistorySaveDto = QuizHistorySaveDto.builder()
@@ -130,8 +139,23 @@ public class QuizChildService {
 
         quizHistoryRepository.saveAll(quizHistorySaveDtoList);
 
-
         //2. 이체 로직
+        AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                childId,
+                withdrawAccountNumber,
+                depositAccountNumber,
+                amount,
+                "퀴즈 상금 이체"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.ssafy.teentech.parent.service;
 
+import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.repository.DepositRepository;
 import com.ssafy.teentech.invest.domain.Stock;
@@ -36,6 +39,7 @@ public class ParentService {
     private final StocksHeldRepository stocksHeldRepository;
     private final StockRepository stockRepository;
     private final LoanRepository loanRepository;
+    private final BankService bankService;
 
     public void setUpPinMoney(SetUpPinMoneyRequestDto setUpPinMoney, Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
@@ -78,8 +82,6 @@ public class ParentService {
     public void childDelete(ChildDeleteRequestDto childDeleteRequestDto) {
         User user = userRepository.findByInviteCode(childDeleteRequestDto.getInviteCode()).orElseThrow(() -> new IllegalArgumentException());
         user.setParentId(null);
-
-        // 유저 잔액 부모한테 이체 로직
     }
 
     public ChildDetailResponseDto childDetail(Long childId) {
@@ -142,6 +144,23 @@ public class ParentService {
         User user = userRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException());
 
         // 이체 로직
+        AccountResponseDto depositInformation = bankService.getAccountInformation(parentId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+//        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+//        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                parentId,
+                null,
+                depositAccountNumber,
+                (long)safeRequestDto.getMoney(),
+                "금고 저장"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
+
 
     }
 
@@ -149,5 +168,22 @@ public class ParentService {
         User user = userRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException());
 
         // 이체 로직
+        AccountResponseDto depositInformation = bankService.getAccountInformation(parentId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+//        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+//        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                parentId,
+                depositAccountNumber,
+                null,
+                (long)safeRequestDto.getMoney(),
+                "금고 빼기"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
+
     }
 }
