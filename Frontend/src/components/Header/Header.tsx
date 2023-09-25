@@ -98,14 +98,14 @@ const Header: React.FC = () => {
       <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="flex justify-center items-center">
-              <div
-                onClick={goBack}
-                className="inline-flex items-center justify-center p-2 w-11 h-11"
-              >
-                <img src="../../../src/assets/main/back.png" />
-              </div>
+            <div
+              onClick={goBack}
+              className="inline-flex items-center justify-center p-2 w-11 h-11"
+            >
+              <img src="../../../src/assets/main/back.png" />
+            </div>
 
-            <div className="p-2">{now}</div>
+            <div className="p-2 text-xl">{now}</div>
           </div>
           <div className="flex w-2/6 justify-end">
             <div className="p-2 w-11 h-11">
