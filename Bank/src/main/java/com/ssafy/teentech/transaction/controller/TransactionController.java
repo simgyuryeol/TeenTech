@@ -1,11 +1,13 @@
 package com.ssafy.teentech.transaction.controller;
 
+import com.ssafy.teentech.common.ApiResponse;
 import com.ssafy.teentech.transaction.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.transaction.dto.request.TransactionListRequestDto;
 import com.ssafy.teentech.transaction.dto.request.TransactionRequestDto;
 import com.ssafy.teentech.transaction.dto.response.TransactionListResponseDto;
 import com.ssafy.teentech.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,14 +26,24 @@ public class TransactionController {
         @RequestBody TransactionRequestDto transactionRequestDto) {
         transactionService.executeTransaction(transactionRequestDto);
 
-        return ResponseEntity.ok(null);
+        ApiResponse apiResponse = ApiResponse.builder()
+            .message("이체 완료")
+            .status(HttpStatus.OK.value())
+            .data(null)
+            .build();
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/auto")
-    public ResponseEntity autoTransfer(@RequestBody AutoTransactionRequestDto autoTransactionRequestDto) {
+    public ResponseEntity<ApiResponse> autoTransfer(@RequestBody AutoTransactionRequestDto autoTransactionRequestDto) {
         transactionService.executeAutoTransaction(autoTransactionRequestDto);
 
-        return ResponseEntity.ok(null);
+        ApiResponse apiResponse = ApiResponse.builder()
+            .message("자동 이체 완료")
+            .status(HttpStatus.OK.value())
+            .data(null)
+            .build();
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/list")
