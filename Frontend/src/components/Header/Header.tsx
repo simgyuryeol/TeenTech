@@ -48,9 +48,23 @@ const Header: React.FC = () => {
       if (menulist[i].link.includes(locationNow.pathname)) {
         setNow(menulist[i].name);
         setNowPath(locationNow.pathname);
+        localStorage.setItem("nowPath", locationNow.pathname); // localStorage에 nowPath 저장
       }
     }
   }, [locationNow]);
+
+  useEffect(() => {
+    const savedNowPath = localStorage.getItem("nowPath"); // 새로고침 시 localStorage에서 nowPath 가져오기
+
+    if (savedNowPath) {
+      setNowPath(savedNowPath);
+      for (let i = 0; i < menulist.length; i++) {
+        if (menulist[i].link.includes(savedNowPath)) {
+          setNow(menulist[i].name);
+        }
+      }
+    }
+  }, []);
 
   // 버튼 클릭시 메뉴 토글
   const toggleMenu = () => {
@@ -84,16 +98,14 @@ const Header: React.FC = () => {
       <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="flex justify-center items-center">
-            {nowPath !== locationNow.pathname && (
-              <div
-                onClick={goBack}
-                className="inline-flex items-center justify-center p-2 w-11 h-11"
-              >
-                <img src="../../../src/assets/main/back.png" />
-              </div>
-            )}
+            <div
+              onClick={goBack}
+              className="inline-flex items-center justify-center p-2 w-11 h-11"
+            >
+              <img src="../../../src/assets/main/back.png" />
+            </div>
 
-            <div className="p-2">{now}</div>
+            <div className="p-2 text-xl">{now}</div>
           </div>
           <div className="flex w-2/6 justify-end">
             <div className="p-2 w-11 h-11">

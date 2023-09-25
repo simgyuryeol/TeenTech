@@ -31,27 +31,27 @@ const Data = [
 
 const Data2 = [
   {
-    q1: "학교 준비물이에요",
+    q1: "밥",
     point: 1,
   },
   {
-    q1: "배가 너무 고팠어요",
+    q1: "간식",
     point: 1,
   },
   {
-    q1: "배는 안고픈데 먹고싶었어요",
+    q1: "준비물",
     point: 2,
   },
   {
-    q1: "친구 선물이에요",
+    q1: "장난감",
     point: 1,
   },
   {
-    q1: "멋져서 / 예뻐서 샀어요",
+    q1: "게임",
     point: 2,
   },
   {
-    q1: "필요한데 없어서 샀어요",
+    q1: "선물",
     point: 1,
   },
 ];
@@ -59,6 +59,23 @@ const Data2 = [
 const AccountBookAdd: React.FC = () => {
   const [priceSum, setPriceSum] = useState(0);
   const [selectedRadio, setSelectedRadio] = useState({});
+
+  const [isOpen, setIsOpen] = useState({});
+
+  const toggleDropdown = (index) => {
+    setIsOpen({
+      ...isOpen,
+      [index]: !isOpen[index],
+    });
+  };
+
+  const handleItemClick = (case1, q1) => {
+    setSelectedRadio({
+      ...selectedRadio,
+      [case1]: q1,
+    });
+    setIsOpen({}); // Close all dropdowns
+  };
 
   const location = useLocation();
   const date = location.state?.date;
@@ -74,7 +91,6 @@ const AccountBookAdd: React.FC = () => {
       ...selectedRadio,
       [case1]: q1,
     });
-    console.log(selectedRadio);
   };
 
   // 라디오 버튼의 선택된 상태를 가져오는 함수 추가
@@ -85,6 +101,17 @@ const AccountBookAdd: React.FC = () => {
   const navigate = useNavigate();
 
   const doneClick = () => {
+    // 다 체크했는지 아닌지 확인
+    const allSelected = Data.every((item) =>
+      item.case3 < 0 ? selectedRadio[item.case1] !== undefined : true
+    );
+
+    if (!allSelected) {
+      alert("아직 안 쓴 부분이 있어요~");
+      return;
+    }
+
+    alert("오늘 가계부 쓰기 완료!" + " 참 잘했어요!");
     console.log(selectedRadio);
     navigate(`/AccountBookDetail`, { state: { date } });
   };
@@ -102,25 +129,48 @@ const AccountBookAdd: React.FC = () => {
               <div key={index} className="flex justify-between py-2">
                 <div className="w-1/3">{item.case1}</div>
                 <div className="w-1/3">{item.case2}</div>
-                <div className="w-1/3">{item.case3}</div>
+                <div
+                  className={`w-1/3 ${
+                    item.case3 < 0 ? "text-red-600" : "text-green-600"
+                  }`}
+                >
+                  {item.case3}
+                </div>
               </div>
-              <div className="flex flex-row flex-wrap text-start mx-5 mt-2">
-                {item.case3 < 0 ? (
-                  Data2.map((qitem, qindex) => (
-                    <label key={qindex} className="basis-1/2 pb-3 pr-1">
-                      <input
-                        type="radio"
-                        value={qitem.q1}
-                        checked={qitem.q1 === getSelectedRadio(item.case1)}
-                        onChange={() => handleRadioChange(item.case1, qitem.q1)}
-                      />
-                      {qitem.q1}
-                    </label>
-                  ))
-                ) : (
-                  <></>
-                )}
-              </div>
+
+              {item.case3 < 0 ? (
+                <>
+                  <button
+                    className="bg-white-300 dropdown mt-2 drop-shadow-md"
+                    onClick={() => toggleDropdown(index)}
+                    style={{ width: "240px", height: "50px" }}
+                  >
+                    {selectedRadio[item.case1]
+                      ? selectedRadio[item.case1] + "에 썼어요"
+                      : "어디에다 쓴 돈이에요?"}
+                  </button>
+                  {isOpen[index] &&
+                    Data2.map((qItem, qIndex) => (
+                      <div
+                        key={qIndex}
+                        className="p-2 rounded-sm"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleItemClick(item.case1, qItem.q1)}
+                      >
+                        {/* <input
+                          type="radio"
+                          value={qItem.q1}
+                          checked={getSelectedRadio(item.case1) === qItem.q1}
+                          onChange={() => {
+                            handleRadioChange(item.case1, qItem.q1);
+                            setIsOpen(false);
+                          }}
+                        /> */}
+                        {qItem.q1}
+                      </div>
+                    ))}
+                </>
+              ) : null}
             </div>
           ))}
           <div className="flex justify-between items-center my-3">
@@ -128,8 +178,13 @@ const AccountBookAdd: React.FC = () => {
             <div className="w-1/3">{priceSum}</div>
           </div>
         </div>
-        <div className="justify-start">
-          <button onClick={doneClick}>다 썼어요!</button>
+        <div className="justify-start drop-shadow-md rounded-sm">
+          <button
+            onClick={doneClick}
+            // style={{ backgroundColor: "#7B78FF", color: "white" }}
+          >
+            다 썼어요!
+          </button>
         </div>
       </div>
     </div>

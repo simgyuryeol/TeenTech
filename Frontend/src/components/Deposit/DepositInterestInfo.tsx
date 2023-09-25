@@ -3,7 +3,7 @@ import Modal from "../Common/Modal";
 
 interface InterestInfoProps {
     children: ReactNode;
-    closeModal: () => void;
+    closeModal: (value: any) => void;
   }
 
 const InterestInfo: React.FC<InterestInfoProps> = ({closeModal, children}) => {

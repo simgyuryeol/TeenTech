@@ -57,7 +57,9 @@ const Pinterest: React.FC = () => {
       <hr className="border-2"></hr>
       <div>
         <p className="text-xl font-bold">이자율 설정</p>
-        <Credit></Credit>
+        <Credit>
+
+        </Credit>
         {/* //////////////////////////////////////////////////////////////////////////////////////////////// */}
         <div
           className="flex border-2 rounded-xl mr-6 ml-6 mb-4 p-2 pt-4 bg-white"
@@ -124,7 +126,7 @@ const Pinterest: React.FC = () => {
         </div>
         <br></br>
       </div>
-      {open === 1 && <InterestInfo closeModal={handleOpen}></InterestInfo>}
+      {open === 1 && <InterestInfo closeModal={handleOpen} children={""}></InterestInfo>}
       {open === 2 && (
         <LoanInterestInfo closeModal={handleOpen}></LoanInterestInfo>
       )}

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Ptotal: React.FC = () => {
   const [childData] = useRecoilState(childIdAtom);
   return (
-    <div className="mx-3 py-5">
+    <div className="mx-3 py-5 text-xl">
       <div className="flex justify-between	">
         <div className=" text-start	">{childData.name}이 코 묻은 돈</div>
         <div>
@@ -49,7 +49,7 @@ const Ptotal: React.FC = () => {
       </div>
       <div>
         <div className="my-3" style={{ backgroundColor: "green" }}>
-          <Credit />
+          <Credit children/>
         </div>
       </div>
       <div className="flex justify-center">

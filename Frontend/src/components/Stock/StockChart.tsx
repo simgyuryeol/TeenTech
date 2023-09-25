@@ -5,107 +5,108 @@ import ReactApexChart from "react-apexcharts";
 const StockChart: React.FC = () => {
   const sampleData = [
     {
-      x: new Date("2023-09-08").getDate(),
+      x: new Date("2023-09-08"),
       y: 1180,
     },
     {
-      x: new Date("2023-09-09").getDate(),
+      x: new Date("2023-09-09"),
       y: 1150,
     },
     {
-      x: new Date("2023-09-10").getDate(),
+      x: new Date("2023-09-10"),
       y: 1100,
     },
     {
-      x: new Date("2023-09-11").getDate(),
+      x: new Date("2023-09-11"),
       y: 1200,
     },
     {
-      x: new Date("2023-09-12").getDate(),
+      x: new Date("2023-09-12"),
       y: 1250,
     },
     {
-      x: new Date("2023-09-13").getDate(),
+      x: new Date("2023-09-13"),
       y: 1230,
     },
   ];
-
-  const stockData = {
+  const stockData: ApexCharts.ApexOptions = {
     series: [
       {
         name: "Samsung",
         data: sampleData,
       },
     ],
-    options: {
-      chart: {
-        stacked: false,
-        height: 250,
-        zoom: {
-          type: "x",
-          enabled: true,
-          autoScaleYaxis: true,
+    chart: {
+      type: "area",
+      stacked: false,
+      height: 250,
+      zoom: {
+        type: "x",
+        enabled: true,
+        autoScaleYaxis: true,
+      },
+      toolbar: {
+        show: true,
+        offsetX: 0,
+        offsetY: 0,
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: true,
+          zoomout: true,
+          pan: false,
+          reset: true,
+          customIcons: [],
         },
-        toolbar: {
-          show: true,
-          offsetX: 0,
-          offsetY: 0,
-          tools: {
-            download: false,
-            selection: false,
-            zoom: false,
-            zoomin: true,
-            zoomout: true,
-            pan: false,
-            reset: true,
-            customIcons: [],
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    markers: {
+      size: 0,
+    },
+    title: {
+      text: "",
+      align: "left",
+    },
+    xaxis: {
+      type: "datetime",
+      labels: {
+        format: "dd", // day of the month
+      },
+      crosshairs: {
+        fill: {
+          type: "gradient",
+          gradient: {
+            opacityFrom: 0.5,
+            opacityTo: 0,
+            stops: [0, 90, 100],
           },
-          autoSelected: "zoom",
         },
       },
-      dataLabels: {
-        enabled: false,
-      },
-      markers: {
-        size: 0,
+    },
+    yaxis: {
+      tickAmount: 6, // 원하는 눈금 개수
+      labels: {
+        // formatter: function (val) {
+        //   return (val / 1000000).toFixed(0);
+        // },
       },
       title: {
         text: "",
-        align: "left",
       },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shadeIntensity: 1,
-          inverseColors: false,
-          opacityFrom: 0.5,
-          opacityTo: 0,
-          stops: [0, 90, 100],
-        },
+    },
+
+    theme: {
+      monochrome: {
+        shadeIntensity: 1,
       },
-      yaxis: {
-        labels: {
-          // formatter: function (val) {
-          //   return (val / 1000000).toFixed(0);
-          // },
-        },
-        title: {
-          text: "가 격",
-        },
-      },
-      xaxis: {
-        type: "date",
-        title: {
-          text: "날 짜",
-        },
-      },
-      tooltip: {
-        shared: false,
-        y: {
-          // formatter: function (val) {
-          //   return (val / 1000000).toFixed(0);
-          // },
-        },
+    },
+    fill: {
+      gradient: {
+        inverseColors: false,
       },
     },
   };
@@ -120,7 +121,7 @@ const StockChart: React.FC = () => {
         <p className=" text-red-500 text-lg font-bold">12.5%</p>
       </div>
       <ReactApexChart
-        options={stockData.options}
+        options={stockData}
         series={stockData.series}
         type="area"
         height={250}
