@@ -121,9 +121,8 @@ public class LoanService {
         /**
          * 자식 계좌 잔액 확인
          */
-        ApiResponse<AccountResponseDto> childAccountInformationResponse = bankService.getAccountInformation(
+        AccountResponseDto childAccountInformation = bankService.getAccountInformation(
             child.getUserId());
-        AccountResponseDto childAccountInformation = childAccountInformationResponse.getData();
 
         if (childAccountInformation.getBalance() < repayRequestDto.getAmount()) {
             throw new InvalidRequestException(ErrorCode.BALANCE_NOT_ENOUGH);
@@ -132,9 +131,8 @@ public class LoanService {
         /**
          * 부모 계좌 정보 확인
          */
-        ApiResponse<AccountResponseDto> parentAccountInformationResponse = bankService.getAccountInformation(
+        AccountResponseDto parentAccountInformation = bankService.getAccountInformation(
             child.getParentId());
-        AccountResponseDto parentAccountInformation = parentAccountInformationResponse.getData();
 
         TransactionRequestDto transactionRequestDto = new TransactionRequestDto(child.getUserId(),
             childAccountInformation.getAccountNumber(),
@@ -214,9 +212,8 @@ public class LoanService {
         /**
          * 부모 계좌의 잔액 확인
          */
-        ApiResponse<AccountResponseDto> parentAccountInformationResponse = bankService.getAccountInformation(
+        AccountResponseDto parentAccountInformation = bankService.getAccountInformation(
             parent.getUserId());
-        AccountResponseDto parentAccountInformation = parentAccountInformationResponse.getData();
 
         if (parentAccountInformation.getBalance() < loan.getAmount()) {
             throw new InvalidRequestException(ErrorCode.BALANCE_NOT_ENOUGH);
@@ -225,9 +222,8 @@ public class LoanService {
         /**
          * 자식 계좌 정보 확인
          */
-        ApiResponse<AccountResponseDto> childAccountInformationResponse = bankService.getAccountInformation(
+        AccountResponseDto childAccountInformation = bankService.getAccountInformation(
             loan.getUser().getUserId());
-        AccountResponseDto childAccountInformation = childAccountInformationResponse.getData();
 
         /**
          * 이체

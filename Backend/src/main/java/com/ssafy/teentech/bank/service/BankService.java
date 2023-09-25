@@ -1,9 +1,9 @@
 package com.ssafy.teentech.bank.service;
 
-import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.dto.request.TransactionListRequestDto;
-import com.ssafy.teentech.bank.dto.response.TransactionListResponseDto;
 import com.ssafy.teentech.bank.dto.request.TransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.dto.response.TransactionListResponseDto;
 import com.ssafy.teentech.common.error.exception.BankException;
 import com.ssafy.teentech.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -49,15 +49,16 @@ public class BankService {
         return result;
     }
 
-    public ApiResponse<AccountResponseDto> getAccountInformation(Long userId) {
+    public AccountResponseDto getAccountInformation(Long userId) {
         WebClient webClient = WebClient
             .builder()
             .baseUrl(bankServerUri)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
-        ApiResponse<AccountResponseDto> apiResponse = webClient.get()
-            .uri(uriBuilder -> uriBuilder.path("/api/v1/account/information").queryParam("userId", userId).build())
+        AccountResponseDto apiResponse = webClient.get()
+            .uri(uriBuilder -> uriBuilder.path("/api/v1/account/information")
+                .queryParam("userId", userId).build())
             .retrieve()
             .onStatus(HttpStatus::is4xxClientError,
                 response -> {
@@ -66,13 +67,13 @@ public class BankService {
             .onStatus(HttpStatus::is5xxServerError, response -> {
                 throw new BankException(500, "500에러");
             })
-            .bodyToMono(new ParameterizedTypeReference<ApiResponse<AccountResponseDto>>() {})
+            .bodyToMono(AccountResponseDto.class)
             .block();
 
         return apiResponse;
     }
 
-    public ApiResponse<TransactionListResponseDto> getTransactions(
+    public TransactionListResponseDto getTransactions(
         TransactionListRequestDto transactionListRequestDto) {
 
         WebClient webClient = WebClient
@@ -81,7 +82,7 @@ public class BankService {
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
-        ApiResponse<TransactionListResponseDto> apiResponse = webClient.post()
+        TransactionListResponseDto apiResponse = webClient.post()
             .uri("/api/v1/transaction/list")
             .body(Mono.just(transactionListRequestDto), TransactionListRequestDto.class)
             .retrieve()
@@ -92,7 +93,7 @@ public class BankService {
             .onStatus(HttpStatus::is5xxServerError, response -> {
                 throw new BankException(500, "500에러");
             })
-            .bodyToMono(new ParameterizedTypeReference<ApiResponse<TransactionListResponseDto>>() {
+            .bodyToMono(new ParameterizedTypeReference<TransactionListResponseDto>() {
             })
             .block();
 
