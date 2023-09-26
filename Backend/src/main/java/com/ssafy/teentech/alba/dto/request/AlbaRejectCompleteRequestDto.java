@@ -6,14 +6,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AlbaAcceptCompleteRequestDto {
+public class AlbaRejectCompleteRequestDto {
 
     @NotNull
     private Long childId;
 
     @NotNull
     private Long albaId;
-
-    @NotNull
-    private String password;
 }
