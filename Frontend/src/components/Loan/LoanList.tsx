@@ -83,6 +83,7 @@ const LoanList: React.FC<LoanListProps> = (props) => {
       {open === 1 && (
         <LoanCompo
           closeModal={handleOpen}
+          children={props.children}
           children2={props.children2}
         ></LoanCompo>
       )}
