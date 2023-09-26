@@ -10,6 +10,14 @@ interface Job {
   stage: string;
 }
 
+const NoCompletedJobs: React.FC = () => {
+  return (
+    <div className="absolute inset-0 flex justify-center items-center">
+      <p className="text-2xl">아직 완료한 아르바이트가 없어요.</p>
+    </div>
+  );
+};
+
 const AlbaCompleted: React.FC = () => {
   const [completedJobs, setCompletedJobs] = useState<Job[]>([]);
 
@@ -48,16 +56,20 @@ const AlbaCompleted: React.FC = () => {
     <div className="mt-10">
       <p className="text-2xl">자식 완료한 알바</p>
       <hr />
-      {completedJobs.map((job, index) => (
-        <AlbaDetail
-          key={index}
-          title={job.title}
-          pay={job.pay}
-          due={job.due}
-          description={job.description}
-          stage={job.stage}
-        />
-      ))}
+      {completedJobs.length ? (
+        completedJobs.map((job, index) => (
+          <AlbaDetail
+            key={index}
+            title={job.title}
+            pay={job.pay}
+            due={job.due}
+            description={job.description}
+            stage={job.stage}
+          />
+        ))
+      ) : (
+        <NoCompletedJobs />
+      )}
     </div>
   );
 };

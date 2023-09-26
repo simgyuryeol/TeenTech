@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import prizeImage from "../../../assets/temp-prize.png";
+import prizeImage from "../../../assets/quiz/prize.gif";
 import { useRecoilValue } from "recoil";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
 
@@ -16,33 +16,41 @@ const QuizCommentary: React.FC = () => {
   };
 
   return (
-    <div className="mt-12 p-3 flex-col items-center justify-center">
-      <div className="w-40 ml-12">
-        <img src={prizeImage} alt="" />
-      </div>
-      <div>
-        <p>
-          <strong>{topic}</strong>에 대해 <strong>{score}</strong> 문제를
-          맞혔어요!
-        </p>
-      </div>
-      {score !== 0 ? (
+    <div className="grid place-items-center h-screen ">
+      <div className="mt-0 p-3 flex-col items-center justify-center">
         <div>
-          <p>
-            퀴즈를 맞혀 상금 <strong>{prize}</strong>원을 얻었어요.
+          <p className="text-xl">
+            <span className="font-bold text-lg">{topic}</span>에 대해{" "}
+            <span className="font-bold text-lg">{score}</span> 문제를 맞혔어요!
           </p>
-          <p>내일 새로운 문제로 다시 만나요!</p>
         </div>
-      ) : (
-        <div>
-          <p>상금을 얻지 못했어요.</p>
-          <p>내일 새로운 문제로 다시 도전해보아요!</p>
-        </div>
-      )}
 
-      <button className="mt-3" onClick={handleClick}>
-        메인으로 돌아가기
-      </button>
+        <img src={prizeImage} alt="" />
+
+        {score !== 0 ? (
+          <div className="text-xl">
+            <p>
+              퀴즈를 맞혀 상금{" "}
+              <span className="font-bold text-lg text-yellow-500">{prize}</span>
+              원을 얻었어요.
+              <br />
+              내일 새로운 문제로 다시 만나요!
+            </p>
+          </div>
+        ) : (
+          <div className="text-xl">
+            <p>
+              상금을 얻지 못했어요.
+              <br />
+              내일 새로운 문제로 다시 도전해보아요!
+            </p>
+          </div>
+        )}
+
+        <button className="mt-6 bg-white" onClick={handleClick}>
+          메인으로 돌아가기
+        </button>
+      </div>
     </div>
   );
 };
