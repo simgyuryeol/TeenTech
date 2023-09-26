@@ -26,8 +26,10 @@ const LoanList: React.FC<LoanListProps> = (props) => {
         style={{ borderColor: "#ABD0CE" }}
       >
         <div className="flex mb-4 justify-between">
-              <div className="text-xl text-start pl-3">{LoanName}</div>
-              <div className="text-lg text-start mr-3 rounded-md px-2 bg-red-500 text-white">D-4</div>
+          <div className="text-xl text-start pl-3">{LoanName}</div>
+          <div className="text-lg text-start mr-3 rounded-md px-2 bg-red-500 text-white">
+            D-4
+          </div>
         </div>
         {/* 진행도 바 */}
         <div className="h-8">
@@ -35,38 +37,39 @@ const LoanList: React.FC<LoanListProps> = (props) => {
             <div
               className="absolute"
               style={{
-                left: `calc(${progress}% - 20px)`,
-                top: "8px",
+                left: `calc(${progress}% - 25px)`,
+                top: "12px",
                 transform: "translateY(-50%)",
               }}
             >
               <img
-                src="../../../src/assets/run_bear.gif"
-                style={{ width: "50px", height: "auto" }}
+                src="../../../src/assets/run_dog2.gif"
+                style={{ width: "60px", height: "auto" }}
                 alt="Running person"
-                />
+              />
             </div>
             <div
               className="bg-gray-300 h-3 rounded-md absolute"
-              style={{ width: "98%", top: "30px", }}
+              style={{ width: "98%", top: "30px" }}
             ></div>
             <div
               className="bg-red-500 h-3 rounded-md absolute"
-              style={{ width: `${progress}%`, top: "30px", }}
+              style={{ width: `${progress}%`, top: "30px" }}
             ></div>
           </div>
         </div>
         {/* progress바 여기까지 */}
-        <div className="flex justify-between">
-          <div className="mt-1 mb-3 mx-3 text-red-500">
-            <div className="text-sm text-start">남은 상환액</div>
-            <div>100,000원</div>
+        <div className="flex justify-between mt-2">
+          <div className="mt-1 mb-1 mx-3 text-red-500">
+            <div>{LoanMoney}</div>
           </div>
-          <div className="mt-1 mb-3 mx-3 text-gray-500">
+          <div className="mt-1 mb-1 mx-3 text-gray-500">
             <div>{totalLoanMoney}</div>
           </div>
         </div>
-
+        <div className="mx-3 text-xl text-start mb-3">
+          갚을 금액이 {totalLoanMoney - LoanMoney} 남았어요!
+        </div>
         <div className="flex justify-end">
           <p
             onClick={() => handleOpen(1)}
@@ -76,7 +79,6 @@ const LoanList: React.FC<LoanListProps> = (props) => {
           </p>
           {props.children}
         </div>
-        
       </div>
       {open === 1 && (
         <LoanCompo
