@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LottoList from "../../../components/Lotto/LottoList";
-import Jackpot from "../../../src/assets/lotto/jackpot2.png";
-import Ticket from "../../../src/assets/lotto/ticket2.png";
+import Jackpot from "../../../../src/assets/lotto/jackpot2.png";
+import Ticket from "../../../../src/assets/lotto/ticket2.png";
 
 const Lotto: React.FC = () => {
   const navigate = useNavigate();
