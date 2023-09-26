@@ -141,9 +141,9 @@ const AccountBookAdd: React.FC = () => {
               {item.case3 < 0 ? (
                 <>
                   <button
-                    className="bg-white-300 dropdown mt-2 drop-shadow-md"
+                    className="bg-white-300 dropdown mt-2 drop-shadow-md text-lg"
                     onClick={() => toggleDropdown(index)}
-                    style={{ width: "240px", height: "50px" }}
+                    style={{ width: "240px", height: "55px" }}
                   >
                     {selectedRadio[item.case1]
                       ? selectedRadio[item.case1] + "에 썼어요"

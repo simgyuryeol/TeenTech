@@ -33,7 +33,16 @@ const LoanCompoAcco: React.FC<LoanCompoAccoProps> = (props) => {
                     </div>
                     <p className='ml-[5%] border rounded-md w-[90%] mb-2 p-3 ' style={{backgroundColor:'#EBF0F3'}}>{loanName}</p> 
                 </div>
+          </div>
+          {open === 0 ? (
+          <div style={{width:'30px'}}>
+            <img src="../../../src/assets/down-arrow.png"/>
+          </div>
+          ) : (
+            <div style={{ width: '30px' }}>
+              <img src="../../../src/assets/up-arrow.png"/>
             </div>
+          )}
           </AccordionHeader>
           <AccordionBody className='text-md'>
             <div>
