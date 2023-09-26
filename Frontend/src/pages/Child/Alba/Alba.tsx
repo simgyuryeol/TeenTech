@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import JobCarousel from "../../../components/Alba/JobCarousel";
+import NoJob from "../../../components/Alba/NoJob";
 
 // 진행여부: pre, ing, true, false
 
@@ -124,13 +125,21 @@ const Alba: React.FC = () => {
         </div>
 
         <div className="mt-12">
-          <p className="text-2xl font-bold">진행중인 아르바이트</p>
-          <JobCarousel jobs={currentJobs} />
+          <p className="text-2xl font-bold">진행 중인 아르바이트</p>
+          {currentJobs.length ? (
+            <JobCarousel jobs={currentJobs} />
+          ) : (
+            <NoJob status="진행 중인" />
+          )}
         </div>
 
         <div className="mt-10">
-          <p className="text-2xl font-bold">신청가능한 아르바이트</p>
-          <JobCarousel jobs={availableJobs} />
+          <p className="text-2xl font-bold">신청 가능한 아르바이트</p>
+          {availableJobs.length ? (
+            <JobCarousel jobs={availableJobs} />
+          ) : (
+            <NoJob status="신청 가능한"/>
+          )}
         </div>
       </div>
     </div>

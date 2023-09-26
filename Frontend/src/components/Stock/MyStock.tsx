@@ -44,7 +44,7 @@ const MyStock: React.FC<MyStockProps> = (props) => {
   return (
     <Link to={`/StockDetail/${enName}`}>
       <div className="bg-white m-5 rounded-xl shadow-md flex justify-between p-2 text-black" id="my-stock">
-          <div className="flex flex-col items-center p-4 ml-4">
+          <div className="flex flex-col items-center p-4 ml-2">
             <img src={imageSrc} alt={enName} className="w-12 h-12"/>
             <p className="ml-2 text-md font-bold">{koName}</p>
           </div>

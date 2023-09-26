@@ -45,6 +45,7 @@ const StockChart: React.FC = () => {
         enabled: true,
         autoScaleYaxis: true,
       },
+      defaultLocale: "en",   
       toolbar: {
         show: true,
         offsetX: 0,
@@ -80,7 +81,7 @@ const StockChart: React.FC = () => {
         style: {
           color: undefined,
           fontSize: "15px",
-          fontFamily: "Helvetica, Arial, sans-serif",
+          fontFamily: "OMU, Helvetica, Arial, sans-serif",
           fontWeight: 600,
           cssClass: "apexcharts-xaxis-title",
         },
@@ -113,7 +114,7 @@ const StockChart: React.FC = () => {
         style: {
           color: undefined,
           fontSize: "15px",
-          fontFamily: "Helvetica, Arial, sans-serif",
+          fontFamily: "OMU, Helvetica, Arial, sans-serif",
           fontWeight: 600,
           cssClass: "apexcharts-xaxis-title",
         },

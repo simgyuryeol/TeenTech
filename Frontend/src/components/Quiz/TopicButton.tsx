@@ -11,6 +11,7 @@ import asset from "../../../src/assets/quiz/asset.png";
 interface Topic {
   kor: string;
   eng: string;
+  color: string;
 }
 
 interface TopicButtonProps {
@@ -18,7 +19,7 @@ interface TopicButtonProps {
 }
 
 const TopicButton: React.FC<TopicButtonProps> = ({ topic }) => {
-  const { kor, eng } = topic;
+  const { kor, eng, color } = topic;
   let imageSrc;
 
   switch (eng) {
@@ -43,8 +44,15 @@ const TopicButton: React.FC<TopicButtonProps> = ({ topic }) => {
   }
 
   return (
-    <div className="p-2 bg-white rounded-xl w-5/12 m-2">
-      <Link to={`/QuizList/${eng}`} className="text-black flex flex-col items-center">
+    <div
+      className="p-2 rounded-xl w-5/12 m-2 bg-white"
+      // className="p-2 rounded-xl w-5/12 m-2"
+      // style={{ backgroundColor: color }}
+    >
+      <Link
+        to={`/QuizList/${eng}`}
+        className="text-black flex flex-col items-center"
+      >
         <img className="relative w-12 h-12" src={imageSrc} alt={eng} />
         <p className="my-1 text-lg font-bold">{kor}</p>
       </Link>

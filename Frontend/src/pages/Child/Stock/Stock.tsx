@@ -72,7 +72,8 @@ const Stock: React.FC = () => {
         options={tour.options}
       />
 
-      <div className="mt-20">
+      <div className="mt-16">
+        <div className="p-3"/>
         <div className="flex justify-end mr-4">
           <Icon
             icon="mdi:help-circle-outline"
