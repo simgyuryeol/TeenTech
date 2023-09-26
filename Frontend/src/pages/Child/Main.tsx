@@ -3,6 +3,7 @@ import Total from "../../components/Main/total";
 import MenuList from "../../components/Main/MenuList";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
+import Boy from "../../../src/assets/main/boy_1.png";
 
 const Main: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
@@ -62,7 +63,7 @@ const Main: React.FC = () => {
           }}
         >
           <img
-            src="../../../src/assets/main/boy_1.png"
+            src={Boy}
             style={{
               height: "145px",
               objectFit: "cover",

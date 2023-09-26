@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import styles from "./Statics.module.css";
 import ReactApexChart from "react-apexcharts";
 import ApexOptions from "apexcharts";
+import AccountBookImg from "../../../src/assets/main/accountbook.png";
+import AlbaImg from "../../../src/assets/main/alba.png";
+import QuizImg from "../../../src/assets/main/quiz.png";
+import StockImg from "../../../src/assets/main/stock.png";
+import LottoImg from "../../../src/assets/main/lotto.png";
+import Plus from "../../../src/assets/plus.png";
+import Equal from "../../../src/assets/equal.png";
 
 const Statics: React.FC = () => {
   const donutData: ApexCharts.ApexOptions = {
@@ -48,27 +55,27 @@ const Statics: React.FC = () => {
     {
       name: "용돈",
       money: 10000,
-      imgSrc: "../../../src/assets/main/accountbook.png",
+      imgSrc: AccountBookImg,
     },
     {
       name: "아르바이트",
       money: 10000,
-      imgSrc: "../../../src/assets/main/alba.png",
+      imgSrc: AlbaImg,
     },
     {
       name: "퀴즈",
       money: 10000,
-      imgSrc: "../../../src/assets/main/quiz.png",
+      imgSrc: QuizImg,
     },
     {
       name: "투자",
       money: 10000,
-      imgSrc: "../../../src/assets/main/stock.png",
+      imgSrc: StockImg,
     },
     {
       name: "복권",
       money: 10000,
-      imgSrc: "../../../src/assets/main/lotto.png",
+      imgSrc: LottoImg,
     },
   ];
 
@@ -86,19 +93,11 @@ const Statics: React.FC = () => {
         <div className="flex justify-between items-center my-3 p-3">
           <div className={`${styles.sumbox} mx-2`}>수입</div>
           <div>
-            <img
-              className={styles.plusImg}
-              src="src\assets\plus.png"
-              alt="plus"
-            />
+            <img className={styles.plusImg} src={Plus} alt="plus" />
           </div>
           <div className={`${styles.sumbox} mx-2`}>지출</div>
           <div>
-            <img
-              className={styles.plusImg}
-              src="src\assets\equal.png"
-              alt="equal"
-            />
+            <img className={styles.plusImg} src={Equal} alt="equal" />
           </div>
           <div className={`${styles.sumbox} mx-2`}>합계</div>
         </div>
