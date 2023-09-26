@@ -4,17 +4,21 @@ import com.ssafy.teentech.alba.domain.Alba;
 import com.ssafy.teentech.alba.domain.Status;
 import com.ssafy.teentech.alba.dto.request.AlbaAcceptCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaCreateRequestDto;
+import com.ssafy.teentech.alba.dto.request.AlbaRejectCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.response.AlbaResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForChildResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForParentResponseDto;
 import com.ssafy.teentech.alba.repository.AlbaRepository;
+import com.ssafy.teentech.bank.dto.request.TransactionRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.common.fcm.dto.request.FCMNotificationRequestDto;
 import com.ssafy.teentech.common.fcm.service.FCMNotificationService;
 import com.ssafy.teentech.user.domain.User;
-import com.ssafy.teentech.user.repository.UserRepository;
+import com.ssafy.teentech.user.service.UserService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -29,13 +33,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AlbaService {
 
     private final AlbaRepository albaRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
+    private final BankService bankService;
     private final FCMNotificationService fcmNotificationService;
 
     public AlbasForParentResponseDto getParentAlbaList(Long childId) {
-        User child = userRepository.findById(childId)
-            .orElseThrow(() -> new InvalidRequestException(
-                ErrorCode.USER_NOT_FOUND));
+        User child = userService.getUser(childId);
 
         LocalDate today = LocalDate.now();
 
@@ -53,9 +56,7 @@ public class AlbaService {
     }
 
     public void createAlba(AlbaCreateRequestDto albaCreateRequestDto) {
-        User child = userRepository.findById(albaCreateRequestDto.getChildId())
-            .orElseThrow(() -> new InvalidRequestException(
-                ErrorCode.USER_NOT_FOUND));
+        User child = userService.getUser(albaCreateRequestDto.getChildId());
 
         Alba alba = albaRepository.save(
             Alba.builder().user(child).title(albaCreateRequestDto.getTitle())
@@ -65,29 +66,66 @@ public class AlbaService {
                 .build());
     }
 
-    public void acceptCompleteRequest(AlbaAcceptCompleteRequestDto albaAcceptCompleteRequestDto) {
+    public void acceptCompleteRequest(String parentEmail,
+        AlbaAcceptCompleteRequestDto albaAcceptCompleteRequestDto) {
+        User parent = userService.getUser(parentEmail);
+        User child = userService.getUser(albaAcceptCompleteRequestDto.getChildId());
+
         Alba alba = albaRepository.findById(albaAcceptCompleteRequestDto.getAlbaId())
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));
 
-        // 부모가 완료 승인한 경우
-        if (albaAcceptCompleteRequestDto.isComplete()) {
-            alba.updateStatus(Status.COMPLETE);
-
-            /**
-             * 돈 이체 로직 들어갈 구간
-             */
-
-            FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
-                .targetUserId(albaAcceptCompleteRequestDto.getChildId()).title("아르바이트 완료 수락")
-                .body("아르바이트(" + alba.getTitle() + ") 완료 요청이 수락되었어요.").build();
-            fcmNotificationService.sendNotificationByToken(fcmNotificationRequestDto);
+        if (!parent.getParentId().equals(child.getParentId())) {
+            throw new AuthException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
+
+        checkUser(child, alba);
+
+        alba.updateStatus(Status.COMPLETE);
+
+        AccountResponseDto parentAccountInformation = bankService.getAccountInformation(
+            parent.getUserId());
+
+        AccountResponseDto childAccountInformation = bankService.getAccountInformation(
+            albaAcceptCompleteRequestDto.getChildId());
+
+        TransactionRequestDto transactionRequestDto = new TransactionRequestDto(parent.getUserId(),
+            parentAccountInformation.getAccountNumber(), albaAcceptCompleteRequestDto.getPassword(),
+            childAccountInformation.getAccountNumber(), Long.valueOf(alba.getReward()),
+            alba.getTitle() + " 알바비 이체");
+        bankService.transfer(transactionRequestDto);
+
+        FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
+            .targetUserId(albaAcceptCompleteRequestDto.getChildId()).title("아르바이트 완료 수락")
+            .body("아르바이트(" + alba.getTitle() + ") 완료 요청이 수락되었어요.").build();
+        fcmNotificationService.sendNotificationByToken(fcmNotificationRequestDto);
+
+    }
+
+    public void rejectCompleteRequest(String parentEmail,
+        AlbaRejectCompleteRequestDto albaRejectCompleteRequestDto) {
+        User parent = userService.getUser(parentEmail);
+        User child = userService.getUser(albaRejectCompleteRequestDto.getChildId());
+
+        Alba alba = albaRepository.findById(albaRejectCompleteRequestDto.getAlbaId())
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));
+
+        if (!parent.getParentId().equals(child.getParentId())) {
+            throw new AuthException(ErrorCode.RESOURCE_PERMISSION_DENIED);
+        }
+
+        checkUser(child, alba);
+
+        alba.updateStatus(Status.REJECT);
+
+        FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
+            .targetUserId(albaRejectCompleteRequestDto.getChildId()).title("아르바이트 완료 거절")
+            .body("아르바이트(" + alba.getTitle() + ") 완료 요청이 거절되었어요.").build();
+        fcmNotificationService.sendNotificationByToken(fcmNotificationRequestDto);
+
     }
 
     public AlbasForChildResponseDto getChildAlbaList(String userEmail) {
-        User child = userRepository.findByEmail(userEmail)
-            .orElseThrow(() -> new InvalidRequestException(
-                ErrorCode.USER_NOT_FOUND));
+        User child = userService.getUser(userEmail);
 
         LocalDate today = LocalDate.now();
 
@@ -106,8 +144,7 @@ public class AlbaService {
     }
 
     public void acceptAlba(String userEmail, Long albaId) {
-        User child = userRepository.findByEmail(userEmail)
-            .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+        User child = userService.getUser(userEmail);
 
         Alba alba = albaRepository.findById(albaId)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));
@@ -123,8 +160,7 @@ public class AlbaService {
     }
 
     public void albaCompleteRequest(String userEmail, Long albaId) {
-        User child = userRepository.findByEmail(userEmail)
-            .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+        User child = userService.getUser(userEmail);
 
         Alba alba = albaRepository.findById(albaId)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));
@@ -147,8 +183,7 @@ public class AlbaService {
     }
 
     public void giveUpAlba(String userEmail, Long albaId) {
-        User child = userRepository.findByEmail(userEmail)
-            .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+        User child = userService.getUser(userEmail);
 
         Alba alba = albaRepository.findById(albaId)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));

@@ -7,6 +7,7 @@ public enum Status {
     NOT_ACCEPTED("NOT_ACCEPTED"),
     IN_PROGRESS("DOING"),
     GIVE_UP("GIVE_UP"),
+    REJECT("REJECT"),
     COMPLETE("COMPLETE");
 
     private String description;
