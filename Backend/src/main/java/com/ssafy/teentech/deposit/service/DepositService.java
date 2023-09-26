@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DepositService {
 
@@ -41,7 +43,6 @@ public class DepositService {
     public DepositCreateResponseDto depositCreate(DepositCreateRequestDto depositCreateRequestDto, Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
-
         // 1. 복리라면 사용 가능해도 되는지 확인
         // 복리이면서 3등급 이상이면 실패
         if (depositCreateRequestDto.getInterestType()== InterestType.COMPOUNDINTEREST && childDetail.getCreditRating()>3){
