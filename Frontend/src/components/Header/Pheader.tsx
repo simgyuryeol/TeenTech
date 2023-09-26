@@ -90,7 +90,7 @@ const Pheader: React.FC = () => {
             >
               <img src="../../../src/assets/main/back.png" />
             </div>
-            <div className="p-2">{childData.name}</div>
+            <div className="p-2 text-xl">{childData.name}</div>
           </div>
           <div className="flex w-2/6 justify-end">
             <div className="p-2 w-11 h-11" onClick={clickHome}>
