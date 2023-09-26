@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Back from "../../../src/assets/main/back.png";
+import Home from "../../../src/assets/main/home.png";
+import Hamburger from "../../../src/assets/main/hamburger.png";
+import Close from "../../../src/assets/main/close.png";
 
 const menulist = [
   {
@@ -102,7 +106,7 @@ const Header: React.FC = () => {
               onClick={goBack}
               className="inline-flex items-center justify-center p-2 w-11 h-11"
             >
-              <img src="../../../src/assets/main/back.png" />
+              <img className="w-full" src={Back} />
             </div>
 
             <div className="p-2 text-xl">{now}</div>
@@ -110,11 +114,11 @@ const Header: React.FC = () => {
           <div className="flex w-2/6 justify-end">
             <div className="p-2 w-11 h-11">
               <Link to="/Main">
-                <img src="../../../src/assets/main/home.png" />
+                <img src={Home} />
               </Link>
             </div>
             <div onClick={toggleMenu} className="p-2 w-11 h-11">
-              <img src="../../../src/assets/main/hamburger.png" />
+              <img src={Hamburger} />
             </div>
           </div>
         </div>
@@ -128,7 +132,7 @@ const Header: React.FC = () => {
           {/* 메뉴 내용 */}
           <div className="flex jusfify-end">
             <div onClick={toggleMenu} className="w-10">
-              <img src="../../../src/assets/main/close.png" />
+              <img src={Close} />
             </div>
           </div>
           <ul>
