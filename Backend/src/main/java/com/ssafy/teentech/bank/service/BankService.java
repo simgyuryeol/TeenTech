@@ -1,6 +1,7 @@
 package com.ssafy.teentech.bank.service;
 
 import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
+import com.ssafy.teentech.bank.dto.request.RegisterAccountRequestDto;
 import com.ssafy.teentech.bank.dto.request.TransactionListRequestDto;
 import com.ssafy.teentech.bank.dto.request.TransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
@@ -84,6 +85,30 @@ public class BankService {
         AccountResponseDto apiResponse = webClient.get()
             .uri(uriBuilder -> uriBuilder.path("/api/v1/account/information")
                 .queryParam("userId", userId).build())
+            .retrieve()
+            .onStatus(HttpStatus::is4xxClientError,
+                response -> {
+                    throw new BankException(400, "400에러");
+                })
+            .onStatus(HttpStatus::is5xxServerError, response -> {
+                throw new BankException(500, "500에러");
+            })
+            .bodyToMono(AccountResponseDto.class)
+            .block();
+
+        return apiResponse;
+    }
+
+    public AccountResponseDto registerAccount(RegisterAccountRequestDto registerAccountRequestDto) {
+        WebClient webClient = WebClient
+            .builder()
+            .baseUrl(bankServerUri)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .build();
+
+        AccountResponseDto apiResponse = webClient.post()
+            .uri("/api/v1/account/register")
+            .body(Mono.just(registerAccountRequestDto), RegisterAccountRequestDto.class)
             .retrieve()
             .onStatus(HttpStatus::is4xxClientError,
                 response -> {

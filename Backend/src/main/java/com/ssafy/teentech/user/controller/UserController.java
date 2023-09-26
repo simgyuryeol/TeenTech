@@ -11,18 +11,20 @@ import com.ssafy.teentech.common.util.HeaderUtil;
 import com.ssafy.teentech.common.util.JwtService;
 import com.ssafy.teentech.common.util.TokenInfo;
 import com.ssafy.teentech.user.domain.User;
+import com.ssafy.teentech.user.dto.request.ExtraInformationRequestDto;
 import com.ssafy.teentech.user.dto.response.AccessTokenResponseDto;
 import com.ssafy.teentech.user.dto.response.UserInfoResponseDto;
 import com.ssafy.teentech.user.service.UserService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,6 +49,20 @@ public class UserController {
             .message("회원정보")
             .status(OK.value())
             .data(userInfoResponseDto)
+            .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/add-extra-information")
+    public ResponseEntity<ApiResponse> addExtraInformation(
+        @CurrentUser org.springframework.security.core.userdetails.User currentUser,
+        @Valid @RequestBody ExtraInformationRequestDto extraInformationRequestDto) {
+        userService.addExtraInformation(currentUser.getUsername(), extraInformationRequestDto);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+            .message("추가 정보 등록 완료")
+            .status(OK.value())
+            .data(null)
             .build();
         return ResponseEntity.ok(apiResponse);
     }
