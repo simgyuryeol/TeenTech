@@ -1,9 +1,13 @@
 package com.ssafy.teentech.user.service;
 
+import com.ssafy.teentech.bank.dto.request.RegisterAccountRequestDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
+import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.user.domain.User;
+import com.ssafy.teentech.user.dto.request.ExtraInformationRequestDto;
 import com.ssafy.teentech.user.repository.UserRepository;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BankService bankService;
 
     @Value("${kakao.admin}")
     private String kakaoAdminKey;
@@ -36,6 +41,26 @@ public class UserService {
     public User getUser(Long userId) {
         return userRepository.findById(userId)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    public void addExtraInformation(String userEmail,
+        ExtraInformationRequestDto extraInformationRequestDto) {
+        User user = getUser(userEmail);
+
+        if (!user.getRole().equals(Role.ROLE_USER)) {
+            throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
+        }
+
+        /**
+         * 뱅킹 서버에 계좌 업데이트(이름, 비밀번호)
+         */
+        RegisterAccountRequestDto registerAccountRequestDto = new RegisterAccountRequestDto(
+            user.getUserId(), extraInformationRequestDto.getName(),
+            extraInformationRequestDto.getPassword());
+
+        bankService.registerAccount(registerAccountRequestDto);
+
+        user.updateRole(extraInformationRequestDto.getRole());
     }
 
     /**
