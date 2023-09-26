@@ -45,16 +45,16 @@ const TopicButton: React.FC<TopicButtonProps> = ({ topic }) => {
 
   return (
     <div
-      className="p-2 rounded-xl w-5/12 m-2 bg-white"
-      // className="p-2 rounded-xl w-5/12 m-2"
-      // style={{ backgroundColor: color }}
+      // className="p-2 rounded-xl w-5/12 m-2 bg-white"
+      className="p-2 rounded-xl w-36 h-36 my-2 flex items-center justify-center"
+      style={{ backgroundColor: color }}
     >
       <Link
         to={`/QuizList/${eng}`}
         className="text-black flex flex-col items-center"
       >
-        <img className="relative w-12 h-12" src={imageSrc} alt={eng} />
-        <p className="my-1 text-lg font-bold">{kor}</p>
+        <img className="relative w-16 h-16" src={imageSrc} alt={eng} />
+        <p className="my-2 text-2xl font-bold text-gray-50">{kor}</p>
       </Link>
     </div>
   );
