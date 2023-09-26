@@ -85,35 +85,6 @@ const Deposit: React.FC = () => {
             </div>
           </div>
         </Link>
-        <Link to="/DepositDetail">
-          <div
-            className="rounded-xl shadow-md m-6 mb-1 flex justify-around bg-white"
-            style={{ borderColor: "#ABD0CE" }}
-          >
-            <div className="m-3">
-              <p className="text-black">{DepositName}</p>
-              <div className="flex justify-around">
-                <p
-                  className={
-                    interestrate < 0 ? "text-blue-500" : "text-red-500"
-                  }
-                >
-                  {interestrate}%
-                </p>
-                <p
-                  className="text-white border rounded-md pr-1 pl-1"
-                  style={{ backgroundColor: "#476C82" }}
-                >
-                  {interest}
-                </p>
-              </div>
-            </div>
-            <div className="m-3">
-              <p className="text-black">만기일</p>
-              <p className="text-black">{maturity}</p>
-            </div>
-          </div>
-        </Link>
 
         {/* {deposits.map((deposit, index) => (
             <div key={index} className='border rounded-md m-6 flex justify-around'>
