@@ -45,6 +45,7 @@ const StockChart: React.FC = () => {
         enabled: true,
         autoScaleYaxis: true,
       },
+      defaultLocale: "en",   
       toolbar: {
         show: true,
         offsetX: 0,
@@ -73,6 +74,18 @@ const StockChart: React.FC = () => {
     },
     xaxis: {
       type: "datetime",
+      title: {
+        text: "날  짜",
+        offsetX: -15,
+        offsetY: 0,
+        style: {
+          color: undefined,
+          fontSize: "15px",
+          fontFamily: "OMU, Helvetica, Arial, sans-serif",
+          fontWeight: 600,
+          cssClass: "apexcharts-xaxis-title",
+        },
+      },
       labels: {
         format: "dd", // day of the month
       },
@@ -95,7 +108,16 @@ const StockChart: React.FC = () => {
         // },
       },
       title: {
-        text: "",
+        text: "가  격",
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: undefined,
+          fontSize: "15px",
+          fontFamily: "OMU, Helvetica, Arial, sans-serif",
+          fontWeight: 600,
+          cssClass: "apexcharts-xaxis-title",
+        },
       },
     },
 

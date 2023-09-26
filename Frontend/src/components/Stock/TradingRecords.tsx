@@ -8,7 +8,7 @@ const TableHeader: React.FC<TableHeaderProp> = ({ title }) => {
   return (
     <th
       scope="col"
-      className="p-4 text-xs font-medium text-gray-500 tracking-wider"
+      className="p-4 font-medium text-gray-500 tracking-wider"
     >
       {title}
     </th>
@@ -57,7 +57,7 @@ const TradingRecord: React.FC<TradingRecordProps> = ({ record, className }) => {
 };
 
 const TradingRecords: React.FC = () => {
-  const tableHeaderList = ["날짜", "종목", "수", "단가", "금액"];
+  const tableHeaderList = ["날짜", "회사", "개수", "가격", "총 금액"];
   const sampleRecord: TradingRecord[] = [
     {
       date: "9/13",
@@ -78,7 +78,7 @@ const TradingRecords: React.FC = () => {
   ];
 
   return (
-    <div className="overflow-x-auto rounded-lg m-3">
+    <div className="overflow-x-auto rounded-lg m-3 pl-2">
       <table className="divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
