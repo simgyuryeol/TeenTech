@@ -1,10 +1,8 @@
 package com.ssafy.teentech.deposit.service;
 
 import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
-import com.ssafy.teentech.bank.dto.request.TransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
-import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.domain.InterestType;
 import com.ssafy.teentech.deposit.dto.request.DepositCreateRequestDto;
@@ -15,14 +13,15 @@ import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DepositService {
 
@@ -41,7 +40,6 @@ public class DepositService {
     public DepositCreateResponseDto depositCreate(DepositCreateRequestDto depositCreateRequestDto, Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
-
         // 1. 복리라면 사용 가능해도 되는지 확인
         // 복리이면서 3등급 이상이면 실패
         if (depositCreateRequestDto.getInterestType()== InterestType.COMPOUNDINTEREST && childDetail.getCreditRating()>3){

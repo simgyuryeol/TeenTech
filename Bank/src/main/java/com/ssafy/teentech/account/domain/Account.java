@@ -48,6 +48,14 @@ public class Account extends BaseEntity {
         this.password = password;
     }
 
+    public void updateUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     public void checkOwner(Long id) {
         if (!this.accountId.equals(id)) {
             throw new AccountException(ErrorCode.NOT_OWNER_OF_ACCOUNT);

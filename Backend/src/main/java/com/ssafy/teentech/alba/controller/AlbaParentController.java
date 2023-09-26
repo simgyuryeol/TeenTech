@@ -2,13 +2,16 @@ package com.ssafy.teentech.alba.controller;
 
 import com.ssafy.teentech.alba.dto.request.AlbaAcceptCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaCreateRequestDto;
+import com.ssafy.teentech.alba.dto.request.AlbaRejectCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForParentResponseDto;
 import com.ssafy.teentech.alba.service.AlbaService;
+import com.ssafy.teentech.common.entity.CurrentUser;
 import com.ssafy.teentech.common.response.ApiResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,9 +48,19 @@ public class AlbaParentController {
     }
 
     @PostMapping("/complete")
-    public ResponseEntity<ApiResponse> acceptCompleteRequest(
+    public ResponseEntity<ApiResponse> acceptCompleteRequest(@CurrentUser User user,
         @Valid @RequestBody AlbaAcceptCompleteRequestDto albaAcceptCompleteRequestDto) {
-        albaService.acceptCompleteRequest(albaAcceptCompleteRequestDto);
+        albaService.acceptCompleteRequest(user.getUsername(), albaAcceptCompleteRequestDto);
+
+        ApiResponse apiResponse = ApiResponse.builder().message("아르바이트 상태 반영 완료")
+            .status(HttpStatus.OK.value()).data(null).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/reject")
+    public ResponseEntity<ApiResponse> rejectCompleteRequest(@CurrentUser User user,
+        @Valid @RequestBody AlbaRejectCompleteRequestDto albaRejectCompleteRequestDto) {
+        albaService.rejectCompleteRequest(user.getUsername(), albaRejectCompleteRequestDto);
 
         ApiResponse apiResponse = ApiResponse.builder().message("아르바이트 상태 반영 완료")
             .status(HttpStatus.OK.value()).data(null).build();
