@@ -2,6 +2,7 @@ package com.ssafy.teentech.alba.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import com.ssafy.teentech.alba.dto.response.AlbaCompletedListResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForChildResponseDto;
 import com.ssafy.teentech.alba.service.AlbaService;
 import com.ssafy.teentech.common.entity.CurrentUser;
@@ -31,6 +32,16 @@ public class AlbaChildController {
 
         ApiResponse apiResponse = ApiResponse.builder().message("아르바이트 목록 조회 완료")
             .status(HttpStatus.OK.value()).data(albasForChildResponseDto).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/completed-lists")
+    public ResponseEntity<ApiResponse> getCompletedAlbaList(@CurrentUser User user) {
+        AlbaCompletedListResponseDto completedAlbaList = albaService.getCompletedAlbaList(
+            user.getUsername());
+
+        ApiResponse apiResponse = ApiResponse.builder().message("완료한 아르바이트 목록 조회 완료")
+            .status(HttpStatus.OK.value()).data(completedAlbaList).build();
         return ResponseEntity.ok(apiResponse);
     }
 
