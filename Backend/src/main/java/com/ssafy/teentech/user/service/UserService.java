@@ -5,8 +5,10 @@ import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
+import com.ssafy.teentech.common.error.exception.NotFoundException;
 import com.ssafy.teentech.common.error.exception.PermissionDeniedException;
 import com.ssafy.teentech.common.util.Role;
+import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.dto.request.ExtraInformationRequestDto;
 import com.ssafy.teentech.user.dto.response.CreditAndInterestResponseDto;
@@ -83,6 +85,27 @@ public class UserService {
         }
 
         return childDetailRepository.findCreditAndInterestByUser(child);
+    }
+
+    public void initAlbaStreak(User child) {
+        ChildDetail childDetail = childDetailRepository.findByUser(child)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND));
+
+        childDetail.setAlbaSuccessStreak(0);
+    }
+
+    public void increaseAlbaStreak(User child) {
+        ChildDetail childDetail = childDetailRepository.findByUser(child)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND));
+
+        childDetail.setAlbaSuccessStreak(childDetail.getAlbaSuccessStreak() + 1);
+    }
+
+    public void increaseLotteryCoupon(User child) {
+        ChildDetail childDetail = childDetailRepository.findByUser(child)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND));
+
+        childDetail.setLotteryCoupon(childDetail.getLotteryCoupon() + 1);
     }
 
     /**
