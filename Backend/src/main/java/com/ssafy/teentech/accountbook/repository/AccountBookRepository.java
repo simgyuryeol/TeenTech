@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface AccountBookRepository extends JpaRepository<AccountBook,Long> {
     // 해당 월에 해당하는 값들 조회
-    @Query("SELECT ac FROM AccountBook ac WHERE month(ac.transactionDate) = :date and ac.user= :user")
+    @Query("SELECT ac FROM AccountBook ac WHERE month(ac.transactionDate) = month(:date) and ac.user= :user")
     List<AccountBook> findByDate(LocalDate date, User user);
 
     //일차로 출력
-    @Query("SELECT ac FROM AccountBook ac WHERE day (ac.transactionDate) = :date and ac.user= :user")
+    @Query("SELECT ac FROM AccountBook ac WHERE day (ac.transactionDate) = day(:date) and ac.user= :user")
     List<AccountBook> findByDay(LocalDate date);
 
 }

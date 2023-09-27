@@ -2,23 +2,19 @@ package com.ssafy.teentech.accountbook.service;
 
 import com.ssafy.teentech.accountbook.domain.AccountBook;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookAmountRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookDateRequestDto;
-import com.ssafy.teentech.accountbook.dto.request.AccountBookDetailRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto;
 import com.ssafy.teentech.accountbook.repository.AccountBookRepository;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -71,6 +67,8 @@ public class AccountBookService {
 
         for (AccountBook accountBook : accountBookList) {
             Integer dateAccount[] = new Integer[2]; //수입, 소비 순
+            dateAccount[0] = 0;
+            dateAccount[1] = 0;
             if(account.containsKey(accountBook.getTransactionDate())){ //값이 있으면 더해준다.
                 dateAccount = account.get(accountBook.getTransactionDate());
             }
