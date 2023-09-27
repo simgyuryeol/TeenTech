@@ -65,8 +65,8 @@ public class AccountBookController {
     }
 
     @GetMapping("/detail/{date}")
-    public ResponseEntity<ApiResponse>  accountBookDetail(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
-        List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = accountBookService.accountBookDetail(date);
+    public ResponseEntity<ApiResponse>  accountBookDetail(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable Long child_id){
+        List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = accountBookService.accountBookDetail(date,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("가계부 상세보기")
