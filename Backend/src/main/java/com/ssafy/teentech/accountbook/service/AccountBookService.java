@@ -29,9 +29,9 @@ public class AccountBookService {
     final private AccountBookRepository accountBookRepository;
     final private UserRepository userRepository;
 
-    public AccountBookAmountResponseDto accountBookAmount(AccountBookAmountRequestDto accountBookAmountRequestDto,Long child_id) {
+    public AccountBookAmountResponseDto accountBookAmount(LocalDate date,Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
-        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookAmountRequestDto.getDate(),user);
+        List<AccountBook> accountBookList = accountBookRepository.findByDate(date,user);
 
         Map<String,Integer> account = new HashMap<>();
         //수입
@@ -63,9 +63,9 @@ public class AccountBookService {
 
     }
 
-    public List<AccountBookDateResponseDto> accountBookDate(AccountBookDateRequestDto accountBookDateRequestDto, Long child_id) {
+    public List<AccountBookDateResponseDto> accountBookDate(LocalDate date, Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
-        List<AccountBook> accountBookList = accountBookRepository.findByDate(accountBookDateRequestDto.getDate(),user);
+        List<AccountBook> accountBookList = accountBookRepository.findByDate(date,user);
 
         Map<LocalDate,Integer[]> account = new HashMap<>();
 
@@ -103,8 +103,8 @@ public class AccountBookService {
 
     }
 
-    public List<AccountBookDetailResponseDto> accountBookDetail(AccountBookDetailRequestDto accountBookDetailRequestDto) {
-        List<AccountBook> byDay = accountBookRepository.findByDay(accountBookDetailRequestDto.getDate());
+    public List<AccountBookDetailResponseDto> accountBookDetail(LocalDate date) {
+        List<AccountBook> byDay = accountBookRepository.findByDay(date);
         List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = new ArrayList<>();
         for (AccountBook accountBook : byDay) {
             AccountBookDetailResponseDto accountBookDetailResponseDto = AccountBookDetailResponseDto.builder()
