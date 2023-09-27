@@ -5,6 +5,8 @@ import com.ssafy.teentech.alba.domain.Status;
 import com.ssafy.teentech.alba.dto.request.AlbaAcceptCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaCreateRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaRejectCompleteRequestDto;
+import com.ssafy.teentech.alba.dto.response.AlbaCompletedListResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaCompletedResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbaResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForChildResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForParentResponseDto;
@@ -53,6 +55,20 @@ public class AlbaService {
 
         return new AlbasForParentResponseDto(inProgressAlbaList, createdBeforeNowAlbaList);
 
+    }
+
+    public AlbaCompletedListResponseDto getCompletedAlbaList(String userEmail, Long childId) {
+        User parent = userService.getUser(userEmail);
+        User child = userService.getUser(childId);
+
+        if (!parent.getUserId().equals(child.getParentId())) {
+            throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
+        }
+
+        List<AlbaCompletedResponseDto> albaCompletedResponseDtoList = albaRepository.findAllByUserAndCloseDateBeforeAndStatusOrderByStatus(child, LocalDate.now(),
+            Status.COMPLETE);
+
+        return new AlbaCompletedListResponseDto(albaCompletedResponseDtoList);
     }
 
     public void createAlba(AlbaCreateRequestDto albaCreateRequestDto) {
@@ -141,6 +157,15 @@ public class AlbaService {
 
         return new AlbasForChildResponseDto(inProgressAlbaList, applicableAlbaList);
 
+    }
+
+    public AlbaCompletedListResponseDto getCompletedAlbaList(String userEmail) {
+        User child = userService.getUser(userEmail);
+
+        List<AlbaCompletedResponseDto> albaCompletedResponseDtoList = albaRepository.findAllByUserAndCloseDateBeforeAndStatusOrderByStatus(child, LocalDate.now(),
+            Status.COMPLETE);
+
+        return new AlbaCompletedListResponseDto(albaCompletedResponseDtoList);
     }
 
     public void acceptAlba(String userEmail, Long albaId) {

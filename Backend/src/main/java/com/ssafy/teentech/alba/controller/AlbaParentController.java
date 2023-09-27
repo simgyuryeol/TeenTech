@@ -3,6 +3,7 @@ package com.ssafy.teentech.alba.controller;
 import com.ssafy.teentech.alba.dto.request.AlbaAcceptCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaCreateRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaRejectCompleteRequestDto;
+import com.ssafy.teentech.alba.dto.response.AlbaCompletedListResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForParentResponseDto;
 import com.ssafy.teentech.alba.service.AlbaService;
 import com.ssafy.teentech.common.entity.CurrentUser;
@@ -34,6 +35,17 @@ public class AlbaParentController {
 
         ApiResponse apiResponse = ApiResponse.builder().message("아르바이트 목록 조회 완료")
             .status(HttpStatus.OK.value()).data(albasForParentResponseDto).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/completed-lists/{childId}")
+    public ResponseEntity<ApiResponse> getCompletedAlbaList(@CurrentUser User user,
+        @PathVariable Long childId) {
+        AlbaCompletedListResponseDto completedAlbaList = albaService.getCompletedAlbaList(
+            user.getUsername(), childId);
+
+        ApiResponse apiResponse = ApiResponse.builder().message("완료한 아르바이트 목록 조회 완료")
+            .status(HttpStatus.OK.value()).data(completedAlbaList).build();
         return ResponseEntity.ok(apiResponse);
     }
 
