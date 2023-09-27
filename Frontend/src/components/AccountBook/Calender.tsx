@@ -16,43 +16,46 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
 import { childIdAtom } from "../../recoil/childIdAtom";
+import axios from "axios";
+
+const base_URL = import.meta.env.VITE_SERVER_URL;
 
 interface sampleDate {
   date: string;
-  income: number;
-  exp: number;
+  importAmount: number;
+  spendingAmount: number;
 }
 
 const Data: sampleDate[] = [
   {
     date: "2023-08-05",
-    income: 2000,
-    exp: 0,
+    importAmount: 2000,
+    spendingAmount: 0,
   },
   {
     date: "2023-08-11",
-    income: 0,
-    exp: -5000,
+    importAmount: 0,
+    spendingAmount: -5000,
   },
   {
     date: "2023-08-22",
-    income: 1000,
-    exp: -8000,
+    importAmount: 1000,
+    spendingAmount: -8000,
   },
   {
     date: "2023-09-05",
-    income: 2000,
-    exp: 0,
+    importAmount: 2000,
+    spendingAmount: 0,
   },
   {
     date: "2023-09-11",
-    income: 0,
-    exp: -5000,
+    importAmount: 0,
+    spendingAmount: -5000,
   },
   {
     date: "2023-09-22",
-    income: 1000,
-    exp: -8000,
+    importAmount: 1000,
+    spendingAmount: -8000,
   },
 ];
 
@@ -63,6 +66,28 @@ const RenderHeader: React.FC<{
   prevMonth: () => void;
   nextMonth: () => void;
 }> = ({ currentMonth, prevMonth, nextMonth }) => {
+  const [Datedata, setDatedata] = useState<sampleDate[]>([]);
+
+  const getDate = () => {
+    console.log(formatDate(currentMonth));
+    axios
+      .get(
+        `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${formatDate(
+          currentMonth
+        )}`
+      )
+      .then((response) => {
+        setDatedata(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDate();
+  }, [currentMonth]);
+
   return (
     <div className="flex justify-center items-center p-1">
       <div className="px-4">
@@ -125,12 +150,15 @@ const RenderCells: React.FC<{
   const startDate = startOfWeek(monthStart);
   // 마지막 요일
   const endDate = endOfWeek(monthEnd);
+  //console.log();
+  const Month = Number(format(currentMonth, "M"));
 
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
-  console.log(monthStart);
+
+  const child_id = 1;
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -157,11 +185,15 @@ const RenderCells: React.FC<{
           <div className="mt-1">{formattedDate}</div>
           {dataItem && (
             <div className="container h-full flex-row justify-center">
-              {dataItem.income !== 0 && (
-                <div className="text-xs text-blue-500">{dataItem.income}</div>
+              {dataItem.importAmount !== 0 && (
+                <div className="text-xs text-blue-500">
+                  {dataItem.importAmount}
+                </div>
               )}
-              {dataItem.exp !== 0 && (
-                <div className="text-xs text-red-500">{dataItem.exp}</div>
+              {dataItem.spendingAmount !== 0 && (
+                <div className="text-xs text-red-500">
+                  {dataItem.spendingAmount}
+                </div>
               )}
             </div>
           )}
@@ -203,7 +235,6 @@ const Calendar: React.FC = () => {
 
   const handleDateClick = (date: Date) => {
     const formattedDate = formatDate(date);
-    console.log(formattedDate);
     const dataItem = Data.find((item) => item.date === formattedDate);
 
     if (dataItem) {

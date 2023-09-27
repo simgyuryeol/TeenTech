@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LottoList from "../../../components/Lotto/LottoList";
 import Jackpot from "../../../../src/assets/lotto/jackpot2.png";
 import Ticket from "../../../../src/assets/lotto/ticket2.png";
+import axios from "axios";
 
 const Lotto: React.FC = () => {
   const navigate = useNavigate();
@@ -10,6 +11,19 @@ const Lotto: React.FC = () => {
   const ClickChange = () => {
     navigate("/LottoChange");
   };
+
+  // const getlottoticket = () => {
+  //   axios
+  //     .get(`https://j9e207.p.ssafy.io/api/v1/${child_id}/accountbooks/date`, {
+  //       params: { date: Month },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <div

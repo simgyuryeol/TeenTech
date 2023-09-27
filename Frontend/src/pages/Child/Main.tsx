@@ -4,7 +4,7 @@ import MenuList from "../../components/Main/MenuList";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
 import Boy from "../../../src/assets/main/boy_1.png";
-import GptTest from "./gpt_test/GptTest";
+// import GptTest from "./gpt_test/GptTest";
 
 const Main: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
@@ -80,7 +80,7 @@ const Main: React.FC = () => {
       <div className="mx-4 rounded-2xl mt-28">
         <Total childId={id} />
       </div>
-      <GptTest />
+      {/* <GptTest /> */}
     </div>
   );
 };
