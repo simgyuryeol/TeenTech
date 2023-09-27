@@ -13,6 +13,7 @@ import com.ssafy.teentech.common.util.TokenInfo;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.dto.request.ExtraInformationRequestDto;
 import com.ssafy.teentech.user.dto.response.AccessTokenResponseDto;
+import com.ssafy.teentech.user.dto.response.CreditAndInterestResponseDto;
 import com.ssafy.teentech.user.dto.response.UserInfoResponseDto;
 import com.ssafy.teentech.user.service.UserService;
 import javax.servlet.http.Cookie;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +66,30 @@ public class UserController {
             .status(OK.value())
             .data(null)
             .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    // For child
+    @GetMapping("/credit-and-interests")
+    public ResponseEntity<ApiResponse> getCreditAndInterests(@CurrentUser
+    org.springframework.security.core.userdetails.User currentUser) {
+        CreditAndInterestResponseDto creditAndInterestResponseDto = userService.getCreditAndInterests(
+            currentUser.getUsername());
+
+        ApiResponse apiResponse = ApiResponse.builder().message("신용 점수, 예금 이율, 대출 이율 조회 완료")
+            .status(OK.value()).data(creditAndInterestResponseDto).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    // For parent
+    @GetMapping("/credit-and-interests/{childId}")
+    public ResponseEntity<ApiResponse> getCreditAndInterests(@CurrentUser
+    org.springframework.security.core.userdetails.User currentUser, @PathVariable Long childId) {
+        CreditAndInterestResponseDto creditAndInterestResponseDto = userService.getCreditAndInterests(
+            currentUser.getUsername(), childId);
+
+        ApiResponse apiResponse = ApiResponse.builder().message("신용 점수, 예금 이율, 대출 이율 조회 완료")
+            .status(OK.value()).data(creditAndInterestResponseDto).build();
         return ResponseEntity.ok(apiResponse);
     }
 

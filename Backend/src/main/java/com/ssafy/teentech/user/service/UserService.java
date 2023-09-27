@@ -5,9 +5,12 @@ import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
+import com.ssafy.teentech.common.error.exception.PermissionDeniedException;
 import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.dto.request.ExtraInformationRequestDto;
+import com.ssafy.teentech.user.dto.response.CreditAndInterestResponseDto;
+import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +27,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ChildDetailRepository childDetailRepository;
     private final BankService bankService;
 
     @Value("${kakao.admin}")
@@ -61,6 +66,23 @@ public class UserService {
         bankService.registerAccount(registerAccountRequestDto);
 
         user.updateRole(extraInformationRequestDto.getRole());
+    }
+
+    public CreditAndInterestResponseDto getCreditAndInterests(String userEmail) {
+        User child = getUser(userEmail);
+
+        return childDetailRepository.findCreditAndInterestByUser(child);
+    }
+
+    public CreditAndInterestResponseDto getCreditAndInterests(String userEmail, Long childId) {
+        User parent = getUser(userEmail);
+        User child = getUser(childId);
+
+        if (!parent.getParentId().equals(child.getParentId())) {
+            throw new PermissionDeniedException(ErrorCode.RESOURCE_PERMISSION_DENIED);
+        }
+
+        return childDetailRepository.findCreditAndInterestByUser(child);
     }
 
     /**
