@@ -5,12 +5,16 @@ import com.ssafy.teentech.deposit.domain.InterestType;
 import com.ssafy.teentech.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
 @Builder(toBuilder = true)
 public class DepositCreateResponseDto {
+
+    @Setter
+    private Integer depositId;
 
     private String depositName;
     private Integer money;
