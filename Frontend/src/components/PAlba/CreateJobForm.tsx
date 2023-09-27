@@ -9,8 +9,8 @@ const CreateJobForm: React.FC = () => {
     title: "",
     content: "",
     reward: 0,
-    start_date: "",
-    close_date: "",
+    startDate: "",
+    closeDate: "",
   });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const CreateJobForm: React.FC = () => {
 
     setFormData({
       ...formData,
-      start_date: formattedDate,
+      startDate: formattedDate,
     });
   }, []);
 
@@ -32,10 +32,17 @@ const CreateJobForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "reward") {
+      setFormData({
+        ...formData,
+        [name]: Number(value),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,20 +51,15 @@ const CreateJobForm: React.FC = () => {
     if (
       !formData.title ||
       !formData.reward ||
-      !formData.close_date ||
+      !formData.closeDate ||
       !formData.content
     ) {
       setFormError("모든 필드를 입력하세요.");
       return;
     }
 
-    setFormData({
-      ...formData,
-      reward: Number(formData.reward),
-    });
-
-    const startDate = new Date(formData.start_date);
-    const closeDate = new Date(formData.close_date);
+    const startDate = new Date(formData.startDate);
+    const closeDate = new Date(formData.closeDate);
 
     if (closeDate <= startDate) {
       setFormError("마감일은 시작일보다 뒤의 날짜여야 합니다.");
@@ -67,11 +69,11 @@ const CreateJobForm: React.FC = () => {
     try {
       const axiosConfig: AxiosRequestConfig = {
         method: "post",
-        url: "https://192.168.30.201/api/v1/albas/parent",
-        // url: "https://j9e207.p.ssafy.io/api/v1/albas/parent",
+        url: "https://j9e207.p.ssafy.io/api/v1/albas/parent",
         data: formData,
       };
 
+      console.log(formData);
       const response = await axios(axiosConfig);
       console.log("RESPONSE", response.data);
       setFormError("");
@@ -130,7 +132,7 @@ const CreateJobForm: React.FC = () => {
             </div>
 
             <div className="mb-5">
-              <label htmlFor="close_date" className="mb-2 block">
+              <label htmlFor="closeDate" className="mb-2 block">
                 <div className="flex flex-row text-lg">
                   <span className="mr-3 mt-1">
                     <Icon icon="circum:calendar-date" />
@@ -144,10 +146,10 @@ const CreateJobForm: React.FC = () => {
               </label>
               <input
                 type="date"
-                name="close_date"
-                id="close_date"
+                name="closeDate"
+                id="closeDate"
                 className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                value={formData.close_date}
+                value={formData.closeDate}
                 onChange={handleChange}
               />
             </div>
@@ -177,7 +179,7 @@ const CreateJobForm: React.FC = () => {
             </div>
             <div>
               {formError && <div className="text-red-600">{formError}</div>}
-              <button className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 font-semibold text-white outline-none">
+              <button className="hover:shadow-form rounded-md bg-blue-300 py-3 px-8 font-semibold text-lg outline-none">
                 등록하기
               </button>
             </div>

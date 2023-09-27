@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import JobCarousel from "../../../components/Alba/JobCarousel";
 import NoJob from "../../../components/Alba/NoJob";
-
-// 진행여부: pre, ing, true, false
-
-interface Job {
-  title: string;
-  pay: string;
-  due: Date;
-  description: string;
-  stage: string;
-}
 
 const Alba: React.FC = () => {
   const navigate = useNavigate();
@@ -21,49 +12,25 @@ const Alba: React.FC = () => {
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    const fetchData = () => {
-      const currentDate = new Date();
-      setCurrentJobs([
-        {
-          title: "진행중 알바1",
-          pay: "1000원",
-          due: currentDate,
-          description: "진행중 알바1 설명",
-          stage: "ing",
-        },
-        {
-          title: "진행중 알바2",
-          pay: "1000원",
-          due: currentDate,
-          description: "진행중 알바2 설명",
-          stage: "ing",
-        },
-        {
-          title: "진행중 알바3",
-          pay: "1000원",
-          due: currentDate,
-          description: "진행중 알바3 설명",
-          stage: "ing",
-        },
-      ]);
-      setAvailableJobs([
-        {
-          title: "가능한 알바1",
-          pay: "1000원",
-          due: currentDate,
-          description: "가능한 알바1 설명",
-          stage: "pre",
-        },
-        {
-          title: "가능한 알바2",
-          pay: "1000원",
-          due: currentDate,
-          description: "가능한 알바2 설명",
-          stage: "pre",
-        },
-      ]);
-    };
-    fetchData();
+    // const customHeaders = {
+    //   Authorization: 'Bearer YourAccessToken',
+    // };
+
+    axios
+      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
+      // .get(import.meta.env.VITE_BASE_URL + `/albas/child/lists`, {
+      //   headers: customHeaders,
+      // })
+      .get(import.meta.env.VITE_BASE_URL + `/albas/child/lists`)
+      .then((response) => {
+        const fetchedData = response.data;
+        console.log("SUCCESS", response.data);
+        setCurrentJobs(fetchedData.inProgressAlbaList);
+        setAvailableJobs(fetchedData.applicableAlbaList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -90,7 +57,7 @@ const Alba: React.FC = () => {
                 <div className=" text-gray-700 pr-2">
                   <div className="flex items-center justify-between">
                     <p>진행 중</p>
-                    <p className="text-red-600">1건</p>
+                    <p className="text-red-600">{currentJobs? currentJobs.length : 0}건</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p>진행 완료</p>

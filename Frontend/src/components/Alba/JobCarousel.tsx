@@ -1,16 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Modal from "../Common/Modal";
 import JobSummary from "./JobSummary";
 import JobDetail from "./JobDetail";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
-interface Job {
-  title: string;
-  pay: string;
-  due: Date;
-  description: string;
-  stage: string;
-}
 
 const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const { jobs } = props;
@@ -33,6 +26,21 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     setIsModalOpen(false);
   };
 
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    status: string
+  ) => {
+    axios
+      // .post(import.meta.env.VITE_BASE_URL + `/albas/child/${alba_id}/${status}`)
+      .post(import.meta.env.VITE_BASE_URL + `/albas/child/alba_id/${status}`)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="overflow-hidden relative">
       <div className="absolute inset-0 flex items-center justify-between p-2">
@@ -40,13 +48,13 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
           onClick={prev}
           className="bg-transparent p-0 text-gray-400 z-10"
         >
-          <Icon icon="mdi-light:chevron-left" className="w-8 h-8"/>
+          <Icon icon="mdi-light:chevron-left" className="w-8 h-8" />
         </button>
         <button
           onClick={next}
           className="bg-transparent p-0 text-gray-400 z-10"
         >
-          <Icon icon="mdi-light:chevron-right" className="w-8 h-8"/>
+          <Icon icon="mdi-light:chevron-right" className="w-8 h-8" />
         </button>
       </div>
 
@@ -56,26 +64,40 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
       >
         {jobs.map((job, index) => (
           <div key={index} onClick={() => openModal(job)}>
-            <JobSummary title={job.title} pay={job.pay} due={job.due} />
+            <JobSummary
+              title={job.title}
+              reward={job.reward}
+              closeDate={job.closeDate}
+            />
           </div>
         ))}
       </div>
 
       {isModalOpen && (
         <Modal>
-          <JobDetail
-            title={selectedJob?.title || ""}
-            pay={selectedJob?.pay || ""}
-            due={selectedJob?.due || new Date()}
-            description={selectedJob?.description || ""}
-            stage={selectedJob?.stage || ""}
-          />
-          {selectedJob?.stage === "pre" ? (
-            <button onClick={closeModal}>할래요😉</button>
+          <button
+            className="bg-transparent relative inset-x-32"
+            onClick={closeModal}
+          >
+            <Icon
+              icon="zondicons:close-outline"
+              className="w-6 h-6 text-gray-600"
+            />
+          </button>
+          <JobDetail job={selectedJob} />
+          {selectedJob?.status === "PRE" ? (
+            <button onClick={(e) => handleClick(e, "accept")}>할래요😉</button>
           ) : (
             <div>
-              <button onClick={closeModal}>못하겠어요😓</button>
-              <button onClick={closeModal}>다 했어요😊</button>
+              <button onClick={(e) => handleClick(e, "giveup")} className="m-2">
+                못하겠어요😓
+              </button>
+              <button
+                onClick={(e) => handleClick(e, "complete")}
+                className="m-2"
+              >
+                다 했어요😊
+              </button>
             </div>
           )}
         </Modal>

@@ -1,73 +1,29 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import CreateJob from "../../components/PAlba/CreateJob";
 import PJobCarousel from "../../components/PAlba/PJobCarousel";
-
-// 진행여부: pre, ing, true, false
-
-interface Job {
-  title: string;
-  pay: string;
-  due: Date;
-  description: string;
-  stage: string;
-}
+import NoJob from "../../components/Alba/NoJob";
 
 const Palba: React.FC = () => {
   const navigate = useNavigate();
-  // 알바 목록 관련
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
   const [createdJobs, setCreatedJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   Promise.all([axios.get("진행중알바"),axios.get("가능알바"),]);
-    //     .then(([data1, data2]) => {
-    //       const currentJobList = data1.data;
-    //       setCurrentJobs(currentJobList);
-    //      const availableJobList = data2.data;
-    //      setCreatedJobs(availableJobList);
-    //     })
-    //     .catch((err) => console.log(err));
-    // };
-    const fetchData = () => {
-      const currentDate = new Date();
-      setCurrentJobs([
-        {
-          title: "진행중 알바1",
-          pay: "1000원",
-          due: currentDate,
-          description: "진행중 알바1 설명",
-          stage: "ing",
-        },
-        {
-          title: "진행중 알바2",
-          pay: "1000원",
-          due: currentDate,
-          description: "진행중 알바2 설명",
-          stage: "ing",
-        },
-      ]);
-      setCreatedJobs([
-        {
-          title: "등록한 알바1",
-          pay: "1000원",
-          due: currentDate,
-          description: "등록한 알바1 설명",
-          stage: "pre",
-        },
-        {
-          title: "등록한 알바2",
-          pay: "1000원",
-          due: currentDate,
-          description: "등록한 알바2 설명",
-          stage: "pre",
-        },
-      ]);
-    };
-    fetchData();
+    axios
+      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
+      .get(import.meta.env.VITE_BASE_URL + `/albas/parent/lists/34`)
+      .then((response) => {
+        const fetchedData = response.data;
+        console.log("SUCCESS", response.data);
+        setCurrentJobs(fetchedData.inProgressAlbaList);
+        setCreatedJobs(fetchedData.createdBeforeNowAlbaList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -78,27 +34,24 @@ const Palba: React.FC = () => {
         </div>
 
         <div className="ml-3 w-10/12">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-xl">내 알바</span>
-                  <button
-                    onClick={() => navigate("/AlbaCompleted")}
-                    className="ml-8"
-                  >
-                    완료알바보기
-                  </button>
-                </div>
-                <div className=" text-gray-700 pr-2">
-                  <div className="flex items-center justify-between">
-                    <p>진행 중</p>
-                    <p className="text-red-600">1건</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p>진행 완료</p>
-                    <p className="text-red-600">0건</p>
-                  </div>
-                </div>
-              </div>
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-xl">재범이 알바</span>
+            <button onClick={() => navigate("/AlbaCompleted")} className="ml-8">
+              완료알바보기
+            </button>
+          </div>
+          <div className=" text-gray-700 pr-2">
+            <div className="flex items-center justify-between">
+              <p>진행 중</p>
+              <p className="text-red-600">{currentJobs? currentJobs.length : 0}건</p>
             </div>
+            <div className="flex items-center justify-between">
+              <p>진행 완료</p>
+              <p className="text-red-600">0건</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="flex rounded-xl bg-white p-4 shadow-lg my-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-orange-100 bg-orange-50">
@@ -117,13 +70,21 @@ const Palba: React.FC = () => {
       <CreateJob />
 
       <React.Fragment>
-        <p className="text-lg font-bold">진행중인 아르바이트</p>
-        <PJobCarousel jobs={currentJobs} />
+        <p className="text-lg font-bold">진행 중인 아르바이트</p>
+        {currentJobs && currentJobs.length ? (
+          <PJobCarousel jobs={currentJobs} />
+        ) : (
+          <NoJob status="진행 중인" />
+        )}
       </React.Fragment>
 
       <React.Fragment>
         <p className="text-lg font-bold">등록한 아르바이트</p>
-        <PJobCarousel jobs={createdJobs} />
+        {createdJobs && createdJobs.length ? (
+          <PJobCarousel jobs={createdJobs} />
+        ) : (
+          <NoJob status="등록한" />
+        )}
       </React.Fragment>
     </div>
   );

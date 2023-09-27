@@ -1,8 +1,24 @@
 import React, { useState } from "react";
+import axios, { AxiosRequestConfig } from "axios";
 
-const PinInput: React.FC = () => {
+interface PinInputProps {
+  method?: string;
+  url?: string;
+  headers?: { [key: string]: string };
+  data?: { [key: string]: any };
+  onclose: () => void;
+}
+
+const PinInput: React.FC<PinInputProps> = ({
+  method,
+  url,
+  headers,
+  data,
+  onclose,
+}) => {
   const pinLength = 4;
   const [pin, setPin] = useState<string[]>(Array(pinLength).fill(""));
+  const [errorMessage, setErrorMessage] = useState("");
 
   const resetValue = (i: number) => {
     setPin((prevPin) =>
@@ -11,6 +27,7 @@ const PinInput: React.FC = () => {
   };
 
   const stepForward = (i: number) => {
+    setErrorMessage("");
     if (pin[i] && i !== pinLength - 1) {
       document.getElementById(`codefield_${i + 1}`)?.focus();
       resetValue(i + 1);
@@ -32,12 +49,30 @@ const PinInput: React.FC = () => {
     }
   };
 
-  const validatePin = (code: string) => {
-    // 서버에서 실제로 PIN 코드를 확인하는 로직을 구현해야 합니다.
-    if (code === "1234") {
-      alert("성공");
-    } else {
-      alert("땡");
+  const validatePin = async (code: string) => {
+    try {
+      const axiosConfig: AxiosRequestConfig = {
+        method,
+        url,
+        data: { password: code, ...data },
+        headers,
+      };
+      const response = await axios(axiosConfig);
+      console.log("RESPONSE", response.data);
+      if (response.status === 200) {
+        onclose();
+      } else {
+        setErrorMessage("비밀번호를 확인해주세요.");
+        setPin(Array(pinLength).fill(""));
+
+        const firstInputField = document.getElementById("codefield_0");
+        if (firstInputField) {
+          firstInputField.focus();
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorMessage("비밀번호 확인에 실패했습니다.");
       setPin(Array(pinLength).fill(""));
 
       const firstInputField = document.getElementById("codefield_0");
@@ -48,9 +83,9 @@ const PinInput: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <div className="bg-white rounded-lg shadow p-4">
-        <div className="px-2 pb-4 text-lg">비밀번호를 입력하세요</div>
+        <div className="px-2 pb-4 text-2xl text-center">비밀번호를 입력하세요.</div>
         <div className="flex">
           {Array.from({ length: pinLength }, (_, i) => (
             <input
@@ -80,6 +115,7 @@ const PinInput: React.FC = () => {
           ))}
         </div>
       </div>
+      {errorMessage && <div className="text-red-600 text-lg">{errorMessage}</div>}
     </div>
   );
 };
