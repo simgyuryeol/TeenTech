@@ -42,14 +42,14 @@ public class DepositService {
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
         // 1. 복리라면 사용 가능해도 되는지 확인
         // 복리이면서 3등급 이상이면 실패
-        if (depositCreateRequestDto.getInterestType()== InterestType.COMPOUNDINTEREST && childDetail.getCreditRating()>3){
+        if (depositCreateRequestDto.getInterestType()== InterestType.복리 && childDetail.getCreditRating()>3){
             return null;
         }
 
         //2. 만기지급액 계산
         int maturityPaymentAmount = 0;
         // 단리면
-        if (depositCreateRequestDto.getInterestType()== InterestType.SIMPLEINTEREST){
+        if (depositCreateRequestDto.getInterestType()== InterestType.단리){
             maturityPaymentAmount = (int)(depositCreateRequestDto.getMoney() + depositCreateRequestDto.getMoney() * (childDetail.getDepositInterestRate()/100) * depositCreateRequestDto.getWeeks());
         }
         else{ //복리면
@@ -67,7 +67,9 @@ public class DepositService {
                 .maturityPaymentAmount(maturityPaymentAmount)
                 .build();
 
-        depositRepository.save(depositCreateResponseDto.toEntity(user));
+        Deposit save = depositRepository.save(depositCreateResponseDto.toEntity(user));
+
+        depositCreateResponseDto.setDepositId(save.getDepositId());
 
         return depositCreateResponseDto;
     }
@@ -79,6 +81,7 @@ public class DepositService {
         List<DepositInquiryResponseDto> depositInquiryResponseDtoList = new ArrayList<>();
         for (Deposit deposit : depositList) {
             DepositInquiryResponseDto  depositInquiryResponseDto = DepositInquiryResponseDto.builder()
+                    .depositId(deposit.getDepositId())
                     .depositName(deposit.getDepositName())
                     .endDate(deposit.getEndDate())
                     .interest(deposit.getInterest())

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Builder(toBuilder = true)
 public class DepositInquiryResponseDto {
+    private Integer depositId;
     private String depositName;
     private Integer money;
     private LocalDate startDate;
