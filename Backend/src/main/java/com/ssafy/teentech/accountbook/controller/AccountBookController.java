@@ -10,6 +10,7 @@ import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto
 import com.ssafy.teentech.accountbook.service.AccountBookService;
 import com.ssafy.teentech.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class AccountBookController {
     }
 
     @GetMapping("/date/{date}")
-    public ResponseEntity<ApiResponse> accountBookDate(@PathVariable LocalDate date, @PathVariable Long child_id){
+    public ResponseEntity<ApiResponse> accountBookDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable Long child_id){
         List<AccountBookDateResponseDto> accountBookDateResponseDtoList = accountBookService.accountBookDate(date,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
