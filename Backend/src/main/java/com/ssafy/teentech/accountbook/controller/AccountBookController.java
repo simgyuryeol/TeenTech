@@ -26,7 +26,7 @@ public class AccountBookController {
 
     final private AccountBookService accountBookService;
     @GetMapping("/{date}")
-    public ResponseEntity<ApiResponse> accountBookAmount(@PathVariable LocalDate date, @PathVariable Long child_id){
+    public ResponseEntity<ApiResponse> accountBookAmount(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @PathVariable Long child_id){
         AccountBookAmountResponseDto accountBookAmountResponseDto = accountBookService.accountBookAmount(date,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
@@ -65,7 +65,7 @@ public class AccountBookController {
     }
 
     @GetMapping("/detail/{date}")
-    public ResponseEntity<ApiResponse>  accountBookDetail(@PathVariable LocalDate date){
+    public ResponseEntity<ApiResponse>  accountBookDetail(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
         List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = accountBookService.accountBookDetail(date);
 
         ApiResponse apiResponse = ApiResponse.builder()
