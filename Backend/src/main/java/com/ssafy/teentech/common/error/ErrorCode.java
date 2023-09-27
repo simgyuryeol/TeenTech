@@ -43,7 +43,9 @@ public enum ErrorCode {
 
     // PermissionDeniedException
     NO_PERMISSION_TO_APPLY_LOAN(400, "해당 대출을 상환할 수 없습니다."),
-    NO_PERMISSION_TO_READ_LOAN(400, "해당 유저의 대출을 조회할 수 없습니다.");
+    NO_PERMISSION_TO_READ_LOAN(400, "해당 유저의 대출을 조회할 수 없습니다."),
+
+    CHILD_DETAIL_NOT_FOUND(400, "상세 정보를 찾을 수 없습니다.");
 
     private int status;
     private String message;
