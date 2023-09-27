@@ -77,22 +77,28 @@ const Palba: React.FC = () => {
           <Icon icon="circum:view-list" className="h-8 w-8" />
         </div>
 
-        <div className="ml-4">
-          <div className="flex">
-            <span className="font-semibold text-left">
-              규렬이 <br />
-              아르바이트 현황
-            </span>
-            <button onClick={() => navigate("/AlbaCompleted")}>
-              완료알바보기
-            </button>
-          </div>
-          <div className="text-left">
-            <p className="mt-2 text-sm text-gray-500">진행 중: 1건</p>
-            <p className="mt-2 text-sm text-gray-500">진행 완료: 0건</p>
-          </div>
-        </div>
-      </div>
+        <div className="ml-3 w-10/12">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-xl">내 알바</span>
+                  <button
+                    onClick={() => navigate("/AlbaCompleted")}
+                    className="ml-8"
+                  >
+                    완료알바보기
+                  </button>
+                </div>
+                <div className=" text-gray-700 pr-2">
+                  <div className="flex items-center justify-between">
+                    <p>진행 중</p>
+                    <p className="text-red-600">1건</p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p>진행 완료</p>
+                    <p className="text-red-600">0건</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
       <div className="flex rounded-xl bg-white p-4 shadow-lg my-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-orange-100 bg-orange-50">
