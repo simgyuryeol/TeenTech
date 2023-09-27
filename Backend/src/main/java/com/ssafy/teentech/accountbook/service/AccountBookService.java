@@ -101,8 +101,9 @@ public class AccountBookService {
 
     }
 
-    public List<AccountBookDetailResponseDto> accountBookDetail(LocalDate date) {
-        List<AccountBook> byDay = accountBookRepository.findByDay(date);
+    public List<AccountBookDetailResponseDto> accountBookDetail(LocalDate date,Long child_id) {
+        User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
+        List<AccountBook> byDay = accountBookRepository.findByDay(date,user);
         List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = new ArrayList<>();
         for (AccountBook accountBook : byDay) {
             AccountBookDetailResponseDto accountBookDetailResponseDto = AccountBookDetailResponseDto.builder()
