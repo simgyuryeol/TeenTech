@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -23,9 +24,9 @@ import static org.springframework.http.HttpStatus.OK;
 public class AccountBookController {
 
     final private AccountBookService accountBookService;
-    @GetMapping()
-    public ResponseEntity<ApiResponse> accountBookAmount(@RequestBody AccountBookAmountRequestDto accountBookAmountRequestDto, @PathVariable Long child_id){
-        AccountBookAmountResponseDto accountBookAmountResponseDto = accountBookService.accountBookAmount(accountBookAmountRequestDto,child_id);
+    @GetMapping("/{date}")
+    public ResponseEntity<ApiResponse> accountBookAmount(@PathVariable LocalDate date, @PathVariable Long child_id){
+        AccountBookAmountResponseDto accountBookAmountResponseDto = accountBookService.accountBookAmount(date,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("가계부 가격 내역")
@@ -36,9 +37,9 @@ public class AccountBookController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/date")
-    public ResponseEntity<ApiResponse> accountBookDate(@RequestBody AccountBookDateRequestDto accountBookDateRequestDto, @PathVariable Long child_id){
-        List<AccountBookDateResponseDto> accountBookDateResponseDtoList = accountBookService.accountBookDate(accountBookDateRequestDto,child_id);
+    @GetMapping("/date/{date}")
+    public ResponseEntity<ApiResponse> accountBookDate(@PathVariable LocalDate date, @PathVariable Long child_id){
+        List<AccountBookDateResponseDto> accountBookDateResponseDtoList = accountBookService.accountBookDate(date,child_id);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("가계부 날짜 내역")
@@ -62,9 +63,9 @@ public class AccountBookController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<ApiResponse>  accountBookDetail(@RequestBody AccountBookDetailRequestDto accountBookDetailRequestDto){
-        List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = accountBookService.accountBookDetail(accountBookDetailRequestDto);
+    @GetMapping("/detail/{date}")
+    public ResponseEntity<ApiResponse>  accountBookDetail(@PathVariable LocalDate date){
+        List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = accountBookService.accountBookDetail(date);
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("가계부 상세보기")
