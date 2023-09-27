@@ -117,7 +117,7 @@ public class ParentController {
     public ResponseEntity<ApiResponse> interestRateSetting(@RequestBody InterestRateSettingRequestDto interestRateSettingRequestDto, @PathVariable Long child_id){
         parentService.interestRateSetting(interestRateSettingRequestDto,child_id);
 
-        
+
         ApiResponse apiResponse = ApiResponse.builder()
                 .message("이자율 설정")
                 .status(OK.value())

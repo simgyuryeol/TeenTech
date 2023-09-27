@@ -4,5 +4,6 @@ import lombok.Getter;
 
 @Getter
 public enum InterestType {
-    SIMPLEINTEREST,COMPOUNDINTEREST
+    단리,복리
+   // SIMPLEINTEREST,COMPOUNDINTEREST
 }
