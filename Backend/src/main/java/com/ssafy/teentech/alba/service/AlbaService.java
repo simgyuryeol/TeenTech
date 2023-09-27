@@ -110,6 +110,12 @@ public class AlbaService {
             alba.getTitle() + " 알바비 이체");
         bankService.transfer(transactionRequestDto);
 
+        // 알바 연속 성공 횟수 증가
+        userService.increaseAlbaStreak(child);
+
+        // 복권 티켓 개수 증가
+        userService.increaseLotteryCoupon(child);
+
         FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
             .targetUserId(albaAcceptCompleteRequestDto.getChildId()).title("아르바이트 완료 수락")
             .body("아르바이트(" + alba.getTitle() + ") 완료 요청이 수락되었어요.").build();
@@ -221,6 +227,7 @@ public class AlbaService {
         }
 
         alba.updateStatus(Status.GIVE_UP);
+        userService.initAlbaStreak(child);
     }
 
     private void checkUser(User child, Alba alba) {
