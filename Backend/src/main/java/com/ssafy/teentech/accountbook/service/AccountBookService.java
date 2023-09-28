@@ -27,12 +27,12 @@ public class AccountBookService {
 
     public AccountBookAmountResponseDto accountBookAmount(LocalDate date,Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
-        List<AccountBook> accountBookList = accountBookRepository.findByDate(date,user);
+        List<AccountBook> accountBookList = accountBookRepository.findByDateAndUser(date,user);
 
         Map<String,Integer> account = new HashMap<>();
         //수입
-        account.put("용돈",0);
         account.put("아르바이트",0);
+        account.put("용돈",0);
         account.put("퀴즈",0);
         account.put("투자",0);
         //소비
@@ -41,6 +41,9 @@ public class AccountBookService {
         account.put("필요소비",0);
 
         for (AccountBook accountBook : accountBookList) {
+            if(account.get(accountBook.getAssetType())==null){
+                continue;
+            }
             account.put(accountBook.getAssetType(),account.get(accountBook.getAssetType())+accountBook.getWithdrawalAmount());
             account.put(accountBook.getAssetType(),account.get(accountBook.getAssetType())+accountBook.getDepositAmount());
         }
@@ -61,7 +64,7 @@ public class AccountBookService {
 
     public List<AccountBookDateResponseDto> accountBookDate(LocalDate date, Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
-        List<AccountBook> accountBookList = accountBookRepository.findByDate(date,user);
+        List<AccountBook> accountBookList = accountBookRepository.findByDateAndUser(date,user);
 
         Map<LocalDate,Integer[]> account = new HashMap<>();
 
@@ -103,7 +106,7 @@ public class AccountBookService {
 
     public List<AccountBookDetailResponseDto> accountBookDetail(LocalDate date,Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
-        List<AccountBook> byDay = accountBookRepository.findByDay(date,user);
+        List<AccountBook> byDay = accountBookRepository.findByDayAndUser(date,user);
         List<AccountBookDetailResponseDto> accountBookDetailResponseDtoList = new ArrayList<>();
         for (AccountBook accountBook : byDay) {
             AccountBookDetailResponseDto accountBookDetailResponseDto = AccountBookDetailResponseDto.builder()

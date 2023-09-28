@@ -139,7 +139,7 @@ public class ParentService {
         if (!stocksHeldList.isEmpty()){
             stockRate = (stock/stockRate);
         }
-        
+
         // 대출
         //Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
         Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElse(null);
