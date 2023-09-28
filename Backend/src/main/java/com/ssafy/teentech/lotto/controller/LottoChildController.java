@@ -3,6 +3,7 @@ package com.ssafy.teentech.lotto.controller;
 import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.lotto.dto.request.LottoWinningsRequestDto;
 import com.ssafy.teentech.lotto.dto.response.LottoHistoryResponseDto;
+import com.ssafy.teentech.lotto.dto.response.LottoTicketResponseDto;
 import com.ssafy.teentech.lotto.service.LottoChildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,18 @@ public class LottoChildController {
                 .message("복권 당첨금 내역 보기")
                 .status(OK.value())
                 .data(lottoHistoryResponseDto)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/ticket")
+    public ResponseEntity<ApiResponse> lottoTicket(@PathVariable Long child_id){
+        LottoTicketResponseDto lottoTicketResponseDto = lottoChildService.lottoTicket(child_id);
+
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message("복권 티켓 정보")
+                .status(OK.value())
+                .data(lottoTicketResponseDto)
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

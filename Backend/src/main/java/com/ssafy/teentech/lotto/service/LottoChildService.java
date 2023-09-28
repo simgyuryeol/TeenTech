@@ -6,6 +6,7 @@ import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.lotto.domain.Lotto;
 import com.ssafy.teentech.lotto.dto.request.LottoWinningsRequestDto;
 import com.ssafy.teentech.lotto.dto.response.LottoHistoryResponseDto;
+import com.ssafy.teentech.lotto.dto.response.LottoTicketResponseDto;
 import com.ssafy.teentech.lotto.repository.LottoRepository;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
@@ -79,5 +80,17 @@ public class LottoChildService {
 
         return lottoHistoryResponseDtoList;
 
+    }
+
+    public LottoTicketResponseDto lottoTicket(Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        LottoTicketResponseDto lottoTicketResponseDto = LottoTicketResponseDto.builder()
+                .lotteryCoupon(childDetail.getLotteryCoupon())
+                .totalLotteryPrize(childDetail.getTotalLotteryPrize())
+                .build();
+
+        return lottoTicketResponseDto;
     }
 }
