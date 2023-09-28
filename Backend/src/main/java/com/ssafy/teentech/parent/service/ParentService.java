@@ -27,6 +27,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -112,14 +113,17 @@ public class ParentService {
         Float stockRate = 0f;
 
         // 예금
-        List<Deposit> depositList = depositRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        //List<Deposit> depositList = depositRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        List<Deposit> depositList = depositRepository.findAllByUser(user).orElse(Collections.emptyList());
 
         for (Deposit depositValue : depositList) {
             deposit+=depositValue.getMoney();
         }
 
         // 주식
-        List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        //List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElse(Collections.emptyList());
+
         ZonedDateTime nowDate = ZonedDateTime.now(ZoneId.of("Asia/Seoul")); //서울 오늘 날짜
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = nowDate.format(formatter);
@@ -132,13 +136,22 @@ public class ParentService {
             stockRate += (stockValue.getPrice()*stocksHeld.getAmount());
         }
 
-        stockRate = (stock/stockRate);
-
-
+        if (!stocksHeldList.isEmpty()){
+            stockRate = (stock/stockRate);
+        }
+        
         // 대출
-        Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
-        Period period = Period.between(Today, loan.getMaturityDate());
-        int loneDay = period.getDays();
+        //Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElse(null);
+        Integer loanBalance = 0;
+        Integer loanDay = 0;
+        if(loan !=null){
+            loanBalance = loan.getBalance();
+            Period period = Period.between(Today, loan.getMaturityDate());
+            loanDay = period.getDays();
+        }
+
+
 
 
         /**
@@ -152,8 +165,8 @@ public class ParentService {
                 .stock(stock)
                 .stockRate(stockRate)
                 .creditRating(childDetail.getCreditRating())
-                .loanBalance(loan.getBalance())
-                .loneDay(loneDay)
+                .loanBalance(loanBalance)
+                .loneDay(loanDay)
                 .build();
 
         return childDetailResponseDto;
