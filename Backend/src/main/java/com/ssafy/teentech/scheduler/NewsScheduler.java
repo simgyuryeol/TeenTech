@@ -99,7 +99,6 @@ public class NewsScheduler {
 
                         // 뉴스 제목
                         Elements title = textdoc.select("#title_area > span");
-                        System.out.println(title.text());
 
                         // 뉴스 내용
                         Elements brTags = textdoc.select("#dic_area");
@@ -111,14 +110,12 @@ public class NewsScheduler {
                                 textBuilder.append(text).append(" "); // 텍스트를 StringBuilder에 추가
                             }
                         }
-                        System.out.println(textBuilder.length());
                         //뉴스 내용 gpt로 쉽게 만들기
                         if(textBuilder.length()>1500){
                             count--;
                             continue;
                         }
                         String gpt_news = gpt(apiKey, apiUrl,textBuilder.toString());
-
 
                         //뉴스 날짜
                         Stock stock = stockRepository.findByCompanyNameAndDate(CompanyName.name(),LocalDate.parse(formattedDate, formatter)).orElseThrow(() -> new IllegalArgumentException());
@@ -156,8 +153,6 @@ public class NewsScheduler {
 
     private static String gpt(String apiKey, String apiUrl,String news) {
 
-        System.out.println(news);
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiKey);
@@ -173,13 +168,8 @@ public class NewsScheduler {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Object> responseEntity = restTemplate.postForObject(apiUrl, requestEntity, Map.class);
 
-        System.out.println(responseEntity);
-
         ArrayList<Map<String, String>> choices = (ArrayList<Map<String, String>>) responseEntity.get("choices");
         String transformedArticle = choices.get(0).get("text");
-        System.out.println(transformedArticle);
-//        System.out.println("변환된 뉴스");
-//        System.out.println(transformedArticle);
 
         return transformedArticle;
     }
