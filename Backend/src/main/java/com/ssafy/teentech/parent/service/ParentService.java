@@ -54,7 +54,24 @@ public class ParentService {
     }
 
     public void sendPinMoney(SendPinMoneyRequestDto sendPinMoney, Long childId, Long parentId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         //이체 로직
+        AccountResponseDto depositInformation = bankService.getAccountInformation(parentId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
+        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                parentId,
+                withdrawAccountNumber,
+                depositAccountNumber,
+                (long)sendPinMoney.getPinMoney(),
+                "금고 저장"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
     }
 
     public List<ChildGetResponseDto> childGet(Long parentId) {
