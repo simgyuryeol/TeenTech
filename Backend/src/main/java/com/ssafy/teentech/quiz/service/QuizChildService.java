@@ -50,11 +50,11 @@ public class QuizChildService {
         for (QuizHistory quizHistory : quizHistories) {
             if(quizHistory.getAnswer()== Answer.CORRECT){
                 correct+=1;
+                point+=quizHistory.getPoint();
             }
             else{
                 incorrect+=1;
             }
-            point+=quizHistory.getPoint();
         }
 
 
@@ -91,11 +91,11 @@ public class QuizChildService {
         for (QuizHistory quizHistory : quizHistories) {
             if(quizHistory.getAnswer()== Answer.CORRECT){
                 correctProblem+=1;
+                point+=quizHistory.getPoint();
             }
             else{
                 wrongProblem+=1;
             }
-            point+=quizHistory.getPoint();
         }
 
         QuizDetailResponseDto quizDetailResponseDto = QuizDetailResponseDto.builder()
