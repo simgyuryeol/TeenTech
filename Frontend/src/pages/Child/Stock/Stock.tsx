@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StockPortfolio from "../../../components/Stock/StockPortfolio";
 import MyStock from "../../../components/Stock/MyStock";
+import EmptyStock from "../../../components/Stock/EmptyStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 import "intro.js/introjs.css";
@@ -71,7 +72,8 @@ const Stock: React.FC = () => {
         options={tour.options}
       />
 
-      <div className="mt-20">
+      <div className="mt-16">
+        <div className="p-3"/>
         <div className="flex justify-end mr-4">
           <Icon
             icon="mdi:help-circle-outline"
@@ -81,13 +83,27 @@ const Stock: React.FC = () => {
         </div>
 
         <StockPortfolio />
-        <p className="font-bold text-xl">내 주식</p>
-        {sampleData.map((stock, index) => (
-          <MyStock key={index} stock={stock} />
-        ))}
-        <div>
-          <button onClick={handleClick} id="stock-market">주식시장 둘러보기</button>
+
+        <div className="bg-bgblue p-2 m-5 rounded-xl">
+          <p className="font-bold text-2xl text-left mt-4 mx-8">
+            나의 주식 살펴보기
+          </p>
+          {sampleData.length ? (
+            sampleData.map((stock, index) => (
+              <MyStock key={index} stock={stock} />
+            ))
+          ) : (
+            <EmptyStock />
+          )}
         </div>
+
+        <button
+          onClick={handleClick}
+          id="stock-market"
+          className="bg-indigo-200 mt-4"
+        >
+          주식시장 둘러보기
+        </button>
       </div>
     </React.Fragment>
   );

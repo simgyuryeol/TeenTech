@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "../Common/Card";
 import ReactApexChart from "react-apexcharts";
+import ko from "apexcharts/dist/locales/ko.json";
 
 const StockChart: React.FC = () => {
   const sampleData = [
@@ -45,6 +46,8 @@ const StockChart: React.FC = () => {
         enabled: true,
         autoScaleYaxis: true,
       },
+      locales: [ko],
+      defaultLocale: "ko",
       toolbar: {
         show: true,
         offsetX: 0,
@@ -73,6 +76,18 @@ const StockChart: React.FC = () => {
     },
     xaxis: {
       type: "datetime",
+      title: {
+        text: "날  짜",
+        offsetX: -15,
+        offsetY: 0,
+        style: {
+          color: undefined,
+          fontSize: "15px",
+          fontFamily: "OMU, Helvetica, Arial, sans-serif",
+          fontWeight: 600,
+          cssClass: "apexcharts-xaxis-title",
+        },
+      },
       labels: {
         format: "dd", // day of the month
       },
@@ -90,15 +105,23 @@ const StockChart: React.FC = () => {
     yaxis: {
       tickAmount: 6, // 원하는 눈금 개수
       labels: {
-        // formatter: function (val) {
-        //   return (val / 1000000).toFixed(0);
-        // },
+        formatter: function(val) {
+          return val.toLocaleString();
+        },
       },
       title: {
-        text: "",
+        text: "가  격",
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: undefined,
+          fontSize: "15px",
+          fontFamily: "OMU, Helvetica, Arial, sans-serif",
+          fontWeight: 600,
+          cssClass: "apexcharts-xaxis-title",
+        },
       },
     },
-
     theme: {
       monochrome: {
         shadeIntensity: 1,
@@ -107,6 +130,16 @@ const StockChart: React.FC = () => {
     fill: {
       gradient: {
         inverseColors: false,
+      },
+    },
+    tooltip: {
+      x: {
+        formatter: function(val) {
+          const date = new Date(val);
+          const month = date.getMonth() + 1;
+          const day = date.getDate();
+          return `${month}월 ${day}일`;
+        },
       },
     },
   };

@@ -15,8 +15,8 @@ const Quiz: React.FC = () => {
   }, [quizScore]);
 
   return (
-    <div className="mt-10">
-      <p className="text-xl font-bold">자식 퀴즈 페이지</p>
+    <div className="mt-12">
+      <p className="text-2xl font-bold">퀴즈</p>
       <div className="bg-white m-5 rounded-xl p-3 flex">
         <QuizChart />
         <div className="flex flex-col">
@@ -35,7 +35,9 @@ const Quiz: React.FC = () => {
           </div>
         </div>
       </div>
-      <div>
+
+      <div className="mt-12">
+        <p className="text-2xl font-bold">퀴즈 주제</p>
         <TopicList />
       </div>
     </div>

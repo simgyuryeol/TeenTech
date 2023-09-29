@@ -14,13 +14,15 @@ const StockPortfolio: React.FC = () => {
   };
 
   return (
-    <Card>
+    <Card className="bg-sky-100 ">
       <div className="flex justify-between p-4">
         <div className="flex flex-col items-start" id="portfolio-today">
           <p>포트폴리오 자산</p>
           <p className="font-bold text-xl pt-1">￦{currentValue}</p>
         </div>
-        <button onClick={handleClick} id="trading-btn">매매내역</button>
+        <button onClick={handleClick} id="trading-btn" className="bg-amber-50">
+          매매내역
+        </button>
       </div>
       <div className="flex justify-between p-4" id="portfolio-profit">
         <div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Loan from "../../../src/assets/main/loan.png";
 
 type Props = {
   childId: number | null;
@@ -71,7 +72,7 @@ const Total: React.FC<Props> = ({ childId }) => {
             <div className="text-xl">대출 신청하러 가기</div>
           </div>
           <img
-            src="../../../src/assets/main/loan.png"
+            src={Loan}
             style={{
               maxWidth: "80%",
               maxHeight: "80%",

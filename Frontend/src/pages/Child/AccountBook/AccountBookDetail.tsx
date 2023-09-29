@@ -51,24 +51,15 @@ const AccountBookDetail: React.FC<Props> = () => {
       >
         <div className="flex p-3 ml-2">
           <div className="flex items-center mr-3">
-            <img
-              src="../../../src/assets/accountBook/desire.png"
-              style={{ width: "35px" }}
-            />
+            <img src={desire} style={{ width: "35px" }} />
             <div className="ml-2 text-xl text-red-500">욕구</div>
           </div>
           <div className="flex items-center mr-3">
-            <img
-              src="../../../src/assets/accountBook/need.png"
-              style={{ width: "35px" }}
-            />
+            <img src={need} style={{ width: "35px" }} />
             <div className="ml-2 text-xl text-blue-500">필요</div>
           </div>
           <div className="flex items-center">
-            <img
-              src="../../../src/assets/accountBook/income.png"
-              style={{ width: "35px" }}
-            />
+            <img src={imcome} style={{ width: "35px" }} />
             <div className="ml-2 text-xl text-green-500">수입</div>
           </div>
         </div>

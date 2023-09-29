@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import LoanCompo from "./LoanCompo";
+import RunDog from "../../../src/assets/run_dog2.gif";
 
 interface LoanListProps {
   children: ReactNode;
@@ -43,7 +44,7 @@ const LoanList: React.FC<LoanListProps> = (props) => {
               }}
             >
               <img
-                src="../../../src/assets/run_dog2.gif"
+                src={RunDog}
                 style={{ width: "60px", height: "auto" }}
                 alt="Running person"
               />
@@ -81,10 +82,9 @@ const LoanList: React.FC<LoanListProps> = (props) => {
         </div>
       </div>
       {open === 1 && (
-        <LoanCompo
-          closeModal={handleOpen}
-          children2={props.children2}
-        ></LoanCompo>
+        <LoanCompo closeModal={handleOpen} children2={props.children2}>
+          {}
+        </LoanCompo>
       )}
       <br></br>
     </div>

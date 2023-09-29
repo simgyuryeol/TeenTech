@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "../Common/Modal";
 import JobSummary from "./JobSummary";
 import JobDetail from "./JobDetail";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Job {
   title: string;
@@ -34,20 +35,21 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
 
   return (
     <div className="overflow-hidden relative">
-      <div className="absolute inset-0 flex items-center justify-between p-4">
+      <div className="absolute inset-0 flex items-center justify-between p-2">
         <button
           onClick={prev}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 z-10"
+          className="bg-transparent p-0 text-gray-400 z-10"
         >
-          <p>←</p>
+          <Icon icon="mdi-light:chevron-left" className="w-8 h-8"/>
         </button>
         <button
           onClick={next}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 z-10"
+          className="bg-transparent p-0 text-gray-400 z-10"
         >
-          <p>→</p>
+          <Icon icon="mdi-light:chevron-right" className="w-8 h-8"/>
         </button>
       </div>
+
       <div
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${curr * 100}%)` }}

@@ -2,6 +2,10 @@ import React from "react";
 import Card from "../Common/Card";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
+import samsungImg from "../../assets/stock/samsung.png";
+import kakaoImg from "../../assets/stock/kakao.png";
+import shinhanImg from "../../assets/stock/shinhan.png";
+import ncsoftImg from "../../assets/stock/ncsoft.png";
 
 interface Stock {
   koName: string;
@@ -18,12 +22,32 @@ interface MarketStockProps {
 const MarketStock: React.FC<MarketStockProps> = (props) => {
   const { koName, enName, value, priceChange, priceChangePercentage } =
     props.stock;
+
+  let imageSrc;
+  switch (enName) {
+    case "samsung":
+      imageSrc = samsungImg;
+      break;
+    case "kakao":
+      imageSrc = kakaoImg;
+      break;
+    case "ncsoft":
+      imageSrc = ncsoftImg;
+      break;
+      case "shinhan":
+      imageSrc = shinhanImg;
+      break;
+    default:
+      imageSrc = "";
+      break;
+  }
+
   return (
     <Link to={`/StockDetail/${enName}`}>
       <Card className="flex justify-between p-2 text-black">
-        <div className="flex flex-col items-center">
-          <img src="" alt={enName} />
-          <p className="ml-2 text-md font-bold">{koName}</p>
+        <div className="flex flex-col items-center p-4 ml-4">
+          <img src={imageSrc} alt={enName} className="w-12 h-12"/>
+          <p className="mt-1 text-md font-bold">{koName}</p>
         </div>
 
         <div className="flex items-center">

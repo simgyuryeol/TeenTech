@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LottoList from "../../../components/Lotto/LottoList";
+import Jackpot from "../../../../src/assets/lotto/jackpot2.png";
+import Ticket from "../../../../src/assets/lotto/ticket2.png";
 
 const Lotto: React.FC = () => {
   const navigate = useNavigate();
@@ -18,10 +20,7 @@ const Lotto: React.FC = () => {
     >
       <div className="flex justify-center">
         <div className="relative flex justify-center" style={{ width: "100%" }}>
-          <img
-            style={{ width: "auto", height: "200px" }}
-            src="../../../src/assets/lotto/jackpot2.png"
-          />
+          <img style={{ width: "auto", height: "200px" }} src={Jackpot} />
         </div>
       </div>
       <div className="flex justify-between mx-4">
@@ -38,7 +37,7 @@ const Lotto: React.FC = () => {
             <div>복권 교환하기</div>
           </div>
           <img
-            src="../../../src/assets/lotto/ticket2.png"
+            src={Ticket}
             style={{
               maxWidth: "80%",
               maxHeight: "80%",
