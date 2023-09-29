@@ -213,7 +213,7 @@ const App: React.FC = () => {
             ]}
           />
           <Route
-            path="/DepositDetail"
+            path="/DepositDetail/:id"
             element={[
               <Header key="header-component" />,
               <DepositDetail key="depositdetail-component" />,

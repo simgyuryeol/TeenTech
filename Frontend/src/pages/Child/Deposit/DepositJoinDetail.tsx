@@ -10,7 +10,7 @@ const DepositJoinDetail: React.FC = () => {
     const interestrate = 2;
     const [depositName, setDepositname] = useState('');
     const [depositMoney, setDepositmoney] = useState('');
-    const depositMoney2 = parseInt(depositMoney) >= 10000 ? parseInt(depositMoney) / 10000 + '만' : depositMoney;
+    const depositMoney2 = parseInt(depositMoney) >= 10000 ? '약'+ parseFloat(((parseInt(depositMoney)/10000).toFixed(1))) + '만' : depositMoney;
     const [depositDate, setDepositdate] = useState(1);
     const Datehandle = (value) => {setDepositdate(value);};
     const Interesthandle = (index) => {setDepositinterest(index);};
@@ -27,7 +27,8 @@ const DepositJoinDetail: React.FC = () => {
     
       if (depositInterest === 0) {
         const total = money + (money * interestrate / 100 * depositDate);
-        setDeposittotal(total);
+        const total2 = Math.floor(total);
+        setDeposittotal(total2);
       } else if (depositInterest === 1) {
         const total = money * (1 + interestrate / 100) ** (depositDate);
         const total2 = Math.floor(total);
@@ -45,6 +46,7 @@ const DepositJoinDetail: React.FC = () => {
 
     useEffect(() => {
       handleCalculateTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [depositMoney, depositInterest, depositDate]);
 
     const child_id = 34
@@ -52,15 +54,17 @@ const DepositJoinDetail: React.FC = () => {
     const Depositdata = () => {
       axios
         .post(base_URL + `/api/v1/${child_id}/deposits/create`, {
-          deposit_name : depositName,
-          money : depositMoney,
-          is_simple_interest : depositInterest,
-          week : depositDate,
+          depositName,
+          money : parseInt(depositMoney),
+          interestType : depositInterest,
+          weeks : depositDate,
           // userId: window.localStorage.getItem('userId'),
         })
         .then(response => {
-          console.log(response.data);
-          navigate('/DepositJoinSuccess');
+          console.log(response.data.data);
+          navigate('/DepositJoinSuccess', { state: response.data.data })
+          // const depositid = response.data
+          // navigate(`/DepositJoinSuccess/${depositid}`);
         })
         .catch(error => {
           console.log(depositName)
@@ -141,9 +145,7 @@ const DepositJoinDetail: React.FC = () => {
                 </p></div>
         </div>
         <div className='border rounded-md shadow-md mr-10 ml-10 mt-2 left-[10%] h-[5%]' style={{backgroundColor:'#ABC3D0'}}>
-        {/* <Link to='/DepositJoinSuccess'> */}
         <div className='flex justify-center m-2 text-black font-bold'  onClick={Depositdata}>예금 가입하기</div>
-        {/* </Link> */}
         </div>
         </div>
       </Modal>

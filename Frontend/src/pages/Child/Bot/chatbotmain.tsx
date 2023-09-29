@@ -103,12 +103,12 @@ import BotModal from '../../../components/Bot/BotModal';
     steps?: Steps;
     }
     const LoanReview: React.FC<LoanReviewProps> = ({ steps }) => {
-        const [state, setState] = useState({ loanName: '', loanMoney: '', reason: '', loanDate: '', repayment:'' });
+        const [state, setState] = useState({ loanName: '', loanMoney: '', reason: '', loanDate: '',  });
       
         useEffect(() => {
           if (steps) {
-            const { loanName, loanMoney, reason, loanDate, repayment } = steps;
-            setState({ loanName: loanName.value, loanMoney: loanMoney.value, reason: reason.value, loanDate: loanDate.value, repayment: repayment.value });
+            const { loanName, loanMoney, reason, loanDate } = steps;
+            setState({ loanName: loanName.value, loanMoney: loanMoney.value, reason: reason.value, loanDate: loanDate.value});
           }
         }, [steps]);
       
