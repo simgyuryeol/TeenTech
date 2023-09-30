@@ -29,7 +29,7 @@ public class StockScheduler {
     private final StockRepository stockRepository;
 
 
-    @Scheduled(cron = "0 0 16 * * *") //매일 오후 4시에 실행
+    @Scheduled(cron = "0 30 15 * * *") //매일 오후 3시30분에 실행
 //    @Scheduled(cron = "0 30 * * * *")
     public void stockSave(){
 
