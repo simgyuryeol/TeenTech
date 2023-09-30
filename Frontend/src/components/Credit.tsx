@@ -7,24 +7,41 @@ interface CreditProps {
 }
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
+const dddd = 1
 
 const Credit: React.FC<CreditProps> = (props) => {
 
   useEffect(() => {
     const Creditdata = () => {
-      axios
-        .get(base_URL + `/api/v1/users/credit-and-interests`, {
-          // userId: window.localStorage.getItem('userId'),
-        })
-        .then(response => {
-          console.log(response.data);
-          // const depositid = response.data
-          // navigate(`/DepositJoinSuccess/${depositid}`);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    };
+        if(dddd === null){
+            axios
+            .get(base_URL + `/api/v1/users/credit-and-interests/`, {
+                // userId: window.localStorage.getItem('userId'),
+            })
+            .then(response => {
+                console.log(response.data);
+                // const depositid = response.data
+                // navigate(`/DepositJoinSuccess/${depositid}`);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+        else{
+            axios
+            .get(base_URL + `/api/v1/users/credit-and-interests/`, {
+                // userId: window.localStorage.getItem('userId'),
+            })
+            .then(response => {
+                console.log(response.data);
+                // const depositid = response.data
+                // navigate(`/DepositJoinSuccess/${depositid}`);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+        };
 
     Creditdata(); // Creditdata 함수 호출
   }, []); 

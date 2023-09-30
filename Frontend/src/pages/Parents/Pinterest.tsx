@@ -65,7 +65,7 @@ const Pinterest: React.FC = () => {
           <div className="flex justify-between ml-[5%] mr-[8%]">
             <p className="text-xl font-bold">용돈 주기</p>
             <div className="border-2 rounded-md">
-              <select onChange={(e) => setPocketmoneycycle(e.target.value)}>
+              <select onChange={(e) => setPocketmoneycycle(newFunction(e))}>
                 <option value={1}>매달 1일</option>
                 <option value={2}>매주 월요일</option>
               </select>
@@ -171,6 +171,10 @@ const Pinterest: React.FC = () => {
       )}
     </div>
   );
+
+  function newFunction(e: React.ChangeEvent<HTMLSelectElement>): React.SetStateAction<number> {
+    return e.target.value;
+  }
 };
 
 export default Pinterest;
