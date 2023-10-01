@@ -3,38 +3,29 @@ import Card from "../Common/Card";
 import ReactApexChart from "react-apexcharts";
 import ko from "apexcharts/dist/locales/ko.json";
 
-const StockChart: React.FC = () => {
-  const sampleData = [
-    {
-      x: new Date("2023-09-08"),
-      y: 1180,
-    },
-    {
-      x: new Date("2023-09-09"),
-      y: 1150,
-    },
-    {
-      x: new Date("2023-09-10"),
-      y: 1100,
-    },
-    {
-      x: new Date("2023-09-11"),
-      y: 1200,
-    },
-    {
-      x: new Date("2023-09-12"),
-      y: 1250,
-    },
-    {
-      x: new Date("2023-09-13"),
-      y: 1230,
-    },
-  ];
+interface PriceDataPoint {
+  x: string;
+  y: number;
+}
+
+interface StockChart {
+  stockName: string;
+  price: number;
+  priceChangePercentage: number;
+  priceData: PriceDataPoint[];
+}
+
+interface StockChartProp {
+  stockInfo: StockChart;
+}
+
+const StockChart: React.FC<StockChartProp> = ({ stockInfo }) => {
+  const priceToString = stockInfo.price.toLocaleString();
   const stockData: ApexCharts.ApexOptions = {
     series: [
       {
-        name: "Samsung",
-        data: sampleData,
+        name: stockInfo.stockName,
+        data: stockInfo.priceData,
       },
     ],
     chart: {
@@ -148,10 +139,18 @@ const StockChart: React.FC = () => {
     <Card>
       <div className="flex justify-between items-center p-4" id="stock-today">
         <div>
-          <p className="text-2xl font-bold">1,200원</p>
+          <p className="text-2xl font-bold">{priceToString}원</p>
           <p className="text-gray-500">오늘 가격</p>
         </div>
-        <p className=" text-red-500 text-lg font-bold">12.5%</p>
+        {stockInfo.priceChangePercentage > 0 ? (
+          <p className=" text-red-500 text-lg font-bold">
+            {stockInfo.priceChangePercentage}%
+          </p>
+        ) : (
+          <p className=" text-blue-500 text-lg font-bold">
+            {stockInfo.priceChangePercentage}%
+          </p>
+        )}
       </div>
       <ReactApexChart
         options={stockData}

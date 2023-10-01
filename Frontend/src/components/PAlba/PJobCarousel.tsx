@@ -2,19 +2,16 @@ import React, { useState } from "react";
 import Modal from "../Common/Modal";
 import JobSummary from "../Alba/JobSummary";
 import JobDetail from "../Alba/JobDetail";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import axios, { AxiosRequestConfig } from "axios";
+import PinInput from "../Common/PinInput";
 
-interface Job {
-  title: string;
-  pay: string;
-  due: Date;
-  description: string;
-  stage: string;
-}
 
 const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const { jobs } = props;
   const [curr, setCurr] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
   const prev = () =>
@@ -32,20 +29,57 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     setIsModalOpen(false);
   };
 
+  const closePinModal = () => {
+    setIsPinModalOpen(false);
+  };
+
+  const handleApproval = () => {
+    setSelectedJob(null);
+    setIsModalOpen(false);
+    setIsPinModalOpen(true);
+  };
+
+  const handleDispproval = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const axiosConfig: AxiosRequestConfig = {
+        method: "post",
+        url: import.meta.env.VITE_BASE_URL + "/albas/parent/reject",
+        data: {
+          childId: 34,
+          albaId: 1,
+        },
+      };
+
+      const response = await axios(axiosConfig);
+      console.log("RESPONSE", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    setSelectedJob(null);
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSelectedJob(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="overflow-hidden relative">
-      <div className="absolute inset-0 flex items-center justify-between p-4">
+      <div className="absolute inset-0 flex items-center justify-between p-2">
         <button
           onClick={prev}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 z-10"
+          className="bg-transparent p-0 text-gray-400 z-10"
         >
-          <p>←</p>
+          <Icon icon="mdi-light:chevron-left" className="w-8 h-8" />
         </button>
         <button
           onClick={next}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 z-10"
+          className="bg-transparent p-0 text-gray-400 z-10"
         >
-          <p>→</p>
+          <Icon icon="mdi-light:chevron-right" className="w-8 h-8" />
         </button>
       </div>
       <div
@@ -54,28 +88,65 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
       >
         {jobs.map((job, index) => (
           <div key={index} onClick={() => openModal(job)}>
-            <JobSummary title={job.title} pay={job.pay} due={job.due} />
+            <JobSummary title={job.title} reward={job.reward} closeDate={job.closeDate} />
           </div>
         ))}
       </div>
 
       {isModalOpen && (
         <Modal>
+          <button
+            className="bg-transparent relative inset-x-32"
+            onClick={closeModal}
+          >
+            <Icon
+              icon="zondicons:close-outline"
+              className="w-6 h-6 text-gray-600"
+            />
+          </button>
           <JobDetail
-            title={selectedJob?.title || ""}
-            pay={selectedJob?.pay || ""}
-            due={selectedJob?.due || new Date()}
-            description={selectedJob?.description || ""}
-            stage={selectedJob?.stage || ""}
+            job={selectedJob}
           />
-          {selectedJob?.stage === "pre" ? (
+          {selectedJob?.status === "PRE" ? (
             <div>
-              <button onClick={closeModal}>삭제하기</button>
-              <button onClick={closeModal}>닫기</button>
+              <button
+                onClick={handleDelete}
+                className="bg-rose-300 text-lg font-bold m-2"
+              >
+                삭제하기
+              </button>
             </div>
           ) : (
-            <button onClick={closeModal}>승인하기</button>
+            <div>
+              <button
+                onClick={handleApproval}
+                className="bg-green-300 text-lg font-bold m-2"
+              >
+                승인하기
+              </button>
+              <button
+                onClick={handleDispproval}
+                className="bg-red-300 text-lg font-bold m-2"
+              >
+                거절하기
+              </button>
+            </div>
           )}
+        </Modal>
+      )}
+
+      {isPinModalOpen && (
+        <Modal>
+          <button
+            className="bg-transparent relative inset-x-32"
+            onClick={closePinModal}
+          >
+            <Icon
+              icon="zondicons:close-outline"
+              className="w-6 h-6 text-gray-600"
+            />
+          </button>
+          <PinInput onclose={closePinModal}/>
         </Modal>
       )}
     </div>

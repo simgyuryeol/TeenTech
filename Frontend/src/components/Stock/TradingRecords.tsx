@@ -1,4 +1,5 @@
 import React from "react";
+import useDate from "../../hooks/useDate";
 
 interface TableHeaderProp {
   title: string;
@@ -6,23 +7,11 @@ interface TableHeaderProp {
 
 const TableHeader: React.FC<TableHeaderProp> = ({ title }) => {
   return (
-    <th
-      scope="col"
-      className="p-4 font-medium text-gray-500 tracking-wider"
-    >
+    <th scope="col" className="p-4 font-medium text-gray-500 tracking-wider">
       {title}
     </th>
   );
 };
-
-interface TradingRecord {
-  date: string;
-  type: string;
-  stock: string;
-  amount: string;
-  stockPrice: string;
-  totalPrice: string;
-}
 
 interface TradingRecordProps {
   record: TradingRecord;
@@ -30,52 +19,40 @@ interface TradingRecordProps {
 }
 
 const TradingRecord: React.FC<TradingRecordProps> = ({ record, className }) => {
-  const { date, type, stock, amount, stockPrice, totalPrice } = record;
+  const { date, type, companyName, amount, price } = record;
+  const dateString = useDate(date);
 
   return (
     <tr className={` ${className}`}>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {date}
+        {dateString}
         <br />
-        {type}
+        {type ? <span>샀어요</span> : <span>팔았어요</span>}
       </td>
 
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {stock}
+        {companyName}
       </td>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
         {amount}
       </td>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {stockPrice}
+        {price}
       </td>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {totalPrice}
+        {amount * price}
       </td>
     </tr>
   );
 };
 
-const TradingRecords: React.FC = () => {
+interface TradingRecordsProps {
+  history: TradingRecord[];
+}
+
+const TradingRecords: React.FC<TradingRecordsProps> = (props) => {
   const tableHeaderList = ["날짜", "회사", "개수", "가격", "총 금액"];
-  const sampleRecord: TradingRecord[] = [
-    {
-      date: "9/13",
-      type: "팔았어요",
-      stock: "삼성전자",
-      amount: "2",
-      stockPrice: "1,200",
-      totalPrice: "2,400",
-    },
-    {
-      date: "9/11",
-      type: "샀어요",
-      stock: "삼성전자",
-      amount: "2",
-      stockPrice: "1,000",
-      totalPrice: "2,000",
-    },
-  ];
+  const history = props.history;
 
   return (
     <div className="overflow-x-auto rounded-lg m-3 pl-2">
@@ -88,7 +65,7 @@ const TradingRecords: React.FC = () => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {sampleRecord.map((record, index) => (
+          {history.map((record, index) => (
             <TradingRecord
               key={index}
               record={record}

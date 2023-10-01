@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 import AlbaDetail from "../../../components/Alba/JobDetail";
-
-interface Job {
-  title: string;
-  pay: string;
-  due: Date;
-  description: string;
-  stage: string;
-}
 
 const NoCompletedJobs: React.FC = () => {
   return (
@@ -22,34 +14,17 @@ const AlbaCompleted: React.FC = () => {
   const [completedJobs, setCompletedJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   Promise.all([axios.get("")])
-    //     .then((data) => {
-    //       const jobList = data.data;
-    //       setCompletedJobs(jobList);
-    //     })
-    //     .catch((err) => console.log(err));
-    // };
-    const fetchData = () => {
-      const currentDate = new Date();
-      setCompletedJobs([
-        {
-          title: "완료한 알바1",
-          pay: "1000원",
-          due: currentDate,
-          description: "완료한 알바1 설명",
-          stage: "true",
-        },
-        {
-          title: "완료한 알바2",
-          pay: "1000원",
-          due: currentDate,
-          description: "완료한 알바2 설명",
-          stage: "true",
-        },
-      ]);
-    };
-    fetchData();
+    axios
+      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
+      .get(import.meta.env.VITE_BASE_URL + "/albas/parent/completed-lists/34")
+      .then((response) => {
+        const fetchedData = response.data;
+        console.log("SUCCESS", response.data);
+        setCompletedJobs(fetchedData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -57,16 +32,7 @@ const AlbaCompleted: React.FC = () => {
       <p className="text-2xl">자식 완료한 알바</p>
       <hr />
       {completedJobs.length ? (
-        completedJobs.map((job, index) => (
-          <AlbaDetail
-            key={index}
-            title={job.title}
-            pay={job.pay}
-            due={job.due}
-            description={job.description}
-            stage={job.stage}
-          />
-        ))
+        completedJobs.map((job, index) => <AlbaDetail key={index} job={job} />)
       ) : (
         <NoCompletedJobs />
       )}

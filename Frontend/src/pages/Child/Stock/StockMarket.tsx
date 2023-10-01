@@ -1,47 +1,73 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import MarketStock from "../../../components/Stock/MarketStock";
 import CountdownTimer from "../../../components/Stock/CountdownTimer/CountdownTimer";
 import clockImg from "../../../assets/stock/clock.png";
 
 interface Stock {
-  koName: string;
-  enName: string;
+  companyName: string;
   value: number;
   priceChange: number;
   priceChangePercentage: number;
 }
 
 const StockMarket: React.FC = () => {
-  const sampleData: Stock[] = [
-    {
-      koName: "삼성전자",
-      enName: "samsung",
-      value: 900,
-      priceChange: -100,
-      priceChangePercentage: -10.0,
-    },
-    {
-      koName: "카카오",
-      enName: "kakao",
-      value: 1100,
-      priceChange: 100,
-      priceChangePercentage: 10.0,
-    },
-    {
-      koName: "신한은행",
-      enName: "shinhan",
-      value: 1100,
-      priceChange: 100,
-      priceChangePercentage: 10.0,
-    },
-    {
-      koName: "엔씨소프트",
-      enName: "ncsoft",
-      value: 900,
-      priceChange: -100,
-      priceChangePercentage: -10.0,
-    },
-  ];
+  // const companyNameList = ["삼성전자", "카카오", "KB금융", "LG화학"];
+  const companyNameList = ["삼성전자"];
+  const [stockList, setStockList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const promises = companyNameList.map(async (companyName) => {
+          const response = await axios.post(
+            import.meta.env.VITE_BASE_URL + "/api/v1/34/investments/detail",
+            {
+              companyName: companyName,
+            }
+          );
+          return response.data.data;
+        });
+
+        const results = await Promise.all(promises);
+        setStockList((prevStockList) => {
+          const newStockList = [...prevStockList];
+          for (const result of results) {
+            const slicedStockList = result.stockList.slice(-2);
+
+            for (let i = 1; i < slicedStockList.length; i++) {
+              const currentStock = slicedStockList[i];
+              const prevStock = slicedStockList[i - 1];
+
+              const priceChange = currentStock.price - prevStock.price;
+              const priceChangePercentage =
+                ((currentStock.price - prevStock.price) / prevStock.price) *
+                100;
+
+              const newStock: Stock = {
+                companyName: currentStock.companyName,
+                value: currentStock.price,
+                priceChange: priceChange,
+                priceChangePercentage: priceChangePercentage,
+              };
+
+              const isDuplicate = newStockList.some(
+                (stock) => stock.companyName === newStock.companyName
+              );
+
+              if (!isDuplicate) {
+                newStockList.push(newStock);
+              }
+            }
+          }
+          return newStockList;
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const NOW_IN_MS = new Date().getTime();
 
@@ -67,7 +93,7 @@ const StockMarket: React.FC = () => {
         </div>
       </div>
 
-      {sampleData.map((stock, index) => (
+      {stockList.map((stock, index) => (
         <MarketStock key={index} stock={stock} />
       ))}
     </div>

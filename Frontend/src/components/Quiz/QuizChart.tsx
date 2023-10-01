@@ -20,7 +20,8 @@ const QuizChart: React.FC = () => {
           fontWeight: "light",
         },
       },
-      colors: ["#B6DBEE", "#eeb6bf", "#bfeeb6", "#b6bfee", "#eec9b6"],
+      // colors: ["#B6DBEE", "#eeb6bf", "#bfeeb6", "#b6bfee", "#eec9b6"],
+      colors: [ "#3C95FF", "#FF7EA5", "#bfeeb6", "#b6bfee", "#eec9b6"],
       responsive: [
         {
           breakpoint: 480,
