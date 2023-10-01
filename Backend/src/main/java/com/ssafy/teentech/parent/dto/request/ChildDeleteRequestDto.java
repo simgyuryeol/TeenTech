@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class ChildDeleteRequestDto {
-    private String inviteCode;
+    private String accountNumber;
 }

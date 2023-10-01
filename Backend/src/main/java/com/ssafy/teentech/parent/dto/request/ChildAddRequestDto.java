@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class ChildAddRequestDto {
-    private String inviteCode;
+    private String accountNumber;
 }

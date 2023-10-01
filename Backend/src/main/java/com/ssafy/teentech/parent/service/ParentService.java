@@ -93,14 +93,14 @@ public class ParentService {
 
 
     public void childAdd(ChildAddRequestDto childAddRequestDto, Long parentId) {
-        User user = userRepository.findByInviteCode(childAddRequestDto.getInviteCode()).orElseThrow(() -> new IllegalArgumentException());
+        User user = userRepository.findByAccountNumber(childAddRequestDto.getAccountNumber()).orElseThrow(() -> new IllegalArgumentException());
 
         user.setParentId(parentId);
         userRepository.save(user);
     }
 
     public void childDelete(ChildDeleteRequestDto childDeleteRequestDto) {
-        User user = userRepository.findByInviteCode(childDeleteRequestDto.getInviteCode()).orElseThrow(() -> new IllegalArgumentException());
+        User user = userRepository.findByAccountNumber(childDeleteRequestDto.getAccountNumber()).orElseThrow(() -> new IllegalArgumentException());
         user.setParentId(null);
     }
 
