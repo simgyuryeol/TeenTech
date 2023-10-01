@@ -1,13 +1,62 @@
-import React, { useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef, useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import LottoList from "../../../components/Lotto/LottoList";
+import Jackpot from "../../../../src/assets/lotto/jackpot2.png";
+import Ticket from "../../../../src/assets/lotto/ticket2.png";
+import axios from "axios";
 
 const Lotto: React.FC = () => {
   const navigate = useNavigate();
+  const [lottoTicket, setLottoTicket] = useState(0);
+  const [totalLotteryPrize, sedTotalLotteryPrize] = useState(0); // 부모가 설정한 당첨금액
+  const [lottoList, setLottoList] = useState([]);
 
   const ClickChange = () => {
-    navigate("/LottoChange");
+    navigate("/LottoChange", { state: { totalLotteryPrize } });
   };
+
+  const getlottoticket = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/34/lotto/ticket`)
+      .then((response) => {
+        setLottoTicket(response.data.data.lotteryCoupon);
+        sedTotalLotteryPrize(response.data.data.totalLotteryPrize);
+        console.log("티켓정보");
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const lottohistory = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/34/lotto`)
+      .then((response) => {
+        console.log("리스트 정보");
+        setLottoList(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // const lottorewardset = () => {
+  //   axios
+  //     .post(`https://j9e207.p.ssafy.io/api/v1/34/lotto/reward/set`, {
+  //       cost: 5000,
+  //     })
+  //     .then((response) => {})
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  useEffect(() => {
+    getlottoticket();
+    lottohistory();
+  }, []);
 
   return (
     <div
@@ -18,10 +67,7 @@ const Lotto: React.FC = () => {
     >
       <div className="flex justify-center">
         <div className="relative flex justify-center" style={{ width: "100%" }}>
-          <img
-            style={{ width: "auto", height: "200px" }}
-            src="../../../src/assets/lotto/jackpot2.png"
-          />
+          <img style={{ width: "auto", height: "200px" }} src={Jackpot} />
         </div>
       </div>
       <div className="flex justify-between mx-4">
@@ -38,7 +84,7 @@ const Lotto: React.FC = () => {
             <div>복권 교환하기</div>
           </div>
           <img
-            src="../../../src/assets/lotto/ticket2.png"
+            src={Ticket}
             style={{
               maxWidth: "80%",
               maxHeight: "80%",
@@ -55,14 +101,16 @@ const Lotto: React.FC = () => {
             style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">당첨금</div>
-            <div className="px-3 pt-4 pb-2 text-end">5,000원</div>
+            <div className="px-3 pt-4 pb-2 text-end">
+              {totalLotteryPrize} 원
+            </div>
           </div>
           <div
             className="rounded-2xl drop-shadow text-xl"
             style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">복권 교환권</div>
-            <div className="px-3 pt-4 pb-2 text-end">2장</div>
+            <div className="px-3 pt-4 pb-2 text-end">{lottoTicket} 장</div>
           </div>
         </div>
       </div>

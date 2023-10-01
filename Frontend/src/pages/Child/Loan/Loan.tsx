@@ -13,7 +13,7 @@ const Loan: React.FC = () => {
 
   return (
     <div className="pt-24">
-      <Credit></Credit>
+      <Credit />
       <div className="flex flex-col justify-center">
         <LoanStatus>
           <div className="flex justify-end">

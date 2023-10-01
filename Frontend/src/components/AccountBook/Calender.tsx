@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Statics from "./Statics";
+import Statics_month from "./Statics_month";
 import styles from "./Calender.module.css";
 import { Icon } from "@iconify/react";
 import {
@@ -16,45 +16,15 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
 import { childIdAtom } from "../../recoil/childIdAtom";
+import axios from "axios";
 
-interface sampleDate {
+const base_URL = import.meta.env.VITE_SERVER_URL;
+
+interface dateDate {
   date: string;
-  income: number;
-  exp: number;
+  importAmount: number;
+  spendingAmount: number;
 }
-
-const Data: sampleDate[] = [
-  {
-    date: "2023-08-05",
-    income: 2000,
-    exp: 0,
-  },
-  {
-    date: "2023-08-11",
-    income: 0,
-    exp: -5000,
-  },
-  {
-    date: "2023-08-22",
-    income: 1000,
-    exp: -8000,
-  },
-  {
-    date: "2023-09-05",
-    income: 2000,
-    exp: 0,
-  },
-  {
-    date: "2023-09-11",
-    income: 0,
-    exp: -5000,
-  },
-  {
-    date: "2023-09-22",
-    income: 1000,
-    exp: -8000,
-  },
-];
 
 const formatDate = (date: Date): string => format(date, "yyyy-MM-dd");
 
@@ -116,7 +86,8 @@ const RenderCells: React.FC<{
   currentMonth: Date;
   selectedDate: Date;
   onDateClick: (date: Date) => void;
-}> = ({ currentMonth, selectedDate, onDateClick }) => {
+  Datedata: dateDate[];
+}> = ({ currentMonth, selectedDate, onDateClick, Datedata }) => {
   // 월의 시작일
   const monthStart = startOfMonth(currentMonth);
   // 월의 마지막일
@@ -125,12 +96,15 @@ const RenderCells: React.FC<{
   const startDate = startOfWeek(monthStart);
   // 마지막 요일
   const endDate = endOfWeek(monthEnd);
+  //console.log();
+  const Month = Number(format(currentMonth, "M"));
 
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = "";
-  console.log(monthStart);
+
+  const child_id = 1;
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -138,7 +112,7 @@ const RenderCells: React.FC<{
       const cloneDay = day;
 
       const formattedDay = formatDate(cloneDay);
-      const dataItem = Data.find((item) => item.date === formattedDay);
+      const dataItem = Datedata.find((item) => item.date === formattedDay);
 
       days.push(
         <div
@@ -157,11 +131,15 @@ const RenderCells: React.FC<{
           <div className="mt-1">{formattedDate}</div>
           {dataItem && (
             <div className="container h-full flex-row justify-center">
-              {dataItem.income !== 0 && (
-                <div className="text-xs text-blue-500">{dataItem.income}</div>
+              {dataItem.importAmount !== 0 && (
+                <div className="text-xs text-blue-500">
+                  {dataItem.importAmount}
+                </div>
               )}
-              {dataItem.exp !== 0 && (
-                <div className="text-xs text-red-500">{dataItem.exp}</div>
+              {dataItem.spendingAmount !== 0 && (
+                <div className="text-xs text-red-500">
+                  {dataItem.spendingAmount}
+                </div>
               )}
             </div>
           )}
@@ -179,19 +157,61 @@ const RenderCells: React.FC<{
     );
     days = [];
   }
-
+  console.log(Datedata);
   return <div className="body">{rows}</div>;
 };
 
 const Calendar: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [income, setIncome] = useState(0);
+  const [spending, setSpending] = useState(0);
+
   const [selectedYear, setSelectedYear] = useState(new Date());
+  // state -> 1 이면 부모, 0이면 자녀
   const [state, setState] = useRecoilState(stateAtom);
+  const [Datedata, setDatedata] = useState<dateDate[]>([]);
   const [childData] = useRecoilState(childIdAtom);
 
   const navigate = useNavigate();
+
+  const getDate = () => {
+    console.log(formatDate(currentMonth));
+    if (state.id == 0) {
+      axios
+        .get(
+          `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${formatDate(
+            currentMonth
+          )}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          setDatedata(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (state.id == 1) {
+      console.log("자녀확인");
+      axios
+        .get(
+          `https://j9e207.p.ssafy.io/api/v1/${
+            childData.id
+          }/accountbooks/date/${formatDate(currentMonth)}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          setDatedata(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getDate();
+  }, [currentMonth]);
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -203,15 +223,30 @@ const Calendar: React.FC = () => {
 
   const handleDateClick = (date: Date) => {
     const formattedDate = formatDate(date);
-    console.log(formattedDate);
-    const dataItem = Data.find((item) => item.date === formattedDate);
+    const dataItem = Datedata.find((item) => item.date === formattedDate);
+    // setIncome(dataItem.importAmount);
+    // setSpending(dataItem.spendingAmount);
+    console.log(dataItem.importAmount);
+    console.log(dataItem.spendingAmount);
 
     if (dataItem) {
       setSelectedDate(date);
       if (state.id === 1) {
-        navigate(`/PaccountbookDetail`, { state: { date: formattedDate } });
+        navigate(`/PaccountbookDetail`, {
+          state: {
+            date: formattedDate,
+            importAmount: dataItem.importAmount,
+            spendingAmount: dataItem.spendingAmount,
+          },
+        });
       } else {
-        navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+        navigate(`/AccountBookDetail`, {
+          state: {
+            date: formattedDate,
+            importAmount: dataItem.importAmount,
+            spendingAmount: dataItem.spendingAmount,
+          },
+        });
       }
     } else {
       alert("이날은 작성한 가계부가 없어요~~");
@@ -225,7 +260,7 @@ const Calendar: React.FC = () => {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
-      <Statics />
+      <Statics_month date={formatDate(currentMonth)} />
       <div
         className={`${styles.calendar} mx-4 bg-white m-3 p-2 drop-shadow-lg rounded-xl`}
       >
@@ -234,6 +269,7 @@ const Calendar: React.FC = () => {
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onDateClick={handleDateClick}
+          Datedata={Datedata}
         />
       </div>
     </div>

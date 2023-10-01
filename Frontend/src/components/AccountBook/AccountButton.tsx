@@ -3,25 +3,42 @@ import { useNavigate } from "react-router-dom";
 
 interface AccountBottonProps {
   date?: string;
+  total: number;
+  spendingAmount: number;
+  importAmount: number;
+  buttonState: number;
 }
 
-const AccountBotton: React.FC<AccountBottonProps> = ({ date }) => {
+const AccountBotton: React.FC<AccountBottonProps> = ({
+  date,
+  total,
+  spendingAmount,
+  importAmount,
+  buttonState,
+}) => {
+  console.log(buttonState);
   const navigate = useNavigate();
 
   const handleLinkClick = () => {
-    navigate("/AccountBookAdd", { state: { date } });
+    navigate("/AccountBookAdd", {
+      state: { date, total, spendingAmount, importAmount },
+    });
   };
 
   return (
     <div className="flex justify-end mr-4">
       {/* 가계부 수정 링크 */}
-      <button onClick={handleLinkClick} className="text-black bg-white mr-3">
-        가계부 수정
-      </button>
+      {buttonState === 0 && (
+        <button onClick={handleLinkClick} className="text-black bg-white">
+          가계부 수정
+        </button>
+      )}
       {/* 가계부 쓰기 링크 */}
-      <button onClick={handleLinkClick} className="text-black bg-white">
-        가계부 쓰기
-      </button>
+      {buttonState === 1 && (
+        <button onClick={handleLinkClick} className="text-black bg-white">
+          가계부 쓰기
+        </button>
+      )}
     </div>
   );
 };
