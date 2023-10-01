@@ -11,27 +11,25 @@ const Alba: React.FC = () => {
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
 
-  useEffect(() => {
-    // const customHeaders = {
-    //   Authorization: 'Bearer YourAccessToken',
-    // };
+  // useEffect(() => {
+  //   const customHeaders = {
+  //     Authorization: 'Bearer YourAccessToken',
+  //   };
 
-    axios
-      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
-      // .get(import.meta.env.VITE_BASE_URL + `/albas/child/lists`, {
-      //   headers: customHeaders,
-      // })
-      .get(import.meta.env.VITE_BASE_URL + `/albas/child/lists`)
-      .then((response) => {
-        const fetchedData = response.data;
-        console.log("SUCCESS", response.data);
-        setCurrentJobs(fetchedData.inProgressAlbaList);
-        setAvailableJobs(fetchedData.applicableAlbaList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  //   axios
+  //     .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/child/lists`, {
+  //       headers: customHeaders,
+  //     })
+  //     .then((response) => {
+  //       const fetchedData = response.data;
+  //       console.log("SUCCESS", response.data);
+  //       setCurrentJobs(fetchedData.inProgressAlbaList);
+  //       setAvailableJobs(fetchedData.applicableAlbaList);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   return (
     <div className="mt-10">

@@ -14,7 +14,7 @@ const Palba: React.FC = () => {
   useEffect(() => {
     axios
       // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
-      .get(import.meta.env.VITE_BASE_URL + `/albas/parent/lists/34`)
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/34`)
       .then((response) => {
         const fetchedData = response.data;
         console.log("SUCCESS", response.data);
