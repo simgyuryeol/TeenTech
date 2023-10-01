@@ -8,8 +8,10 @@ import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AccountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AccountService {
 
