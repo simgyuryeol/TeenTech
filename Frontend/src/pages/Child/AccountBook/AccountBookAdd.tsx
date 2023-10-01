@@ -1,64 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./AccountBookAdd.module.css";
-
-const Data = [
-  {
-    case1: "마트",
-    case2: "씨유",
-    case3: -2000,
-    case4: "욕구",
-  },
-  {
-    case1: "퀴즈",
-    case2: "퀴즈용돈",
-    case3: 1000,
-    case4: "수입",
-  },
-  {
-    case1: "음료",
-    case2: "할리스",
-    case3: -5500,
-    case4: "욕구",
-  },
-  {
-    case1: "게임",
-    case2: "ssafy pc",
-    case3: -1100,
-    case4: "욕구",
-  },
-];
+import axios from "axios";
 
 const Data2 = [
   {
     q1: "밥",
-    point: 1,
+    point: "필요",
   },
   {
     q1: "간식",
-    point: 1,
+    point: "욕구",
   },
   {
     q1: "준비물",
-    point: 2,
+    point: "필요",
   },
   {
     q1: "장난감",
-    point: 1,
+    point: "욕구",
   },
   {
     q1: "게임",
-    point: 2,
+    point: "욕구",
   },
   {
     q1: "선물",
-    point: 1,
+    point: "필요",
   },
 ];
 
+interface SelectedItem {
+  [key: number]: {
+    accountBookId: number;
+    consumptionType: string;
+    content: string;
+  };
+}
+
 const AccountBookAdd: React.FC = () => {
   const [priceSum, setPriceSum] = useState(0);
-  const [selectedRadio, setSelectedRadio] = useState({});
+  const [selectedRadio, setSelectedRadio] = useState<SelectedItem>({});
 
   const [isOpen, setIsOpen] = useState({});
 
@@ -69,20 +51,39 @@ const AccountBookAdd: React.FC = () => {
     });
   };
 
-  const handleItemClick = (case1, q1) => {
+  const handleItemClick = (id, point, q1) => {
     setSelectedRadio({
       ...selectedRadio,
-      [case1]: q1,
+      [id]: { accountBookId: id, consumptionType: point, content: q1 },
     });
-    setIsOpen({}); // Close all dropdowns
+
+    setIsOpen({}); // 드롭다운 닫기
   };
 
   const location = useLocation();
   const date = location.state?.date;
+  const total = location.state?.total;
+  const spendingAmount = location.state?.spendingAmount;
+  const importAmount = location.state?.importAmount;
+
+  console.log("에드토탈" + total);
+  const [Datedata, setDatedata] = useState([]);
+
+  const getData = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .then((response) => {
+        setDatedata(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    const sum = Data.reduce((acc, item) => acc + item.case3, 0);
-    setPriceSum(sum);
+    getData();
+    //const sum = Data.reduce((acc, item) => acc + item.case3, 0);
+    //setPriceSum(sum);
   }, []);
 
   // 라디오 버튼의 선택 핸들러 함수 추가
@@ -101,19 +102,44 @@ const AccountBookAdd: React.FC = () => {
   const navigate = useNavigate();
 
   const doneClick = () => {
+    console.log(selectedRadio);
+
     // 다 체크했는지 아닌지 확인
-    const allSelected = Data.every((item) =>
-      item.case3 < 0 ? selectedRadio[item.case1] !== undefined : true
+    const allSelected = Datedata.every((item) =>
+      item.assetType === "소비" && item.consumptionType === null
+        ? selectedRadio[item.accountBookId] !== undefined
+        : true
     );
+
+    console.log(selectedRadio);
 
     if (!allSelected) {
       alert("아직 안 쓴 부분이 있어요~");
       return;
     }
 
-    alert("오늘 가계부 쓰기 완료!" + " 참 잘했어요!");
-    console.log(selectedRadio);
-    navigate(`/AccountBookDetail`, { state: { date } });
+    // selectedRadio의 모든 값을 배열로 가져옵니다.
+    const selectedValues = Object.values(selectedRadio);
+
+    // Promise.all을 사용하여 모든 요청이 완료될 때까지 기다립니다.
+    Promise.all(
+      selectedValues.map((item) =>
+        axios.post(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks`, {
+          accountBookId: item.accountBookId,
+          consumptionType: item.consumptionType,
+        })
+      )
+    )
+      .then(() => {
+        alert("오늘 가계부 쓰기 완료!" + " 참 잘했어요!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    navigate(`/AccountBookDetail`, {
+      state: { date, spendingAmount, importAmount },
+    });
   };
 
   return (
@@ -123,30 +149,33 @@ const AccountBookAdd: React.FC = () => {
       <div className="flex flex-col w-11/12">
         <div className="py-3 container"></div>
         <div className="items-center justify-center bg-white rounded-xl drop-shadow-lg mb-4">
-          <div className={`${styles.borderBottom} p-3`}>[ {date} 수 ]</div>
-          {Data.map((item, index) => (
-            <div className={`${styles.borderBottom} py-3`}>
-              <div key={index} className="flex justify-between py-2">
-                <div className="w-1/3">{item.case1}</div>
-                <div className="w-1/3">{item.case2}</div>
-                <div
-                  className={`w-1/3 ${
-                    item.case3 < 0 ? "text-red-600" : "text-green-600"
-                  }`}
-                >
-                  {item.case3}
-                </div>
+          <div className={`${styles.borderBottom} p-3`}>[ {date} ]</div>
+          {Datedata.map((item, index) => (
+            <div key={index} className={`${styles.borderBottom} py-3`}>
+              <div className="flex justify-between py-2">
+                <div className="w-1/3">{item.assetType}</div>
+                <div className="w-1/3">{item.content}</div>
+                {item.depositAmount > 0 && (
+                  <div className="w-1/3 text-green-600">
+                    {item.depositAmount}
+                  </div>
+                )}
+                {item.withdrawalAmount > 0 && (
+                  <div className="w-1/3 text-red-600">
+                    {item.withdrawalAmount}
+                  </div>
+                )}
               </div>
 
-              {item.case3 < 0 ? (
+              {item.assetType === "소비" && item.withdrawalAmount > 0 ? (
                 <>
                   <button
                     className="bg-white-300 dropdown mt-2 drop-shadow-md text-lg"
                     onClick={() => toggleDropdown(index)}
                     style={{ width: "240px", height: "55px" }}
                   >
-                    {selectedRadio[item.case1]
-                      ? selectedRadio[item.case1] + "에 썼어요"
+                    {selectedRadio[item.accountBookId]?.content
+                      ? `${selectedRadio[item.accountBookId].content}에 썼어요`
                       : "어디에다 쓴 돈이에요?"}
                   </button>
                   {isOpen[index] &&
@@ -155,17 +184,14 @@ const AccountBookAdd: React.FC = () => {
                         key={qIndex}
                         className="p-2 rounded-sm"
                         style={{ cursor: "pointer" }}
-                        onClick={() => handleItemClick(item.case1, qItem.q1)}
+                        onClick={() =>
+                          handleItemClick(
+                            item.accountBookId,
+                            qItem.point,
+                            qItem.q1
+                          )
+                        }
                       >
-                        {/* <input
-                          type="radio"
-                          value={qItem.q1}
-                          checked={getSelectedRadio(item.case1) === qItem.q1}
-                          onChange={() => {
-                            handleRadioChange(item.case1, qItem.q1);
-                            setIsOpen(false);
-                          }}
-                        /> */}
                         {qItem.q1}
                       </div>
                     ))}
@@ -175,16 +201,17 @@ const AccountBookAdd: React.FC = () => {
           ))}
           <div className="flex justify-between items-center my-3">
             <div className="w-1/3">합계</div>
-            <div className="w-1/3">{priceSum}</div>
+            <div
+              className={`w-1/3 ${
+                total > 0 ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {total}
+            </div>
           </div>
         </div>
         <div className="justify-start drop-shadow-md rounded-sm">
-          <button
-            onClick={doneClick}
-            // style={{ backgroundColor: "#7B78FF", color: "white" }}
-          >
-            다 썼어요!
-          </button>
+          <button onClick={doneClick}>다 썼어요!</button>
         </div>
       </div>
     </div>

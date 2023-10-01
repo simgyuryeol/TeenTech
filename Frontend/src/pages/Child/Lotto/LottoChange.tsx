@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom"; // Import useLocation
 import styles from "./LottoChange.module.css";
-
 import { CreateTypes } from "canvas-confetti";
 import ReactCanvasConfetti from "./ReactCanvasConfetti";
+import { format } from "date-fns";
+import axios from "axios";
 
 const LottoChange: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const location = useLocation();
+  const totalLotteryPrize = location.state?.totalLotteryPrize;
   const drumSound = new Audio("../../../src/assets/audio/drum.mp3");
   const yeah = new Audio("../../../src/assets/audio/yeah.mp3");
   yeah.volume = 0.3;
@@ -46,6 +50,24 @@ const LottoChange: React.FC = () => {
       // 아직 3개 이하의 숫자를 선택한 경우에만 추가
       setSelectedNumbers([...selectedNumbers, number]);
     }
+  };
+
+  const getReward = (success) => {
+    const date = format(new Date(), "yyyy-MM-dd");
+    const cost = totalLotteryPrize;
+    console.log("날짜: " + date + " 당첨금: " + cost + " 성공여부: " + success);
+    axios
+      .post(`https://j9e207.p.ssafy.io/api/v1/34/lotto/reward`, {
+        date,
+        cost,
+        success,
+      })
+      .then((response) => {
+        alert("당첨!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const [winningNumbers, setWinningNumbers] = useState<Array<number | null>>([
@@ -143,11 +165,13 @@ const LottoChange: React.FC = () => {
         setIsWinning(true);
         handlerFire();
         playAudio(yeah);
-        alert("당첨!");
+        getReward(0);
+
         setSelectedNumbers([]);
       } else {
         setIsLotteryRunning(false);
         setIsWinning(false);
+        getReward(1);
         alert("아쉽다.");
         setSelectedNumbers([]);
       }
