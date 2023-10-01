@@ -1,6 +1,5 @@
 package com.ssafy.teentech.common.oauth;
 
-import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.user.domain.User;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,8 +32,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(
-            Role.ROLE_USER.name()));
+        List<GrantedAuthority> authorities = Collections.singletonList(
+            new SimpleGrantedAuthority(user.getRole().name()));
         UserPrincipal userPrincipal = new UserPrincipal(user.getUserId(), user.getEmail(),
             authorities);
         userPrincipal.setAttributes(attributes);
