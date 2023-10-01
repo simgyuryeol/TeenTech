@@ -1,6 +1,7 @@
 package com.ssafy.teentech.user.service;
 
 import com.ssafy.teentech.bank.dto.request.RegisterAccountRequestDto;
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
@@ -65,8 +66,10 @@ public class UserService {
             user.getUserId(), extraInformationRequestDto.getName(),
             extraInformationRequestDto.getPassword());
 
-        bankService.registerAccount(registerAccountRequestDto);
+        AccountResponseDto accountResponseDto = bankService.registerAccount(
+            registerAccountRequestDto);
 
+        user.updateAccountNumber(accountResponseDto.getAccountNumber());
         user.updateRole(extraInformationRequestDto.getRole());
     }
 
