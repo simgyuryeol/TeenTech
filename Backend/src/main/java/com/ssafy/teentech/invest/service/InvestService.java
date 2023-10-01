@@ -87,7 +87,7 @@ public class InvestService {
                 withdrawAccountNumber,
                 depositAccountNumber,
                 (long)stockTransactionRequestDto.getAmount()*stockTransactionRequestDto.getPrice(),
-                "주식 매도"
+                "투자"
         );
 
         bankService.autoTransfer(autoTransactionRequestDto);
@@ -122,7 +122,7 @@ public class InvestService {
                 depositAccountNumber,
                 withdrawAccountNumber,
                 (long)stockTransactionRequestDto.getAmount()*stockTransactionRequestDto.getPrice(),
-                "주식 매수"
+                "투자 소비"
         );
 
         bankService.autoTransfer(autoTransactionRequestDto);

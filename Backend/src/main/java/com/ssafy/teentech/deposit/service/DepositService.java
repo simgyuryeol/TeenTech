@@ -130,7 +130,7 @@ public class DepositService {
                 withdrawAccountNumber,
                 depositAccountNumber,
                 (long)deposit.getMoney(),
-                "예금 만료 이체"
+                "투자"
         );
 
         bankService.autoTransfer(autoTransactionRequestDto);
