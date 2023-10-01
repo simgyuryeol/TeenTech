@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<List<User>> findAllByParentId(Long parentId);
 
-    Optional<User> findByInviteCode(String inviteCode);
+    Optional<User> findByAccountNumber(String accountNumber);
 }

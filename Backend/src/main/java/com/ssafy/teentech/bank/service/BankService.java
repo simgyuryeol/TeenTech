@@ -106,7 +106,7 @@ public class BankService {
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
-        AccountResponseDto apiResponse = webClient.post()
+        AccountResponseDto accountResponseDto = webClient.post()
             .uri("/api/v1/account/register")
             .body(Mono.just(registerAccountRequestDto), RegisterAccountRequestDto.class)
             .retrieve()
@@ -120,7 +120,7 @@ public class BankService {
             .bodyToMono(AccountResponseDto.class)
             .block();
 
-        return apiResponse;
+        return accountResponseDto;
     }
 
     public TransactionListResponseDto getTransactions(
