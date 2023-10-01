@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Statics from "../../components/AccountBook/Statics";
 import { useLocation } from "react-router-dom"; // Import useLocation
+import axios from "axios";
 
 const Data = [
   {
@@ -29,54 +30,70 @@ interface Props {
 
 const PaccountbookDetail: React.FC<Props> = () => {
   const location = useLocation();
-  const date = location.state.date;
+  const date = location.state?.date;
+  const spendingAmount = location.state?.spendingAmount;
+  const importAmount = location.state?.importAmount;
+  const [Datedata, setDatedata] = useState([]);
+
+  const getDetail = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .then((response) => {
+        setDatedata(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+
   return (
     <div className="pt-8">
       <div style={{ width: "100%", paddingTop: "60px" }}>
         <div className="text-3xl">{date}</div>
-        <Statics />
+        <Statics
+          spendingAmount={spendingAmount}
+          importAmount={importAmount}
+          date={location.state.date}
+        />
       </div>
-      <div style={{ backgroundColor: "white" }}>
+      <div className="bg-white m-4 text-xl">
         <div
+          className="bg-pink-500 mt-3 mb-3"
           style={{
             width: "100%",
             height: "1px",
-            backgroundColor: "pink",
-            marginTop: "10px",
-            marginBottom: "10px",
           }}
         ></div>
-        <div
-          style={{
-            display: "flex",
-            color: "black",
-            justifyContent: "space-around",
-          }}
-        >
+        <div className="flex text-black justify-around">
           <div>카테고리</div>
-          <div>구체적내용</div>
-          <div>소비금액</div>
-          <div>소비유형</div>
+          <div>내용</div>
+          <div>금액</div>
+          <div>유형</div>
         </div>
-        {Data.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              color: "black",
-            }}
-          >
-            <div>{item.case1}</div>
-            <div>{item.case2}</div>
-            <div style={{ color: item.case3 < 0 ? "red" : "blue" }}>
-              {item.case3}
+        <div className="pb-3">
+          {Datedata.map((item, index) => (
+            <div key={index} className="m-2 flex justify-around text-black">
+              <div>{item.assetType}</div>
+              <div>{item.content}</div>
+              {item.depositAmount > 0 ? (
+                <div className="text-blue-500">{item.depositAmount}</div>
+              ) : (
+                <div className="text-red-500">{item.withdrawalAmount}</div>
+              )}
+              {item.consumptionType === null ? (
+                <div>x</div>
+              ) : (
+                <div>{item.consumptionType}</div>
+              )}
             </div>
-            <div>{item.case4}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      <h2>가계부 날짜 상세 페이지</h2>
     </div>
   );
 };

@@ -1,13 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Total from "../../components/Main/total";
 import MenuList from "../../components/Main/MenuList";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
 import Boy from "../../../src/assets/main/boy_1.png";
+import axios from "axios";
+// import GptTest from "./gpt_test/GptTest";
 
 const Main: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
+  const [getAllowance, setGetAllowance] = useState(0);
+
+  // const getallowance = () => {
+  //   // key 필요한 거 같은데,,
+  //   axios
+  //     .get(`https://j9e207.p.ssafy.io/api/v1/users/detail`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
   useEffect(() => {
+    // getallowance();
     setState({ id: 2 });
   }, []);
   const id = 1;
@@ -79,6 +96,7 @@ const Main: React.FC = () => {
       <div className="mx-4 rounded-2xl mt-28">
         <Total childId={id} />
       </div>
+      {/* <GptTest /> */}
     </div>
   );
 };
