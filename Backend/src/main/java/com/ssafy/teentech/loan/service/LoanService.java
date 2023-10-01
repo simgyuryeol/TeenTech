@@ -12,6 +12,7 @@ import com.ssafy.teentech.common.fcm.service.FCMNotificationService;
 import com.ssafy.teentech.common.response.ApiResponse;
 import com.ssafy.teentech.loan.domain.Loan;
 import com.ssafy.teentech.loan.domain.Repayment;
+import com.ssafy.teentech.loan.domain.State;
 import com.ssafy.teentech.loan.dto.request.LoanApplyRequestDto;
 import com.ssafy.teentech.loan.dto.request.LoanApproveRequestDto;
 import com.ssafy.teentech.loan.dto.request.LoanRejectRequestDto;
@@ -56,8 +57,8 @@ public class LoanService {
         /**
          * 대출 현황 조회해서 남은 금액과 현재 신청한 금액의 합이 용돈의 50% 이상이면 반려
          */
-        List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZero(
-            child);
+        List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZeroAndState(
+            child, State.ACCEPT);
 
         Integer totalLoanBalance = inProgressLoanList.stream()
             .map(LoanSummaryResponseDto::getLastBalance).reduce(0, (x, y) -> x + y).intValue();
@@ -70,6 +71,7 @@ public class LoanService {
             .amount(loanApplyRequestDto.getAmount()).period(loanApplyRequestDto.getPeriod())
             .reason(loanApplyRequestDto.getReason())
             .interestRate(BigDecimal.valueOf(childDetail.getLoanInterestRate()))
+            .state(State.APPLY)
             .build();
 
         loanRepository.save(loan);
@@ -80,8 +82,8 @@ public class LoanService {
         ChildDetail childDetail = childDetailRepository.findByUser(child)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
 
-        List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZero(
-            child);
+        List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZeroAndState(
+            child, State.ACCEPT);
 
         Integer totalLoanBalance = inProgressLoanList.stream()
             .map(LoanSummaryResponseDto::getLastBalance).reduce(0, (x, y) -> x + y).intValue();
@@ -96,8 +98,10 @@ public class LoanService {
     public List<LoanHistoryResponseDto> getLoanHistory(String userEmail) {
         User child = userService.getUser(userEmail);
 
-        List<LoanHistoryResponseDto> loanHistoryResponseDtoList = loanRepository.findAllByUserAndBalanceIsEqualToZero(
-            child);
+//        List<LoanHistoryResponseDto> loanHistoryResponseDtoList = loanRepository.findAllByUserAndBalanceIsEqualToZero(
+//            child);
+        List<LoanHistoryResponseDto> loanHistoryResponseDtoList = loanRepository.findAllByUserAndRejectOrCompleteOrFail(
+            child, State.REJECT, State.COMPLETE, State.FAIL);
 
         return loanHistoryResponseDtoList;
     }
@@ -150,6 +154,7 @@ public class LoanService {
             loan.updateBalance(loan.getBalance() - repayment.getAmount());
             if (loan.getBalance().equals(0)) {
                 loan.updateRepaymentCompletionDate(LocalDate.now());
+                loan.updateState(State.COMPLETE);
             }
         } else {
             throw new BankException(500, "이체 과정에서 문제가 발생했습니다.");
@@ -168,12 +173,12 @@ public class LoanService {
         }
 
         // 대출 신청 목록
-        List<LoanApplyResponseDto> loanApplyResponseDtoList = loanRepository.findAllByUserAndApprovalDateIsNull(
-            child);
+        List<LoanApplyResponseDto> loanApplyResponseDtoList = loanRepository.findAllByUserAndApprovalDateIsNullAndState(
+            child, State.APPLY);
 
         // 상환 진행중인 대출 목록 + 상환 진행중인 대출의 요약
-        List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZero(
-            child);
+        List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZeroAndState(
+            child, State.ACCEPT);
 
         Integer totalLoanBalance = inProgressLoanList.stream()
             .map(LoanSummaryResponseDto::getLastBalance).reduce(0, (x, y) -> x + y).intValue();
@@ -194,8 +199,10 @@ public class LoanService {
             throw new PermissionDeniedException(ErrorCode.NO_PERMISSION_TO_READ_LOAN);
         }
 
-        List<LoanHistoryResponseDto> loanHistoryResponseDtoList = loanRepository.findAllByUserAndBalanceIsEqualToZero(
-            child);
+//        List<LoanHistoryResponseDto> loanHistoryResponseDtoList = loanRepository.findAllByUserAndBalanceIsEqualToZero(
+//            child);
+        List<LoanHistoryResponseDto> loanHistoryResponseDtoList = loanRepository.findAllByUserAndRejectOrCompleteOrFail(
+            child, State.REJECT, State.COMPLETE, State.FAIL);
 
         return loanHistoryResponseDtoList;
     }
@@ -244,12 +251,14 @@ public class LoanService {
             LocalDate approvalDate = LocalDate.now();
             LocalDate maturityDate = approvalDate.plusMonths(loan.getPeriod());
             BigDecimal totalInterest = new BigDecimal(loan.getAmount()).multiply(
-                    loan.getInterestRate()).setScale(1, RoundingMode.UP);
+                loan.getInterestRate()).divide(new BigDecimal(100)).setScale(1, RoundingMode.UP);
             Integer balance = loan.getAmount() + totalInterest.intValue();
 
             loan.updateApprovalDate(approvalDate);
             loan.updateMaturityDate(maturityDate);
+            loan.updateInitialBalance(balance);
             loan.updateBalance(balance);
+            loan.updateState(State.ACCEPT);
         } else {
             throw new BankException(500, "이체 과정에서 문제가 발생했습니다.");
         }
@@ -263,11 +272,11 @@ public class LoanService {
 
         Long childId = loan.getUser().getUserId();
         String loanTitle = loan.getTitle();
-        loanRepository.deleteById(loan.getLoanId());
+        loan.updateState(State.REJECT);
 
         FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
             .targetUserId(childId).title("대출 신청이 거절되었어요.")
-            .body("대출 신청(" + loanTitle + ")이 거절되었어요. 거절된 대출 신청은 삭제되었어요.").build();
+            .body("대출 신청(" + loanTitle + ")이 거절되었어요.").build();
         fcmNotificationService.sendNotificationByToken(fcmNotificationRequestDto);
     }
 
