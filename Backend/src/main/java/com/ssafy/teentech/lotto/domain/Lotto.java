@@ -1,6 +1,7 @@
 package com.ssafy.teentech.lotto.domain;
 
 import com.ssafy.teentech.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,4 +26,11 @@ public class Lotto {
     private LocalDate date;
     private Integer winnings;
 
+    @Builder
+    public Lotto(User user, LocalDate date, Integer winnings){
+        this.user = user;
+        this.date = date;
+        this.winnings = winnings;
+
+    }
 }

@@ -4,6 +4,7 @@ import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.lotto.domain.Lotto;
+import com.ssafy.teentech.lotto.dto.LottoSaveDto;
 import com.ssafy.teentech.lotto.dto.request.LottoWinningsRequestDto;
 import com.ssafy.teentech.lotto.dto.response.LottoHistoryResponseDto;
 import com.ssafy.teentech.lotto.dto.response.LottoTicketResponseDto;
@@ -59,6 +60,15 @@ public class LottoChildService {
             );
 
             bankService.autoTransfer(autoTransactionRequestDto);
+
+            // 이체 내역 성공 후 복권 내역을 저장한다.
+            LottoSaveDto lottoSaveDto = LottoSaveDto.builder()
+                    .user(user)
+                    .date(lottoWinningsRequestDto.getDate())
+                    .winnings(lottoWinningsRequestDto.getCost())
+                    .build();
+
+            lottoRepository.save(lottoSaveDto.toEntity());
         }
 
     }
