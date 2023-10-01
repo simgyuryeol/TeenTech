@@ -1,21 +1,27 @@
 package com.ssafy.teentech.accountbook.service;
 
 import com.ssafy.teentech.accountbook.domain.AccountBook;
+import com.ssafy.teentech.accountbook.dto.AccountBookSaveDto;
 import com.ssafy.teentech.accountbook.dto.request.AccountBookAddRequestDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookAmountResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDateResponseDto;
 import com.ssafy.teentech.accountbook.dto.responsee.AccountBookDetailResponseDto;
 import com.ssafy.teentech.accountbook.repository.AccountBookRepository;
+import com.ssafy.teentech.bank.dto.request.TransactionListRequestDto;
+import com.ssafy.teentech.bank.dto.response.TransactionListResponseDto;
+import com.ssafy.teentech.bank.dto.response.TransactionResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -24,10 +30,43 @@ public class AccountBookService {
 
     final private AccountBookRepository accountBookRepository;
     final private UserRepository userRepository;
+    final private BankService bankService;
 
     public AccountBookAmountResponseDto accountBookAmount(LocalDate date,Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
         List<AccountBook> accountBookList = accountBookRepository.findByDateAndUser(date,user);
+
+        //뱅크 서버에서 거래 내역을 받아옴
+        List<AccountBook> accountBooks = new ArrayList<>();
+
+        TransactionListRequestDto transactionListRequestDto = new TransactionListRequestDto(user.getUserId(),user.getAccountNumber());
+        TransactionListResponseDto transactions = bankService.getTransactions(transactionListRequestDto);
+        for (TransactionResponseDto transactionResponseDto : transactions.getTransactions()) {
+            Integer depositAmount = 0;
+            Integer withdrawalAmount = 0;
+            if (transactions.equals("DEPOSIT")){ //수입인 경우
+                depositAmount = transactionResponseDto.getTransferAmount().intValue();
+            }
+            else{
+                withdrawalAmount = transactionResponseDto.getTransferAmount().intValue();
+            }
+
+            AccountBookSaveDto accountBookSaveDto = AccountBookSaveDto.builder()
+                    .assetType(transactionResponseDto.getType())
+                    .content(transactionResponseDto.getContent())
+                    .withdrawalAmount(withdrawalAmount)
+                    .depositAmount(depositAmount)
+                    .transactionDate(transactionResponseDto.getCreatedDateTime().toLocalDate())
+                    .transactionTime(transactionResponseDto.getCreatedDateTime().toLocalTime())
+                    .user(user)
+                    .build();
+
+            accountBooks.add(accountBookSaveDto.toEntity());
+        }
+
+        accountBookRepository.saveAll(accountBooks);
+
+
 
         Map<String,Integer> account = new HashMap<>();
         //수입
@@ -41,11 +80,11 @@ public class AccountBookService {
         account.put("필요소비",0);
 
         for (AccountBook accountBook : accountBookList) {
-            if(account.get(accountBook.getAssetType())==null){
+            if(account.get(accountBook.getContent())==null){
                 continue;
             }
-            account.put(accountBook.getAssetType(),account.get(accountBook.getAssetType())+accountBook.getWithdrawalAmount());
-            account.put(accountBook.getAssetType(),account.get(accountBook.getAssetType())+accountBook.getDepositAmount());
+            account.put(accountBook.getContent(),account.get(accountBook.getContent())+accountBook.getWithdrawalAmount());
+            account.put(accountBook.getContent(),account.get(accountBook.getContent())+accountBook.getDepositAmount());
         }
 
         AccountBookAmountResponseDto accountBookAmountResponseDto = AccountBookAmountResponseDto.builder()
