@@ -5,6 +5,7 @@ import StockPortfolio from "../../../components/Stock/StockPortfolio";
 import MyStock from "../../../components/Stock/MyStock";
 import EmptyStock from "../../../components/Stock/EmptyStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import useStockStatistics from "../../../hooks/useStockStatistics";
 
 import "intro.js/introjs.css";
 import { Steps } from "intro.js-react";
@@ -13,18 +14,10 @@ import {
   tourSteps,
 } from "../../../components/Tutorial/StockTutorial";
 
-interface Stock {
-  koName: string;
-  enName: string;
-  investment: number;
-  value: number;
-  gain: number;
-  ror: number;
-}
-
 const Stock: React.FC = () => {
   const navigator = useNavigate();
   const [myStocks, setMystocks] = useState([]);
+  const { totalValue, totalGain, averageROR } = useStockStatistics(myStocks);
 
   const [stepsEnabled, setStepsEnabled] = useState(false);
   const [initialStep] = useState(0);
@@ -36,10 +29,37 @@ const Stock: React.FC = () => {
   useEffect(() => {
     axios
       // .get(import.meta.env.VITE_BASE_URL + `${child_id}/investments`, {
-      .get(import.meta.env.VITE_BASE_URL + "/34/investments")
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/investments")
       .then((response) => {
         console.log(response.data);
-        setMystocks(response.data);
+        const initialData = response.data.data;
+
+        const fetchDataForStock = async (stock) => {
+          try {
+            const additionalResponse = await axios.post(
+              import.meta.env.VITE_BASE_URL +
+                "34/investments/detail", {
+                  companyName: stock.companyName
+                }
+            );
+            const additionalData = additionalResponse.data.data.stockList.slice(-1);
+            stock.investment = stock.averagePrice * stock.amount
+            stock.value = additionalData.price * stock.amount
+            stock.gain = (stock.price - stock.averagePrice) * stock.amount
+            stock.ror = ((additionalData.price - stock.averagePrice) / stock.averagePrice) * 100;
+          } catch (error) {
+            console.error(`Error fetching data for stock ${stock.id}:`, error);
+          }
+        };
+        const fetchPromises = initialData.map(fetchDataForStock);
+
+        Promise.all(fetchPromises)
+          .then(() => {
+            setMystocks(initialData);
+          })
+          .catch((error) => {
+            console.error("Error fetching additional data for stocks:", error);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -77,8 +97,8 @@ const Stock: React.FC = () => {
             onClick={handleHelp}
           />
         </div>
-
-        <StockPortfolio />
+        
+        <StockPortfolio totalValue={totalValue} totalGain={totalGain} averageROR={averageROR} />
 
         <div className="bg-bgblue p-2 m-5 rounded-xl">
           <p className="font-bold text-2xl text-left mt-4 mx-8">
@@ -91,11 +111,12 @@ const Stock: React.FC = () => {
           ) : (
             <EmptyStock />
           )}
-          
+
           <MyStock
             stock={{
-              koName: "삼성전자",
-              enName: "samsung",
+              companyName: "삼성전자",
+              averagePrice: 1000,
+              amount: 1,
               investment: 1000,
               value: 900,
               gain: -100,

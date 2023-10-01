@@ -8,8 +8,7 @@ import shinhanImg from "../../assets/stock/shinhan.png";
 import ncsoftImg from "../../assets/stock/ncsoft.png";
 
 interface Stock {
-  koName: string;
-  enName: string;
+  companyName: string;
   value: number;
   priceChange: number;
   priceChangePercentage: number;
@@ -20,21 +19,21 @@ interface MarketStockProps {
 }
 
 const MarketStock: React.FC<MarketStockProps> = (props) => {
-  const { koName, enName, value, priceChange, priceChangePercentage } =
+  const { companyName, value, priceChange, priceChangePercentage } =
     props.stock;
 
   let imageSrc;
-  switch (enName) {
-    case "samsung":
+  switch (companyName) {
+    case "삼성전자":
       imageSrc = samsungImg;
       break;
-    case "kakao":
+    case "카카오":
       imageSrc = kakaoImg;
       break;
-    case "ncsoft":
+    case "LG화학":
       imageSrc = ncsoftImg;
       break;
-      case "shinhan":
+      case "KB금융":
       imageSrc = shinhanImg;
       break;
     default:
@@ -43,11 +42,11 @@ const MarketStock: React.FC<MarketStockProps> = (props) => {
   }
 
   return (
-    <Link to={`/StockDetail/${enName}`}>
+    <Link to={`/StockDetail/${companyName}`}>
       <Card className="flex justify-between p-2 text-black">
         <div className="flex flex-col items-center p-4 ml-4">
-          <img src={imageSrc} alt={enName} className="w-12 h-12"/>
-          <p className="mt-1 text-md font-bold">{koName}</p>
+          <img src={imageSrc} alt={companyName} className="w-12 h-12"/>
+          <p className="mt-1 text-md font-bold">{companyName}</p>
         </div>
 
         <div className="flex items-center">

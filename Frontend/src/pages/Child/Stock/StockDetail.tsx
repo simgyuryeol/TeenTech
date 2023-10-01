@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import Modal from "../../../components/Common/Modal";
 import StockChart from "../../../components/Stock/StockChart";
@@ -15,9 +16,50 @@ import {
 } from "../../../components/Tutorial/StockDetailTutorial";
 
 const StockDetail: React.FC = () => {
-  const { eng } = useParams();
+  const { companyName } = useParams();
+  const [companyNews, setCompanyNews] = useState([]);
+  const [stockChartInfo, setStockChartInfo] = useState(null);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
+
+  useEffect(() => {
+    axios
+      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/investments`, {
+      .post(import.meta.env.VITE_BASE_URL + "/api/v1/34/investments/detail", {
+        companyName: companyName,
+      })
+      .then((response) => {
+        const stockList = response.data.data.stockList;
+        const slicedStockList = stockList.slice(-2);
+
+        const currentStock = slicedStockList[1];
+        const prevStock = slicedStockList[0];
+
+        const priceChangePercentage =
+          ((currentStock.price - prevStock.price) / prevStock.price) * 100;
+
+        const priceData = stockList.map((stock) => ({
+          x: stock.stockDate,
+          y: stock.price,
+        }));
+
+        const firstStock = stockList[0];
+        const stockName = firstStock.companyName;
+        const price = firstStock.price;
+
+        const stockChartProps = {
+          stockName,
+          price,
+          priceChangePercentage,
+          priceData,
+        };
+        setCompanyNews(response.data.data.newsList.slice(-2));
+        setStockChartInfo(stockChartProps);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const [stepsEnabled, setStepsEnabled] = useState(false);
   const [initialStep] = useState(0);
@@ -33,22 +75,6 @@ const StockDetail: React.FC = () => {
   const handleHelp = () => {
     setStepsEnabled((prev) => !prev);
   };
-
-  const newsList: News[] = [
-    {
-      title:
-        "돌아온 금융株 계절… 최대 실적 ‘KB’·주가 기대 ‘하나’·배당수익 ‘우리’",
-      content:
-        "‘가을 전어 생각날 때, 찬 바람 불 때 배당주.’ 지지부진한 국내 증시 상황 속에서 배당주의 계절이 돌아왔다. 대표 배당 종목인 금융주는 올해도 은행 금리 이상의 수익률을 낼 수 있을 것으로 기대를 모은다.",
-      date: "2023-09-12",
-    },
-    {
-      title: "'일이 손에 안 잡힌다'…93만원까지 밀린 에코프로, 개미도 던졌다",
-      content:
-        " '에코프로 주가 빠지는 걸 보고 있자니 일이 손에 안 잡힌다. 지난 밤에 테슬라는 10% 급등했는데 왜 에코프로는 이렇게 떨어지는 건가.'(에코프로 주주 A씨)국내 유일 '황제주' 자리를 반납한 에코프로(086520)가 장중 91만원선까지 밀리는 등 크게 출렁이면서 개인 투자자들의 한숨이 깊어지고 있다. 최근 에코프로가 100만원선을 밑돌면서 저가 매수 기회라는 판단 아래 개인 투자자들은 물량을 대거 사들였는데 이틀 연속 급락세를 나타내면서다.",
-      date: "2023-09-12",
-    },
-  ];
 
   const handleBuyClick = () => {
     setIsBuyModalOpen(true);
@@ -74,7 +100,8 @@ const StockDetail: React.FC = () => {
       />
 
       <div className="mt-12">
-        <p className="font-bold text-2xl">{eng}</p>
+        <div className="py-4" />
+        <p className="font-bold text-3xl">{companyName}</p>
         <div className="flex justify-end mr-4">
           <Icon
             icon="mdi:help-circle-outline"
@@ -83,10 +110,14 @@ const StockDetail: React.FC = () => {
           />
         </div>
 
-        <StockChart />
+        {stockChartInfo ? (
+          <StockChart stockInfo={stockChartInfo} />
+        ) : (
+          <div>로딩 중...</div>
+        )}
 
         <p className="font-bold text-2xl text-left ml-8">주요 뉴스</p>
-        {newsList.map((news, index) => (
+        {companyNews.map((news, index) => (
           <StockNews key={index} news={news} />
         ))}
 
@@ -118,7 +149,7 @@ const StockDetail: React.FC = () => {
               className="w-6 h-6 text-gray-600"
             />
           </button>
-          <BuyStock price={1200} onClose={handleBuyClose} />
+          <BuyStock companyName={companyName} price={stockChartInfo.price} onClose={handleBuyClose} />
         </Modal>
       )}
 
@@ -133,7 +164,7 @@ const StockDetail: React.FC = () => {
               className="w-6 h-6 text-gray-600"
             />
           </button>
-          <SellStock price={1200} onClose={handleSellClose} />
+          <SellStock companyName={companyName} price={stockChartInfo.price} onClose={handleSellClose} />
         </Modal>
       )}
     </React.Fragment>

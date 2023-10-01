@@ -91,7 +91,7 @@ const Alba: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12">
+        <div className="mt-12 bg-sky-300 py-4 m-2 rounded-xl">
           <p className="text-2xl font-bold">진행 중인 아르바이트</p>
           {currentJobs.length ? (
             <JobCarousel jobs={currentJobs} />
@@ -100,7 +100,7 @@ const Alba: React.FC = () => {
           )}
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 bg-green-200 py-4 m-2 rounded-xl">
           <p className="text-2xl font-bold">신청 가능한 아르바이트</p>
           {availableJobs.length ? (
             <JobCarousel jobs={availableJobs} />
