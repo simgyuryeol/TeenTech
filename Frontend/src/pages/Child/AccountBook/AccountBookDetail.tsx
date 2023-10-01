@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Statics from "../../../components/AccountBook/Statics";
 import AccountBotton from "../../../components/AccountBook/AccountButton";
 import { useLocation } from "react-router-dom"; // Import useLocation
 import imcome from "../../../assets/accountBook/income.png";
 import desire from "../../../assets/accountBook/desire.png";
 import need from "../../../assets/accountBook/need.png";
+import question from "../../../assets/accountBook/question.png";
+import axios from "axios";
 
 const Data = [
   {
@@ -33,7 +35,46 @@ interface Props {
 
 const AccountBookDetail: React.FC<Props> = () => {
   const location = useLocation();
-  const date = location.state.date;
+  const date = location.state?.date;
+  const spendingAmount = location.state?.spendingAmount;
+  const importAmount = location.state?.importAmount;
+  const total = importAmount - spendingAmount;
+  const [Datedata, setDatedata] = useState([]);
+  // 필요, 욕구 소비 체크 다 되어있는지 확인 ( 0이면 수정, 1이면 쓰기 )
+  const [buttonState, setButtonState] = useState(0);
+  console.log("토탈" + total);
+
+  const getDetail = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .then((response) => {
+        setDatedata(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+
+  useEffect(() => {
+    // Datedata 배열의 각 요소를 검사하여 "소비" 타입인데 "욕구"나 "필요"가 아닌 요소가 있는지 확인합니다.
+    const hasUnspecifiedConsumptionType = Datedata.some(
+      (item) =>
+        item.assetType === "소비" &&
+        item.consumptionType !== "욕구" &&
+        item.consumptionType !== "필요"
+    );
+
+    // 해당하는 요소가 있다면 buttonState를 1로 설정합니다.
+    if (hasUnspecifiedConsumptionType) {
+      setButtonState(1);
+    } else {
+      setButtonState(0);
+    }
+  }, [Datedata]);
 
   return (
     <div
@@ -42,9 +83,19 @@ const AccountBookDetail: React.FC<Props> = () => {
     >
       <div style={{ width: "100%", paddingTop: "60px" }}>
         <div className="text-2xl">{date}</div>
-        <Statics />
+        <Statics
+          spendingAmount={spendingAmount}
+          importAmount={importAmount}
+          date={location.state.date}
+        />
       </div>
-      <AccountBotton date={date} />
+      <AccountBotton
+        date={date}
+        total={total}
+        spendingAmount={spendingAmount}
+        importAmount={importAmount}
+        buttonState={buttonState}
+      />
       <div
         className="text-xl rounded-xl m-3 pb-1 drop-shadow-lg	"
         style={{ backgroundColor: "white" }}
@@ -58,9 +109,13 @@ const AccountBookDetail: React.FC<Props> = () => {
             <img src={need} style={{ width: "35px" }} />
             <div className="ml-2 text-xl text-blue-500">필요</div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mr-3">
             <img src={imcome} style={{ width: "35px" }} />
             <div className="ml-2 text-xl text-green-500">수입</div>
+          </div>
+          <div className="flex items-center">
+            <img src={question} style={{ width: "35px" }} />
+            <div className="ml-2 text-xl text-black-500">?</div>
           </div>
         </div>
 
@@ -72,21 +127,33 @@ const AccountBookDetail: React.FC<Props> = () => {
             marginBottom: "10px",
           }}
         ></div>
-        {Data.map((item, index) => {
+        {Datedata.map((item, index) => {
           let icon;
           let color;
-          switch (item.case4) {
-            case "욕구":
-              icon = desire;
+          let money;
+          if (item.depositAmount > 0) {
+            icon = imcome;
+            color = "text-green-500";
+            money = item.depositAmount;
+          } else if (item.withdrawalAmount > 0) {
+            if (item.assetType === "소비") {
+              switch (item.consumptionType) {
+                case "욕구":
+                  icon = desire;
+                  break;
+                case "필요":
+                  icon = need;
+                  break;
+                default:
+                  icon = question;
+              }
               color = "text-red-500";
-              break;
-            case "필요":
+              money = item.withdrawalAmount;
+            } else if (item.content === "대출 상환") {
               icon = need;
-              color = "text-blue-500";
-              break;
-            default:
-              icon = imcome;
-              color = "text-green-500";
+              color = "text-red-500";
+              money = item.withdrawalAmount;
+            }
           }
 
           return (
@@ -97,9 +164,9 @@ const AccountBookDetail: React.FC<Props> = () => {
               {icon && (
                 <img src={icon} alt={item.case4} style={{ width: "35px" }} />
               )}
-              <div>{item.case1}</div>
-              <div>{item.case2}</div>
-              <div className={`${color}`}>{item.case3}</div>
+              <div>{item.assetType}</div>
+              <div>{item.content}</div>
+              <div className={`${color}`}>{money}</div>
             </div>
           );
         })}

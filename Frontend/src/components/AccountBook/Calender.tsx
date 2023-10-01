@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Statics from "./Statics";
+import Statics_month from "./Statics_month";
 import styles from "./Calender.module.css";
 import { Icon } from "@iconify/react";
 import {
@@ -20,44 +20,11 @@ import axios from "axios";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
-interface sampleDate {
+interface dateDate {
   date: string;
   importAmount: number;
   spendingAmount: number;
 }
-
-const Data: sampleDate[] = [
-  {
-    date: "2023-08-05",
-    importAmount: 2000,
-    spendingAmount: 0,
-  },
-  {
-    date: "2023-08-11",
-    importAmount: 0,
-    spendingAmount: -5000,
-  },
-  {
-    date: "2023-08-22",
-    importAmount: 1000,
-    spendingAmount: -8000,
-  },
-  {
-    date: "2023-09-05",
-    importAmount: 2000,
-    spendingAmount: 0,
-  },
-  {
-    date: "2023-09-11",
-    importAmount: 0,
-    spendingAmount: -5000,
-  },
-  {
-    date: "2023-09-22",
-    importAmount: 1000,
-    spendingAmount: -8000,
-  },
-];
 
 const formatDate = (date: Date): string => format(date, "yyyy-MM-dd");
 
@@ -66,28 +33,6 @@ const RenderHeader: React.FC<{
   prevMonth: () => void;
   nextMonth: () => void;
 }> = ({ currentMonth, prevMonth, nextMonth }) => {
-  const [Datedata, setDatedata] = useState<sampleDate[]>([]);
-
-  const getDate = () => {
-    console.log(formatDate(currentMonth));
-    axios
-      .get(
-        `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${formatDate(
-          currentMonth
-        )}`
-      )
-      .then((response) => {
-        setDatedata(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    getDate();
-  }, [currentMonth]);
-
   return (
     <div className="flex justify-center items-center p-1">
       <div className="px-4">
@@ -141,7 +86,8 @@ const RenderCells: React.FC<{
   currentMonth: Date;
   selectedDate: Date;
   onDateClick: (date: Date) => void;
-}> = ({ currentMonth, selectedDate, onDateClick }) => {
+  Datedata: dateDate[];
+}> = ({ currentMonth, selectedDate, onDateClick, Datedata }) => {
   // 월의 시작일
   const monthStart = startOfMonth(currentMonth);
   // 월의 마지막일
@@ -166,7 +112,7 @@ const RenderCells: React.FC<{
       const cloneDay = day;
 
       const formattedDay = formatDate(cloneDay);
-      const dataItem = Data.find((item) => item.date === formattedDay);
+      const dataItem = Datedata.find((item) => item.date === formattedDay);
 
       days.push(
         <div
@@ -211,19 +157,61 @@ const RenderCells: React.FC<{
     );
     days = [];
   }
-
+  console.log(Datedata);
   return <div className="body">{rows}</div>;
 };
 
 const Calendar: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [income, setIncome] = useState(0);
+  const [spending, setSpending] = useState(0);
+
   const [selectedYear, setSelectedYear] = useState(new Date());
+  // state -> 1 이면 부모, 0이면 자녀
   const [state, setState] = useRecoilState(stateAtom);
+  const [Datedata, setDatedata] = useState<dateDate[]>([]);
   const [childData] = useRecoilState(childIdAtom);
 
   const navigate = useNavigate();
+
+  const getDate = () => {
+    console.log(formatDate(currentMonth));
+    if (state.id == 0) {
+      axios
+        .get(
+          `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${formatDate(
+            currentMonth
+          )}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          setDatedata(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (state.id == 1) {
+      console.log("자녀확인");
+      axios
+        .get(
+          `https://j9e207.p.ssafy.io/api/v1/${
+            childData.id
+          }/accountbooks/date/${formatDate(currentMonth)}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          setDatedata(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getDate();
+  }, [currentMonth]);
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -235,14 +223,30 @@ const Calendar: React.FC = () => {
 
   const handleDateClick = (date: Date) => {
     const formattedDate = formatDate(date);
-    const dataItem = Data.find((item) => item.date === formattedDate);
+    const dataItem = Datedata.find((item) => item.date === formattedDate);
+    // setIncome(dataItem.importAmount);
+    // setSpending(dataItem.spendingAmount);
+    console.log(dataItem.importAmount);
+    console.log(dataItem.spendingAmount);
 
     if (dataItem) {
       setSelectedDate(date);
       if (state.id === 1) {
-        navigate(`/PaccountbookDetail`, { state: { date: formattedDate } });
+        navigate(`/PaccountbookDetail`, {
+          state: {
+            date: formattedDate,
+            importAmount: dataItem.importAmount,
+            spendingAmount: dataItem.spendingAmount,
+          },
+        });
       } else {
-        navigate(`/AccountBookDetail`, { state: { date: formattedDate } });
+        navigate(`/AccountBookDetail`, {
+          state: {
+            date: formattedDate,
+            importAmount: dataItem.importAmount,
+            spendingAmount: dataItem.spendingAmount,
+          },
+        });
       }
     } else {
       alert("이날은 작성한 가계부가 없어요~~");
@@ -256,7 +260,7 @@ const Calendar: React.FC = () => {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
-      <Statics />
+      <Statics_month date={formatDate(currentMonth)} />
       <div
         className={`${styles.calendar} mx-4 bg-white m-3 p-2 drop-shadow-lg rounded-xl`}
       >
@@ -265,6 +269,7 @@ const Calendar: React.FC = () => {
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onDateClick={handleDateClick}
+          Datedata={Datedata}
         />
       </div>
     </div>

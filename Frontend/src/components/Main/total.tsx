@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loan from "../../../src/assets/main/loan.png";
+import axios from "axios";
 
 type Props = {
   childId: number | null;
@@ -8,6 +9,11 @@ type Props = {
 
 const Total: React.FC<Props> = ({ childId }) => {
   const navigate = useNavigate();
+  const [summary, setSummary] = useState([]);
+
+  const getSummary = () => {
+    axios.get(`https://j9e207.p.ssafy.io/api/v1/loan/child/summary`);
+  };
 
   const clickDeposit = () => {
     navigate(`/Deposit`);
