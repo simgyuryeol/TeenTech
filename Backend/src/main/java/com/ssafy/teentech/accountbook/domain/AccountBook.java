@@ -2,6 +2,7 @@ package com.ssafy.teentech.accountbook.domain;
 
 import com.ssafy.teentech.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,8 +23,8 @@ public class AccountBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountBookId;
 
-    private String assetType; //자산 종류
-    private String content;
+    private String assetType; //지출,소비
+    private String content; //자산 종류
     private Integer withdrawalAmount; //출금 금액
     private Integer depositAmount;//입금금액
 
@@ -39,4 +40,15 @@ public class AccountBook {
         this.consumptionType = consumptionType;
     }
 
+    @Builder
+    public AccountBook(String assetType, String content, Integer withdrawalAmount, Integer depositAmount,
+                       LocalDate transactionDate, LocalTime transactionTime,User user ){
+        this.assetType=assetType;
+        this.content = content;
+        this.withdrawalAmount = withdrawalAmount;
+        this.depositAmount = depositAmount;
+        this.transactionDate = transactionDate;
+        this.transactionTime = transactionTime;
+        this.user = user;
+    }
 }

@@ -3,16 +3,7 @@ package com.ssafy.teentech.parent.service;
 import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
-import com.ssafy.teentech.deposit.domain.Deposit;
-import com.ssafy.teentech.deposit.repository.DepositRepository;
-import com.ssafy.teentech.invest.domain.Stock;
-import com.ssafy.teentech.invest.domain.StocksHeld;
-import com.ssafy.teentech.invest.repository.StockRepository;
-import com.ssafy.teentech.invest.repository.StocksHeldRepository;
-import com.ssafy.teentech.loan.domain.Loan;
-import com.ssafy.teentech.loan.repository.LoanRepository;
 import com.ssafy.teentech.parent.dto.request.*;
-import com.ssafy.teentech.parent.dto.response.ChildDetailResponseDto;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
@@ -20,16 +11,10 @@ import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -65,7 +50,7 @@ public class ParentService {
                 withdrawAccountNumber,
                 depositAccountNumber,
                 (long)sendPinMoney.getPinMoney(),
-                "금고 저장"
+                "용돈"
         );
 
         bankService.autoTransfer(autoTransactionRequestDto);
@@ -107,10 +92,6 @@ public class ParentService {
         AccountResponseDto depositInformation = bankService.getAccountInformation(parentId);
         String depositAccountNumber = depositInformation.getAccountNumber();
 
-//        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
-//        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
-
-
         AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
                 parentId,
                 null,
@@ -130,10 +111,6 @@ public class ParentService {
         // 이체 로직
         AccountResponseDto depositInformation = bankService.getAccountInformation(parentId);
         String depositAccountNumber = depositInformation.getAccountNumber();
-
-//        AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
-//        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
-
 
         AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
                 parentId,
