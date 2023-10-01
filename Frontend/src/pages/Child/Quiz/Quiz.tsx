@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import QuizChart from "../../../components/Quiz/QuizChart";
 import TopicList from "../../../components/Quiz/TopicList";
 import { useRecoilValue } from "recoil";
@@ -13,6 +14,18 @@ const Quiz: React.FC = () => {
       setSolved(true);
     }
   }, [quizScore]);
+
+  useEffect(() => {
+    axios
+      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/investments`, {
+      .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/histories")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div className="mt-12">

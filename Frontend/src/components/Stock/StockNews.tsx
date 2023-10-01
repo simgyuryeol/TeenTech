@@ -3,11 +3,6 @@ import Card from "../Common/Card";
 import Modal from "../Common/Modal";
 import StockNewsDetail from "./StockNewsDetail";
 
-interface News {
-  title: string;
-  content: string;
-  date: string;
-}
 
 interface StockNewsProps {
   news: News;
@@ -27,7 +22,7 @@ const StockNews: React.FC<StockNewsProps> = (props) => {
     <React.Fragment>
       <Card className="p-3">
         <div id="stock-news">
-          <p className="text-left">{news.date}</p>
+          <p className="text-left">{news.newsDate}</p>
           <p className="font-semibold text-left">
             {news.title}
             <span

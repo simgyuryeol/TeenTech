@@ -6,34 +6,25 @@ import kakaoImg from "../../assets/stock/kakao.png";
 import shinhanImg from "../../assets/stock/shinhan.png";
 import ncsoftImg from "../../assets/stock/ncsoft.png";
 
-interface Stock {
-  koName: string;
-  enName: string;
-  investment: number;
-  value: number;
-  gain: number;
-  ror: number;
-}
-
 interface MyStockProps {
-  stock: Stock;
+  stock: StockBought;
 }
 
 const MyStock: React.FC<MyStockProps> = (props) => {
-  const { koName, enName, investment, value, gain, ror } = props.stock;
+  const { companyName, investment, value, gain, ror } = props.stock;
   
-  let imageSrc;
-  switch (enName) {
-    case "samsung":
+  let imageSrc: string;
+  switch (companyName) {
+    case "삼성전자":
       imageSrc = samsungImg;
       break;
-    case "kakao":
+    case "카카오":
       imageSrc = kakaoImg;
       break;
-    case "ncsoft":
+    case "LG화학":
       imageSrc = ncsoftImg;
       break;
-      case "shinhan":
+      case "KB금융":
       imageSrc = shinhanImg;
       break;
     default:
@@ -42,11 +33,11 @@ const MyStock: React.FC<MyStockProps> = (props) => {
   }
 
   return (
-    <Link to={`/StockDetail/${enName}`}>
+    <Link to={`/StockDetail/${companyName}`}>
       <div className="bg-white m-5 rounded-xl shadow-md flex justify-between p-2 text-black" id="my-stock">
           <div className="flex flex-col items-center p-4 ml-2">
-            <img src={imageSrc} alt={enName} className="w-12 h-12"/>
-            <p className="ml-2 text-md font-bold">{koName}</p>
+            <img src={imageSrc} alt={companyName} className="w-12 h-12"/>
+            <p className="ml-2 text-md font-bold">{companyName}</p>
           </div>
 
           <div className="flex">

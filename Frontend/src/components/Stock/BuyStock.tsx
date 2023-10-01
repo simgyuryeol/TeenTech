@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import useDate from "../../hooks/useDate";
 
 interface FormBlockProps {
   title: string;
@@ -18,6 +20,7 @@ const FormBlock: React.FC<FormBlockProps> = (props) => {
 };
 
 interface BuyStockProps {
+  companyName: string;
   price: number;
   onClose: () => void;
 }
@@ -26,9 +29,32 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
   const [isOrdered, setIsOrdered] = useState(false);
   const [quantity, setQuantity] = useState(0);
 
+  const today = new Date();
+  const todayToString = useDate(today);
+
   const handleBuyStock = () => {
-    console.log("주식 삼");
-    setIsOrdered(true);
+    console.log({
+      companyName: props.companyName,
+      price: props.price,
+      date: todayToString,
+      amount: quantity,
+    });
+
+    axios
+      // .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/deposits/create`, {
+      .post(import.meta.env.VITE_BASE_URL + `/api/v1/34/investments/buy`, {
+        companyName: props.companyName,
+        price: props.price,
+        date: todayToString,
+        amount: quantity,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setIsOrdered(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleClose = () => {
@@ -54,7 +80,9 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
           <div className="flex flex-col items-center mb-4">
             <Icon icon="mdi:check-bold" className="w-24 h-24 text-green-700" />
             <p className="px-6 py-2 text-gray-600 text-lg text-center">
-              <span className="font-bold text-gray-800 text-xl">삼성전자</span>
+              <span className="font-bold text-gray-800 text-xl">
+                {props.companyName}
+              </span>
               주식을 <br />
               <span className="font-bold text-gray-800 text-xl">
                 {quantity}
@@ -73,7 +101,7 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
       ) : (
         <div>
           <div className="p-2">
-            <p className="text-3xl font-bold mb-6">삼성전자</p>
+            <p className="text-3xl font-bold mb-6">{props.companyName}</p>
 
             <FormBlock title="지금 가격" value={props.price} />
 
