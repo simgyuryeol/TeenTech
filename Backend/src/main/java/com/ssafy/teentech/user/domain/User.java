@@ -54,8 +54,8 @@ public class User extends BaseEntity {
     @Column(name = "BALANCE")
     private Integer balance;
 
-    @Column(name = "INVITE_CODE")
-    private String inviteCode;
+    @Column(name = "ACCOUNT_NUMBER", unique = true, length = 12)
+    private String accountNumber;
 
     @Column(name = "PROFILE_IMAGE_URL", length = 512)
     @Size(max = 512)
@@ -76,6 +76,10 @@ public class User extends BaseEntity {
         this.email = email != null ? email : "NO_EMAIL";
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.role = role;
+    }
+
+    public void updateAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public void updateRole(Role role) {
