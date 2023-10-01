@@ -79,18 +79,6 @@ public class ParentController {
 
     }
 
-    @GetMapping("/child/{child_id}")
-    public ResponseEntity<ApiResponse> childDetail(@PathVariable Long child_id){
-        ChildDetailResponseDto childDetailResponseDto = parentService.childDetail(child_id);
-
-        ApiResponse apiResponse = ApiResponse.builder()
-                .message("자식 상세 조회")
-                .status(OK.value())
-                .data(childDetailResponseDto)
-                .build();
-        return ResponseEntity.ok(apiResponse);
-    }
-
     @PostMapping("/safe_add")
     public ResponseEntity<ApiResponse> safeAdd(@RequestBody SafeRequestDto safeRequestDto, @PathVariable Long parent_id){
         parentService.safeAdd(safeRequestDto,parent_id);

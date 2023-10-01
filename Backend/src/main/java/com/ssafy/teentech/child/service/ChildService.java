@@ -1,6 +1,15 @@
 package com.ssafy.teentech.child.service;
 
 import com.ssafy.teentech.child.dto.AvatarUpdate;
+import com.ssafy.teentech.deposit.domain.Deposit;
+import com.ssafy.teentech.deposit.repository.DepositRepository;
+import com.ssafy.teentech.invest.domain.Stock;
+import com.ssafy.teentech.invest.domain.StocksHeld;
+import com.ssafy.teentech.invest.repository.StockRepository;
+import com.ssafy.teentech.invest.repository.StocksHeldRepository;
+import com.ssafy.teentech.loan.domain.Loan;
+import com.ssafy.teentech.loan.repository.LoanRepository;
+import com.ssafy.teentech.parent.dto.response.ChildDetailResponseDto;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.ChildDetailRepository;
@@ -9,12 +18,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ChildService {
     private final ChildDetailRepository childDetailRepository;
     private final UserRepository userRepository;
+    private final DepositRepository depositRepository;
+    private final StocksHeldRepository stocksHeldRepository;
+    private final StockRepository stockRepository;
+    private final LoanRepository loanRepository;
 
     public void avatarUpdate(AvatarUpdate avatarUpdate, Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
@@ -22,5 +43,71 @@ public class ChildService {
 
         childDetail.setAvatarImageUrl(avatarUpdate.getAvatarImageUrl());
         childDetailRepository.save(childDetail);
+    }
+
+    public ChildDetailResponseDto childDetail(Long childId) {
+        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
+        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        Integer deposit =0;
+        Integer stock = 0;
+        Float stockRate = 0f;
+
+        // 예금
+        //List<Deposit> depositList = depositRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        List<Deposit> depositList = depositRepository.findAllByUser(user).orElse(Collections.emptyList());
+
+        for (Deposit depositValue : depositList) {
+            deposit+=depositValue.getMoney();
+        }
+
+        // 주식
+        //List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElse(Collections.emptyList());
+
+        ZonedDateTime nowDate = ZonedDateTime.now(ZoneId.of("Asia/Seoul")); //서울 오늘 날짜
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = nowDate.format(formatter);
+        LocalDate Today = LocalDate.parse(formattedDate, formatter);
+
+        for (StocksHeld stocksHeld : stocksHeldList) {
+            stock += (stocksHeld.getAveragePrice()*stocksHeld.getAmount());
+
+            Stock stockValue = stockRepository.findByCompanyNameAndDate(stocksHeld.getStock().getCompanyName(), Today).orElseThrow(() -> new IllegalArgumentException());
+            stockRate += (stockValue.getPrice()*stocksHeld.getAmount());
+        }
+
+        if (!stocksHeldList.isEmpty()){
+            stockRate = (stock/stockRate);
+        }
+
+        // 대출
+        //Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
+        Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElse(null);
+        Integer loanBalance = 0;
+        Integer loanDay = 0;
+        if(loan !=null){
+            loanBalance = loan.getBalance();
+            Period period = Period.between(Today, loan.getMaturityDate());
+            loanDay = period.getDays();
+        }
+
+
+        /**
+         * 추후 추가 필요
+         * 보여주는 기준 정하고 추가
+         */
+        ChildDetailResponseDto childDetailResponseDto = ChildDetailResponseDto.builder()
+                .username(user.getUsername())
+                .totalBalance(user.getBalance())
+                .deposit(deposit)
+                .stock(stock)
+                .stockRate(stockRate)
+                .creditRating(childDetail.getCreditRating())
+                .loanBalance(loanBalance)
+                .loneDay(loanDay)
+                .build();
+
+        return childDetailResponseDto;
     }
 }

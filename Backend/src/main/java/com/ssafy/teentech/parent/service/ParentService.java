@@ -38,10 +38,6 @@ public class ParentService {
 
     private final ChildDetailRepository childDetailRepository;
     private final UserRepository userRepository;
-    private final DepositRepository depositRepository;
-    private final StocksHeldRepository stocksHeldRepository;
-    private final StockRepository stockRepository;
-    private final LoanRepository loanRepository;
     private final BankService bankService;
 
     public void setUpPinMoney(SetUpPinMoneyRequestDto setUpPinMoney, Long childId) {
@@ -102,74 +98,6 @@ public class ParentService {
     public void childDelete(ChildDeleteRequestDto childDeleteRequestDto) {
         User user = userRepository.findByInviteCode(childDeleteRequestDto.getInviteCode()).orElseThrow(() -> new IllegalArgumentException());
         user.setParentId(null);
-    }
-
-    public ChildDetailResponseDto childDetail(Long childId) {
-        User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
-        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
-
-        Integer deposit =0;
-        Integer stock = 0;
-        Float stockRate = 0f;
-
-        // 예금
-        //List<Deposit> depositList = depositRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
-        List<Deposit> depositList = depositRepository.findAllByUser(user).orElse(Collections.emptyList());
-
-        for (Deposit depositValue : depositList) {
-            deposit+=depositValue.getMoney();
-        }
-
-        // 주식
-        //List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
-        List<StocksHeld> stocksHeldList = stocksHeldRepository.findAllByUser(user).orElse(Collections.emptyList());
-
-        ZonedDateTime nowDate = ZonedDateTime.now(ZoneId.of("Asia/Seoul")); //서울 오늘 날짜
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = nowDate.format(formatter);
-        LocalDate Today = LocalDate.parse(formattedDate, formatter);
-
-        for (StocksHeld stocksHeld : stocksHeldList) {
-            stock += (stocksHeld.getAveragePrice()*stocksHeld.getAmount());
-
-            Stock stockValue = stockRepository.findByCompanyNameAndDate(stocksHeld.getStock().getCompanyName(), Today).orElseThrow(() -> new IllegalArgumentException());
-            stockRate += (stockValue.getPrice()*stocksHeld.getAmount());
-        }
-
-        if (!stocksHeldList.isEmpty()){
-            stockRate = (stock/stockRate);
-        }
-
-        // 대출
-        //Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
-        Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElse(null);
-        Integer loanBalance = 0;
-        Integer loanDay = 0;
-        if(loan !=null){
-            loanBalance = loan.getBalance();
-            Period period = Period.between(Today, loan.getMaturityDate());
-            loanDay = period.getDays();
-        }
-
-
-
-
-        /**
-         * 추후 추가 필요
-         * 보여주는 기준 정하고 추가
-         */
-        ChildDetailResponseDto childDetailResponseDto = ChildDetailResponseDto.builder()
-                .username(user.getUsername())
-                .totalBalance(user.getBalance())
-                .deposit(deposit)
-                .stock(stock)
-                .stockRate(stockRate)
-                .creditRating(childDetail.getCreditRating())
-                .loanBalance(loanBalance)
-                .loneDay(loanDay)
-                .build();
-
-        return childDetailResponseDto;
     }
 
     public void safeAdd(SafeRequestDto safeRequestDto, Long parentId) {
