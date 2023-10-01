@@ -91,7 +91,6 @@ public class TransactionService {
                 transactionListRequestDto.getAccountNumber())
             .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
         account.checkOwner(transactionListRequestDto.getUserId());
-        account.checkPassword(transactionListRequestDto.getPassword());
 
         TransactionListResponseDto transactionListResponseDto = new TransactionListResponseDto(
             transactionRepository.findAllByWithdrawAccountOrDepositAccount(account).stream()
