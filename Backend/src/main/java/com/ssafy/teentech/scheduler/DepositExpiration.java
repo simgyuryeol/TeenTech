@@ -1,10 +1,8 @@
 package com.ssafy.teentech.scheduler;
 
-import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.repository.DepositRepository;
 import com.ssafy.teentech.deposit.service.DepositService;
-import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,12 +12,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class DepositExpiration {
-    private final BankService bankService;
     private final DepositRepository depositRepository;
     private final DepositService depositService;
 

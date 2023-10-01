@@ -154,7 +154,7 @@ public class QuizChildService {
                 withdrawAccountNumber,
                 depositAccountNumber,
                 amount,
-                "퀴즈 상금 이체"
+                "퀴즈"
         );
 
         bankService.autoTransfer(autoTransactionRequestDto);

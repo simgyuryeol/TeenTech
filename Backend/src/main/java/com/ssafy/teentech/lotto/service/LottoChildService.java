@@ -56,7 +56,7 @@ public class LottoChildService {
                     withdrawAccountNumber,
                     depositAccountNumber,
                     (long)childDetail.getTotalLotteryPrize(),
-                    "로또 당첨 이체"
+                    "투자"
             );
 
             bankService.autoTransfer(autoTransactionRequestDto);
