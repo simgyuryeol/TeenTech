@@ -12,6 +12,8 @@ public class LoanSummaryResponseDto {
 
     private String title;
 
+    private Integer amount;
+
     private Integer lastBalance;
 
     private LocalDate maturityDate;

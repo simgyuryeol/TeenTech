@@ -47,7 +47,7 @@ public class LoanParentController {
             user.getUsername(), childId);
 
         ApiResponse apiResponse = ApiResponse.builder().status(HttpStatus.OK.value())
-            .message("상환 완료 대출 조회 완료").data(childLoanHistoryResponseDtoList).build();
+            .message("대출 거절, 상환완료, 상환실패 조회 완료").data(childLoanHistoryResponseDtoList).build();
 
         return ResponseEntity.ok(apiResponse);
     }
