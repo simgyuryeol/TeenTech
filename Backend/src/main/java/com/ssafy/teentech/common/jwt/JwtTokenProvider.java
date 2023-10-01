@@ -4,6 +4,7 @@ import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.util.RedisService;
 import com.ssafy.teentech.common.util.TokenInfo;
+import com.ssafy.teentech.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -47,11 +48,13 @@ public class JwtTokenProvider {
 
     private final Key key;
     private final RedisService redisService;
+    private final UserService userService;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, RedisService redisService) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, RedisService redisService, UserService userService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.redisService = redisService;
+        this.userService = userService;
     }
 
     public TokenInfo generateToken(Authentication authentication) {
@@ -64,6 +67,8 @@ public class JwtTokenProvider {
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
 
+        com.ssafy.teentech.user.domain.User user = userService.getUser(name);
+
         Date now = new Date();
 
         //Generate AccessToken
@@ -71,6 +76,8 @@ public class JwtTokenProvider {
             .setSubject(name)
             .claim(AUTHORITIES_KEY, authorities)
             .claim("type", TYPE_ACCESS)
+            .claim("accountNumber", user.getAccountNumber())
+            .claim("parentId", user.getParentId())
             .setIssuedAt(now)
             .setExpiration(
                 new Date(now.getTime() + accessTokenExpireTime))
