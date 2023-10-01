@@ -99,11 +99,13 @@ public class TransactionService {
                     if (account.equals(t.getDepositAccount())) {
                         return new TransactionResponseDto(t.getTransactionId(),
                             TransactionType.DEPOSIT, t.getWithdrawAccount().getUserName(),
-                            t.getBalanceAfterDeposit(), t.getTransferAmount(), t.getContent());
+                            t.getBalanceAfterDeposit(), t.getTransferAmount(), t.getContent(),
+                            t.getCreatedDateTime());
                     } else {
                         return new TransactionResponseDto(t.getTransactionId(),
                             TransactionType.WITHDRAW, t.getDepositAccount().getUserName(),
-                            t.getBalanceAfterWithdraw(), t.getTransferAmount(), t.getContent());
+                            t.getBalanceAfterWithdraw(), t.getTransferAmount(), t.getContent(),
+                            t.getCreatedDateTime());
                     }
                 }).collect(Collectors.toList()));
 

@@ -1,7 +1,9 @@
 package com.ssafy.teentech.transaction.domain;
 
 import com.ssafy.teentech.account.domain.Account;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,9 +15,12 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class Transaction {
 
@@ -40,6 +45,9 @@ public class Transaction {
 
     @Size(max = 20)
     private String content;
+
+    @CreatedDate
+    private LocalDateTime createdDateTime;
 
     @Builder
     public Transaction(Account withdrawAccount, Long balanceAfterWithdraw, Account depositAccount,

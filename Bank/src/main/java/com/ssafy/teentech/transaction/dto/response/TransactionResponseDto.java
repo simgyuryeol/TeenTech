@@ -1,6 +1,7 @@
 package com.ssafy.teentech.transaction.dto.response;
 
 import com.ssafy.teentech.transaction.dto.TransactionType;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,5 +15,6 @@ public class TransactionResponseDto {
     private Long balanceAfterTransaction;
     private Long TransferAmount;
     private String content;
+    private LocalDateTime createdDateTime;
 
 }
