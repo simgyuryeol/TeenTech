@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1/loan/child")
+@RequestMapping("/api/v1/loans/child")
 @RestController
 @RequiredArgsConstructor
 public class LoanChildController {
