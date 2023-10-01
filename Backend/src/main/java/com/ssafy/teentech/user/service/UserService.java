@@ -15,7 +15,6 @@ import com.ssafy.teentech.user.dto.request.ExtraInformationRequestDto;
 import com.ssafy.teentech.user.dto.response.CreditAndInterestResponseDto;
 import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -25,12 +24,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@org.springframework.transaction.annotation.Transactional
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
 
