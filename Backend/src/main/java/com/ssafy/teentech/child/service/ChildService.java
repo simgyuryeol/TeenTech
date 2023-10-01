@@ -49,6 +49,7 @@ public class ChildService {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
 
+
         Integer deposit =0;
         Integer stock = 0;
         Float stockRate = 0f;
