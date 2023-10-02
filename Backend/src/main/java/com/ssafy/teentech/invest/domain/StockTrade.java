@@ -23,6 +23,7 @@ public class StockTrade {
     private Integer price;
     private LocalDate tradeDate;
     private Integer type;
+    private Integer averagePrice; //평단가
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +35,7 @@ public class StockTrade {
     private Stock stock;
 
     @Builder
-    public StockTrade(Integer amount, Integer price, LocalDate tradeDate, User user,Stock stock,Integer type){
+    public StockTrade(Integer amount, Integer price, LocalDate tradeDate, User user,Stock stock,Integer type, Integer averagePrice){
         this.stockTradeId = null;
         this.amount=amount;
         this.price=price;
@@ -42,5 +43,6 @@ public class StockTrade {
         this.user = user;
         this.stock = stock;
         this.type = type;
+        this.averagePrice = averagePrice;
     }
 }

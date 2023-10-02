@@ -17,6 +17,7 @@ public class StockTradeSaveRequestDto {
     private Integer price;
     private LocalDate tradeDate;
     private Integer type;
+    private Integer averagePrice;
 
     public StockTrade toEntity(){
         return StockTrade.builder()
@@ -26,6 +27,7 @@ public class StockTradeSaveRequestDto {
                 .tradeDate(tradeDate)
                 .user(user)
                 .type(type)
+                .averagePrice(averagePrice)
                 .build();
     }
 }
