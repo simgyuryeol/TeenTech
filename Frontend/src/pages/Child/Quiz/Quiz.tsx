@@ -8,6 +8,9 @@ import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
 const Quiz: React.FC = () => {
   const quizScore = useRecoilValue(quizScoreAtom);
   const [solved, setSolved] = useState(false);
+  const [correctProblem, setCorrectProblem] = useState(0);
+  const [wrongProblem, setWrongProblem] = useState(0);
+  const [totalPoint, setTotalPoint] = useState(0);
 
   useEffect(() => {
     if (quizScore !== null) {
@@ -17,10 +20,13 @@ const Quiz: React.FC = () => {
 
   useEffect(() => {
     axios
-      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/investments`, {
       .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/histories")
       .then((response) => {
-        console.log(response.data);
+        const fetchedData = response.data.data;
+        // console.log(fetchedData);
+        setCorrectProblem(fetchedData.correctProblem);
+        setWrongProblem(fetchedData.wrongProblem);
+        setTotalPoint(fetchedData.totalPoint);
       })
       .catch((error) => {
         console.log(error);
@@ -31,11 +37,21 @@ const Quiz: React.FC = () => {
     <div className="mt-12">
       <p className="text-2xl font-bold">퀴즈</p>
       <div className="bg-white m-5 rounded-xl p-3 flex">
-        <QuizChart />
+        {correctProblem === 0 && wrongProblem === 0 ? (
+          <div className="w-48 flex justify-center items-center bg-orange-100 rounded-xl m-2">
+            아직 푼 문제가 없어요.
+          </div>
+        ) : (
+          <QuizChart
+            correctProblem={correctProblem}
+            wrongProblem={wrongProblem}
+          />
+        )}
+
         <div className="flex flex-col">
           <div className="bg-gray-300 m-1 p-1 rounded-xl">
             <p>오늘 맞힌 문제</p>
-            {solved ? <p>{quizScore}/3</p> : <p>-</p>}
+            {solved ? <p>{quizScore}/5</p> : <p>-</p>}
           </div>
           <div className="bg-gray-300 m-1 p-1 rounded-xl">
             <p>받은 포인트</p>
@@ -44,7 +60,7 @@ const Quiz: React.FC = () => {
             ) : (
               <p>오늘: -</p>
             )}
-            <p>총합: 5000원</p>
+            <p>총합: {totalPoint}원</p>
           </div>
         </div>
       </div>
