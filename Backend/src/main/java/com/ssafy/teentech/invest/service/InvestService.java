@@ -13,6 +13,7 @@ import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTradeSaveRequestDto;
 import com.ssafy.teentech.invest.dto.response.CheckStockHoldingsResponseDto;
 import com.ssafy.teentech.invest.dto.response.StockInquiryDetailResponseDto;
+import com.ssafy.teentech.invest.dto.response.TradingRecordsPageResponseDto;
 import com.ssafy.teentech.invest.dto.response.TradingRecordsResponseDto;
 import com.ssafy.teentech.invest.repository.NewsRepository;
 import com.ssafy.teentech.invest.repository.StockRepository;
@@ -72,7 +73,7 @@ public class InvestService {
     public void stockSell(StockTransactionRequestDto stockTransactionRequestDto, Long childId) {
         Stock stock = stockRepository.findByCompanyNameAndDate(stockTransactionRequestDto.getCompanyName(),stockTransactionRequestDto.getDate()).orElseThrow(() -> new IllegalArgumentException());
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
-        StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
+        StocksHeld byStock = stocksHeldRepository.findByStockAndUser(stock,user).orElseThrow(() -> new IllegalArgumentException());
 
         // 1. 은행 서버로 거래 요청
         AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
@@ -93,7 +94,7 @@ public class InvestService {
         bankService.autoTransfer(autoTransactionRequestDto);
 
         //2.주식 거래 내역에 추가
-        addStockTransactionHistory(stock,user,stockTransactionRequestDto,0);
+        addStockTransactionHistory(stock,user,stockTransactionRequestDto,0,byStock);
 
         // 3. 보유 주식 갯수 줄어듬
         stocksHeldUpdate(-stockTransactionRequestDto.getAmount(), stock,byStock,byStock.getAveragePrice());
@@ -107,7 +108,7 @@ public class InvestService {
     public void stockBuy(StockTransactionRequestDto stockTransactionRequestDto,Long childId) {
         Stock stock = stockRepository.findByCompanyNameAndDate(stockTransactionRequestDto.getCompanyName(),stockTransactionRequestDto.getDate()).orElseThrow(() -> new IllegalArgumentException());
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
-        StocksHeld byStock = stocksHeldRepository.findByStock(stock).orElseThrow(() -> new IllegalArgumentException());
+        StocksHeld byStock = stocksHeldRepository.findByStockAndUser(stock,user).orElseThrow(() -> new IllegalArgumentException());
 
         // 1. 은행으로 거래 요청
         AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
@@ -128,7 +129,7 @@ public class InvestService {
         bankService.autoTransfer(autoTransactionRequestDto);
 
         // 2. 주식 거래 내역 추가
-        addStockTransactionHistory(stock,user,stockTransactionRequestDto,1);
+        addStockTransactionHistory(stock,user,stockTransactionRequestDto,1,byStock);
 
         // 3. 보유 주식 갯수 늘어남
         // 평단가 계산 -> (보유 갯수 * 평단가 + 구매 갯수 * 구매 가격) //  (보유 갯수 + 구매 갯수)
@@ -178,9 +179,14 @@ public class InvestService {
     }
 
 
-    public List<TradingRecordsResponseDto> tradingRecords(Long childId) {
+    public TradingRecordsPageResponseDto tradingRecords(Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         List<StockTrade> stockTradeList = stockTradeRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
+
+        Integer totalInvestment = 0; //총 매수
+        Integer totalNetProfit = 0; // (매도- 내 평단가 ) 합
+        Float rateOfReturn = 0f; //  내 평단가 합 / totalNetProfit
+
 
         List<TradingRecordsResponseDto> tradingRecordsResponseDtoList = new ArrayList<>();
 
@@ -194,8 +200,32 @@ public class InvestService {
                     .build();
 
             tradingRecordsResponseDtoList.add(tradingRecordsResponseDto);
+
+            // 매매 순익 로직
+            if (stockTrade.getType()==1){ //매수면
+                totalInvestment += (stockTrade.getAmount()*stockTrade.getPrice());
+            }
+            else{ //매도면
+                totalNetProfit += ((stockTrade.getPrice()-stockTrade.getAveragePrice())*stockTrade.getAmount());
+                rateOfReturn += (stockTrade.getAveragePrice()*stockTrade.getAmount());
+            }
+
         }
-        return tradingRecordsResponseDtoList;
+
+        if(totalNetProfit!=0){
+            rateOfReturn /= totalNetProfit;
+        }
+
+
+        TradingRecordsPageResponseDto tradingRecordsPageResponseDto = TradingRecordsPageResponseDto.builder()
+                .totalInvestment(totalInvestment)
+                .rateOfReturn(rateOfReturn)
+                .totalNetProfit(totalNetProfit)
+                .tradingRecordsResponseDtoList(tradingRecordsResponseDtoList)
+                .build();
+
+
+        return tradingRecordsPageResponseDto;
     }
 
 
@@ -212,8 +242,7 @@ public class InvestService {
         stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
     }
 
-    private void addStockTransactionHistory(Stock stock, User user,StockTransactionRequestDto stockSellRequestDto,Integer type) {
-
+    private void addStockTransactionHistory(Stock stock, User user,StockTransactionRequestDto stockSellRequestDto,Integer type, StocksHeld stocksHeld) {
 
         StockTradeSaveRequestDto stockTradeSaveRequestDto = StockTradeSaveRequestDto.builder()
                 .stock(stock)
@@ -222,6 +251,7 @@ public class InvestService {
                 .price(stockSellRequestDto.getPrice())
                 .tradeDate(LocalDate.now()) //은행 서버에서 온 값을 저장
                 .type(type)
+                .averagePrice(stocksHeld.getAveragePrice())
                 .build();
 
         stockTradeRepository.save(stockTradeSaveRequestDto.toEntity());
