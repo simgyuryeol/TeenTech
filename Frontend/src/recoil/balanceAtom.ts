@@ -2,15 +2,14 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
-export interface state {
-  id: number;
+export interface money {
+  totalBalance: number;
 }
 
-export const stateAtom = atom<state>({
-  // state 1 -> 부모 0 -> 자녀
-  key: "stateAtom",
+export const balanceAtom = atom<money>({
+  key: "balanceAtom",
   default: {
-    id: 0,
+    totalBalance: 0,
   },
   effects_UNSTABLE: [persistAtom],
 });

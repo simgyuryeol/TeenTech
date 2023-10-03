@@ -115,6 +115,7 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
 
   useEffect(() => {
     // getData의 money값을 모두 0으로 초기화
+
     setConsumptionTypeNull([]);
     setExpenditure({ 욕구: 0, 필요: 0 });
     setGetData((prevData) => prevData.map((data) => ({ ...data, money: 0 })));
@@ -203,21 +204,33 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
       <div className="drop-shadow-lg rounded-xl bg-white mb-5">
         <div className="flex justify-between items-center my-3 p-3">
           <div className={`${styles.sumbox} mx-2 text-blue-500`}>
-            {importAmount?.toString()}
+            {importAmount || importAmount === 0
+              ? importAmount.toLocaleString("ko-KR")
+              : "Loading..."}
           </div>
           <div>
             <img className={styles.plusImg} src={minus} alt="minus" />
           </div>
           <div className={`${styles.sumbox} mx-2 text-red-500`}>
-            {spendingAmount?.toString()}
+            {spendingAmount || spendingAmount === 0
+              ? spendingAmount.toLocaleString("ko-KR")
+              : "Loading..."}
           </div>
           <div>
             <img className={styles.plusImg} src={Equal} alt="equal" />
           </div>
           {total > 0 ? (
-            <div className={`${styles.sumbox} mx-2 text-blue-500`}>{total}</div>
+            <div className={`${styles.sumbox} mx-2 text-blue-500`}>
+              {total || total === 0
+                ? total.toLocaleString("ko-KR")
+                : "Loading..."}
+            </div>
           ) : (
-            <div className={`${styles.sumbox} mx-2 text-red-500`}>{total}</div>
+            <div className={`${styles.sumbox} mx-2 text-red-500`}>
+              {total || total === 0
+                ? total.toLocaleString("ko-KR")
+                : "Loading..."}
+            </div>
           )}
         </div>
       </div>
@@ -252,7 +265,9 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
         </div>
         {tab === "소득" && (
           <div className="text-start py-2">
-            <div className="m-3 text-2xl">총 {importAmount}원 벌었어요!</div>
+            <div className="m-3 text-2xl">
+              총 {importAmount.toLocaleString()}원 벌었어요!
+            </div>
             {getData.map((item, index) => (
               <div
                 className="rounded-lg mx-5 my-1 flex justify-between"
@@ -266,7 +281,7 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
                   <div className="m-3 text-xl">{item.name}</div>
                 </div>
 
-                <div className="m-3 text-xl">{item.money}</div>
+                <div className="m-3 text-xl">{item.money.toLocaleString()}</div>
               </div>
             ))}
           </div>
@@ -274,7 +289,7 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
         {tab === "지출" && (
           <div>
             <div className="m-3 text-2xl text-start">
-              총 {spendingAmount}원 썼어요!
+              총 {spendingAmount.toLocaleString()}원 썼어요!
             </div>
             <div className="flex justify-between items-center">
               <div className="mt-2">

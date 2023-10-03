@@ -37,16 +37,28 @@ const Pheader: React.FC = () => {
   const navigate = useNavigate();
   const [childData] = useRecoilState(childIdAtom);
 
+  // useEffect(() => {
+  //   console.log(locationNow);
+  //   console.log(childData.id);
+  //   for (let i = 0; i < menulist.length; i++) {
+  //     if (menulist[i].link.includes(locationNow.pathname)) {
+  //       setNow(menulist[i].name);
+  //       setNowPath(locationNow.pathname);
+  //       localStorage.setItem("nowPath", locationNow.pathname); // localStorage에 nowPath 저장
+  //     }
+  //   }
+  // }, [locationNow]);
+
   useEffect(() => {
-    console.log(locationNow);
-    console.log(childData.id);
+    console.log(window.location.pathname);
     for (let i = 0; i < menulist.length; i++) {
-      if (menulist[i].link.includes(locationNow.pathname)) {
+      if (menulist[i].link.includes(window.location.pathname)) {
         setNow(menulist[i].name);
-        setNowPath(locationNow.pathname);
+        setNowPath(window.location.pathname);
+        localStorage.setItem("nowPath", window.location.pathname); // localStorage에 nowPath 저장
       }
     }
-  }, [locationNow]);
+  }, [window.location.pathname]);
 
   // 버튼 클릭시 메뉴 토글
   const toggleMenu = () => {
@@ -72,7 +84,7 @@ const Pheader: React.FC = () => {
     navigate(`/PChildDetail/${childData.id}`);
   };
 
-  if (locationNow.pathname === "/Pmain") return null;
+  if (locationNow.pathname === "/pmain") return null;
   return (
     <div className="fixed inset-x-0 top-0 z-50 left-0">
       {isMenuOpen && (

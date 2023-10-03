@@ -6,24 +6,6 @@ import { childIdAtom } from "../../recoil/childIdAtom";
 import ChildAdd from "../../components/PMain/ChildAdd";
 import axios from "axios";
 
-const Data = [
-  {
-    id: 1,
-    name: "규렬",
-    profileImage: "URL_TO_PROFILE_IMAGE_1", // 각 사용자의 프로필 이미지 URL 추가
-  },
-  {
-    id: 2,
-    name: "세진",
-    profileImage: "URL_TO_PROFILE_IMAGE_2", // 각 사용자의 프로필 이미지 URL 추가
-  },
-  {
-    id: 3,
-    name: "재범",
-    profileImage: "URL_TO_PROFILE_IMAGE_3", // 각 사용자의 프로필 이미지 URL 추가
-  },
-];
-
 const Pmain: React.FC = () => {
   const [child, setChild] = useRecoilState(childIdAtom);
   const [state, setState] = useRecoilState(stateAtom);
@@ -68,7 +50,7 @@ const Pmain: React.FC = () => {
   };
 
   const getchild = (id) => {
-    setChild({ id: id, name: "재범" });
+    setChild({ id: id, name: "재범", pid: 0 });
   };
 
   useEffect(() => {
@@ -105,7 +87,7 @@ const Pmain: React.FC = () => {
                   className="text-black"
                   onClick={() => getchild(list.childId)}
                 >
-                  {/* {list.childName} */}뭐
+                  {list.childName}
                 </Link>
               </div>
             </li>
@@ -117,9 +99,9 @@ const Pmain: React.FC = () => {
       </div>
       {isModalOpen && (
         <ChildAdd>
-          <h2>누굴 추가할거야?</h2>
-          <div className="my-4">
-            <label htmlFor="name">이름: </label>
+          <h2>자녀 이름을 입력해주세요</h2>
+          <div className="mt-1 mb-4">
+            {/* <label htmlFor="name">이름: </label> */}
             <input
               id="name"
               type="text"
@@ -128,7 +110,19 @@ const Pmain: React.FC = () => {
               style={{ backgroundColor: "#E5F0F8", borderRadius: "15px" }}
             />
           </div>
-          <div className="my-4">
+          <h2>자녀에게 발급된 </h2>
+          <h2>계좌번호를 입력해주세요</h2>
+          <div className="mt-1 mb-4">
+            {/* <label htmlFor="name">계좌번호: </label> */}
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{ backgroundColor: "#E5F0F8", borderRadius: "15px" }}
+            />
+          </div>
+          {/* <div className="my-4">
             {code ? (
               <div className="text-center">
                 <p>인증 코드: {code}</p>
@@ -139,8 +133,13 @@ const Pmain: React.FC = () => {
                 <button onClick={generateCode}>인증 코드 생성</button>
               </>
             )}
+          </div> */}
+          <div>
+            <button className="mr-4" onClick={closeModal}>
+              Close
+            </button>
+            <button onClick={sendCode}>전송</button>
           </div>
-          <button onClick={closeModal}>Close</button>
         </ChildAdd>
       )}
     </div>
