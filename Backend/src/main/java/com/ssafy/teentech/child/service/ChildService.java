@@ -1,5 +1,7 @@
 package com.ssafy.teentech.child.service;
 
+import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
+import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.child.dto.AvatarUpdate;
 import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.repository.DepositRepository;
@@ -38,6 +40,7 @@ public class ChildService {
     private final StocksHeldRepository stocksHeldRepository;
     private final StockRepository stockRepository;
     private final LoanRepository loanRepository;
+    private final BankService bankService;
 
     public void avatarUpdate(AvatarUpdate avatarUpdate, Long childId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
@@ -97,6 +100,11 @@ public class ChildService {
             loanDay = period.getDays();
         }
 
+        // 유저 잔액
+        Long totalBalance = 0L;
+        AccountResponseDto accountInformation = bankService.getAccountInformation(user.getUserId());
+        totalBalance = accountInformation.getBalance();
+
 
         /**
          * 추후 추가 필요
@@ -104,7 +112,7 @@ public class ChildService {
          */
         ChildDetailResponseDto childDetailResponseDto = ChildDetailResponseDto.builder()
                 .username(user.getUsername())
-                .totalBalance(user.getBalance())
+                .totalBalance(totalBalance.intValue())
                 .deposit(deposit)
                 .stock(stock)
                 .stockRate(stockRate)

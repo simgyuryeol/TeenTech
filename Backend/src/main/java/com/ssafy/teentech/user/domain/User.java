@@ -51,9 +51,6 @@ public class User extends BaseEntity {
     @Size(max = 512)
     private String email;
 
-    @Column(name = "BALANCE")
-    private Integer balance;
-
     @Column(name = "ACCOUNT_NUMBER", unique = true, length = 12)
     private String accountNumber;
 
