@@ -2,15 +2,18 @@ import React, {useState, useEffect}  from 'react';
 import Credit from "../../../components/Credit";
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import { useRecoilValue,} from 'recoil';
+import { childIdAtom } from '../../../recoil/childIdAtom';
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const Deposit: React.FC = () => {
   const credit = "3";
-  const child_id = 34;
+  // const child_id = 34;
   const [deposits, setDeposits] = useState([]);
   const bgcolor = ['gradient-to-tr from-gray-900 to-gray-700','black','pink-300', 'gradient-to-tr from-pink-300 to-blue-500', 'green-400','gray-900', 'blue-300','green-500', 'red-300', 'red-500', 'blue-500', 'green-400', 'black','red-300','blue-300','gradient-to-tr from-gray-900 to-gray-700','black','blue-500', 'blue-300', 'green-400','green-500', 'pink-300','gray-900', 'red-300', 'red-500', 'blue-500', 'green-400', 'black','red-300','blue-300','gradient-to-tr from-gray-900 to-gray-700','black','blue-500', 'blue-300', 'green-400','green-500', 'pink-300','gray-900', 'red-300', 'red-500', 'blue-500', 'green-400', 'black','red-300','blue-300']
   const imo = ['🍕','🍓','🎈','🎁','⚽','🍫','🎮','🟢','🍖','🍩','🍕','🍓','🎈','🎁','⚽','🍫','🎮','🟢','🍖','🍩','🍕','🍓','🎈','🎁','⚽','🍫','🎮','🟢','🍖','🍩',]
+  const child_id = useRecoilValue(childIdAtom).id
 
   useEffect(() => {
     const fetchDeposits = async () => {

@@ -1,4 +1,4 @@
-import React, {useState, useRef}  from 'react';
+import React, {useState, useRef, useEffect}  from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from "../Common/Modal";
 import axios from 'axios';
@@ -9,9 +9,13 @@ interface RoleProps {
   }
 
   const base_URL = import.meta.env.VITE_SERVER_URL;
-  const accessToken = window.localStorage.getItem('accessToken')
-
+  
   const Role: React.FC<RoleProps> = () => {
+    const [accessToken, setAccessToken] = useState('');
+    useEffect(() => {
+      setAccessToken(window.localStorage.getItem('accessToken'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); 
     const navigate = useNavigate();
     const [role, setRole] = useState('ROLE_PARENT');
     const rolehandle = (value) => {
@@ -47,12 +51,38 @@ interface RoleProps {
           })
           .then(response => {
             console.log(response.data.data);
-            if (role === 'ROLE_PARENT'){
-                navigate('../pmain')
-            }
-            else{
-                navigate('../main')
-            }
+            axios
+              .post(base_URL + `/api/v1/users/reissue`, {        
+              },{
+                headers:{
+                  Authorization: `Bearer ${accessToken}`,
+              },
+              })
+              .then(response => {
+                console.log(response.data.data)
+                window.localStorage.setItem('accessToken', response.data.data);
+                if (role === '"ROLE_PARENT"'){
+                  navigate('../pmain')
+                }
+                else{
+                  navigate('../oauth/redirect2')
+                }
+              })
+              .catch(error => {
+                console.log(error)
+                axios
+                  .post(base_URL + `/api/v1/users/reissue`, {        
+                  },{
+                    headers:{
+                      Authorization: `Bearer ${accessToken}`,
+                  },})
+                  .then(response => {
+                    console.log(response.data.data)
+                    window.localStorage.setItem('accessToken', response.data.data);
+                  })
+                  .catch(error => {
+                    console.log(error)})
+              })
           })
           .catch(error => {
             console.log(role);
