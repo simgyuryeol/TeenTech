@@ -27,6 +27,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,11 +94,10 @@ public class ChildService {
         List<Loan> loans = loanRepository.findLatestUncompletedLoanByUser(user, pageable).orElse(null);
         Loan loan = loans.get(0);
         Integer loanBalance = 0;
-        Integer loanDay = 0;
+        Long loanDay = 0L;
         if(loan !=null){
             loanBalance = loan.getBalance();
-            Period period = Period.between(Today, loan.getMaturityDate());
-            loanDay = period.getDays();
+            loanDay = ChronoUnit.DAYS.between(Today, loan.getMaturityDate());
         }
 
         // 유저 잔액
@@ -118,7 +118,7 @@ public class ChildService {
                 .stockRate(stockRate)
                 .creditRating(childDetail.getCreditRating())
                 .loanBalance(loanBalance)
-                .loneDay(loanDay)
+                .loneDay(loanDay.intValue())
                 .build();
 
         return childDetailResponseDto;
