@@ -18,6 +18,8 @@ public class LoanHistoryResponseDto {
     // 계약에 따른 상환액
     private Integer initialBalance;
 
+    private Integer lastBalance;
+
     private BigDecimal interestRate;
 
     private Integer period;
