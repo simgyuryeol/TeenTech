@@ -40,8 +40,8 @@ public class LoanScheduler {
                 ChildDetail childDetail = childDetailRepository.findByUser(user)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND));
                 Integer creditRating = childDetail.getCreditRating();
-                if (!creditRating.equals(1)) {
-                    childDetail.setCreditRating(creditRating - 1);
+                if (!creditRating.equals(10)) {
+                    childDetail.setCreditRating(creditRating + 1);
                 }
             }
         });
