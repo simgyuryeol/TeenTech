@@ -42,11 +42,12 @@ const Login3: React.FC = () => {
       .then((response) => {
         console.log(response.data.data);
         window.localStorage.setItem("accessToken", response.data.data.accessToken);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
+      window.location.reload();
   };
 
   useEffect(() => {
