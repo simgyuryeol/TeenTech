@@ -36,7 +36,6 @@ const SellStock: React.FC<SellStockProps> = (props) => {
       // .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/deposits/create`, {
       .post(import.meta.env.VITE_BASE_URL + `/api/v1/34/investments/sell`, {
         companyName: props.companyName,
-        price: props.price,
         date: todayToString,
         amount: quantity,
       })
@@ -47,7 +46,6 @@ const SellStock: React.FC<SellStockProps> = (props) => {
       .catch((error) => {
         console.log(error);
       });
-    console.log("주식 팜");
   };
 
   const handleClose = () => {

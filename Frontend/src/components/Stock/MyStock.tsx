@@ -12,6 +12,7 @@ interface MyStockProps {
 
 const MyStock: React.FC<MyStockProps> = (props) => {
   const { companyName, investment, value, gain, ror } = props.stock;
+  console.log("log from My Stock: ", props.stock );
   
   let imageSrc: string;
   switch (companyName) {
