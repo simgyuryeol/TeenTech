@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public class CheckStockHoldingsResponseDto {
-    private String company_name;
+    private String companyName;
     private Integer amount;
     private Integer averagePrice;
 
