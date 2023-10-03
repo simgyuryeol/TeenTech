@@ -80,8 +80,11 @@ public class ChildService {
         for (StocksHeld stocksHeld : stocksHeldList) {
             stock += (stocksHeld.getAveragePrice()*stocksHeld.getAmount());
 
-            Stock stockValue = stockRepository.findByCompanyNameAndDate(stocksHeld.getStock().getCompanyName(), Today).orElseThrow(() -> new IllegalArgumentException());
-            stockRate += (stockValue.getPrice()*stocksHeld.getAmount());
+            Stock stockValue = stockRepository.findByCompanyNameAndDate(stocksHeld.getStock().getCompanyName(), Today).orElse(null);//.orElseThrow(() -> new IllegalArgumentException());
+            if(stockValue!=null){
+                stockRate += (stockValue.getPrice()*stocksHeld.getAmount());
+            }
+
         }
 
         if (!stocksHeldList.isEmpty()){
@@ -92,9 +95,14 @@ public class ChildService {
         //Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
         Pageable pageable = PageRequest.of(0, 1); //첫번째 값만 가져오도록
         List<Loan> loans = loanRepository.findLatestUncompletedLoanByUser(user, pageable).orElse(null);
-        Loan loan = loans.get(0);
         Integer loanBalance = 0;
         Long loanDay = 0L;
+        Loan loan = null;
+
+        if(!loans.isEmpty()){
+            loan = loans.get(0);
+        }
+
         if(loan !=null){
             loanBalance = loan.getBalance();
             loanDay = ChronoUnit.DAYS.between(Today, loan.getMaturityDate());
