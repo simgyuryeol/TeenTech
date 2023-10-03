@@ -60,7 +60,7 @@ interface RoleProps {
               })
               .then(response => {
                 console.log(response.data.data)
-                window.localStorage.setItem('accessToken', response.data.data);
+                window.localStorage.setItem('accessToken', response.data.data.accessToken);
                 if (role === '"ROLE_PARENT"'){
                   navigate('../pmain')
                 }
