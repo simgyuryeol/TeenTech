@@ -61,6 +61,10 @@ const Login3: React.FC = () => {
     );
     const dec = base64.decode(payload);
     Setpayload(dec);
+    const parentIdtargetKey = "parentId";
+    const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
+    const parentIdmatch = payload.match(parentIdregex);
+    const parentId = parentIdmatch ? parentIdmatch[1] : "";
     // console.log(parentId)
     console.log(`'차일드아이디':${childId.id}`);
     console.log(`'부모 아이디':${childId.pid}`);
