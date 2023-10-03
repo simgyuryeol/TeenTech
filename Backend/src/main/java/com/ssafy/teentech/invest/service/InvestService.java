@@ -250,10 +250,17 @@ public class InvestService {
 //
 //        stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
 
-        byStock.setAmount(amount);
-        byStock.setAveragePrice(averagePrice);
+        if((byStock.getAmount()+amount)<=0){
+            stocksHeldRepository.delete(byStock);
+        }
+        else{
+            byStock.setAmount(byStock.getAmount()+amount);
+            byStock.setAveragePrice(averagePrice);
 
-        stocksHeldRepository.save(byStock);
+            stocksHeldRepository.save(byStock);
+        }
+
+
     }
 
     private void addStockTransactionHistory(Stock stock, User user,
