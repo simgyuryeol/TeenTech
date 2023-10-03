@@ -8,29 +8,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import arrow from "../../assets/pmain/chevron.png";
 
-const Data: Child[] = [
-  {
-    id: 1,
-    name: "규렬",
-  },
-  {
-    id: 2,
-    name: "세진",
-  },
-  {
-    id: 3,
-    name: "재범",
-  },
-  {
-    id: 4,
-    name: "은비",
-  },
-  {
-    id: 5,
-    name: "명진",
-  },
-];
-
 const PchildDetail: React.FC = () => {
   const [childData, setChildData] = useRecoilState(childIdAtom);
   //const { id } = useParams<{ id: string }>();
@@ -86,7 +63,7 @@ const PchildDetail: React.FC = () => {
 
   const handleLinkClick = (id?: number, name?: string) => {
     if (id && name) {
-      setChildData({ id, name });
+      setChildData({ id, name, pid: 0 });
     }
   };
 
