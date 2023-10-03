@@ -25,7 +25,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 //    @Query("select new com.ssafy.teentech.loan.dto.response.LoanHistoryResponseDto(l.loanId, l.title, l.amount, l.interestRate, l.period, l.reason) from Loan l where l.user = :user and l.balance = 0")
 //    List<LoanHistoryResponseDto> findAllByUserAndBalanceIsEqualToZero(@Param("user") User user);
 
-    @Query("select new com.ssafy.teentech.loan.dto.response.LoanHistoryResponseDto(l.loanId, l.title, l.amount, l.initialBalance, l.interestRate, l.period, l.reason, l.state) from Loan l where l.user = :user and (l.state = :reject or l.state = :complete or l.state = :fail)")
+    @Query("select new com.ssafy.teentech.loan.dto.response.LoanHistoryResponseDto(l.loanId, l.title, l.amount, l.initialBalance, l.balance, l.interestRate, l.period, l.reason, l.state) from Loan l where l.user = :user and (l.state = :reject or l.state = :complete or l.state = :fail)")
     List<LoanHistoryResponseDto> findAllByUserAndRejectOrCompleteOrFail(@Param("user") User user,
         @Param("reject") State reject, @Param("complete") State complete,
         @Param("fail") State fail);
