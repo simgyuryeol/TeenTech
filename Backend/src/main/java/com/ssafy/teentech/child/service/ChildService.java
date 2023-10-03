@@ -15,6 +15,8 @@ import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,7 +86,9 @@ public class ChildService {
 
         // 대출
         //Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElseThrow(() -> new IllegalArgumentException());
-        Loan loan = loanRepository.findLatestUncompletedLoanByUser(user).orElse(null);
+        Pageable pageable = PageRequest.of(0, 1); //첫번째 값만 가져오도록
+        List<Loan> loans = loanRepository.findLatestUncompletedLoanByUser(user, pageable).orElse(null);
+        Loan loan = loans.get(0);
         Integer loanBalance = 0;
         Integer loanDay = 0;
         if(loan !=null){

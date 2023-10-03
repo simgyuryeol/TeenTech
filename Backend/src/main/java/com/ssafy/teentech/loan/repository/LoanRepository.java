@@ -9,6 +9,8 @@ import com.ssafy.teentech.user.domain.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,8 +30,8 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     @Query("select new com.ssafy.teentech.loan.dto.response.LoanApplyResponseDto(l.loanId, l.title, l.amount, l.interestRate, l.period, l.reason) from Loan l where l.user = :user and l.approvalDate is null and l.state = :state")
     List<LoanApplyResponseDto> findAllByUserAndApprovalDateIsNullAndState(@Param("user") User user, @Param("state") State state);
 
-    @Query("SELECT l FROM Loan l WHERE l.user = :user AND l.maturityDate IS NOT NULL AND l.repaymentCompletionDate IS NULL ORDER BY l.maturityDate DESC limit 1")
-    Optional<Loan> findLatestUncompletedLoanByUser(@Param("user") User user);
+    @Query("SELECT l FROM Loan l WHERE l.user = :user AND l.maturityDate IS NOT NULL AND l.repaymentCompletionDate IS NULL ORDER BY l.maturityDate DESC")
+    Optional<List<Loan>> findLatestUncompletedLoanByUser(@Param("user") User user, Pageable pageable);
 
     List<Loan> findAllByMaturityDateIsBeforeAndState(LocalDate now, State state);
 }
