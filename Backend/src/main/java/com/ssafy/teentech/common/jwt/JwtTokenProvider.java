@@ -76,6 +76,7 @@ public class JwtTokenProvider {
             .setSubject(name)
             .claim(AUTHORITIES_KEY, authorities)
             .claim("type", TYPE_ACCESS)
+            .claim("userId", user.getUserId())
             .claim("accountNumber", user.getAccountNumber())
             .claim("parentId", user.getParentId())
             .setIssuedAt(now)
