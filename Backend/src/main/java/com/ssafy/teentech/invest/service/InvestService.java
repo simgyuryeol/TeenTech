@@ -89,7 +89,7 @@ public class InvestService {
             childId,
             withdrawAccountNumber,
             depositAccountNumber,
-            (long) stockTransactionRequestDto.getAmount() * stockTransactionRequestDto.getPrice(),
+            (long) stockTransactionRequestDto.getAmount() * stock.getPrice(),
             "투자"
         );
 
@@ -127,7 +127,7 @@ public class InvestService {
             childId,
             depositAccountNumber,
             withdrawAccountNumber,
-            (long) stockTransactionRequestDto.getAmount() * stockTransactionRequestDto.getPrice(),
+            (long) stockTransactionRequestDto.getAmount() * stock.getPrice(),
             "투자 소비"
         );
 
@@ -139,7 +139,7 @@ public class InvestService {
         // 3. 보유 주식 갯수 늘어남
         // 평단가 계산 -> (보유 갯수 * 평단가 + 구매 갯수 * 구매 가격) //  (보유 갯수 + 구매 갯수)
         Integer averagePrice = (byStock.getAmount() * byStock.getAveragePrice()
-            + stockTransactionRequestDto.getPrice() * stockTransactionRequestDto.getAmount()) / (
+            + stock.getPrice() * stockTransactionRequestDto.getAmount()) / (
             byStock.getAmount() + stockTransactionRequestDto.getAmount());
         stocksHeldUpdate(stockTransactionRequestDto.getAmount(), stock, byStock, averagePrice);
 
@@ -250,10 +250,17 @@ public class InvestService {
 //
 //        stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
 
-        byStock.setAmount(amount);
-        byStock.setAveragePrice(averagePrice);
+        if((byStock.getAmount()+amount)<=0){
+            stocksHeldRepository.delete(byStock);
+        }
+        else{
+            byStock.setAmount(byStock.getAmount()+amount);
+            byStock.setAveragePrice(averagePrice);
 
-        stocksHeldRepository.save(byStock);
+            stocksHeldRepository.save(byStock);
+        }
+
+
     }
 
     private void addStockTransactionHistory(Stock stock, User user,
@@ -263,7 +270,7 @@ public class InvestService {
             .stock(stock)
             .user(user)
             .amount(stockSellRequestDto.getAmount())
-            .price(stockSellRequestDto.getPrice())
+            .price(stock.getPrice())
             .tradeDate(LocalDate.now()) //은행 서버에서 온 값을 저장
             .type(type)
             .averagePrice(stocksHeld.getAveragePrice())
