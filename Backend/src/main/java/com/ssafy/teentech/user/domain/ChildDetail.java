@@ -42,7 +42,7 @@ public class ChildDetail {
     @NotNull
     @Min(1)
     @Max(10)
-    @ColumnDefault("1")
+    @ColumnDefault("5")
     private Integer creditRating;
 
     @Setter
