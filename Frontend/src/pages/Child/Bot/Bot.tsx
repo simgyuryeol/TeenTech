@@ -12,7 +12,7 @@ const Bot: React.FC = () => {
     <div className="">
       <img
         src="src/assets/강아지.png"
-        width={"100px"}
+        width={"70px"}
         onClick={() => handleOpen(1)}
       ></img>
       {open === 1 && <Chatbotmain closeModal={handleOpen}></Chatbotmain>}

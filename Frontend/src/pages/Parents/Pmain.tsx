@@ -105,7 +105,7 @@ const Pmain: React.FC = () => {
                   className="text-black"
                   onClick={() => getchild(list.childId)}
                 >
-                  {/* {list.childName} */}뭐
+                  {list.childName}
                 </Link>
               </div>
             </li>
