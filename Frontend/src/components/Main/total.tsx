@@ -69,11 +69,15 @@ const Total: React.FC<Props> = ({ childId }) => {
           <div className=" pl-3 text-start text-gray-700">
             얼마가 모였는지 확인해 볼까요?
           </div>
+          <div className=" pl-3 text-start text-gray-700">
+            <span className="text-xl mr-1">{childDetail?.creditRating}</span>건
+            진행중이에요.
+          </div>
           <div className="px-3 pb-2 text-end">
             {/* <div className="text-white text-xl">+ {childDetail.}</div> */}
             <div className="text-gray-700 text-2xl">
               {childDetail?.deposit
-                ? `${childDetail.deposit}원 모았어요!`
+                ? `${childDetail.deposit.toLocaleString()}원 모았어요!`
                 : "Loading..."}
             </div>
           </div>
@@ -95,27 +99,28 @@ const Total: React.FC<Props> = ({ childId }) => {
             오늘 주식시장엔 어떤 변화가 있을까요?
           </div>
           <div className="px-3 pb-2 text-end">
-            <div className="text-gray-700 text-xl">
-              {childDetail?.stockRate ? (
-                <>
-                  {childDetail.stockRate > 0 ? (
-                    <img src={up} alt="Up" />
-                  ) : (
-                    <img src={down} alt="Down" />
-                  )}
-                  {Math.abs(childDetail.stockRate)}
-                </>
+            <div className="text-gray-700 text-xl flex justify-end items-center">
+              {childDetail?.stockRate > 0 || childDetail?.stockRate === 0 ? (
+                <img
+                  style={{ width: "10px", height: "10px", marginRight: "5px" }}
+                  src={up}
+                  alt="Up"
+                />
               ) : (
-                "Loading..."
+                <img
+                  style={{ width: "10px", height: "10px" }}
+                  src={down}
+                  alt="Down"
+                />
               )}
-              {/* {childDetail?.stockRate
-                ? `+ ${childDetail.stockRate} 얼마`
+              {Math.abs(childDetail?.stockRate)}
+              {/* {childDetail?.stockRate > 0 || childDetail?.stockRate === 0
+                ? childDetail?.stockRate
                 : "Loading..."} */}
-              {/* {childDetail.stockRate} */}
+              {/* {childDetail?.stockRate ? childDetail?.stockRate : "Loading..."} */}
             </div>
             <div className="text-gray-700 text-3xl">
-              {childDetail?.stock || "Loading..."}
-              {/* {childDetail.stock} */}
+              {childDetail?.stock.toLocaleString()}
             </div>
           </div>
         </div>
@@ -147,13 +152,13 @@ const Total: React.FC<Props> = ({ childId }) => {
             className="rounded-2xl drop-shadow mb-3 text-xl"
             style={{ backgroundColor: "white" }}
           >
-            <div className="pt-2 pl-3 text-start">대출잔액</div>
-            {childDetail?.totalBalance === null ? (
+            <div className="pt-2 pl-3 text-start">대출 잔액</div>
+            {childDetail?.loanBalance === 0 ? (
               <div className="px-3 pt-4 pb-2 text-end">없어요</div>
             ) : (
               <div className="px-3 pt-4 pb-2 text-end">
-                {childDetail?.loneDay || "Loading..."}
-                {/* {childDetail.totalBalance} */}
+                {childDetail?.loanBalance.toLocaleString() + " 원" ||
+                  "Loading..."}
               </div>
             )}
           </div>

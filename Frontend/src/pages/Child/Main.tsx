@@ -3,6 +3,8 @@ import Total from "../../components/Main/total";
 import MenuList from "../../components/Main/MenuList";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { balanceAtom } from "../../recoil/balanceAtom";
 import Boy from "../../../src/assets/main/boy_1.png";
 import axios from "axios";
 import Bot from "../Child/Bot/Bot";
@@ -22,6 +24,7 @@ const Main: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
   const [getAllowance, setGetAllowance] = useState(0);
   const [childDetail, setChildDetail] = useState<Detail>();
+  const [totalBalance, setTotalBalance] = useRecoilState(balanceAtom);
 
   const getDetail = () => {
     console.log("asiox..");
@@ -30,6 +33,7 @@ const Main: React.FC = () => {
       .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/34`)
       .then((response) => {
         setChildDetail(response.data.data);
+        setTotalBalance(response.data.data.totalBalance);
         console.log(response.data.data);
       })
       .catch((error) => {
@@ -96,7 +100,7 @@ const Main: React.FC = () => {
               ? "로딩 중..."
               : childDetail.totalBalance === null
               ? "남은 용돈이 없어요"
-              : childDetail.totalBalance}
+              : childDetail.totalBalance.toLocaleString()}
           </div>
           <div>
             <MenuList />
@@ -118,7 +122,7 @@ const Main: React.FC = () => {
           />
         </div>
         <div className="text-2xl text-start pl-3">
-          <div>심규렬님의</div>
+          <div>{childDetail?.username}님의</div>
           <div>현재 잔액은</div>
         </div>
       </div>
