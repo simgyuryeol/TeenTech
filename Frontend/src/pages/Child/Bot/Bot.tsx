@@ -1,6 +1,7 @@
-import React from "react";
-import Chatbotmain from "./chatbotmain";
-import BotModal from "../../../components/Bot/BotModal";
+import React from 'react';
+import Chatbotmain from './chatbotmain';
+import BotModal from '../../../components/Bot/BotModal';
+import dog from "../../../assets/Teen9/Dog.png"
 
 const Bot: React.FC = () => {
   const [open, setOpen] = React.useState(0);
@@ -8,10 +9,11 @@ const Bot: React.FC = () => {
   const handleOpen = (value: React.SetStateAction<number>) =>
     setOpen(open === value ? 0 : value);
 
+
   return (
     <div className="">
       <img
-        src="src/assets/강아지.png"
+        src={dog}
         width={"100px"}
         onClick={() => handleOpen(1)}
       ></img>

@@ -1,20 +1,39 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import LoanCompo from "./LoanCompo";
 import RunDog from "../../../src/assets/run_dog2.gif";
 
 interface LoanListProps {
   children: ReactNode;
   children2: ReactNode;
+  amount: number;  
+  lastBalance: number;  
+  loanId: number;
+  title: string;  
+  maturityDate: string;  
 }
 
 const LoanList: React.FC<LoanListProps> = (props) => {
-  const LoanName = "세진이 생일 선물";
-  const totalLoanMoney = 200000;
-  const LoanMoney = 100000;
+  const now = new Date();
+  const enddate = props.maturityDate
+  const distance = new Date(enddate).getTime() - now.getTime()
+  const maturitydatecount = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+  const LoanName = props.title;
+  // 총 갚아야 될 돈
+  const [totalLoanMoney, setTotalLoanmoney] = useState(props.amount)
+  // 갚은 돈
+  const [LoanMoney, setLoanmoney] = useState(totalLoanMoney - props.lastBalance)
+  // const LoanMoney = totalLoanMoney - props.lastBalance;
   const progress = (LoanMoney / totalLoanMoney) * 100;
-  // const depositMoney2 = depositMoney >= 10000 ? depositMoney / 10000 +'만' : depositMoney;
-  // const interestrate = '2'
-  const maturity = "2023.10.04";
+  useEffect(() => {
+    if (LoanMoney < 0){
+      const interest = props.lastBalance - props.amount
+      setLoanmoney(LoanMoney + interest)
+      setTotalLoanmoney(props.lastBalance + LoanMoney + interest)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const maturity = props.maturityDate;
 
   const [open, setOpen] = React.useState(0);
 
@@ -29,7 +48,7 @@ const LoanList: React.FC<LoanListProps> = (props) => {
         <div className="flex mb-4 justify-between">
           <div className="text-xl text-start pl-3">{LoanName}</div>
           <div className="text-lg text-start mr-3 rounded-md px-2 bg-red-500 text-white">
-            D-4
+            D-{maturitydatecount+1}
           </div>
         </div>
         {/* 진행도 바 */}
@@ -69,7 +88,7 @@ const LoanList: React.FC<LoanListProps> = (props) => {
           </div>
         </div>
         <div className="mx-3 text-xl text-start mb-3">
-          갚을 금액이 {totalLoanMoney - LoanMoney} 남았어요!
+          갚을 금액이 {totalLoanMoney - LoanMoney}원 남았어요!
         </div>
         <div className="flex justify-end">
           <p
@@ -82,7 +101,7 @@ const LoanList: React.FC<LoanListProps> = (props) => {
         </div>
       </div>
       {open === 1 && (
-        <LoanCompo closeModal={handleOpen} children2={props.children2}>
+        <LoanCompo loanId={props.loanId} title={props.title} amount={props.amount} closeModal={handleOpen} children2={props.children2}>
           {}
         </LoanCompo>
       )}
