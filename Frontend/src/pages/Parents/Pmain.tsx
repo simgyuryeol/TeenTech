@@ -50,7 +50,7 @@ const Pmain: React.FC = () => {
   };
 
   const getchild = (id) => {
-    setChild({ id: id, name: "재범" });
+    setChild({ id: id, name: "재범", pid: 0 });
   };
 
   useEffect(() => {
