@@ -78,8 +78,8 @@ const AccountBookDetail: React.FC<Props> = () => {
 
   return (
     <div
-      className="pt-8 pb-5"
-      style={{ height: "100%", backgroundColor: "#f6f6f6" }}
+      className="pt-8 pb-10"
+      style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}
     >
       <div style={{ width: "100%", paddingTop: "60px" }}>
         <div className="text-2xl">{date}</div>
@@ -150,6 +150,10 @@ const AccountBookDetail: React.FC<Props> = () => {
               color = "text-red-500";
               money = item.withdrawalAmount;
             } else if (item.content === "대출 상환") {
+              icon = need;
+              color = "text-red-500";
+              money = item.withdrawalAmount;
+            } else if (item.content === "예금 가입") {
               icon = need;
               color = "text-red-500";
               money = item.withdrawalAmount;

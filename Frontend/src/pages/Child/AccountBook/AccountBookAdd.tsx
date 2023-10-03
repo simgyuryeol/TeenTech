@@ -144,6 +144,7 @@ const AccountBookAdd: React.FC = () => {
 
   return (
     <div
+      style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}
       className={`text-xl flex pt-20 container flex-col flex-wrap items-center`}
     >
       <div className="flex flex-col w-11/12">
