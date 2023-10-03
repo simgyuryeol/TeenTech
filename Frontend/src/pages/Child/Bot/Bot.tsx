@@ -1,6 +1,7 @@
 import React from 'react';
 import Chatbotmain from './chatbotmain';
 import BotModal from '../../../components/Bot/BotModal';
+import dog from "../../../assets/Teen9/Dog.png"
 
 const Bot: React.FC = () => {
 
@@ -10,7 +11,7 @@ const Bot: React.FC = () => {
 
     return (
         <div className='flex justify-center'>
-            <img src='src/assets/강아지.png' width={'30%'} onClick={() => handleOpen(1)}></img>
+            <img src={dog} width={'15%'} onClick={() => handleOpen(1)}></img>
         {open === 1 && (
             <Chatbotmain closeModal={handleOpen}>
             </Chatbotmain>

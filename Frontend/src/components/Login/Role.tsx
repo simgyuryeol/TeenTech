@@ -9,6 +9,7 @@ interface RoleProps {
   }
 
   const base_URL = import.meta.env.VITE_SERVER_URL;
+  const accessToken = window.localStorage.getItem('accessToken')
 
   const Role: React.FC<RoleProps> = () => {
     const navigate = useNavigate();
@@ -38,7 +39,11 @@ interface RoleProps {
           .post(base_URL + `/api/v1/users/add-extra-information`, {
             role,
             name,
-            password,
+            password,            
+          },{
+            headers:{
+              Authorization: `Bearer ${accessToken}`,
+           },
           })
           .then(response => {
             console.log(response.data.data);
@@ -92,7 +97,7 @@ interface RoleProps {
                 <input className='border rounded-md flex text-center' type='text' id='name' placeholder='이름' value={name} onChange={e=> setName(e.target.value)} required/>
             </div>
             <div className='mt-2 pt-2 flex'>
-                <label htmlFor='name' className='flex w-[100%] text-lg'>비밀번호</label>
+                <label htmlFor='password' className='flex w-[100%] text-lg'>비밀번호</label>
                 <input className='border rounded-md flex text-center' type="password" id="password" name="password" placeholder="비밀번호" value={password} ref={passwordRef} onChange={e=> setPassword(e.target.value)} required/>
             </div>
             <div className='flex flex-col mb-2'>

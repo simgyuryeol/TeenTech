@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import GaugeChart from "react-gauge-chart";
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ interface CreditProps {
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 const dddd = 1
+const accessToken = window.localStorage.getItem('accessToken')
 
 const Credit: React.FC<CreditProps> = (props) => {
 
@@ -15,11 +16,14 @@ const Credit: React.FC<CreditProps> = (props) => {
     const Creditdata = () => {
         if(dddd === null){
             axios
-            .get(base_URL + `/api/v1/users/credit-and-interests/`, {
-                // userId: window.localStorage.getItem('userId'),
-            })
+            .get(base_URL + `/api/v1/users/credit-and-interests/`,{
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+               }
+              })
             .then(response => {
                 console.log(response.data);
+                SetCredit(response.data.data.creditRating)
                 // const depositid = response.data
                 // navigate(`/DepositJoinSuccess/${depositid}`);
             })
@@ -31,10 +35,13 @@ const Credit: React.FC<CreditProps> = (props) => {
             axios
             .get(base_URL + `/api/v1/users/credit-and-interests/`, {
                 // userId: window.localStorage.getItem('userId'),
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                 }
             })
             .then(response => {
                 console.log(response.data);
-                // const depositid = response.data
+                SetCredit(response.data.data.creditRating)
                 // navigate(`/DepositJoinSuccess/${depositid}`);
             })
             .catch(error => {
@@ -46,7 +53,7 @@ const Credit: React.FC<CreditProps> = (props) => {
     Creditdata(); // Creditdata 함수 호출
   }, []); 
 
-  const credit = 5
+  const [credit, SetCredit] = useState(1)
   const alba = 2
   const creditNumber = (credit >= 1 && credit <= 10) ? (0.05 + (credit - 1) * 	0.1) : 0.95; 
   const chartStyle = {

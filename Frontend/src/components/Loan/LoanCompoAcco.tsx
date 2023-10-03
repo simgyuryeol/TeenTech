@@ -10,14 +10,19 @@ import UpArrow from "../../../src/assets/up-arrow.png";
 interface LoanCompoAccoProps {
   children: ReactNode;
   children2: ReactNode;
+  title: string;
+  reason: string;
+  loanId: number;
+  amount: number;
+  period: number;
+  interestRate: number;
 }
 const LoanCompoAcco: React.FC<LoanCompoAccoProps> = (props) => {
-  const interestrate = 2;
-  const loanName = "세진이 생일 선물";
-  const loanMoney = 100000;
-  const maturity = "2023.10.04";
-  const repayment = "나눠서 갚을게요";
-  const reason = "우리 세진이 생일 선물 사줘야합니다 존경하는 부모님";
+  const interestrate = props.interestRate;
+  const loanName = props.title;
+  const loanMoney = props.amount;
+  const maturity = props.period;
+  const reason = props.reason;
 
   const [open, setOpen] = React.useState(0);
 
@@ -73,19 +78,8 @@ const LoanCompoAcco: React.FC<LoanCompoAccoProps> = (props) => {
             className="ml-[5%] border rounded-md w-[90%] p-3"
             style={{ backgroundColor: "#EBF0F3" }}
           >
-            {maturity}
+            {maturity}개월
           </p>
-        </div>
-        <div>
-          <div className="flex flex-col w-[100%]">
-            <p className="flex ml-[5%] w-[100%] text-lg">상환 방법</p>
-            <p
-              className="ml-[5%] border rounded-md w-[90%] p-3"
-              style={{ backgroundColor: "#EBF0F3" }}
-            >
-              {repayment}
-            </p>
-          </div>
         </div>
         <div className="mb-4">
           <p className="flex ml-[5%] w-[100%] text-lg">대출 사유</p>
