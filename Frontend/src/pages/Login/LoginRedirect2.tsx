@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import base64 from "base-64";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import axios from "axios";
 
-// const base_URL = import.meta.env.VITE_SERVER_URL;
+const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const Login3: React.FC = () => {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -20,9 +23,30 @@ const Login3: React.FC = () => {
   const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
   const parentIdmatch = payload.match(parentIdregex);
   const parentId = parentIdmatch ? parentIdmatch[1] : "";
+
+  const childId = useRecoilValue(childIdAtom);
+  const SetChildid = useSetRecoilState(childIdAtom);
+
   const navigate = useNavigate();
   const reload = () => {
-    window.location.reload();
+    axios
+      .post(
+        base_URL + `/api/v1/users/reissue`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        window.localStorage.setItem("accessToken", response.data.data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -32,8 +56,14 @@ const Login3: React.FC = () => {
     );
     const dec = base64.decode(payload);
     Setpayload(dec);
-    console.log(parentId);
-    if (parentId != null) {
+    // console.log(parentId)
+    console.log(`'차일드아이디':${childId.id}`);
+    console.log(`'부모 아이디':${childId.pid}`);
+    SetChildid((prevChild) => ({
+      ...prevChild,
+      pid: Number(parentId),
+    }));
+    if (childId.pid != 0) {
       navigate("../main");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
