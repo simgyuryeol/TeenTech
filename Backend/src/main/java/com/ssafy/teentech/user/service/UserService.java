@@ -103,6 +103,14 @@ public class UserService {
             .orElseThrow(() -> new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND));
 
         childDetail.setAlbaSuccessStreak(childDetail.getAlbaSuccessStreak() + 1);
+
+        if (childDetail.getAlbaSuccessStreak().equals(3)) {
+            Integer creditRating = childDetail.getCreditRating();
+            if (!creditRating.equals(1)) {
+                childDetail.setCreditRating(creditRating - 1);
+            }
+            childDetail.setAlbaSuccessStreak(0);
+        }
     }
 
     public void increaseLotteryCoupon(User child) {
