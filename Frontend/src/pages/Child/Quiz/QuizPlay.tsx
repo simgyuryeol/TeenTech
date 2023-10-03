@@ -26,6 +26,28 @@ const QuizPlay: React.FC = () => {
   const [score, setScore] = useState(0);
   const setQuizScore = useSetRecoilState(quizScoreAtom);
 
+  let title: string;
+  switch (eng) {
+    case "MONEY":
+      title = "돈, 화폐";
+      break;
+    case "SAVING":
+      title = "소득, 지출";
+      break;
+    case "INVEST":
+      title = "투자, 펀드";
+      break;
+    case "PRICE":
+      title = "물가";
+      break;
+    case "TAX":
+      title = "세금";
+      break;
+    default:
+      title = "";
+      break;
+  }
+
   const convertToQuiz = (data: QuizData): Quiz => {
     let choices: Choice[] = [];
     const answer = data.answer;
@@ -107,7 +129,6 @@ const QuizPlay: React.FC = () => {
     navigate("/QuizCommentary");
   };
 
-
   if (isLoading) {
     return <Card>뭐야</Card>;
   }
@@ -119,12 +140,12 @@ const QuizPlay: React.FC = () => {
       <div className="h-5" />
 
       <div className="bg-white p-2 rounded-xl m-8 border-b border-grey">
-        <p>{eng}</p>
+        <p className="text-lg font-bold">{title}</p>
         <div className="flex justify-between m-3">
           <p>{currentQuestionIndex + 1}번 문제</p>
           <p>맞힌 문제: {score}개</p>
         </div>
-        <div className="p-5 font-bold">
+        <div className="p-5 font-bold text-xl">
           <p>{currentQuiz.question}</p>
         </div>
       </div>
@@ -133,7 +154,7 @@ const QuizPlay: React.FC = () => {
         <div className="flex flex-col m-8">
           {currentQuiz.choices.map((choice, index) => (
             <button
-              className="rounded-xl border-1 border-gray-200 px-5 py-3 text-base mb-3"
+              className="rounded-xl border-1 border-gray-200 px-5 py-3 text-lg mb-3"
               key={index}
               onClick={() => handleChoice(choice, index)}
               style={{

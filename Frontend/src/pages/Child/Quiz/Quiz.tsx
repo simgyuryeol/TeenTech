@@ -23,7 +23,6 @@ const Quiz: React.FC = () => {
       .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/histories")
       .then((response) => {
         const fetchedData = response.data.data;
-        // console.log(fetchedData);
         setCorrectProblem(fetchedData.correctProblem);
         setWrongProblem(fetchedData.wrongProblem);
         setTotalPoint(fetchedData.totalPoint);
