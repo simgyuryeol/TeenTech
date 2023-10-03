@@ -1,9 +1,13 @@
 import React from 'react';
 import Modal from '../../../components/Common/Modal';
 import DepositList from '../../../components/Deposit/DepositList';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+
 
 const DepositJoinSuccess: React.FC = () => {
+    const location = useLocation();
+    const responseData = location.state
     return (
         <Modal>
             <div className="">
@@ -22,10 +26,10 @@ const DepositJoinSuccess: React.FC = () => {
                 </div>
                 <div className='w-[100%] border-2 rounded-lg'>
                     <div className='w-[100%]'>
-                        <DepositList>
-                            <div className="flex justify-around w-[100%] mt-1">
-                                <p className='ml-5'>만기 지급액:</p>
-                                <p className='mr-4'>100,000원</p>
+                        <DepositList depositName={responseData.depositName} depositMoney={responseData.money} maturity={responseData.endDate}>
+                            <div className="flex justify-around w-[100%] mt-1 pb-1">
+                                <p className=''>만기 지급액:</p>
+                                <p className=''>{responseData.maturityPaymentAmount.toLocaleString()}원</p>
                             </div>
                         </DepositList>
                     </div>

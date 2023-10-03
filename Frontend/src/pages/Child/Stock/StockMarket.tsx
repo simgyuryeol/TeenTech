@@ -12,8 +12,7 @@ interface Stock {
 }
 
 const StockMarket: React.FC = () => {
-  // const companyNameList = ["삼성전자", "카카오", "KB금융", "LG화학"];
-  const companyNameList = ["삼성전자"];
+  const companyNameList = ["삼성전자", "카카오", "KB금융", "LG화학"];
   const [stockList, setStockList] = useState([]);
 
   useEffect(() => {

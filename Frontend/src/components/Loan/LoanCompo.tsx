@@ -1,18 +1,22 @@
 import React, { useState, ReactNode } from "react";
 import Modal from "../Common/Modal";
+// import { number } from "prop-types";
 
 interface LoanCompoProps {
   children: ReactNode;
   children2: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   closeModal: (value: any) => void;
+  loanId: number; 
+  title: string; 
+  amount: number;
 }
 
 const LoanCompo: React.FC<LoanCompoProps> = (props) => {
   const interestrate = 2;
-  const loanName = "세진이 생일 선물";
-  const loanMoney = 100000;
+  const loanName = props.title;
+  const loanMoney = props.amount;
   const maturity = "2023.10.04";
-  const repayment = "나눠서 갚을게요";
   const reason = "우리 세진이 생일 선물 사줘야합니다 존경하는 부모님";
 
   return (

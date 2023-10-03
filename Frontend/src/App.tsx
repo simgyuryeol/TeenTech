@@ -43,11 +43,12 @@ import BotChat from "./pages/Child/Bot/BotChat";
 import Mypage from "./pages/Child/Mypage";
 import LoginRedirect from "./pages/Login/LoginRedirect";
 import fetchFCMtoken from "./hooks/fetchFCMToken";
+import LoginRedirect2 from "./pages/Login/LoginRedirect2";
 
 const App: React.FC = () => {
-  // useEffect(() => {
-  //   fetchFCMtoken();
-  // }, []);
+  useEffect(() => {
+    fetchFCMtoken();
+  }, []);
 
   return (
     <React.Fragment>
@@ -55,6 +56,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/oauth/redirect" element={<LoginRedirect />} />
+          <Route path="/oauth/redirect2" element={<LoginRedirect2 />} />
           {/* 부모 */}
           <Route
             path="/Pmain"
@@ -213,7 +215,7 @@ const App: React.FC = () => {
             ]}
           />
           <Route
-            path="/DepositDetail"
+            path="/DepositDetail/:id"
             element={[
               <Header key="header-component" />,
               <DepositDetail key="depositdetail-component" />,
@@ -223,7 +225,7 @@ const App: React.FC = () => {
             path="/Loan"
             element={[
               <Header key="header-component" />,
-              <Loan key="loan-component" />,
+              <Loan key="loan-component" totalInProgressLoanCount={0} totalLoanBalance={0} inProgressLoanList={[]} />,
             ]}
           />
           <Route
