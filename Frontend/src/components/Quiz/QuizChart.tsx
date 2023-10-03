@@ -1,9 +1,14 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const QuizChart: React.FC = () => {
+interface QuizChartProp {
+  correctProblem: number;
+  wrongProblem: number;
+}
+
+const QuizChart: React.FC<QuizChartProp> = (props) => {
   const pieData = {
-    series: [75, 25],
+    series: [props.correctProblem, props.wrongProblem],
     options: {
       chart: {
         width: 380,

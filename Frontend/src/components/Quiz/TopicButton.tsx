@@ -23,19 +23,19 @@ const TopicButton: React.FC<TopicButtonProps> = ({ topic }) => {
   let imageSrc;
 
   switch (eng) {
-    case "money":
+    case "MONEY":
       imageSrc = money;
       break;
-    case "investment":
+    case "INVEST":
       imageSrc = investment;
       break;
-    case "price":
+    case "PRICE":
       imageSrc = price;
       break;
-    case "tax":
+    case "TAX":
       imageSrc = tax;
       break;
-    case "asset":
+    case "SAVING":
       imageSrc = asset;
       break;
     default:
