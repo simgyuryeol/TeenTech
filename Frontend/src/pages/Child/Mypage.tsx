@@ -1,42 +1,77 @@
 import React, { useState } from "react";
 import Modal from "../../components/PMain/ChildAdd";
+import Bear from "../../../src/assets/Teen9/Bear.png";
+import Dog from "../../../src/assets/Teen9/Dog.png";
+import Elephant from "../../../src/assets/Teen9/Elephant.png";
+import Koala from "../../../src/assets/Teen9/Koala.png";
+import monkey from "../../../src/assets/Teen9/monkey.png";
+import Panda from "../../../src/assets/Teen9/Panda.png";
+import Sloth from "../../../src/assets/Teen9/Sloth.png";
+import axios from "axios";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 const profile = [
   {
     id: 1,
-    url: "../../../src/assets/Teen9/Bear.png",
+    url: Bear,
   },
   {
     id: 2,
-    url: "../../../src/assets/Teen9/Dog.png",
+    url: Dog,
   },
   {
     id: 3,
-    url: "../../../src/assets/Teen9/Elephant.png",
+    url: Elephant,
   },
   {
     id: 4,
-    url: "../../../src/assets/Teen9/Koala.png",
+    url: Koala,
   },
   {
     id: 5,
-    url: "../../../src/assets/Teen9/monkey.png",
+    url: monkey,
   },
   {
     id: 6,
-    url: "../../../src/assets/Teen9/Panda.png",
+    url: Panda,
   },
   {
     id: 7,
-    url: "../../../src/assets/Teen9/Sloth.png",
+    url: Sloth,
   },
 ];
 
 const Mypage: React.FC = () => {
   const [isModal, setIsModal] = useState(false);
-  const [teen9, setTeen9] = useState("../../../src/assets/Teen9/Dog.png");
+  const [childId] = useRecoilState(childIdAtom);
+  const [teen9, setTeen9] = useState(Dog);
   const [preTeen9, setPreTeen9] = useState("../../../src/assets/Teen9/Dog.png");
   const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  // 틴구 불러오는 api
+  const getTeen9 = () => {
+    axios.get(`https://j9e207.p.ssafy.io/api/v1`);
+  };
+
+  // 틴구 변경 api
+  const changeTeen9 = () => {
+    // child id 변경하기
+    axios
+      .post(`https://j9e207.p.ssafy.io/api/v1/childs/34`, {
+        avatarImageUrl: teen9,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleChangeTeen9 = () => {
+    changeTeen9();
+  };
 
   return (
     <div className="pt-24">
@@ -79,15 +114,24 @@ const Mypage: React.FC = () => {
                   />
                 ))}
               </div>
-              <button
-                className="mt-5 bg-white rounded-2xl drop-shadow"
-                onClick={() => {
-                  setIsModal(false);
-                  setTeen9(preTeen9);
-                }}
-              >
-                변경하기
-              </button>
+              <div className="">
+                <button
+                  className="mt-5 bg-white rounded-2xl drop-shadow mr-3"
+                  onClick={() => {
+                    setIsModal(false);
+                    setTeen9(preTeen9);
+                    handleChangeTeen9();
+                  }}
+                >
+                  변경하기
+                </button>
+                <button
+                  className="mt-5 bg-white rounded-2xl drop-shadow"
+                  onClick={() => setIsModal(false)}
+                >
+                  취소
+                </button>
+              </div>
             </div>
           </Modal>
         )}

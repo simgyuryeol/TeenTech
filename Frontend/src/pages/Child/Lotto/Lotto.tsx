@@ -55,13 +55,14 @@ const Lotto: React.FC = () => {
 
   useEffect(() => {
     getlottoticket();
-    lottohistory();
+    // lottohistory();
   }, []);
 
   return (
     <div
-      className="pt-20 max-h pb-3"
+      className="pt-20 max-h pb-3 "
       style={{
+        minHeight: "100vh",
         backgroundImage: "linear-gradient(180deg, #141E30 0%, #243B55 100%)",
       }}
     >
@@ -100,7 +101,7 @@ const Lotto: React.FC = () => {
             className="rounded-2xl drop-shadow mb-3 text-xl"
             style={{ backgroundColor: "white" }}
           >
-            <div className="pt-2 pl-3 text-start">당첨금</div>
+            <div className="pt-2 pl-3 text-start">현재 당첨금</div>
             <div className="px-3 pt-4 pb-2 text-end">
               {totalLotteryPrize} 원
             </div>

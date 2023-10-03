@@ -63,7 +63,11 @@ const LottoChange: React.FC = () => {
         success,
       })
       .then((response) => {
-        alert("당첨!");
+        if (success === 0) {
+          alert("당첨!");
+        } else {
+          alert("아쉬워요ㅜㅜ. 다음 기회에!");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -172,7 +176,7 @@ const LottoChange: React.FC = () => {
         setIsLotteryRunning(false);
         setIsWinning(false);
         getReward(1);
-        alert("아쉽다.");
+
         setSelectedNumbers([]);
       }
     }, 1500 * 3 + 150);
