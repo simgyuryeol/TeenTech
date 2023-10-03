@@ -69,6 +69,7 @@ public class UserService {
         AccountResponseDto accountResponseDto = bankService.registerAccount(
             registerAccountRequestDto);
 
+        user.updateUserName(extraInformationRequestDto.getName());
         user.updateAccountNumber(accountResponseDto.getAccountNumber());
         user.updateRole(extraInformationRequestDto.getRole());
     }
