@@ -22,7 +22,6 @@ interface dateDate {
   spendingAmount: number;
 }
 const Statics_month: React.FC<Props> = ({ date }) => {
-  console.log("날짜요" + date);
   const [Datedata, setDatedata] = useState<dateDate[]>([]);
   const [importAmount, setImportAmount] = useState(0);
   const [spendingAmount, setSpendingAmount] = useState(0);
@@ -105,7 +104,7 @@ const Statics_month: React.FC<Props> = ({ date }) => {
     axios
       .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${date}`)
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data.data);
         setDatedata(response.data.data);
       })
       .catch((error) => {
@@ -138,13 +137,12 @@ const Statics_month: React.FC<Props> = ({ date }) => {
           `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${item.date}`
         )
         .then((response) => {
-          console.log(response.data.data);
           let test = response.data.data;
           test.forEach((item2) => {
             if (item2.assetType === "욕구") {
               setExpenditure((prevExpenditure) => ({
                 ...prevExpenditure,
-                욕구: prevExpenditure.욕구 + item2.depositAmount,
+                욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
               }));
             } else if (item2.assetType === "대출") {
               if (item2.withdrawalAmount > 0) {
@@ -153,10 +151,6 @@ const Statics_month: React.FC<Props> = ({ date }) => {
                   필요: prevExpenditure.필요 + item2.withdrawalAmount,
                 }));
               }
-              //   setExpenditure((prevExpenditure) => ({
-              //     ...prevExpenditure,
-              //     욕구: prevExpenditure.욕구 + item.depositAmount,
-              //   }));
             } else if (item2.assetType === "예금") {
               if (item2.withdrawalAmount > 0) {
                 setExpenditure((prevExpenditure) => ({
@@ -167,12 +161,11 @@ const Statics_month: React.FC<Props> = ({ date }) => {
             } else if (item2.assetType === "필요") {
               setExpenditure((prevExpenditure) => ({
                 ...prevExpenditure,
-                필요: prevExpenditure.필요 + item2.depositAmount,
+                필요: prevExpenditure.필요 + item2.withdrawalAmount,
               }));
             } else if (item2.assetType === "소비") {
               if (item2.consumptionType === null) {
                 const formattedDate = item.date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
-                console.log("포맷데이트" + formattedDate);
                 setConsumptionTypeNull((prevDates) => [
                   ...prevDates,
                   formattedDate,
@@ -181,12 +174,12 @@ const Statics_month: React.FC<Props> = ({ date }) => {
                 if (item2.consumptionType === "필요") {
                   setExpenditure((prevExpenditure) => ({
                     ...prevExpenditure,
-                    필요: prevExpenditure.필요 + item2.depositAmount,
+                    필요: prevExpenditure.필요 + item2.withdrawalAmount,
                   }));
                 } else if (item2.consumptionType === "욕구") {
                   setExpenditure((prevExpenditure) => ({
                     ...prevExpenditure,
-                    욕구: prevExpenditure.욕구 + item2.depositAmount,
+                    욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
                   }));
                 }
               }
@@ -242,8 +235,8 @@ const Statics_month: React.FC<Props> = ({ date }) => {
     setConsumptionTypeNull((prevDates) =>
       prevDates.sort((a, b) => parseInt(a) - parseInt(b))
     );
-    console.log(consumptionTypeNull);
-    console.log(getData);
+    // console.log(consumptionTypeNull);
+    // console.log(getData);
   }, [Datedata]);
 
   const [tab, setTab] = useState("소득");

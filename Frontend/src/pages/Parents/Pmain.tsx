@@ -84,8 +84,8 @@ const Pmain: React.FC = () => {
       </div>
       <div className="bg-white mx-4 p-3 rounded-2xl">
         <ul className="">
-          {childList.map((list) => (
-            <li key={list.id} className="my-2 flex items-center py-3">
+          {childList.map((list, index) => (
+            <li key={index} className="my-2 flex items-center py-3">
               <div
                 className="ml-2 bg-black rounded-full mr-4"
                 style={{ width: "40px", height: "40px" }}
