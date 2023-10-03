@@ -157,7 +157,6 @@ const RenderCells: React.FC<{
     );
     days = [];
   }
-  console.log(Datedata);
   return <div className="body">{rows}</div>;
 };
 
@@ -172,12 +171,12 @@ const Calendar: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
   const [Datedata, setDatedata] = useState<dateDate[]>([]);
   const [childData] = useRecoilState(childIdAtom);
+  console.log();
 
   const navigate = useNavigate();
 
   const getDate = () => {
-    console.log(formatDate(currentMonth));
-    if (state.id == 0) {
+    if (state.id === 0) {
       axios
         .get(
           `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${formatDate(
@@ -185,14 +184,12 @@ const Calendar: React.FC = () => {
           )}`
         )
         .then((response) => {
-          console.log(response.data);
           setDatedata(response.data.data);
         })
         .catch((error) => {
           console.log(error);
         });
-    } else if (state.id == 1) {
-      console.log("자녀확인");
+    } else if (state.id === 1) {
       axios
         .get(
           `https://j9e207.p.ssafy.io/api/v1/${
@@ -200,7 +197,8 @@ const Calendar: React.FC = () => {
           }/accountbooks/date/${formatDate(currentMonth)}`
         )
         .then((response) => {
-          console.log(response.data);
+          console.log("월달력확인");
+          console.log(response.data.data);
           setDatedata(response.data.data);
         })
         .catch((error) => {
@@ -254,7 +252,7 @@ const Calendar: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "100%" }}>
       <RenderHeader
         currentMonth={currentMonth}
         prevMonth={prevMonth}
