@@ -4,6 +4,12 @@ import ChatBot, { Steps } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import { Link } from 'react-router-dom';
 import BotModal from '../../../components/Bot/BotModal';
+import dog from "../../../assets/Teen9/Dog.png"
+
+// import axios from 'axios';
+
+// const base_URL = import.meta.env.VITE_SERVER_URL;
+
 
   const Deposit: React.FC = () => {
     return (
@@ -49,6 +55,17 @@ import BotModal from '../../../components/Bot/BotModal';
         <Link to='/lotto' className='text-white'>🎰복권 추첨하러 가기</Link>
       </div>
     )}
+  const GPT: React.FC = () => {
+    return (
+      <div style={{ width: '100%' }}>
+        <div>❓자유롭게 물어보기</div>
+        <div className='flex justify-center'>
+        <button className='' style={{backgroundColor:'#EBF0F3'}}>
+        <Link to='/BotChat' className='text-black'>이동하기</Link>
+        </button>
+        </div>
+      </div>
+    )}
 
     interface DepositReviewProps {
     steps?: Steps;
@@ -57,7 +74,6 @@ import BotModal from '../../../components/Bot/BotModal';
         const [state, setState] = useState({ depositName: '', depositMoney: '',  depositDate: '', });
         const interestrate = 2;
         const deposittotal = 10100;
-
         useEffect(() => {
           if (steps) {
             const { depositName, depositMoney, depositDate } = steps;
@@ -93,7 +109,79 @@ import BotModal from '../../../components/Bot/BotModal';
               </div>
             </div>
           </div>
-        )} 
+        )}
+
+        const DepositReview2: React.FC<DepositReviewProps> = ({ steps }) => {
+          const [state, setState] = useState({ depositName: '', depositMoney: '',  depositDate: '', });
+          const interestrate = 2;
+          const deposittotal = 10100;
+                        
+
+          useEffect(() => {
+            if (steps) {
+              const { depositName, depositMoney, depositDate } = steps;
+              setState({ depositName: depositName.value, depositMoney: depositMoney.value, depositDate: depositDate.value,});
+              // const child_id = 34
+
+              // const Depositdata = () => {
+              //   axios
+              //     .post(base_URL + `/api/v1/${child_id}/deposits/create`, {
+              //       depositName,
+              //       money : parseInt(depositMoney),
+              //       interestType : 0,
+              //       weeks : depositDate,
+              //       // userId: window.localStorage.getItem('userId'),
+              //     })
+              //     .then(response => {
+              //       console.log(response.data.data);
+              //       window.location.reload()
+              //       alert('가입 성공')
+              //       // const depositid = response.data
+              //       // navigate(`/DepositJoinSuccess/${depositid}`);
+              //     })
+              //     .catch(error => {
+              //       window.location.reload()
+              //       alert('가입 실패')
+              //       // console.log(depositName)
+              //       // console.log(depositMoney)
+              //       // console.log(depositDate)
+              //       console.log(child_id)
+              //       console.log(error);
+              //     });
+              // };
+              // Depositdata()
+            }
+          }, [steps]);
+        
+          return (
+            <div style={{ width: '100%' }}>
+              <h3 className='mb-1 font-bold'>예금 신청서</h3>
+              <div>
+                <div>
+                  <div className='mb-1'>
+                    <div className='font-bold'>예금 이름</div>
+                    <div>{state.depositName}</div>
+                  </div>
+                  <div className='mb-1'>
+                    <div className='font-bold'>예금 금액</div>
+                    <div>{state.depositMoney}원</div>
+                  </div>
+                  <div className='mb-1'>
+                    <div className='font-bold'>예금 기간</div>
+                    <div>{state.depositDate}</div>
+                  </div>
+                  <div className='mb-1'>
+                    <div className='font-bold'>1주 이자율</div>
+                    <div>{interestrate}%</div>
+                  </div>
+                  <div className='mb-1'>
+                    <div className='font-bold'>만기 지급액</div>
+                    <div>{deposittotal}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )} 
 
     DepositReview.propTypes = {
         steps : PropTypes.object,
@@ -103,12 +191,12 @@ import BotModal from '../../../components/Bot/BotModal';
     steps?: Steps;
     }
     const LoanReview: React.FC<LoanReviewProps> = ({ steps }) => {
-        const [state, setState] = useState({ loanName: '', loanMoney: '', reason: '', loanDate: '', repayment:'' });
+        const [state, setState] = useState({ loanName: '', loanMoney: '', reason: '', loanDate: '',  });
       
         useEffect(() => {
           if (steps) {
-            const { loanName, loanMoney, reason, loanDate, repayment } = steps;
-            setState({ loanName: loanName.value, loanMoney: loanMoney.value, reason: reason.value, loanDate: loanDate.value, repayment: repayment.value });
+            const { loanName, loanMoney, reason, loanDate } = steps;
+            setState({ loanName: loanName.value, loanMoney: loanMoney.value, reason: reason.value, loanDate: loanDate.value});
           }
         }, [steps]);
       
@@ -161,7 +249,6 @@ const Chatbotmain = (_closeModal:any) => {
         userFontColor: '#4a4a4a',
       };
 
-       
         return (
             <BotModal>
                 <div id="chatbot-container" style={{ width: '100%', height: '100%' }} >
@@ -170,9 +257,8 @@ const Chatbotmain = (_closeModal:any) => {
                         <Icon onClick={props.closeModal} className='text-2xl' icon='mdi:close'/>
                         </div> */}
                     <ChatBot
-                        //   avatarStyle = ''  
                         headerTitle= '틴구❤'
-                        botAvatar= 'src/assets/강아지.png'
+                        botAvatar= {dog}
                         hideUserAvatar= 'true'
                         steps={[
                             {
@@ -190,6 +276,7 @@ const Chatbotmain = (_closeModal:any) => {
                                     { value: '퀴즈', label: '💯퀴즈', trigger: 'quiz' },
                                     { value: '주식', label: '📈주식', trigger: 'stock' },
                                     { value: '복권', label: '🎰복권', trigger: 'lotto' },
+                                    {value: 'zz', label: '❓자유롭게 물어보기', id: 'GPT', component: <GPT/>, asMessage: true}
                                 ],
                             },
 //////////예금////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +294,7 @@ const Chatbotmain = (_closeModal:any) => {
                             {
                                 id: 'deposit2',
                                 options: [
-                                    { value: '더 알아보기', label: '더 알아보기', trigger: 'deposit3' },
+                                    { value: '더 알아보기', label: '예금 더 알아보기', trigger: 'deposit3' },
                                     { value: '예금가입', label: '예금 가입하기', trigger: 'depositcreate' },
                                     { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
                                 ],
@@ -289,12 +376,17 @@ const Chatbotmain = (_closeModal:any) => {
                             },
                             {
                                 id: 'depositcreate2',
-                                message: '안녕? 예금 가입을 도와줄게!',
-                                trigger: 'depositcreate3',
+                                message: '서비스 점검 중입니다. 페이지에서 신청해주세요.',
+                                trigger: 'deposit2',
                               },
+                            // {
+                            //     id: 'depositcreate2',
+                            //     message: '안녕? 예금 가입을 도와줄게!',
+                            //     trigger: 'depositcreate3',
+                            //   },
                               {
                                 id: 'depositcreate3',
-                                message: '예금 이름을 입력해줘. 예금에 대해 기억하기 쉬우면 좋겠지?',
+                                message: '예금 이름을 입력해줘. 예금에 대해 기억하기 쉬운 이름이면 좋겠지?',
                                 trigger: 'depositName',
                               },
                               {
@@ -428,9 +520,11 @@ const Chatbotmain = (_closeModal:any) => {
                             //   },
                               {
                                 id: 'depositsuccess',
-                                message: '좋아, 예금가입이 완료되었어!',
+                                component: <DepositReview2 />,
+                                asMessage: true,
                                 trigger: 'select',
                               },
+
 //////////대출////////////////////////////////////////////////////////////////////////////////////////////
                             {
                                 id: 'loan',
@@ -446,7 +540,7 @@ const Chatbotmain = (_closeModal:any) => {
                             {
                                 id: 'loan2',
                                 options: [
-                                    { value: '더 알아보기', label: '더 알아보기', trigger: 'loan3' },
+                                    { value: '더 알아보기', label: '대출 더 알아보기', trigger: 'loan3' },
                                     { value: '가입', label: '대출 신청하기', trigger: 'loancreate' },
                                     { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
                                 ],
@@ -504,9 +598,14 @@ const Chatbotmain = (_closeModal:any) => {
                             },
                             {
                                 id: 'loancreate2',
-                                message: '안녕? 대출 신청을 도와줄게!',
-                                trigger: 'loancreate3',
+                                message: '서비스 점검 중입니다. 페이지에서 신청해주세요.',
+                                trigger: 'loan2',
                               },
+                            // {
+                            //     id: 'loancreate2',
+                            //     message: '안녕? 대출 신청을 도와줄게!',
+                            //     trigger: 'loancreate3',
+                            //   },
                               {
                                 id: 'loancreate3',
                                 message: '대출 이름을 입력해줘. 기억하기 쉬우면 좋겠지?',
@@ -795,6 +894,11 @@ const Chatbotmain = (_closeModal:any) => {
                             },
                             {
                                 id: 'quiz2',
+                                message: '혹시 모르는 문제가 나오면 <자유롭게 물어보기>에서 모르는 퀴즈 문제에 대해 물어보면 대답해줄거야!',
+                                trigger: 'quiz3',
+                            },
+                            {
+                                id: 'quiz3',
                                 options: [
                                     { value: '그만 알아보기', label: '그만 알아보기', trigger: '0' },
                                 ],
@@ -808,7 +912,7 @@ const Chatbotmain = (_closeModal:any) => {
                             },
                             {
                                 id: 'stock1',
-                                message: '주식이 궁금해? 예를 들어, 놀이공원이 하나 있어. 놀이공원 주인은 이 놀이공원의 일부를 잘개 쪼개서 사람들에게 팔았어. 이 조각을 산 사람들은 다시 팔 수도 있어. 이 조각난 놀이공원이 주식이야.',
+                                message: '주식이 궁금해? 예를 들면, 놀이공원이 하나 있어. 놀이공원 주인은 이 놀이공원의 일부를 잘개 쪼개서 사람들에게 팔았어. 이 조각을 산 사람들은 다시 팔 수도 있어. 이 조각난 놀이공원이 주식이야.',
                                 trigger: 'stock2',
                             },
                             {

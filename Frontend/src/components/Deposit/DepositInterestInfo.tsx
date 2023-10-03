@@ -1,12 +1,13 @@
-import React, { useState, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import Modal from "../Common/Modal";
 
 interface InterestInfoProps {
     children: ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     closeModal: (value: any) => void;
   }
 
-const InterestInfo: React.FC<InterestInfoProps> = ({closeModal, children}) => {
+const InterestInfo: React.FC<InterestInfoProps> = ({closeModal,}) => {
 
   return (
     <div className="overflow-hidden relative">
