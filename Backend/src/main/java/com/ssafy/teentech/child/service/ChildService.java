@@ -110,8 +110,8 @@ public class ChildService {
 
         // 유저 잔액
         Long totalBalance = 0L;
-//        AccountResponseDto accountInformation = bankService.getAccountInformation(user.getUserId());
-//        totalBalance = accountInformation.getBalance();
+        AccountResponseDto accountInformation = bankService.getAccountInformation(user.getUserId());
+        totalBalance = accountInformation.getBalance();
 
 
         /**
