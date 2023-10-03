@@ -10,11 +10,28 @@ const base_URL = import.meta.env.VITE_SERVER_URL;
 const Pinterest: React.FC = () => {
   const [pocketMoney, setPocketmoney] = useState(50000);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [pocketMoneycycle, setPocketmoneycycle] = useState(1);
+  const [pocketMoneycycle, setPocketmoneycycle] = useState<number>(1);
   const [depositInterest, setDepositinterest] = useState(2);
   const [loanInterest, setLoaninterest] = useState(0);
   const child_id = 34
   const parent_id = 34
+
+  const handlePocketmoneycycle = (e) => {
+    const money = e.target.value;
+    setPocketmoneycycle(money);
+  };
+  const handlePocketmoney = (e) => {
+    const money = e.target.value;
+    setPocketmoney(money);
+  };
+  const handleDepositinterest = (e) => {
+    const money = e.target.value;
+    setDepositinterest(money);
+  };
+  const handleLoaninterest = (e) => {
+    const money = e.target.value;
+    setLoaninterest(money);
+  };
 
   const [open, setOpen] = React.useState(0);
   const pinmoneyset = () => {
@@ -70,7 +87,7 @@ const Pinterest: React.FC = () => {
           <div className="flex justify-between ml-[5%] mr-[8%]">
             <p className="text-xl font-bold">용돈 주기</p>
             <div className="border-2 rounded-md">
-              <select onChange={(e) => setPocketmoneycycle(newFunction(e))}>
+              <select onChange={handlePocketmoneycycle}>
                 <option value={1}>매달 1일</option>
                 <option value={2}>매주 월요일</option>
               </select>
@@ -83,7 +100,7 @@ const Pinterest: React.FC = () => {
               id="interest"
               placeholder="용돈 금액"
               value={pocketMoney}
-              onChange={(e) => setPocketmoney(e.target.value)}
+              onChange={handlePocketmoney}
               required
             />
             원
@@ -125,7 +142,7 @@ const Pinterest: React.FC = () => {
                 id="interest"
                 placeholder="0.0 ~ 5.0"
                 value={depositInterest}
-                onChange={(e) => setDepositinterest(e.target.value)}
+                onChange={handleDepositinterest}
                 required
               />
               %
@@ -154,7 +171,7 @@ const Pinterest: React.FC = () => {
                 id="interest"
                 placeholder="0.0 ~ 5.0"
                 value={loanInterest}
-                onChange={(e) => setLoaninterest(e.target.value)}
+                onChange={handleLoaninterest}
                 required
               />
               %
@@ -176,10 +193,6 @@ const Pinterest: React.FC = () => {
       )}
     </div>
   );
-
-  function newFunction(e: React.ChangeEvent<HTMLSelectElement>): React.SetStateAction<number> {
-    return e.target.value;
-  }
 };
 
 export default Pinterest;

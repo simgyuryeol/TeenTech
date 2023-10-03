@@ -18,7 +18,7 @@ interface Loan {
   }
 
 const Ploan: React.FC = () => {
-    const [loans, setLoans] = useState<Loan[[]]>([]);
+    const [loans, setLoans] = useState<Partial<Loan>>({});
     const childId= 34
     const totalInProgressLoanCount = loans.totalInProgressLoanCount;
     const totalLoanBalance = loans.totalLoanBalance;
