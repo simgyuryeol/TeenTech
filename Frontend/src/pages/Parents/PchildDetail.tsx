@@ -41,6 +41,21 @@ const PchildDetail: React.FC = () => {
     creditRating: "",
   });
 
+  const [childList, setChildList] = useState([]);
+
+  const getChildList = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/parents/34/child`)
+      .then((response) => {
+        console.log("자녀리스트");
+        setChildList(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   // useEffect(() => {
   //   if (id !== undefined) {
   //     const matchingChild = Data.find((child) => child.id === parseInt(id));
@@ -66,6 +81,7 @@ const PchildDetail: React.FC = () => {
 
   useEffect(() => {
     geChildDetail();
+    getChildList();
   }, []);
 
   const handleLinkClick = (id?: number, name?: string) => {
@@ -77,17 +93,19 @@ const PchildDetail: React.FC = () => {
   return (
     <div className="pt-24 max-h">
       <div className="flex overflow-x-scroll mx-3 mb-2">
-        {Data.filter((list) => list.id !== childData.id).map((list) => (
-          <Link
-            to={`/Pchilddetail/${list.id}`}
-            key={list.id}
-            className="flex flex-col items-center m-1"
-            onClick={() => handleLinkClick(list.id, list.name)}
-          >
-            <div className="w-16 h-16 rounded-full bg-blue-500 mb-2"></div>
-            <p>{list.name}</p>
-          </Link>
-        ))}
+        {childList
+          .filter((list) => list.childId !== childData.id)
+          .map((list) => (
+            <Link
+              to={`/Pchilddetail/${list.childId}`}
+              key={list.id}
+              className="flex flex-col items-center m-1"
+              onClick={() => handleLinkClick(list.childId, list.childName)}
+            >
+              <div className="w-16 h-16 rounded-full bg-blue-500 mb-2"></div>
+              <p>{list.name}</p>
+            </Link>
+          ))}
       </div>
       <div
         className="bg-white m-3 rounded-xl mb-4 drop-shadow-xl "
@@ -102,7 +120,7 @@ const PchildDetail: React.FC = () => {
           </div> */}
         </div>
         <div className="text-5xl text-center p-3 pl-5 text-white">
-          {childDetail.totalBalance}
+          {childDetail.totalBalance.toLocaleString()}
         </div>
         <div>{/* <MenuList /> */}</div>
         <div className="flex justify-center text-white pb-2">
@@ -158,12 +176,11 @@ const PchildDetail: React.FC = () => {
               style={{
                 backgroundColor: "#93C4FF",
               }}
-              // onClick={clickStock}
             >
               <div className="text-2xl pt-2 pl-3 text-start text-gray-700">
                 예금 내역
               </div>
-              <div className="px-3 pb-2 text-end flex justify-end items-center">
+              <div className="px-3 pt-3 text-end flex justify-end items-center">
                 <div className="text-gray-700 text-4xl mr-3">3</div>
                 <div className="text-gray-700 text-2xl">건</div>
                 <div className="ml-2">
