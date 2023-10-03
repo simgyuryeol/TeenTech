@@ -22,7 +22,7 @@ const Loan: React.FC<Loan> = () => {
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
   const accessToken = window.localStorage.getItem('accessToken')
   
-  const [loans, setLoans] = useState<Loan[[]]>([]);
+  const [loans, setLoans] = useState<Partial<Loan>>({});
   const totalInProgressLoanCount = loans.totalInProgressLoanCount;
   const totalLoanBalance = loans.totalLoanBalance;
   const loanList = loans.inProgressLoanList;

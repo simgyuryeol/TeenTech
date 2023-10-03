@@ -25,6 +25,7 @@ const Ploandetail: React.FC = () => {
         };
         // Creditdata();
         fetchLoans();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
 

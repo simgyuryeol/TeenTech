@@ -18,7 +18,7 @@ const Bot: React.FC = () => {
         onClick={() => handleOpen(1)}
       ></img>
       {open === 1 && <Chatbotmain closeModal={handleOpen}></Chatbotmain>}
-      {open === 1 && <BotModal closeModal={handleOpen}></BotModal>}
+      {open === 1 && <BotModal closeModal={handleOpen} children={''}></BotModal>}
     </div>
   );
 };

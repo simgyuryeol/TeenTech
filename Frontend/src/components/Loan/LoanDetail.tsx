@@ -20,6 +20,7 @@ const LoanDetail: React.FC<LoanDetailProps> = (props) => {
     }else{
       setState('거절')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);  
 
   return (
