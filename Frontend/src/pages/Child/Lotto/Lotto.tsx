@@ -9,7 +9,6 @@ const Lotto: React.FC = () => {
   const navigate = useNavigate();
   const [lottoTicket, setLottoTicket] = useState(0);
   const [totalLotteryPrize, sedTotalLotteryPrize] = useState(0); // 부모가 설정한 당첨금액
-  const [lottoList, setLottoList] = useState([]);
 
   const ClickChange = () => {
     navigate("/LottoChange", { state: { totalLotteryPrize } });
@@ -28,30 +27,6 @@ const Lotto: React.FC = () => {
         console.log(error);
       });
   };
-
-  const lottohistory = () => {
-    axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/lotto`)
-      .then((response) => {
-        console.log("리스트 정보");
-        setLottoList(response.data);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // const lottorewardset = () => {
-  //   axios
-  //     .post(`https://j9e207.p.ssafy.io/api/v1/34/lotto/reward/set`, {
-  //       cost: 5000,
-  //     })
-  //     .then((response) => {})
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   useEffect(() => {
     getlottoticket();

@@ -47,15 +47,28 @@ const Header: React.FC = () => {
   const [nowPath, setNowPath] = useState<string>("/");
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   for (let i = 0; i < menulist.length; i++) {
+  //     if (menulist[i].link.includes(locationNow.pathname)) {
+  //       setNow(menulist[i].name);
+  //       setNowPath(locationNow.pathname);
+  //       localStorage.setItem("nowPath", locationNow.pathname); // localStorage에 nowPath 저장
+  //     }
+  //   }
+  // }, [locationNow]);
+
   useEffect(() => {
+    console.log(window.location.pathname);
+    // setNowPath(window.location.pathname);
+    // localStorage.setItem("nowPath", window.location.pathname); // localStorage에 nowPath 저장
     for (let i = 0; i < menulist.length; i++) {
-      if (menulist[i].link.includes(locationNow.pathname)) {
+      if (menulist[i].link.includes(window.location.pathname)) {
         setNow(menulist[i].name);
-        setNowPath(locationNow.pathname);
-        localStorage.setItem("nowPath", locationNow.pathname); // localStorage에 nowPath 저장
+        setNowPath(window.location.pathname);
+        localStorage.setItem("nowPath", window.location.pathname); // localStorage에 nowPath 저장
       }
     }
-  }, [locationNow]);
+  }, [window.location.pathname]);
 
   useEffect(() => {
     const savedNowPath = localStorage.getItem("nowPath"); // 새로고침 시 localStorage에서 nowPath 가져오기
