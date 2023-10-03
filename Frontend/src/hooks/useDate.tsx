@@ -7,7 +7,7 @@ function useDate(date: Date) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const formattedDate = `${year}.${month}.${day}`;
+    const formattedDate = `${year}-${month}-${day}`;
     setDateString(formattedDate);
   }, [dateString]);
 

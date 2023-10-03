@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 // axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
-axios.defaults.baseURL = "";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 
 const useAxios = (axiosParams: AxiosRequestConfig) => {
   const [response, setResponse] = useState<AxiosResponse>();

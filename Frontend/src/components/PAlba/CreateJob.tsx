@@ -10,12 +10,12 @@ const CreateJob: React.FC = () => {
   };
 
   return (
-    <div className=" p-4">
+    <div className="p-4">
       <div
         onClick={toggleAccordion}
-        className="flex items-center justify-between border-b overflow-hidden cursor-pointer"
+        className="flex items-center justify-between overflow-hidden cursor-pointer bg-rose-300 rounded-xl"
       >
-        <button className="font-semibold w-10/12">
+        <button className="font-semibold w-10/12 bg-transparent border-none text-xl">
           신규 아르바이트 생성하기
         </button>
 

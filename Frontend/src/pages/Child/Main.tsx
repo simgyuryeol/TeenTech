@@ -1,21 +1,64 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Total from "../../components/Main/total";
 import MenuList from "../../components/Main/MenuList";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
 import Boy from "../../../src/assets/main/boy_1.png";
+import axios from "axios";
+import Bot from "../Child/Bot/Bot";
+
+interface Detail {
+  creditRating: number;
+  deposit: number;
+  loanBalance: number;
+  loneDay: number;
+  stock: number;
+  stockRate: number;
+  totalBalance: null | number;
+  username: null | string;
+}
 
 const Main: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
+  const [getAllowance, setGetAllowance] = useState(0);
+  const [childDetail, setChildDetail] = useState<Detail>();
+
+  const getDetail = () => {
+    console.log("asiox..");
+    setState({ id: 0 });
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/34`)
+      .then((response) => {
+        setChildDetail(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
-    setState({ id: 2 });
+    getDetail();
   }, []);
-  const id = 1;
+
   return (
     <div
-      className="max-h"
-      style={{ backgroundColor: "#F6F6F6", overflow: "scroll" }}
+      className="max-h "
+      style={{
+        backgroundColor: "#F6F6F6",
+        overflow: "scroll",
+        position: "relative",
+      }}
     >
+      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
+        <div className="flex items-end">
+          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
+            질문해줘
+          </div>
+          <Bot />
+        </div>
+      </div>
+
       <div
         className="justify-between items-center px-8 flex relative"
         style={{
@@ -49,7 +92,11 @@ const Main: React.FC = () => {
               marginRight: "10px",
             }}
           >
-            100000
+            {childDetail === undefined
+              ? "로딩 중..."
+              : childDetail.totalBalance === null
+              ? "남은 용돈이 없어요"
+              : childDetail.totalBalance}
           </div>
           <div>
             <MenuList />
@@ -77,8 +124,9 @@ const Main: React.FC = () => {
       </div>
       <div style={{ height: "65px" }}></div>
       <div className="mx-4 rounded-2xl mt-28">
-        <Total childId={id} />
+        <Total childId={34} />
       </div>
+      {/* <GptTest /> */}
     </div>
   );
 };

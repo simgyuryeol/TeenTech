@@ -2,17 +2,9 @@ import React from "react";
 import useDate from "../../hooks/useDate";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-interface Job {
-  title: string;
-  pay: string;
-  due: Date;
-  description: string;
-  stage: string;
-}
 
-const JobDetail: React.FC<Job> = (props) => {
-  const { title, pay, due, description, stage } = props;
-  const dueDate = useDate(due);
+const JobDetail: React.FC<{job:Job}> = ({job}) => {
+  const closeDateDate = useDate(job.closeDate);
 
   return (
     <div className="flex flex-col border rounded-lg overflow-hidden bg-white m-3">
@@ -21,7 +13,7 @@ const JobDetail: React.FC<Job> = (props) => {
           <span className="mr-3 mt-2">
             <Icon icon="circum:bookmark" />
           </span>
-          <p className="flex items-center   text-lg font-bold">{title}</p>
+          <p className="flex items-center   text-lg font-bold">{job.title}</p>
         </div>
 
         {/* 아르바이트 비*/}
@@ -33,11 +25,11 @@ const JobDetail: React.FC<Job> = (props) => {
             <span className="font-semibold mr-2 text-xs uppercase">
               아르바이트 비:
             </span>
-            <span>{pay}</span>
+            <span>{job.reward}</span>
           </p>
         </div>
 
-        {stage === "true" ? (
+        {job.status === "TRUE" ? (
           <React.Fragment>
             {/* 시작한 날짜 */}
             <div className="flex flex-row text-sm">
@@ -48,7 +40,7 @@ const JobDetail: React.FC<Job> = (props) => {
                 <span className="font-semibold mr-2 text-xs uppercase">
                   시작한 날짜:
                 </span>
-                <span>{dueDate}</span>
+                <span>{closeDateDate}</span>
               </p>
             </div>
 
@@ -61,7 +53,7 @@ const JobDetail: React.FC<Job> = (props) => {
                 <span className="font-semibold mr-2 text-xs uppercase">
                   완료한 날짜:
                 </span>
-                <span>{dueDate}</span>
+                <span>{closeDateDate}</span>
               </p>
             </div>
           </React.Fragment>
@@ -74,7 +66,7 @@ const JobDetail: React.FC<Job> = (props) => {
               <span className="font-semibold mr-2 text-xs uppercase">
                 마감 날짜:
               </span>
-              <span>{dueDate}</span>
+              <span>{closeDateDate}</span>
             </p>
           </div>
         )}
@@ -88,7 +80,7 @@ const JobDetail: React.FC<Job> = (props) => {
             <span className="font-semibold mr-2 text-xs uppercase">
               아르바이트 내용:
             </span>
-            <span>{description}</span>
+            <span>{job.content}</span>
           </p>
         </div>
       </div>

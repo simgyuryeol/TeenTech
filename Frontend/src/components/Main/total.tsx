@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loan from "../../../src/assets/main/loan.png";
+import up from "../../../src/assets/main/up.png";
+import down from "../../../src/assets/main/down.png";
+import axios from "axios";
 
 type Props = {
   childId: number | null;
 };
 
+interface Detail {
+  creditRating: number;
+  deposit: number;
+  loanBalance: number;
+  loneDay: number;
+  stock: number;
+  stockRate: number;
+  totalBalance: null | number;
+  username: null | string;
+}
+
 const Total: React.FC<Props> = ({ childId }) => {
   const navigate = useNavigate();
+  const [summary, setSummary] = useState([]);
+  const [childDetail, setChildDetail] = useState<Detail>();
+  const getDetail = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/34`)
+      .then((response) => {
+        setChildDetail(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
 
   const clickDeposit = () => {
     navigate(`/Deposit`);
@@ -18,6 +49,10 @@ const Total: React.FC<Props> = ({ childId }) => {
   const clickLoan = () => {
     navigate(`/Loan`);
   };
+
+  // if (!childDetail) {
+  //   return <div>Loading...</div>;
+  // }
   return (
     <div className="mx-2 pb-2">
       <div
@@ -35,8 +70,12 @@ const Total: React.FC<Props> = ({ childId }) => {
             얼마가 모였는지 확인해 볼까요?
           </div>
           <div className="px-3 pb-2 text-end">
-            {/* <div className="text-white text-xl">+얼마</div> */}
-            <div className="text-gray-700 text-2xl">10,500 모았어요!</div>
+            {/* <div className="text-white text-xl">+ {childDetail.}</div> */}
+            <div className="text-gray-700 text-2xl">
+              {childDetail?.deposit
+                ? `${childDetail.deposit}원 모았어요!`
+                : "Loading..."}
+            </div>
           </div>
         </div>
       </div>
@@ -56,8 +95,28 @@ const Total: React.FC<Props> = ({ childId }) => {
             오늘 주식시장엔 어떤 변화가 있을까요?
           </div>
           <div className="px-3 pb-2 text-end">
-            <div className="text-gray-700 text-xl">+ 얼마</div>
-            <div className="text-gray-700 text-3xl">10,500</div>
+            <div className="text-gray-700 text-xl">
+              {childDetail?.stockRate ? (
+                <>
+                  {childDetail.stockRate > 0 ? (
+                    <img src={up} alt="Up" />
+                  ) : (
+                    <img src={down} alt="Down" />
+                  )}
+                  {Math.abs(childDetail.stockRate)}
+                </>
+              ) : (
+                "Loading..."
+              )}
+              {/* {childDetail?.stockRate
+                ? `+ ${childDetail.stockRate} 얼마`
+                : "Loading..."} */}
+              {/* {childDetail.stockRate} */}
+            </div>
+            <div className="text-gray-700 text-3xl">
+              {childDetail?.stock || "Loading..."}
+              {/* {childDetail.stock} */}
+            </div>
           </div>
         </div>
       </div>
@@ -89,14 +148,24 @@ const Total: React.FC<Props> = ({ childId }) => {
             style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">대출잔액</div>
-            <div className="px-3 pt-4 pb-2 text-end">대출잔액</div>
+            {childDetail?.totalBalance === null ? (
+              <div className="px-3 pt-4 pb-2 text-end">없어요</div>
+            ) : (
+              <div className="px-3 pt-4 pb-2 text-end">
+                {childDetail?.loneDay || "Loading..."}
+                {/* {childDetail.totalBalance} */}
+              </div>
+            )}
           </div>
           <div
             className="rounded-2xl drop-shadow text-xl"
             style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">대출 상환일</div>
-            <div className="px-3 pt-4 pb-2 text-end">D - 10</div>
+            <div className="px-3 pt-4 pb-2 text-end">
+              D - {childDetail?.loneDay || "Loading..."}
+              {/* D -{childDetail.loneDay} */}
+            </div>
           </div>
         </div>
       </div>

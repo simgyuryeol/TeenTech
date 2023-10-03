@@ -278,7 +278,7 @@ const App: React.FC = () => {
             ]}
           />
           <Route
-            path="/StockDetail/:eng"
+            path="/StockDetail/:companyName"
             element={[
               <Header key="header-component" />,
               <StockDetail key="stockdetail-component" />,

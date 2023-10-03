@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { stateAtom } from "../../recoil/stateAtom";
+import { childIdAtom } from "../../recoil/childIdAtom";
 import ChildAdd from "../../components/PMain/ChildAdd";
+import axios from "axios";
 
 const Data = [
   {
@@ -23,10 +25,24 @@ const Data = [
 ];
 
 const Pmain: React.FC = () => {
+  const [child, setChild] = useRecoilState(childIdAtom);
   const [state, setState] = useRecoilState(stateAtom);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 변수
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
+  const [childList, setChildList] = useState([]);
+
+  const getChildList = () => {
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/parents/34/child`)
+      .then((response) => {
+        setChildList(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // 모달 열기 함수
   const openModal = () => {
@@ -51,7 +67,13 @@ const Pmain: React.FC = () => {
     closeModal();
   };
 
+  const getchild = (id) => {
+    setChild({ id: id, name: "재범" });
+  };
+
   useEffect(() => {
+    getChildList();
+    // state 1 -> 부모 0 -> 자녀
     setState({ id: 1 });
   }, []);
 
@@ -62,8 +84,8 @@ const Pmain: React.FC = () => {
       </div>
       <div className="bg-white mx-4 p-3 rounded-2xl">
         <ul className="">
-          {Data.map((list) => (
-            <li key={list.id} className="my-2 flex items-center py-3">
+          {childList.map((list, index) => (
+            <li key={index} className="my-2 flex items-center py-3">
               <div
                 className="ml-2 bg-black rounded-full mr-4"
                 style={{ width: "40px", height: "40px" }}
@@ -78,11 +100,12 @@ const Pmain: React.FC = () => {
               </div>
               <div className="link-wrapper">
                 <Link
-                  to={`/Pchilddetail/${list.id}`}
-                  key={list.id}
+                  to={`/Pchilddetail/${list.childId}`}
+                  key={list.childId}
                   className="text-black"
+                  onClick={() => getchild(list.childId)}
                 >
-                  {list.name}
+                  {/* {list.childName} */}뭐
                 </Link>
               </div>
             </li>

@@ -5,6 +5,8 @@ import Ptotal from "../../components/PChildDetail/Ptotal";
 import { useRecoilState } from "recoil";
 import { childIdAtom, Child } from "../../recoil/childIdAtom";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import arrow from "../../assets/pmain/chevron.png";
 
 const Data: Child[] = [
   {
@@ -31,19 +33,40 @@ const Data: Child[] = [
 
 const PchildDetail: React.FC = () => {
   const [childData, setChildData] = useRecoilState(childIdAtom);
-  const { id } = useParams<{ id: string }>();
-  let childId = Number(id) + 1; // OK
+  //const { id } = useParams<{ id: string }>();
+  //let childId = Number(id) + 1; // OK
   const [isPaneOpen, setIsPaneOpen] = useState(false);
+  const [childDetail, setChildDetail] = useState({
+    totalBalance: 0,
+    creditRating: "",
+  });
+
+  // useEffect(() => {
+  //   if (id !== undefined) {
+  //     const matchingChild = Data.find((child) => child.id === parseInt(id));
+
+  //     if (matchingChild) {
+  //       setChildData(matchingChild);
+  //     }
+  //   }
+  // }, [id]);
+
+  const geChildDetail = () => {
+    console.log(childData.id);
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${childData.id}`)
+      .then((response) => {
+        setChildDetail(response.data.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    if (id !== undefined) {
-      const matchingChild = Data.find((child) => child.id === parseInt(id));
-
-      if (matchingChild) {
-        setChildData(matchingChild);
-      }
-    }
-  }, [id]);
+    geChildDetail();
+  }, []);
 
   const handleLinkClick = (id?: number, name?: string) => {
     if (id && name) {
@@ -72,13 +95,15 @@ const PchildDetail: React.FC = () => {
       >
         <div className="flex items-center justify-between">
           <div className="text-xl text-start p-3 pl-5 text-white">
-            {Data[childId].name} 남은 용돈
+            {childData.name} 남은 용돈
           </div>
-          <div className="mr-3" onClick={() => setIsPaneOpen(true)}>
+          {/* <div className="mr-3" onClick={() => setIsPaneOpen(true)}>
             <img src="../../../src/assets/pmain/ellipsis.png" />
-          </div>
+          </div> */}
         </div>
-        <div className="text-5xl text-center p-3 pl-5 text-white">100000</div>
+        <div className="text-5xl text-center p-3 pl-5 text-white">
+          {childDetail.totalBalance}
+        </div>
         <div>{/* <MenuList /> */}</div>
         <div className="flex justify-center text-white pb-2">
           <Link to={"/Paccountbook"} className="mx-2 text-white">
@@ -93,6 +118,11 @@ const PchildDetail: React.FC = () => {
       {/* <div className="bg-white mx-4 relative rounded-2xl">
         <Ptotal />
       </div> */}
+      <Link to="/Ptransfer">
+        <div className="text-xl text-black bg-white rounded-xl drop-shadow mx-4 mb-3 p-3">
+          용돈 송금하기
+        </div>
+      </Link>
       <div className="flex justify-between mx-4">
         <div className="flex-col w-6/12">
           <Link to={"/Ploan"}>
@@ -113,7 +143,9 @@ const PchildDetail: React.FC = () => {
             <div>
               <div className="pl-3 text-start text-gray-700">신용등급은?</div>
               <div className="px-2 pb-2 text-end flex justify-end items-center">
-                <div className="text-gray-700 text-4xl mr-2">5</div>
+                <div className="text-gray-700 text-4xl mr-2">
+                  {childDetail.creditRating}
+                </div>
                 <div className="text-gray-700 text-2xl">등급</div>
               </div>
             </div>
@@ -134,7 +166,9 @@ const PchildDetail: React.FC = () => {
               <div className="px-3 pb-2 text-end flex justify-end items-center">
                 <div className="text-gray-700 text-4xl mr-3">3</div>
                 <div className="text-gray-700 text-2xl">건</div>
-                <div>화살표</div>
+                <div className="ml-2">
+                  <img src={arrow} style={{ width: "20px" }} />
+                </div>
               </div>
             </div>
           </Link>
@@ -160,7 +194,7 @@ const PchildDetail: React.FC = () => {
         </div>
       </Link>
 
-      {isPaneOpen && (
+      {/* {isPaneOpen && (
         <div
           style={{
             position: "fixed",
@@ -192,7 +226,7 @@ const PchildDetail: React.FC = () => {
             <button onClick={() => setIsPaneOpen(false)}>Close</button>
           </div>
         </div>
-      )}
+      )} */}
       {/* <PMenuList /> */}
     </div>
   );
