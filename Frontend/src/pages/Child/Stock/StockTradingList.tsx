@@ -6,6 +6,9 @@ import TradingRecords from "../../../components/Stock/TradingRecords";
 
 const StockTradingList: React.FC = () => {
   const [tradingHistory, setTradingHistory] = useState([]);
+  const [totalInvestment, setTotalInvestment] = useState(0);
+  const [realizedProfit, setRealizedProfit] = useState(0);
+  const [rateOfReturn, setRateOfReturn] = useState(0);
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -13,8 +16,12 @@ const StockTradingList: React.FC = () => {
       // .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/deposits/create`, {
       .get(import.meta.env.VITE_BASE_URL + `/api/v1/34/investments/sales`)
       .then((response) => {
-        console.log(response.data);
-        setTradingHistory(response.data);
+        const fetchedData = response.data.data;
+        console.log("DATA FETCHED:", fetchedData);
+        setTotalInvestment(fetchedData.totalInvestment);
+        setRealizedProfit(fetchedData.totalNetProfit);
+        setRateOfReturn(fetchedData.rateOfReturn);
+        setTradingHistory(fetchedData.tradingRecordsResponseDtoList);
       })
       .catch((error) => {
         console.log(error);
@@ -28,14 +35,18 @@ const StockTradingList: React.FC = () => {
   return (
     <div className="mt-16">
       <div className="p-2" />
-      <TradingSummary />
+      <TradingSummary
+        totalInvestment={totalInvestment}
+        realizedProfit={realizedProfit}
+        rateOfReturn={rateOfReturn}
+      />
 
       <div className="mx-5 px-2 pt-5 flex flex-col items-start justify-between">
         <p className="text-2xl font-bold text-gray-900 mb-1">주식 매매 기록</p>
         <p className="text-gray-500">지금까지 어떤 주식을 사고 팔았을까요?</p>
       </div>
       {tradingHistory.length ? (
-        <TradingRecords history={tradingHistory} />
+        <TradingRecords history={tradingHistory}/>
       ) : (
         <div className="bg-rose-100 m-5 px-4 py-8 rounded-xl text-lg">
           아직 주식을 사고 판 기록이 없어요.
