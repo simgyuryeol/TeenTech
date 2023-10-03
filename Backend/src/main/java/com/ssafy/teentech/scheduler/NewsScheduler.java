@@ -45,7 +45,8 @@ public class NewsScheduler {
     @Value("${gpt.server.key}")
     private String apiKey;
     // GPT-3 요청 URL
-    private static String apiUrl = "https://api.openai.com/v1/engines/text-davinci-003/completions";
+    private static String apiUrl = "https://api.openai.com/v1/chat/completions";
+//    private static String apiUrl = "https://api.openai.com/v1/engines/text-davinci-003/completions";
 
     @Scheduled(cron = "0 0 16 * * *") //매일 오후 4시에 실행
 //    @Scheduled(cron = "0 31 * * * *")
@@ -159,8 +160,18 @@ public class NewsScheduler {
 
         // GPT-3 요청 바디 설정
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("prompt", "이 뉴스 기사를 어린이들이 이해할 수 있도록 간단하게 300자내로 바꿔줘: `" + news + "`");
-        requestBody.put("max_tokens", 1000); // 최대 길이 조절
+        requestBody.put("model","gpt-4");
+        // 채팅 메시지 구성
+        List<Map<String, String>> messages = new ArrayList<>();
+        Map<String, String> userMessage = new HashMap<>();
+        userMessage.put("role", "user");
+        userMessage.put("content", "이 뉴스 기사를 어린이들이 이해할 수 있도록 간단하게 300글자로 넘기지말고 바꿔줘: `" + news + "`");
+        messages.add(userMessage);
+
+        // 채팅 메시지를 요청 body에 추가
+        requestBody.put("messages", messages);
+//        requestBody.put("prompt", "이 뉴스 기사를 어린이들이 이해할 수 있도록 간단하게 300글자로 넘기지말고 바꿔줘: `" + news + "`");
+//        requestBody.put("max_tokens", 500); // 최대 길이 조절
 
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
@@ -168,8 +179,10 @@ public class NewsScheduler {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Object> responseEntity = restTemplate.postForObject(apiUrl, requestEntity, Map.class);
 
-        ArrayList<Map<String, String>> choices = (ArrayList<Map<String, String>>) responseEntity.get("choices");
-        String transformedArticle = choices.get(0).get("text");
+        ArrayList<Map<String, Object>> choices = (ArrayList<Map<String, Object>>) responseEntity.get("choices");
+        Map<String, String> message = (Map<String, String>)choices.get(0).get("message");
+        String transformedArticle = message.get("content");
+       // String transformedArticle = choices.get(0).get("message");
 
         return transformedArticle;
     }
