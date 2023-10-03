@@ -226,6 +226,9 @@ public class InvestService {
         if (totalNetProfit != 0) {
             rateOfReturn /= totalNetProfit;
         }
+        else{
+            rateOfReturn=0f;
+        }
 
         TradingRecordsPageResponseDto tradingRecordsPageResponseDto = TradingRecordsPageResponseDto.builder()
             .totalInvestment(totalInvestment)
