@@ -225,7 +225,7 @@ const App: React.FC = () => {
             path="/Loan"
             element={[
               <Header key="header-component" />,
-              <Loan key="loan-component" />,
+              <Loan key="loan-component" totalInProgressLoanCount={0} totalLoanBalance={0} inProgressLoanList={[]} />,
             ]}
           />
           <Route
