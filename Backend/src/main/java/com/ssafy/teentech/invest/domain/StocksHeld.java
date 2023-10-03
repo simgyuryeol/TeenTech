@@ -1,13 +1,20 @@
 package com.ssafy.teentech.invest.domain;
 
-import com.ssafy.teentech.invest.domain.Stock;
 import com.ssafy.teentech.user.domain.User;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDate;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +34,9 @@ public class StocksHeld {
     @JoinColumn(name = "stockId")
     private Stock stock;
 
+    @Setter
     private Integer averagePrice;
+    @Setter
     private Integer amount;
 
     @Builder

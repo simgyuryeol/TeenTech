@@ -7,7 +7,6 @@ import com.ssafy.teentech.invest.domain.News;
 import com.ssafy.teentech.invest.domain.Stock;
 import com.ssafy.teentech.invest.domain.StockTrade;
 import com.ssafy.teentech.invest.domain.StocksHeld;
-import com.ssafy.teentech.invest.dto.request.StockHeldSaveRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockInquiryDetailsRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTradeSaveRequestDto;
 import com.ssafy.teentech.invest.dto.request.StockTransactionRequestDto;
@@ -51,7 +50,7 @@ public class InvestService {
 
         for (StocksHeld stocksHeld : stocksHeldList) {
             CheckStockHoldingsResponseDto checkStockHoldingsResponseDto = CheckStockHoldingsResponseDto.builder()
-                .company_name(stocksHeld.getStock().getCompanyName())
+                .companyName(stocksHeld.getStock().getCompanyName())
                 .amount(stocksHeld.getAmount())
                 .averagePrice(stocksHeld.getAveragePrice())
                 .build();
@@ -242,14 +241,19 @@ public class InvestService {
     private void stocksHeldUpdate(Integer amount, Stock stock, StocksHeld byStock,
         Integer averagePrice) {
 
-        StockHeldSaveRequestDto stockHeldSaveRequestDto = StockHeldSaveRequestDto.builder()
-            .stock(byStock.getStock())
-            .amount(byStock.getAmount() + amount)
-            .averagePrice(averagePrice)
-            .user(byStock.getUser())
-            .build();
+//        StockHeldSaveRequestDto stockHeldSaveRequestDto = StockHeldSaveRequestDto.builder()
+//            .stock(byStock.getStock())
+//            .amount(byStock.getAmount() + amount)
+//            .averagePrice(averagePrice)
+//            .user(byStock.getUser())
+//            .build();
+//
+//        stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
 
-        stocksHeldRepository.save(stockHeldSaveRequestDto.toEntity());
+        byStock.setAmount(amount);
+        byStock.setAveragePrice(averagePrice);
+
+        stocksHeldRepository.save(byStock);
     }
 
     private void addStockTransactionHistory(Stock stock, User user,
