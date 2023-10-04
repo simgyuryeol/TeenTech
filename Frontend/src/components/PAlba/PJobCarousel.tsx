@@ -6,7 +6,6 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import axios, { AxiosRequestConfig } from "axios";
 import PinInput from "../Common/PinInput";
 
-
 const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const { jobs } = props;
   const [curr, setCurr] = useState(0);
@@ -14,6 +13,9 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
+  const urlForCompletion =
+    import.meta.env.VITE_BASE_URL + "/api/v1/albas/parent/complete";
+    
   const prev = () =>
     setCurr((curr) => (curr === 0 ? jobs.length - 1 : curr - 1));
   const next = () =>
@@ -88,7 +90,11 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
       >
         {jobs.map((job, index) => (
           <div key={index} onClick={() => openModal(job)}>
-            <JobSummary title={job.title} reward={job.reward} closeDate={job.closeDate} />
+            <JobSummary
+              title={job.title}
+              reward={job.reward}
+              closeDate={job.closeDate}
+            />
           </div>
         ))}
       </div>
@@ -104,9 +110,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
               className="w-6 h-6 text-gray-600"
             />
           </button>
-          <JobDetail
-            job={selectedJob}
-          />
+          <JobDetail job={selectedJob} />
           {selectedJob?.status === "PRE" ? (
             <div>
               <button
@@ -146,7 +150,15 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
               className="w-6 h-6 text-gray-600"
             />
           </button>
-          <PinInput onclose={closePinModal}/>
+          <PinInput
+            onclose={closePinModal}
+            method="post"
+            url={urlForCompletion}
+            data={{
+              childId: selectedJob.childId,
+              albaId: selectedJob.albaId,
+            }}
+          />
         </Modal>
       )}
     </div>
