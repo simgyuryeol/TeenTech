@@ -50,8 +50,10 @@ public class AlbaService {
             .collect(Collectors.toList());
 
         // 공고를 냈던 알바(현재 진행중인 것은 제외)
-        List<AlbaResponseDto> createdBeforeNowAlbaList = albaRepository.getAllByUserAndCloseDateBefore(
-            child, today).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
+//        List<AlbaResponseDto> createdBeforeNowAlbaList = albaRepository.getAllByUserAndCloseDateBefore(
+//            child, today).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
+        List<AlbaResponseDto> createdBeforeNowAlbaList = albaRepository.getAllByUserAndStatusIsNot(
+            child, Status.IN_PROGRESS).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
 
         return new AlbasForParentResponseDto(inProgressAlbaList, createdBeforeNowAlbaList);
 
