@@ -5,19 +5,20 @@ import { Icon } from "@iconify/react";
 import CreateJob from "../../components/PAlba/CreateJob";
 import PJobCarousel from "../../components/PAlba/PJobCarousel";
 import NoJob from "../../components/Alba/NoJob";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 const Palba: React.FC = () => {
   const navigate = useNavigate();
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
   const [createdJobs, setCreatedJobs] = useState<Job[]>([]);
+  const child = useRecoilValue(childIdAtom);
 
   useEffect(() => {
     axios
-      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
-      .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/34`)
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${child.id}`)
       .then((response) => {
-        const fetchedData = response.data;
-        console.log("SUCCESS", response.data);
+        const fetchedData = response.data.data;
         setCurrentJobs(fetchedData.inProgressAlbaList);
         setCreatedJobs(fetchedData.createdBeforeNowAlbaList);
       })

@@ -12,15 +12,23 @@ const NoCompletedJobs: React.FC = () => {
 
 const AlbaCompleted: React.FC = () => {
   const [completedJobs, setCompletedJobs] = useState<Job[]>([]);
+  const accessToken = localStorage.getItem("accessToken");
+
+  const customHeaders = {
+    Authorization: `Bearer ${accessToken}`,
+  };
 
   useEffect(() => {
     axios
-      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
-      .get(import.meta.env.VITE_BASE_URL + "/albas/parent/completed-lists/34")
+      .get(
+        import.meta.env.VITE_BASE_URL +
+          "/api/v1/albas/child/completed-lists",
+        { headers: customHeaders }
+      )
       .then((response) => {
-        const fetchedData = response.data;
-        console.log("SUCCESS", response.data);
-        setCompletedJobs(fetchedData);
+        const fetchedData = response.data.data;
+        console.log("SUCCESS", fetchedData);
+        setCompletedJobs(fetchedData.completedAlbaList);
       })
       .catch((error) => {
         console.log(error);

@@ -46,8 +46,8 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
         method: "post",
         url: import.meta.env.VITE_BASE_URL + "/albas/parent/reject",
         data: {
-          childId: 34,
-          albaId: 1,
+          childId: selectedJob.childId,
+          albaId: selectedJob.albaId,
         },
       };
 

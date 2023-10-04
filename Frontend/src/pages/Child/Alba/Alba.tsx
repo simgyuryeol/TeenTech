@@ -11,28 +11,30 @@ const Alba: React.FC = () => {
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
 
-  // useEffect(() => {
-  //   const customHeaders = {
-  //     Authorization: 'Bearer YourAccessToken',
-  //   };
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const customHeaders = {
+      Authorization: `Bearer ${accessToken}`,
+    };
 
-  //   axios
-  //     .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/child/lists`, {
-  //       headers: customHeaders,
-  //     })
-  //     .then((response) => {
-  //       const fetchedData = response.data;
-  //       console.log("SUCCESS", response.data);
-  //       setCurrentJobs(fetchedData.inProgressAlbaList);
-  //       setAvailableJobs(fetchedData.applicableAlbaList);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+    axios
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/child/lists`, {
+        headers: customHeaders,
+      })
+      .then((response) => {
+        const fetchedData = response.data.data;
+        console.log("Fetched Data: ", response.data);
+        setCurrentJobs(fetchedData.inProgressAlbaList);
+        setAvailableJobs(fetchedData.applicableAlbaList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div className="mt-10">
+      <div className="p-4"/>
       <div className="m-4">
         <div className="flex flex-col">
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -60,7 +62,9 @@ const Alba: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <p>진행 완료</p>
-                    <p className="text-red-600">{availableJobs? availableJobs.length : 0}건</p>
+                    <p className="text-red-600">
+                      {availableJobs ? availableJobs.length : 0}건
+                    </p>
                   </div>
                 </div>
               </div>
@@ -92,7 +96,7 @@ const Alba: React.FC = () => {
 
         <div className="mt-12 bg-sky-300 py-4 m-2 rounded-xl">
           <p className="text-2xl font-bold">진행 중인 아르바이트</p>
-          {currentJobs.length ? (
+          {currentJobs && currentJobs.length ? (
             <JobCarousel jobs={currentJobs} />
           ) : (
             <NoJob status="진행 중인" />
@@ -101,7 +105,7 @@ const Alba: React.FC = () => {
 
         <div className="mt-10 bg-green-200 py-4 m-2 rounded-xl">
           <p className="text-2xl font-bold">신청 가능한 아르바이트</p>
-          {availableJobs.length ? (
+          {availableJobs && availableJobs.length ? (
             <JobCarousel jobs={availableJobs} />
           ) : (
             <NoJob status="신청 가능한" />
