@@ -6,8 +6,18 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const quizScoreAtom = atom<number | null>({
+export interface QuizScore {
+  score: number | null;
+  date: Date | null;
+  topic: string | null;
+}
+
+export const quizScoreAtom = atom<QuizScore>({
   key: "quizScoreAtom",
-  default: null,
+  default: {
+    score: null,
+    date: null,
+    topic: null,
+  },
   effects_UNSTABLE: [persistAtom],
 });

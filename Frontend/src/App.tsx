@@ -276,7 +276,7 @@ const App: React.FC = () => {
             ]}
           />
           <Route
-            path="/QuizCommentary"
+            path="/QuizCommentary/:eng"
             element={[
               <Header key="header-component" />,
               <QuizCommentary key="quizcommentary-component" />,

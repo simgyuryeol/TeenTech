@@ -1,15 +1,66 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import prizeImage from "../../../assets/quiz/prize.gif";
 import { useRecoilValue } from "recoil";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
+import { quizPointAtom } from "../../../recoil/quizPointAtom";
+import { childIdAtom } from "../../../recoil/childIdAtom";
 
 const QuizCommentary: React.FC = () => {
-  const score = useRecoilValue(quizScoreAtom);
-
-  const prize = score !== null ? score * 100 : 0;
-  const topic = "돈, 화폐";
+  const { eng } = useParams();
   const navigate = useNavigate();
+  const child = useRecoilValue(childIdAtom);
+  const quizScore = useRecoilValue(quizScoreAtom);
+  const quizPoint = useRecoilValue(quizPointAtom);
+  const prizePerQuiz = Number(quizPoint);
+
+  const prize = quizScore.score !== null ? quizScore.score * prizePerQuiz : 0;
+
+  let topic: string;
+  switch (eng) {
+    case "MONEY":
+      topic = "돈, 화폐";
+      break;
+    case "SAVING":
+      topic = "소득, 지출";
+      break;
+    case "INVEST":
+      topic = "투자, 펀드";
+      break;
+    case "PRICE":
+      topic = "물가";
+      break;
+    case "TAX":
+      topic = "세금";
+      break;
+    default:
+      topic = "";
+      break;
+  }
+
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    axios
+      .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes`, {
+        subject: eng,
+        date: formattedDate,
+      })
+      .then((response) => {
+        const fetchedData = response.data.data;
+        console.log(fetchedData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },[]);
 
   const handleClick = () => {
     navigate("/Main");
@@ -21,13 +72,13 @@ const QuizCommentary: React.FC = () => {
         <div>
           <p className="text-xl">
             <span className="font-bold text-lg">{topic}</span>에 대해{" "}
-            <span className="font-bold text-lg">{score}</span> 문제를 맞혔어요!
+            <span className="font-bold text-lg">{quizScore.score}</span> 문제를 맞혔어요!
           </p>
         </div>
 
         <img src={prizeImage} alt="" />
 
-        {score !== 0 ? (
+        {quizScore.score !== 0 ? (
           <div className="text-xl">
             <p>
               퀴즈를 맞혀 상금{" "}

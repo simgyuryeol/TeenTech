@@ -125,8 +125,8 @@ const QuizPlay: React.FC = () => {
   };
 
   const handleNextPage = () => {
-    setQuizScore(score);
-    navigate("/QuizCommentary");
+    setQuizScore({ score: score, date: new Date(), topic:eng });
+    navigate(`/QuizCommentary/${eng}`);
   };
 
   if (isLoading) {
