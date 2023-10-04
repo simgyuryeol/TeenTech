@@ -22,7 +22,7 @@ const PchildDetail: React.FC = () => {
 
   const getChildList = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/parents/34/child`)
+      .get(`https://j9e207.p.ssafy.io/api/v1/parents/${childData.pid}/child`)
       .then((response) => {
         console.log("자녀리스트");
         setChildList(response.data.data);
@@ -43,7 +43,7 @@ const PchildDetail: React.FC = () => {
   //   }
   // }, [id]);
 
-  const geChildDetail = () => {
+  const getChildDetail = () => {
     console.log(childData.id);
     axios
       .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${childData.id}`)
@@ -57,7 +57,8 @@ const PchildDetail: React.FC = () => {
   };
 
   useEffect(() => {
-    geChildDetail();
+    console.log(childData);
+    getChildDetail();
     getChildList();
   }, []);
 

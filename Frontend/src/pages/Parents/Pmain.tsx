@@ -16,7 +16,7 @@ const Pmain: React.FC = () => {
 
   const getChildList = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/parents/34/child`)
+      .get(`https://j9e207.p.ssafy.io/api/v1/parents/${child.pid}/child`)
       .then((response) => {
         setChildList(response.data.data);
         console.log(response.data.data);
@@ -36,25 +36,39 @@ const Pmain: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const generateCode = () => {
-    // 인증 코드 생성 로직
-    const generatedCode = "ABC123"; // 예시로 고정된 인증 코드를 생성합니다.
-    setCode(generatedCode);
-  };
-
   const sendCode = () => {
     // 인증 코드 전송 로직
-    console.log(`인증 코드(${code})를 ${name}에게 전송합니다.`);
-    setCode("");
-    closeModal();
+    console.log(code);
+    axios
+      .post(`https://j9e207.p.ssafy.io/api/v1/parents/${child.pid}/child`, {
+        accountNumber: code,
+      })
+      .then((response) => {
+        console.log(response);
+        console.log(`${name}을 추가했습니다!`);
+        setCode("");
+        getChildList();
+        closeModal();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // console.log(`인증 코드(${code})를 ${name}에게 전송합니다.`);
+    // setCode("");
+    // closeModal();
   };
 
-  const getchild = (id) => {
-    setChild({ id: id, name: "재범", pid: 0 });
+  const getchild = (item) => {
+    setChild((prevChild) => ({
+      ...prevChild,
+      id: item.id,
+      name: item.childName,
+    }));
   };
 
   useEffect(() => {
     getChildList();
+    console.log(child);
     // state 1 -> 부모 0 -> 자녀
     setState({ id: 1 });
   }, []);
@@ -85,7 +99,7 @@ const Pmain: React.FC = () => {
                   to={`/Pchilddetail/${list.childId}`}
                   key={list.childId}
                   className="text-black"
-                  onClick={() => getchild(list.childId)}
+                  onClick={() => getchild(list)}
                 >
                   {list.childName}
                 </Link>
@@ -107,7 +121,11 @@ const Pmain: React.FC = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              style={{ backgroundColor: "#E5F0F8", borderRadius: "15px" }}
+              style={{
+                backgroundColor: "#E5F0F8",
+                borderRadius: "15px",
+                paddingLeft: "5px",
+              }}
             />
           </div>
           <h2>자녀에게 발급된 </h2>
@@ -115,11 +133,15 @@ const Pmain: React.FC = () => {
           <div className="mt-1 mb-4">
             {/* <label htmlFor="name">계좌번호: </label> */}
             <input
-              id="name"
+              id="accountnumber"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{ backgroundColor: "#E5F0F8", borderRadius: "15px" }}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              style={{
+                backgroundColor: "#E5F0F8",
+                borderRadius: "15px",
+                paddingLeft: "5px",
+              }}
             />
           </div>
           {/* <div className="my-4">

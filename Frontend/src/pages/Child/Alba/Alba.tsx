@@ -32,7 +32,7 @@ const Alba: React.FC = () => {
   // }, []);
 
   return (
-    <div className="mt-10">
+    <div className="pt-20 max-h pb-3 " style={{ minHeight: "100%" }}>
       <div className="m-4">
         <div className="flex flex-col">
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -60,7 +60,9 @@ const Alba: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <p>진행 완료</p>
-                    <p className="text-red-600">{availableJobs? availableJobs.length : 0}건</p>
+                    <p className="text-red-600">
+                      {availableJobs ? availableJobs.length : 0}건
+                    </p>
                   </div>
                 </div>
               </div>
