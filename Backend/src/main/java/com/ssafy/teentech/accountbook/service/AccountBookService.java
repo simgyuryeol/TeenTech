@@ -83,7 +83,7 @@ public class AccountBookService {
 
         TransactionListRequestDto transactionListRequestDto = new TransactionListRequestDto(user.getUserId(),user.getAccountNumber(),childDetail.getIndex());
         TransactionListResponseDto transactions = bankService.getTransactions(transactionListRequestDto);
-        childDetail.setIndex(childDetail.getIndex()+transactions.getTransactions().size()); //인덱스값 더하기
+
         for (TransactionResponseDto transactionResponseDto : transactions.getTransactions()) {
             Integer depositAmount = 0;
             Integer withdrawalAmount = 0;
@@ -105,6 +105,8 @@ public class AccountBookService {
                     .build();
 
             accountBooks.add(accountBookSaveDto.toEntity());
+
+            childDetail.setIndex(transactionResponseDto.getTransactionId().intValue()); //인덱스값 더하기
         }
 
 
