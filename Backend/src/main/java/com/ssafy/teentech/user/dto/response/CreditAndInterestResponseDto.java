@@ -7,6 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreditAndInterestResponseDto {
 
+    private Integer albaSuccessStreak;
+
     private Integer creditRating;
 
     private float depositInterestRate;
