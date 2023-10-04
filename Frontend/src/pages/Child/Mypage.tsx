@@ -47,7 +47,7 @@ const Mypage: React.FC = () => {
   const [isModal, setIsModal] = useState(false);
   const [childId] = useRecoilState(childIdAtom);
   const [teen9, setTeen9] = useState(Dog);
-  const [preTeen9, setPreTeen9] = useState("../../../src/assets/Teen9/Dog.png");
+  const [preTeen9, setPreTeen9] = useState("Dog");
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   // 틴구 불러오는 api
