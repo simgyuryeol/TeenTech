@@ -12,23 +12,7 @@ export default defineConfig({
         enabled: true,
       },
       workbox: {
-        cacheId: 'ts-react-vite',
-        clientsClaim: true,
-        skipWaiting: true,
-        offlineGoogleAnalytics: false,
-        inlineWorkboxRuntime: true,
-        runtimeCaching: [
-            {
-                // match html
-                urlPattern: new RegExp("https://j9e207.p.ssafy.io"),
-                handler: 'NetworkFirst'
-            },
-            {
-                // match static resource
-                urlPattern: new RegExp(`${"https://j9e207.p.ssafy.io/".replace(/\//g, '\\/')}\\/assets`),
-                handler: 'StaleWhileRevalidate'
-            }
-        ]
+        importScripts: ["my-custom-sw.js"],
       },
       manifest: {
         icons: [
