@@ -106,7 +106,7 @@ public class AccountBookService {
 
             accountBooks.add(accountBookSaveDto.toEntity());
 
-            childDetail.setIndex(transactionResponseDto.getTransactionId().intValue()); //인덱스값 더하기
+            childDetail.setIndex(transactionResponseDto.getTransactionId().intValue()+1); //인덱스값 더하기
         }
 
 
