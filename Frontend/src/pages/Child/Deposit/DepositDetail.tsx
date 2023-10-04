@@ -25,44 +25,24 @@ const DepositDetail: React.FC = () => {
   const nowinterest =
     depositData.money * ((depositData.interest / 700) * maturitydate3);
 
-  return (
-    <div className="mt-20">
-      <div className="flex flex-col items-center justify-center">
-        {/* <h2 className="fixed inset-x-0 top-10 z-50 left-0">자식 보유예금 상세</h2> */}
-        {/* <p>xx정기예금</p> */}
-        <div className="mt-20">
-          <div>
-            현재 날짜:{" "}
-            {`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`}
-          </div>
-          <div>가입일: {depositData.startDate}</div>
-          <p className="m-4 text-2xl flex justify-center">
-            만기일까지{" "}
-            <span className="font-bold text-3xl">{maturitydate + 1}</span>일
-          </p>
-          <p className="m-4 mb-8 text-2xl flex justify-center">
-            지금까지 쌓인 이자{" "}
-            <span className="font-bold text-3xl">
-              {nowinterest.toFixed(0).toLocaleString()}
-            </span>
-            원
-          </p>
-          <p className="m-4 text-2xl">만기 해지 시 </p>
-          <p className="m-4 text-2xl flex justify-center">
-            <span className="font-bold text-3xl">
-              {depositData.maturityPaymentAmount.toLocaleString()}
-            </span>
-            원을 받을 수 있어요!
-          </p>
-        </div>
-        <div className="ml-4 mr-4 mt-8 w-[75%]">
-          <DepositList
-            depositName={depositData.depositName}
-            depositMoney={depositData.money}
-            maturity={depositData.endDate}
-          >
-            {}
-          </DepositList>
+    return (
+        <div className='mt-20 bg-green-300 h-[100vh]'>
+        <div className="flex flex-col items-center justify-center">
+            {/* <h2 className="fixed inset-x-0 top-10 z-50 left-0">자식 보유예금 상세</h2> */}
+            {/* <p>xx정기예금</p> */}
+            <div className='mt-20'>
+                <div>현재 날짜: {`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`}</div>
+                <div>가입일: {depositData.startDate}</div>
+                <p className='m-4 text-2xl flex justify-center'>만기일까지 <span className='font-bold text-3xl'>{maturitydate+1}</span>일</p>
+                <p className='m-4 mb-8 text-2xl flex justify-center'>지금까지 쌓인 이자 <span className='font-bold text-3xl'>{nowinterest.toFixed(0).toLocaleString()}</span>원</p>
+                <p className='m-4 text-2xl'>만기 해지 시 </p>
+                <p className='m-4 text-2xl flex justify-center'><span className='font-bold text-3xl'>{depositData.maturityPaymentAmount.toLocaleString()}</span>원을 받을 수 있어요!</p>
+            </div>
+            <div className='ml-4 mr-4 mt-8 w-[75%]'>
+                <DepositList 
+                depositName={depositData.depositName} depositMoney={depositData.money} maturity={depositData.endDate} interestrate={depositData.interest}
+                >
+                </DepositList>
         </div>
       </div>
     </div>
