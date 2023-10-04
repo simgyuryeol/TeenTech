@@ -2,7 +2,8 @@ package com.ssafy.teentech.alba.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import com.ssafy.teentech.alba.dto.response.AlbaCompletedListResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaDoneListResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaWaitingListResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForChildResponseDto;
 import com.ssafy.teentech.alba.service.AlbaService;
 import com.ssafy.teentech.common.entity.CurrentUser;
@@ -35,13 +36,23 @@ public class AlbaChildController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/completed-lists")
-    public ResponseEntity<ApiResponse> getCompletedAlbaList(@CurrentUser User user) {
-        AlbaCompletedListResponseDto completedAlbaList = albaService.getCompletedAlbaList(
+    @GetMapping("/done-lists")
+    public ResponseEntity<ApiResponse> getDoneAlbaList(@CurrentUser User user) {
+        AlbaDoneListResponseDto doneAlbaList = albaService.getDoneAlbaList(
             user.getUsername());
 
         ApiResponse apiResponse = ApiResponse.builder().message("완료한 아르바이트 목록 조회 완료")
-            .status(HttpStatus.OK.value()).data(completedAlbaList).build();
+            .status(HttpStatus.OK.value()).data(doneAlbaList).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/wait-for-check-lists")
+    public ResponseEntity<ApiResponse> getWaitForCheckAlbaList(@CurrentUser User user) {
+        AlbaWaitingListResponseDto albaWaitingListResponseDto = albaService.getWaitForCheckAlbaList(
+            user.getUsername());
+
+        ApiResponse apiResponse = ApiResponse.builder().message("검사 대기 아르바이트 목록 조회 완료")
+            .status(HttpStatus.OK.value()).data(albaWaitingListResponseDto).build();
         return ResponseEntity.ok(apiResponse);
     }
 

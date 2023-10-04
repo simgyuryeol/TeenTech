@@ -4,11 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum Status {
-    NOT_ACCEPTED("NOT_ACCEPTED"),
-    IN_PROGRESS("DOING"),
-    GIVE_UP("GIVE_UP"),
-    REJECT("REJECT"),
-    COMPLETE("COMPLETE");
+    POSTED("게시"),
+    IN_PROGRESS("진행"),
+    WAIT_FOR_CHECK("검사 대기"),
+    GIVE_UP("포기"),
+    REJECT("거절"),
+    COMPLETE("완료"),
+    EXPIRED("만료");
 
     private String description;
 
