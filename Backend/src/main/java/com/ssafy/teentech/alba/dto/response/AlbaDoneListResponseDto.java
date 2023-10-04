@@ -6,9 +6,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AlbasForParentResponseDto {
+public class AlbaDoneListResponseDto {
 
-    private List<AlbaResponseDto> inProgressAlbaList;
-    private List<AlbaResponseDto> postedAlbaList;
+    private List<AlbaDoneResponseDto> doneAlbaList;
 
 }

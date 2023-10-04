@@ -5,9 +5,10 @@ import com.ssafy.teentech.alba.domain.Status;
 import com.ssafy.teentech.alba.dto.request.AlbaAcceptCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaCreateRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaRejectCompleteRequestDto;
-import com.ssafy.teentech.alba.dto.response.AlbaCompletedListResponseDto;
-import com.ssafy.teentech.alba.dto.response.AlbaCompletedResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaDoneListResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaDoneResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbaResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaWaitingListResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForChildResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForParentResponseDto;
 import com.ssafy.teentech.alba.repository.AlbaRepository;
@@ -49,17 +50,16 @@ public class AlbaService {
                 child, Status.IN_PROGRESS, today).stream().map(AlbaResponseDto::new)
             .collect(Collectors.toList());
 
-        // 공고를 냈던 알바(현재 진행중인 것은 제외)
-//        List<AlbaResponseDto> createdBeforeNowAlbaList = albaRepository.getAllByUserAndCloseDateBefore(
-//            child, today).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
-        List<AlbaResponseDto> createdBeforeNowAlbaList = albaRepository.getAllByUserAndStatusIsNot(
-            child, Status.IN_PROGRESS).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
+        // 게시되었지만 진행중이지 않은 알바
+        List<AlbaResponseDto> postedAlbaList = albaRepository.getAllByUserAndStatus(
+                child, Status.POSTED).stream().map(AlbaResponseDto::new)
+            .collect(Collectors.toList());
 
-        return new AlbasForParentResponseDto(inProgressAlbaList, createdBeforeNowAlbaList);
+        return new AlbasForParentResponseDto(inProgressAlbaList, postedAlbaList);
 
     }
 
-    public AlbaCompletedListResponseDto getCompletedAlbaList(String userEmail, Long childId) {
+    public AlbaDoneListResponseDto getDoneAlbaList(String userEmail, Long childId) {
         User parent = userService.getUser(userEmail);
         User child = userService.getUser(childId);
 
@@ -67,10 +67,10 @@ public class AlbaService {
             throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
 
-        List<AlbaCompletedResponseDto> albaCompletedResponseDtoList = albaRepository.findAllByUserAndCloseDateBeforeAndStatusOrderByStatus(child, LocalDate.now(),
-            Status.COMPLETE);
+        List<AlbaDoneResponseDto> albaDoneResponseDtoList = albaRepository.findAllByUserAndGiveUpOrRejectOrCompleteOrExpired(
+            child, Status.GIVE_UP, Status.REJECT, Status.COMPLETE, Status.EXPIRED);
 
-        return new AlbaCompletedListResponseDto(albaCompletedResponseDtoList);
+        return new AlbaDoneListResponseDto(albaDoneResponseDtoList);
     }
 
     public void createAlba(AlbaCreateRequestDto albaCreateRequestDto) {
@@ -80,7 +80,7 @@ public class AlbaService {
             Alba.builder().user(child).title(albaCreateRequestDto.getTitle())
                 .content(albaCreateRequestDto.getContent()).reward(
                     albaCreateRequestDto.getReward()).startDate(albaCreateRequestDto.getStartDate())
-                .closeDate(albaCreateRequestDto.getCloseDate()).status(Status.NOT_ACCEPTED)
+                .closeDate(albaCreateRequestDto.getCloseDate()).status(Status.POSTED)
                 .build());
     }
 
@@ -97,6 +97,10 @@ public class AlbaService {
         }
 
         checkUser(child, alba);
+
+        if (!alba.getStatus().equals(Status.WAIT_FOR_CHECK)) {
+            throw new InvalidRequestException(ErrorCode.ALBA_NOT_WAITING_FOR_CHECK);
+        }
 
         alba.updateStatus(Status.COMPLETE);
 
@@ -139,6 +143,10 @@ public class AlbaService {
 
         checkUser(child, alba);
 
+        if (!alba.getStatus().equals(Status.WAIT_FOR_CHECK)) {
+            throw new InvalidRequestException(ErrorCode.ALBA_NOT_WAITING_FOR_CHECK);
+        }
+
         alba.updateStatus(Status.REJECT);
 
         FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
@@ -160,20 +168,43 @@ public class AlbaService {
 
         // 신청가능한 알바
         List<AlbaResponseDto> applicableAlbaList = albaRepository.getAllByUserAndStatusAndCloseDateIsAfter(
-                child, Status.NOT_ACCEPTED, today).stream().map(AlbaResponseDto::new)
+                child, Status.POSTED, today).stream().map(AlbaResponseDto::new)
             .collect(Collectors.toList());
 
         return new AlbasForChildResponseDto(inProgressAlbaList, applicableAlbaList);
 
     }
 
-    public AlbaCompletedListResponseDto getCompletedAlbaList(String userEmail) {
+    public AlbaWaitingListResponseDto getWaitForCheckAlbaList(String userEmail) {
         User child = userService.getUser(userEmail);
 
-        List<AlbaCompletedResponseDto> albaCompletedResponseDtoList = albaRepository.findAllByUserAndCloseDateBeforeAndStatusOrderByStatus(child, LocalDate.now(),
-            Status.COMPLETE);
+        List<AlbaResponseDto> waitForCheckAlbaList = albaRepository.getAllByUserAndStatus(child,
+            Status.WAIT_FOR_CHECK).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
 
-        return new AlbaCompletedListResponseDto(albaCompletedResponseDtoList);
+        return new AlbaWaitingListResponseDto(waitForCheckAlbaList);
+    }
+
+    public AlbaWaitingListResponseDto getWaitForCheckAlbaList(String userEmail, Long childId) {
+        User parent = userService.getUser(userEmail);
+        User child = userService.getUser(childId);
+
+        if (!parent.getUserId().equals(child.getParentId())) {
+            throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
+        }
+
+        List<AlbaResponseDto> waitForCheckAlbaList = albaRepository.getAllByUserAndStatus(child,
+            Status.WAIT_FOR_CHECK).stream().map(AlbaResponseDto::new).collect(Collectors.toList());
+
+        return new AlbaWaitingListResponseDto(waitForCheckAlbaList);
+    }
+
+    public AlbaDoneListResponseDto getDoneAlbaList(String userEmail) {
+        User child = userService.getUser(userEmail);
+
+        List<AlbaDoneResponseDto> albaDoneResponseDtoList = albaRepository.findAllByUserAndGiveUpOrRejectOrCompleteOrExpired(
+            child, Status.GIVE_UP, Status.REJECT, Status.COMPLETE, Status.EXPIRED);
+
+        return new AlbaDoneListResponseDto(albaDoneResponseDtoList);
     }
 
     public void acceptAlba(String userEmail, Long albaId) {
@@ -201,13 +232,27 @@ public class AlbaService {
         checkUser(child, alba);
         checkDate(alba);
 
-        if (alba.getStatus().equals(Status.NOT_ACCEPTED)) {
+        if (alba.getStatus().equals(Status.POSTED)) {
             throw new InvalidRequestException(ErrorCode.ALBA_NOT_ACCEPTED);
         }
 
         if (alba.getStatus().equals(Status.GIVE_UP)) {
             throw new InvalidRequestException(ErrorCode.ALREADY_GIVE_UP_ALBA);
         }
+
+        if (alba.getStatus().equals(Status.EXPIRED)) {
+            throw new InvalidRequestException(ErrorCode.EXPIRED_ALBA);
+        }
+
+        if (alba.getStatus().equals(Status.REJECT)) {
+            throw new InvalidRequestException(ErrorCode.REJECTED_ALBA);
+        }
+
+        if (alba.getStatus().equals(Status.COMPLETE)) {
+            throw new InvalidRequestException(ErrorCode.COMPLETED_ALBA);
+        }
+
+        alba.updateStatus(Status.WAIT_FOR_CHECK);
 
         FCMNotificationRequestDto fcmNotificationRequestDto = FCMNotificationRequestDto.builder()
             .targetUserId(child.getParentId()).title("아르바이트 검수 요청")
