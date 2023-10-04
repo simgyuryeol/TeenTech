@@ -11,7 +11,9 @@ import com.ssafy.teentech.bank.dto.request.TransactionListRequestDto;
 import com.ssafy.teentech.bank.dto.response.TransactionListResponseDto;
 import com.ssafy.teentech.bank.dto.response.TransactionResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
+import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
+import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,43 +32,12 @@ public class AccountBookService {
 
     final private AccountBookRepository accountBookRepository;
     final private UserRepository userRepository;
+    final private ChildDetailRepository childDetailRepository;
     final private BankService bankService;
 
     public AccountBookAmountResponseDto accountBookAmount(LocalDate date,Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
         List<AccountBook> accountBookList = accountBookRepository.findByDateAndUser(date,user);
-
-        //뱅크 서버에서 거래 내역을 받아옴
-        List<AccountBook> accountBooks = new ArrayList<>();
-
-        TransactionListRequestDto transactionListRequestDto = new TransactionListRequestDto(user.getUserId(),user.getAccountNumber());
-        TransactionListResponseDto transactions = bankService.getTransactions(transactionListRequestDto);
-        for (TransactionResponseDto transactionResponseDto : transactions.getTransactions()) {
-            Integer depositAmount = 0;
-            Integer withdrawalAmount = 0;
-            if (transactions.equals("DEPOSIT")){ //수입인 경우
-                depositAmount = transactionResponseDto.getTransferAmount().intValue();
-            }
-            else{
-                withdrawalAmount = transactionResponseDto.getTransferAmount().intValue();
-            }
-
-            AccountBookSaveDto accountBookSaveDto = AccountBookSaveDto.builder()
-                    .assetType(transactionResponseDto.getType())
-                    .content(transactionResponseDto.getContent())
-                    .withdrawalAmount(withdrawalAmount)
-                    .depositAmount(depositAmount)
-                    .transactionDate(transactionResponseDto.getCreatedDateTime().toLocalDate())
-                    .transactionTime(transactionResponseDto.getCreatedDateTime().toLocalTime())
-                    .user(user)
-                    .build();
-
-            accountBooks.add(accountBookSaveDto.toEntity());
-        }
-
-        accountBookRepository.saveAll(accountBooks);
-
-
 
         Map<String,Integer> account = new HashMap<>();
         //수입
@@ -103,7 +74,43 @@ public class AccountBookService {
 
     public List<AccountBookDateResponseDto> accountBookDate(LocalDate date, Long child_id) {
         User user = userRepository.findById(child_id).orElseThrow(() -> new IllegalArgumentException());
+        ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
         List<AccountBook> accountBookList = accountBookRepository.findByDateAndUser(date,user);
+
+
+        //뱅크 서버에서 거래 내역을 받아옴
+        List<AccountBook> accountBooks = new ArrayList<>();
+
+        TransactionListRequestDto transactionListRequestDto = new TransactionListRequestDto(user.getUserId(),user.getAccountNumber(),childDetail.getIndex());
+        TransactionListResponseDto transactions = bankService.getTransactions(transactionListRequestDto);
+        childDetail.setIndex(childDetail.getIndex()+transactions.getTransactions().size()); //인덱스값 더하기
+        for (TransactionResponseDto transactionResponseDto : transactions.getTransactions()) {
+            Integer depositAmount = 0;
+            Integer withdrawalAmount = 0;
+            if (transactions.equals("DEPOSIT")){ //수입인 경우
+                depositAmount = transactionResponseDto.getTransferAmount().intValue();
+            }
+            else{
+                withdrawalAmount = transactionResponseDto.getTransferAmount().intValue();
+            }
+
+            AccountBookSaveDto accountBookSaveDto = AccountBookSaveDto.builder()
+                    .assetType(transactionResponseDto.getType())
+                    .content(transactionResponseDto.getContent())
+                    .withdrawalAmount(withdrawalAmount)
+                    .depositAmount(depositAmount)
+                    .transactionDate(transactionResponseDto.getCreatedDateTime().toLocalDate())
+                    .transactionTime(transactionResponseDto.getCreatedDateTime().toLocalTime())
+                    .user(user)
+                    .build();
+
+            accountBooks.add(accountBookSaveDto.toEntity());
+        }
+
+
+
+        accountBookRepository.saveAll(accountBooks);
+
 
         Map<LocalDate,Integer[]> account = new HashMap<>();
 

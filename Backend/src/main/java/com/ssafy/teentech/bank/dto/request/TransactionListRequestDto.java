@@ -9,5 +9,6 @@ public class TransactionListRequestDto {
 
     private Long userId;
     private String accountNumber;
+    private Integer index;
 
 }
