@@ -127,6 +127,7 @@ public class ChildService {
                 .creditRating(childDetail.getCreditRating())
                 .loanBalance(loanBalance)
                 .loneDay(loanDay.intValue())
+                .quizPoint(childDetail.getQuizPoint())
                 .build();
 
         return childDetailResponseDto;

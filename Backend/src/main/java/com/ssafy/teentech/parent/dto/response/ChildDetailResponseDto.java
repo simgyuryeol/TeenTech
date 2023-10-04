@@ -14,4 +14,5 @@ public class ChildDetailResponseDto {
     private Integer creditRating;
     private Integer loanBalance;
     private Integer loneDay;
+    private Integer quizPoint;
 }
