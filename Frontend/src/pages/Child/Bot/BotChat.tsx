@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const base_URL = import.meta.env.VITE_SERVER_URL;
+
 const BotChat: React.FC = () => {
   const conversation_id = '12345';
   const [prompt, setPrompt] = useState("");
@@ -20,8 +22,9 @@ const BotChat: React.FC = () => {
   const handleClick = async () => {
     try {
       setLoading(true);
+      // http://127.0.0.1:8000
       await axios
-        .post(`http://localhost:8000/chat`, {
+        .post(`http://127.0.0.1:8000/chat`, {
           conversation_id: `${conversation_id}`,
           message: `${prompt}`,
         })
