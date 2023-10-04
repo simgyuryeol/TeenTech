@@ -12,6 +12,6 @@ import org.springframework.data.repository.query.Param;
 public interface ChildDetailRepository extends JpaRepository<ChildDetail,Long> {
     Optional<ChildDetail> findByUser(User user);
 
-    @Query("select new com.ssafy.teentech.user.dto.response.CreditAndInterestResponseDto(cd.creditRating, cd.depositInterestRate, cd.loanInterestRate) from ChildDetail cd where cd.user = :user")
+    @Query("select new com.ssafy.teentech.user.dto.response.CreditAndInterestResponseDto(cd.albaSuccessStreak, cd.creditRating, cd.depositInterestRate, cd.loanInterestRate) from ChildDetail cd where cd.user = :user")
     CreditAndInterestResponseDto findCreditAndInterestByUser(@Param("user") User user);
 }
