@@ -132,6 +132,7 @@ public class ChildService {
                 .avatarImageUrl(childDetail.getAvatarImageUrl())
                 .pocketMoney(childDetail.getPocketMoney())
                 .pocketMoneyCycle(childDetail.getPocketMoneyCycle())
+                .accountNumber(user.getAccountNumber())
                 .build();
 
         return childDetailResponseDto;

@@ -20,4 +20,5 @@ public class ChildDetailResponseDto {
     private String avatarImageUrl;
     private Integer pocketMoney;
     private Cycle pocketMoneyCycle;
+    private String accountNumber;
 }
