@@ -1,11 +1,11 @@
-import React, {useState, useEffect}  from 'react';
+import React, { useState, useEffect } from "react";
 import Credit from "../../../components/Credit";
 import LoanStatus from "../../../components/Loan/LoanStatus";
 import { Link } from "react-router-dom";
 import LoanList from "../../../components/Loan/LoanList";
 import LoanCreate from "../../../components/Loan/LoanCreate";
 import LoanrepaymentButton from "../../../components/Loan/LoanrepaymentButton";
-import axios from 'axios';
+import axios from "axios";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -18,10 +18,10 @@ interface Loan {
 
 const Loan: React.FC<Loan> = () => {
   const [open, setOpen] = React.useState(0);
-  
+
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
-  const accessToken = window.localStorage.getItem('accessToken')
-  
+  const accessToken = window.localStorage.getItem("accessToken");
+
   const [loans, setLoans] = useState<Partial<Loan>>({});
   const totalInProgressLoanCount = loans.totalInProgressLoanCount;
   const totalLoanBalance = loans.totalLoanBalance;
@@ -30,11 +30,14 @@ const Loan: React.FC<Loan> = () => {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const response = await axios.get(base_URL + `/api/v1/loans/child/summary`,{
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-         }
-        });
+        const response = await axios.get(
+          base_URL + `/api/v1/loans/child/summary`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         console.log(response.data.data);
         setLoans(response.data.data);
       } catch (error) {
@@ -43,15 +46,17 @@ const Loan: React.FC<Loan> = () => {
     };
     // Creditdata();
     fetchLoans();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <div className="pt-24">
       <Credit children={""} />
       <div className="flex flex-col justify-center">
-        <LoanStatus totalInProgressLoanCount={totalInProgressLoanCount} totalLoanBalance={totalLoanBalance}>
+        <LoanStatus
+          totalInProgressLoanCount={totalInProgressLoanCount}
+          totalLoanBalance={totalLoanBalance}
+        >
           <div className="flex justify-end">
             <button
               onClick={() => handleOpen(1)}
@@ -93,7 +98,12 @@ const Loan: React.FC<Loan> = () => {
           </LoanList>
       ))):('')}
       </div>
-      {open === 1 && <LoanCreate totalLoanBalance={totalLoanBalance} closeModal={handleOpen}></LoanCreate>}
+      {open === 1 && (
+        <LoanCreate
+          totalLoanBalance={totalLoanBalance}
+          closeModal={handleOpen}
+        ></LoanCreate>
+      )}
     </div>
   );
 };
