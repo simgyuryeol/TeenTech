@@ -63,7 +63,7 @@ public class ChildService {
         // 예금
         //List<Deposit> depositList = depositRepository.findAllByUser(user).orElseThrow(() -> new IllegalArgumentException());
         List<Deposit> depositList = depositRepository.findAllByUser(user).orElse(Collections.emptyList());
-
+        Integer depositNumber = depositList.size();
         for (Deposit depositValue : depositList) {
             deposit+=depositValue.getMoney();
         }
@@ -122,6 +122,7 @@ public class ChildService {
                 .username(user.getUsername())
                 .totalBalance(totalBalance.intValue())
                 .deposit(deposit)
+                .depositNumber(depositNumber)
                 .stock(stock)
                 .stockRate(stockRate)
                 .creditRating(childDetail.getCreditRating())
