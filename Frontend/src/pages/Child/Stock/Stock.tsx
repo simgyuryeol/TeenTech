@@ -6,6 +6,7 @@ import MyStock from "../../../components/Stock/MyStock";
 import EmptyStock from "../../../components/Stock/EmptyStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useStockStatistics from "../../../hooks/useStockStatistics";
+import Bot from "../Bot/Bot";
 
 import "intro.js/introjs.css";
 import { Steps } from "intro.js-react";
@@ -37,16 +38,21 @@ const Stock: React.FC = () => {
         const fetchDataForStock = async (stock) => {
           try {
             const additionalResponse = await axios.post(
-              import.meta.env.VITE_BASE_URL +
-                "34/investments/detail", {
-                  companyName: stock.companyName
-                }
+              import.meta.env.VITE_BASE_URL + "34/investments/detail",
+              {
+                companyName: stock.companyName,
+              }
             );
-            const additionalData = additionalResponse.data.data.stockList.slice(-1);
-            stock.investment = stock.averagePrice * stock.amount
-            stock.value = additionalData.price * stock.amount
-            stock.gain = (stock.price - stock.averagePrice) * stock.amount
-            stock.ror = ((additionalData.price - stock.averagePrice) / stock.averagePrice) * 100;
+            const additionalData = additionalResponse.data.data.stockList.slice(
+              -1
+            );
+            stock.investment = stock.averagePrice * stock.amount;
+            stock.value = additionalData.price * stock.amount;
+            stock.gain = (stock.price - stock.averagePrice) * stock.amount;
+            stock.ror =
+              ((additionalData.price - stock.averagePrice) /
+                stock.averagePrice) *
+              100;
           } catch (error) {
             console.error(`Error fetching data for stock ${stock.id}:`, error);
           }
@@ -89,6 +95,15 @@ const Stock: React.FC = () => {
       />
 
       <div className="mt-16">
+        {/* 챗봇 */}
+        <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
+          <div className="flex items-end">
+            <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
+              질문해줘
+            </div>
+            <Bot />
+          </div>
+        </div>
         <div className="p-3" />
         <div className="flex justify-end mr-4">
           <Icon
@@ -97,8 +112,12 @@ const Stock: React.FC = () => {
             onClick={handleHelp}
           />
         </div>
-        
-        <StockPortfolio totalValue={totalValue} totalGain={totalGain} averageROR={averageROR} />
+
+        <StockPortfolio
+          totalValue={totalValue}
+          totalGain={totalGain}
+          averageROR={averageROR}
+        />
 
         <div className="bg-bgblue p-2 m-5 rounded-xl">
           <p className="font-bold text-2xl text-left mt-4 mx-8">
