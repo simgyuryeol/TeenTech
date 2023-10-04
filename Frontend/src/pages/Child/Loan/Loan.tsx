@@ -14,6 +14,7 @@ interface Loan {
   totalLoanBalance: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   inProgressLoanList: any[];
+  loanLimitation: number;
 }
 
 const Loan: React.FC<Loan> = () => {
@@ -26,6 +27,7 @@ const Loan: React.FC<Loan> = () => {
   const totalInProgressLoanCount = loans.totalInProgressLoanCount;
   const totalLoanBalance = loans.totalLoanBalance;
   const loanList = loans.inProgressLoanList;
+  const LoanLimitation = loans.loanLimitation;
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -56,6 +58,7 @@ const Loan: React.FC<Loan> = () => {
         <LoanStatus
           totalInProgressLoanCount={totalInProgressLoanCount}
           totalLoanBalance={totalLoanBalance}
+          loanLimitation = {LoanLimitation}
         >
           <div className="flex justify-end">
             <button
@@ -100,6 +103,7 @@ const Loan: React.FC<Loan> = () => {
       </div>
       {open === 1 && (
         <LoanCreate
+          loanLimit={LoanLimitation- totalLoanBalance}
           totalLoanBalance={totalLoanBalance}
           closeModal={handleOpen}
         ></LoanCreate>

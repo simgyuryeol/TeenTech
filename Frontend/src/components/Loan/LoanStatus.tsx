@@ -1,20 +1,24 @@
 import React, { ReactNode } from "react";
+import { useRecoilValue } from "recoil";
+import { childIdAtom } from "../../recoil/childIdAtom";
 
 
 interface LoanStatusProps {
   children: ReactNode;
   totalLoanBalance: number;
   totalInProgressLoanCount: number;
+  loanLimitation: number;
 }
 
 const LoanStatus: React.FC<LoanStatusProps> = (props) => {
-  const totalMoney = 200000;
+  const name = useRecoilValue(childIdAtom).name;
+  const totalMoney = props.loanLimitation;
   const lendMoney = props.totalLoanBalance
   const progress = (lendMoney / totalMoney) * 100;
   return (
     <div className="border rounded-xl mr-6 ml-6 bg-white text-xl mt-3 drop-shadow-md">
       <div className="flex mt-2">
-        <h2 className="mt-2 mb-2 text-2xl text-start ml-3">규렬님 대출 현황</h2>
+        <h2 className="mt-2 mb-2 text-2xl text-start ml-3">{name}님 대출 현황</h2>
         <div className="bg-blue-400 mx-3 my-2 px-2 text-2xl text-start text-white rounded-lg">
           {props.totalInProgressLoanCount}건
         </div>

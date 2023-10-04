@@ -26,10 +26,23 @@ const Pdeposit: React.FC = () => {
   }, []);
 
   return (
-    <div className="pt-20 ml-6 mr-6 mb-2"> 예금 목록
-      {deposits.map((item, index) => (
-      <DepositList key={index} children='' depositName={item.depositName} depositMoney={item.money} maturity={item.endDate} interestrate={item.interest}/>
-        ))};
+    <div className="pt-20 ml-6 mr-6 mb-2 text-2xl"> 예금 목록
+{deposits.length > 0 ? (
+  deposits.map((item, index) => (
+    <DepositList
+      children=''
+      key={index}
+      depositName={item.depositName}
+      depositMoney={item.money}
+      maturity={item.endDate}
+      interestrate={item.interest}
+    />
+  ))
+) : (
+  <div className="flex justify-center items-center">
+    <p className="text-gray-500">예금 상품이 없습니다.</p>
+  </div>
+)}
     </div>
   );
 };

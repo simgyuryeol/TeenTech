@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Modal from "../Common/Modal";
 import axios from 'axios';
+import { useRecoilValue } from "recoil";
+import { CreditAtom } from "../../recoil/creditAtom";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -8,18 +10,19 @@ interface LoanCreateProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   closeModal: (value: any) => void;
   totalLoanBalance: number;
+  loanLimit: number;
 }
 
 const LoanCreate: React.FC<LoanCreateProps> = (props) => {
   const accessToken = window.localStorage.getItem('accessToken')
-  const interestrate = '꺼내써야해';
+  const interestrate = useRecoilValue(CreditAtom).loaninterest
 
   const [loanName, setLoanName] = useState("");
   const [loanMoney, setLoanmoney] = useState("");
   const [loanDate, setLoandate] = useState(1);
   const Datehandle = (value) => {setLoandate(value);};
   const [reason, setReason] = useState("");
-  const loanLimit = '넣어야됨';
+  const loanLimit = props.loanLimit;
   // const loanLimit = props.totalLoanBalance;
 
   const Loandata = () => {

@@ -10,12 +10,7 @@ interface DepositListProps {
   }
 
 const DepositList: React.FC<DepositListProps> = (props) => {
-    // const depositName= '뀨뀨 정기 예금'
-    // const depositMoney = 100000;
-    const depositMoney2 = props.depositMoney >= 10000 ? props.depositMoney / 10000 +'만' : props.depositMoney;
-    // const interestrate = '2'
-    // const maturity = '2023.10.04'
-
+    const depositMoney2 = props.depositMoney >= 10000 ? '약'+ parseFloat(((props.depositMoney/10000).toFixed(1))) + '만' : props.depositMoney;
     return (
 
         <div className="rounded-xl shadow-md bg-white" style={{borderColor: '#ABD0CE'}}>
