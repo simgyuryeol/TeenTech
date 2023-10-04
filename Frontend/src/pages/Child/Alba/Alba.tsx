@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import JobCarousel from "../../../components/Alba/JobCarousel";
 import NoJob from "../../../components/Alba/NoJob";
+import Bot from "../Bot/Bot";
 
 const Alba: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +34,17 @@ const Alba: React.FC = () => {
 
   return (
     <div className="mt-10">
+      {/* 챗봇 */}
+      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
+        <div className="flex items-end">
+          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
+            질문해줘
+          </div>
+          <Bot />
+        </div>
+      </div>
       <h2 className="mb-4 text-2xl font-bold">자식 알바 페이지</h2>
+
       <div className="m-4">
         <div className="flex flex-col">
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -55,7 +66,9 @@ const Alba: React.FC = () => {
                 <div className=" text-gray-700 pr-2">
                   <div className="flex items-center justify-between">
                     <p>진행 중</p>
-                    <p className="text-red-600">{currentJobs? currentJobs.length : 0}건</p>
+                    <p className="text-red-600">
+                      {currentJobs ? currentJobs.length : 0}건
+                    </p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p>진행 완료</p>
@@ -103,7 +116,7 @@ const Alba: React.FC = () => {
           {availableJobs.length ? (
             <JobCarousel jobs={availableJobs} />
           ) : (
-            <NoJob status="신청 가능한"/>
+            <NoJob status="신청 가능한" />
           )}
         </div>
       </div>
