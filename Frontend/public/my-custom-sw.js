@@ -1,7 +1,19 @@
-self.addEventListener('fetch', (event) => {
-    if (new RegExp("/^\/oauth2/").test(event.request.url) || new RegExp("/^\/api/").test(event.request.url)) {
-        // Respond to this request with a network fetch, bypassing the cache
-        event.respondWith(fetch(event.request));
-        return;
-    }
+import { registerRoute } from 'workbox-routing';
+import { NetworkOnly } from 'workbox-strategies';
+
+registerRoute(
+  ({url}) => url.href.startsWith('https://j9e207.p.ssafy.io/oauth2/authorization/kakao'),
+  new NetworkOnly()
+);
+
+import { NetworkFirst } from 'workbox-strategies';
+
+registerRoute(
+  ({url}) => url.href.startsWith('https://j9e207.p.ssafy.io/api/v1/'),
+  new NetworkFirst()
+);
+
+self.addEventListener('install', function(event) {
+    event.waitUntil(self.skipWaiting());
   });
+  
