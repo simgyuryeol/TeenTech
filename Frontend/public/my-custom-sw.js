@@ -5,8 +5,6 @@ registerRoute(
   new NetworkOnly()
 );
 
-import { NetworkFirst } from 'workbox-strategies';
-
 registerRoute(
   ({url}) => url.href.startsWith('https://j9e207.p.ssafy.io/api/v1/'),
   new NetworkFirst()
