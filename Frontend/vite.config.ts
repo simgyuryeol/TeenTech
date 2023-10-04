@@ -1,6 +1,9 @@
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import react from "@vitejs/plugin-react";
+import { registerRoute } from 'workbox-routing';
+import { NetworkOnly } from 'workbox-strategies';
+import { NetworkFirst } from 'workbox-strategies';
 
 // https://vitejs.dev/config/
 export default defineConfig({
