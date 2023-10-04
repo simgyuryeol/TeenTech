@@ -128,6 +128,7 @@ public class ChildService {
                 .loanBalance(loanBalance)
                 .loneDay(loanDay.intValue())
                 .quizPoint(childDetail.getQuizPoint())
+                .avatarImageUrl(childDetail.getAvatarImageUrl())
                 .build();
 
         return childDetailResponseDto;

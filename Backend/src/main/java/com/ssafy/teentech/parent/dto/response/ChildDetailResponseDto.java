@@ -15,4 +15,5 @@ public class ChildDetailResponseDto {
     private Integer loanBalance;
     private Integer loneDay;
     private Integer quizPoint;
+    private String avatarImageUrl;
 }

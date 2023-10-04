@@ -72,6 +72,14 @@ public class UserService {
         user.updateUserName(extraInformationRequestDto.getName());
         user.updateAccountNumber(accountResponseDto.getAccountNumber());
         user.updateRole(extraInformationRequestDto.getRole());
+
+        /**
+         * child라면 childDetail 테이블 생성
+         */
+        if(user.getRole().equals(Role.ROLE_CHILD)){
+            childDetailRepository.save(new ChildDetail(null,user,5,0,0,0,null,0,0,"Dog",0f,0f));
+        }
+
     }
 
     public CreditAndInterestResponseDto getCreditAndInterests(String userEmail) {
