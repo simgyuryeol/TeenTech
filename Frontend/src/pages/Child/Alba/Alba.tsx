@@ -60,7 +60,7 @@ const Alba: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <p>진행 완료</p>
-                    <p className="text-red-600">0건</p>
+                    <p className="text-red-600">{availableJobs? availableJobs.length : 0}건</p>
                   </div>
                 </div>
               </div>

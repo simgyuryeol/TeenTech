@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Card from "../Common/Card";
 
 const SetQuizPrize: React.FC = () => {
@@ -17,7 +18,16 @@ const SetQuizPrize: React.FC = () => {
   };
 
   const handleSet = () => {
-    console.log(`퀴즈 상금 등록: ${prize}원`);
+    axios
+      .post(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/reward/set", {
+        cost: prize,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

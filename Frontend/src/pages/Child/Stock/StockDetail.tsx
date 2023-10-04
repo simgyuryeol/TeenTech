@@ -22,6 +22,25 @@ const StockDetail: React.FC = () => {
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
 
+  let maskedCompanyName: string;
+  switch (companyName) {
+    case "삼성전자":
+      maskedCompanyName = "싸피전자";
+      break;
+    case "카카오":
+      maskedCompanyName = "싸피IT";
+      break;
+    case "LG화학":
+      maskedCompanyName = "싸피화학";
+      break;
+    case "KB금융":
+      maskedCompanyName = "싸피금융";
+      break;
+    default:
+      maskedCompanyName = "";
+      break;
+  }
+
   useEffect(() => {
     axios
       // .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/investments`, {
@@ -101,7 +120,7 @@ const StockDetail: React.FC = () => {
 
       <div className="mt-12">
         <div className="py-4" />
-        <p className="font-bold text-3xl">{companyName}</p>
+        <p className="font-bold text-3xl">{maskedCompanyName}</p>
         <div className="flex justify-end mr-4">
           <Icon
             icon="mdi:help-circle-outline"
@@ -111,7 +130,7 @@ const StockDetail: React.FC = () => {
         </div>
 
         {stockChartInfo ? (
-          <StockChart stockInfo={stockChartInfo} />
+          <StockChart stockInfo={stockChartInfo} maskedStockName={maskedCompanyName}/>
         ) : (
           <div>로딩 중...</div>
         )}
@@ -150,7 +169,7 @@ const StockDetail: React.FC = () => {
             />
           </button>
           <BuyStock
-            companyName={companyName}
+            companyName={maskedCompanyName}
             price={stockChartInfo.price}
             onClose={handleBuyClose}
           />
@@ -169,7 +188,7 @@ const StockDetail: React.FC = () => {
             />
           </button>
           <SellStock
-            companyName={companyName}
+            companyName={maskedCompanyName}
             price={stockChartInfo.price}
             onClose={handleSellClose}
           />

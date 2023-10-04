@@ -22,19 +22,24 @@ const MarketStock: React.FC<MarketStockProps> = (props) => {
   const { companyName, value, priceChange, priceChangePercentage } =
     props.stock;
 
-  let imageSrc;
+  let imageSrc: string;
+  let maskedCompanyName: string;
   switch (companyName) {
     case "삼성전자":
       imageSrc = samsungImg;
+      maskedCompanyName = "싸피전자";
       break;
     case "카카오":
       imageSrc = kakaoImg;
+      maskedCompanyName = "싸피IT";
       break;
     case "LG화학":
       imageSrc = ncsoftImg;
+      maskedCompanyName = "싸피화학";
       break;
       case "KB금융":
       imageSrc = shinhanImg;
+      maskedCompanyName = "싸피금융";
       break;
     default:
       imageSrc = "";
@@ -46,7 +51,7 @@ const MarketStock: React.FC<MarketStockProps> = (props) => {
       <Card className="flex justify-between p-2 text-black">
         <div className="flex flex-col items-center p-4 ml-4">
           <img src={imageSrc} alt={companyName} className="w-12 h-12"/>
-          <p className="mt-1 text-md font-bold">{companyName}</p>
+          <p className="mt-1 text-md font-bold">{maskedCompanyName}</p>
         </div>
 
         <div className="flex items-center">

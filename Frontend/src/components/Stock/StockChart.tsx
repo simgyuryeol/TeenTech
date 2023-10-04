@@ -17,14 +17,15 @@ interface StockChart {
 
 interface StockChartProp {
   stockInfo: StockChart;
+  maskedStockName: string;
 }
 
-const StockChart: React.FC<StockChartProp> = ({ stockInfo }) => {
+const StockChart: React.FC<StockChartProp> = ({ stockInfo, maskedStockName }) => {
   const priceToString = stockInfo.price.toLocaleString();
   const stockData: ApexCharts.ApexOptions = {
     series: [
       {
-        name: stockInfo.stockName,
+        name: maskedStockName,
         data: stockInfo.priceData,
       },
     ],
