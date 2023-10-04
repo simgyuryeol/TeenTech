@@ -3,7 +3,8 @@ package com.ssafy.teentech.alba.controller;
 import com.ssafy.teentech.alba.dto.request.AlbaAcceptCompleteRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaCreateRequestDto;
 import com.ssafy.teentech.alba.dto.request.AlbaRejectCompleteRequestDto;
-import com.ssafy.teentech.alba.dto.response.AlbaCompletedListResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaDoneListResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaWaitingListResponseDto;
 import com.ssafy.teentech.alba.dto.response.AlbasForParentResponseDto;
 import com.ssafy.teentech.alba.service.AlbaService;
 import com.ssafy.teentech.common.entity.CurrentUser;
@@ -38,14 +39,24 @@ public class AlbaParentController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/completed-lists/{childId}")
-    public ResponseEntity<ApiResponse> getCompletedAlbaList(@CurrentUser User user,
-        @PathVariable Long childId) {
-        AlbaCompletedListResponseDto completedAlbaList = albaService.getCompletedAlbaList(
+    @GetMapping("/wait-for-check-lists/{childId}")
+    public ResponseEntity<ApiResponse> getWaitForCheckAlbaList(@CurrentUser User user, @PathVariable Long childId) {
+        AlbaWaitingListResponseDto albaWaitingListResponseDto = albaService.getWaitForCheckAlbaList(
             user.getUsername(), childId);
 
-        ApiResponse apiResponse = ApiResponse.builder().message("완료한 아르바이트 목록 조회 완료")
-            .status(HttpStatus.OK.value()).data(completedAlbaList).build();
+        ApiResponse apiResponse = ApiResponse.builder().message("검사 대기 아르바이트 목록 조회 완료")
+            .status(HttpStatus.OK.value()).data(albaWaitingListResponseDto).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/done-lists/{childId}")
+    public ResponseEntity<ApiResponse> getDoneAlbaList(@CurrentUser User user,
+        @PathVariable Long childId) {
+        AlbaDoneListResponseDto doneAlbaList = albaService.getDoneAlbaList(
+            user.getUsername(), childId);
+
+        ApiResponse apiResponse = ApiResponse.builder().message("포기, 거절, 완료, 만료 아르바이트 목록 조회 완료")
+            .status(HttpStatus.OK.value()).data(doneAlbaList).build();
         return ResponseEntity.ok(apiResponse);
     }
 
