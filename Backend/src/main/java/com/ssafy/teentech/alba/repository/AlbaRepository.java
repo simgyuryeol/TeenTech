@@ -24,4 +24,8 @@ public interface AlbaRepository extends JpaRepository<Alba, Long> {
     List<AlbaDoneResponseDto> findAllByUserAndGiveUpOrRejectOrCompleteOrExpired(
         @Param("user") User user, @Param("giveUp") Status giveUp, @Param("reject") Status reject,
         @Param("complete") Status complete, @Param("expired") Status expired);
+
+    @Query("select a from Alba a where a.closeDate < :now and (a.status = :post or a.status = :inProgress)")
+    List<Alba> findAllByCloseDateIsBeforeAndPostOrInProgress(@Param("now") LocalDate now,
+        @Param("post") Status post, @Param("inProgress") Status inProgress);
 }
