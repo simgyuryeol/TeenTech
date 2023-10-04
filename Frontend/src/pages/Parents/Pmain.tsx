@@ -61,7 +61,7 @@ const Pmain: React.FC = () => {
   const getchild = (item) => {
     setChild((prevChild) => ({
       ...prevChild,
-      id: item.id,
+      id: item.childId,
       name: item.childName,
     }));
   };
@@ -113,10 +113,10 @@ const Pmain: React.FC = () => {
       </div>
       {isModalOpen && (
         <ChildAdd>
-          <h2>자녀 이름을 입력해주세요</h2>
-          <div className="mt-1 mb-4">
-            {/* <label htmlFor="name">이름: </label> */}
-            <input
+          {/* <h2>자녀 이름을 입력해주세요</h2> */}
+          {/* <div className="mt-1 mb-4"> */}
+          {/* <label htmlFor="name">이름: </label> */}
+          {/* <input
               id="name"
               type="text"
               value={name}
@@ -127,7 +127,7 @@ const Pmain: React.FC = () => {
                 paddingLeft: "5px",
               }}
             />
-          </div>
+          </div> */}
           <h2>자녀에게 발급된 </h2>
           <h2>계좌번호를 입력해주세요</h2>
           <div className="mt-1 mb-4">

@@ -17,6 +17,10 @@ const menulist = [
   },
   {
     link: "/Ploan",
+    name: "대출",
+  },
+  {
+    link: "/Pdeposit",
     name: "예금",
   },
   {

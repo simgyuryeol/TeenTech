@@ -33,11 +33,11 @@ const Main: React.FC = () => {
     console.log("asiox..");
     setState({ id: 0 });
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/34`)
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${child.id}`)
       .then((response) => {
         setChildDetail(response.data.data);
         setTotalBalance(response.data.data.totalBalance);
-        setChild({ id: 35, pid: 34, name: "정재범" });
+        setChild({ id: child.id, pid: child.pid, name: child.name });
         setQuizPoint(response.data.data.quizPoint);
         console.log(response.data.data);
       })
@@ -124,7 +124,7 @@ const Main: React.FC = () => {
       </div>
       <div style={{ height: "65px" }}></div>
       <div className="mx-4 rounded-2xl mt-28">
-        <Total childId={34} />
+        <Total childId={child.id} />
       </div>
     </div>
   );
