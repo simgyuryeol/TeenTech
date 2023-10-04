@@ -1,96 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Credit from "../../../components/Credit";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { childIdAtom } from "../../../recoil/childIdAtom";
+import axios from 'axios';
+import { useRecoilValue,} from 'recoil';
+import { childIdAtom } from '../../../recoil/childIdAtom';
+import { CreditAtom } from "../../../recoil/creditAtom";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const Deposit: React.FC = () => {
-  const credit = "3";
-  // const child_id = 34;
+  const credit = useRecoilValue(CreditAtom).credit
+  const depositinterest = useRecoilValue(CreditAtom).depositinterest
   const [deposits, setDeposits] = useState([]);
-  const bgcolor = [
-    "gradient-to-tr from-gray-900 to-gray-700",
-    "black",
-    "pink-300",
-    "gradient-to-tr from-pink-300 to-blue-500",
-    "green-400",
-    "gray-900",
-    "blue-300",
-    "green-500",
-    "red-300",
-    "red-500",
-    "blue-500",
-    "green-400",
-    "black",
-    "red-300",
-    "blue-300",
-    "gradient-to-tr from-gray-900 to-gray-700",
-    "black",
-    "blue-500",
-    "blue-300",
-    "green-400",
-    "green-500",
-    "pink-300",
-    "gray-900",
-    "red-300",
-    "red-500",
-    "blue-500",
-    "green-400",
-    "black",
-    "red-300",
-    "blue-300",
-    "gradient-to-tr from-gray-900 to-gray-700",
-    "black",
-    "blue-500",
-    "blue-300",
-    "green-400",
-    "green-500",
-    "pink-300",
-    "gray-900",
-    "red-300",
-    "red-500",
-    "blue-500",
-    "green-400",
-    "black",
-    "red-300",
-    "blue-300",
-  ];
-  const imo = [
-    "🍕",
-    "🍓",
-    "🎈",
-    "🎁",
-    "⚽",
-    "🍫",
-    "🎮",
-    "🟢",
-    "🍖",
-    "🍩",
-    "🍕",
-    "🍓",
-    "🎈",
-    "🎁",
-    "⚽",
-    "🍫",
-    "🎮",
-    "🟢",
-    "🍖",
-    "🍩",
-    "🍕",
-    "🍓",
-    "🎈",
-    "🎁",
-    "⚽",
-    "🍫",
-    "🎮",
-    "🟢",
-    "🍖",
-    "🍩",
-  ];
-  const child_id = useRecoilValue(childIdAtom).id;
+  const imo = ['🍕','🍓','🎈','🎁','⚽','🍫','🎮','🟢','🍖','🍩','🍕','🍓','🎈','🎁','⚽','🍫','🎮','🟢','🍖','🍩','🍕','🍓','🎈','🎁','⚽','🍫','🎮','🟢','🍖','🍩',]
+  const child_id = useRecoilValue(childIdAtom).id
 
   useEffect(() => {
     const fetchDeposits = async () => {
@@ -105,25 +28,8 @@ const Deposit: React.FC = () => {
         console.log(error);
       }
     };
-    // Creditdata();
     fetchDeposits();
   }, []);
-
-  // const Creditdata = () => {
-  //   axios
-  //     .get(base_URL + `/api/v1/users/credit-and-interests`, {
-  //       // userId: window.localStorage.getItem('userId'),
-  //     })
-  //     .then(response => {
-  //       console.log(response.data);
-  //       // const depositid = response.data
-  //       // navigate(`/DepositJoinSuccess/${depositid}`);
-  //     })
-  //     .catch(error => {
-  //       console.log(child_id)
-  //       console.log(error);
-  //     });
-  // };
 
   return (
     <div className="pt-20 bg-white">
@@ -139,7 +45,7 @@ const Deposit: React.FC = () => {
               <p className="text-xl">{credit}등급</p>
               <p className="text-md flex items-center">을 위한 예금 금리</p>
             </div>
-            <p className="text-2xl font-bold mb-2">{"1.5 ~ 2"}%</p>
+              <p className="text-2xl font-bold mb-2">{depositinterest}%</p>
           </div>
         </div>
 
@@ -158,16 +64,14 @@ const Deposit: React.FC = () => {
           </Link>
         </div>
       </div>
-      <hr></hr>
-      <div className="bg-green-300 ml-2 mr-2 rounded-md pt-1 h-[full]">
+        <hr></hr>
+      <div className='bg-green-300 ml-2 mr-2 rounded-md pt-1 pb-80'>
         <div className="text-2xl font-bold mt-3 mb-3">가입한 예금 상품</div>
-        {deposits.map((item, index) => (
-          <Link
-            to={`/DepositDetail/${item.depositId}`}
-            state={item}
-            key={index}
-          >
-            <div
+        {deposits.length > 0 ? (
+    deposits.map((item, index) => (
+      <Link to={`/DepositDetail/${item.depositId}`} state={item} key={index}>
+        {/* 예금 상품 내용 */}
+        <div
               className="rounded-xl shadow-md m-6 mb-1 flex justify-between bg-white"
               style={{ borderColor: "#ABD0CE" }}
             >
@@ -201,63 +105,13 @@ const Deposit: React.FC = () => {
                 <p className="text-black">{item.endDate}</p>
               </div>
             </div>
-          </Link>
-        ))}
-        {/*  */}
-        {/* Card Credit */}
-        <div className="flex flex-wrap">
-          {deposits.map((item, index) => (
-            <Link
-              to={`/DepositDetail/${item.depositId}`}
-              state={item}
-              key={index}
-            >
-              <div
-                id="card"
-                className="relative w-44 h-36 rounded-2xl font-mono text-white overflow-hidden ml-2 mb-1"
-              >
-                {/* Front content */}
-                <div
-                  className={`absolute top-0 left-0 w-full h-full flex flex-col justify-center bg-${bgcolor[index]}`}
-                  style={{ transform: "rotateY(0deg)" }}
-                >
-                  <div className="flex justify-between items-center">
-                    <img
-                      src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png"
-                      alt="Smart card"
-                      className="w-[48px] ml-2"
-                    />
-                    <img
-                      src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png"
-                      alt="Visa image"
-                      className="w-[48px] mr-2"
-                    />
-                  </div>
-                  <div>
-                    <div className="flex flex-col mb-2">
-                      <div className="flex justify-center text-lg">
-                        <div>{item.depositName}</div>
-                      </div>
-                      <div className="flex justify-center text-xs">
-                        <div className="mr-2">
-                          {item.money.toLocaleString()}원
-                        </div>
-                        <div>
-                          {item.interest}% {item.interestType}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex text-xs justify-center">
-                      <div>만기일:</div>
-                      <div>{item.endDate}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-        {/*  */}
+      </Link>
+    ))
+  ) : (
+    <div className="flex justify-center items-center h-full">
+      <p className="text-gray-500">예금 상품이 없습니다.</p>
+    </div>
+  )}
       </div>
     </div>
   );
