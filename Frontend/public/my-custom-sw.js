@@ -9,6 +9,11 @@ registerRoute(
 );
 
 registerRoute(
+  ({url}) => url.href.startsWith('https://j9e207.p.ssafy.io/login/oauth2/'),
+  new NetworkOnly()
+);
+
+registerRoute(
   ({url}) => url.href.startsWith('https://j9e207.p.ssafy.io/api/v1/'),
   new NetworkFirst()
 );
