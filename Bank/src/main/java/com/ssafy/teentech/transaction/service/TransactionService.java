@@ -41,11 +41,11 @@ public class TransactionService {
         withdrawAccount.checkOwner(transactionRequestDto.getWithdrawAccountId());
         withdrawAccount.checkPassword(transactionRequestDto.getWithdrawAccountPassword());
 
-        withdrawAccount.withdraw(transactionRequestDto.getAmount());
-
         Account depositAccount = accountRepository.findByAccountNumberForUpdate(
                 depositAccountNumber)
             .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
+
+        withdrawAccount.withdraw(transactionRequestDto.getAmount());
         depositAccount.deposit(transactionRequestDto.getAmount());
 
         Transaction transaction = Transaction.builder().withdrawAccount(withdrawAccount)
@@ -70,11 +70,11 @@ public class TransactionService {
 
         withdrawAccount.checkOwner(autoTransactionRequestDto.getWithdrawAccountId());
 
-        withdrawAccount.withdraw(autoTransactionRequestDto.getAmount());
-
         Account depositAccount = accountRepository.findByAccountNumberForUpdate(
                 depositAccountNumber)
             .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
+
+        withdrawAccount.withdraw(autoTransactionRequestDto.getAmount());
         depositAccount.deposit(autoTransactionRequestDto.getAmount());
 
         Transaction transaction = Transaction.builder().withdrawAccount(withdrawAccount)
