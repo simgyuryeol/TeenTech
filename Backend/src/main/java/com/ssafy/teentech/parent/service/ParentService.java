@@ -5,12 +5,14 @@ import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
+import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.parent.dto.request.*;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.repository.ChildDetailRepository;
 import com.ssafy.teentech.user.repository.UserRepository;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +79,10 @@ public class ParentService {
 
     public void childAdd(ChildAddRequestDto childAddRequestDto, Long parentId) {
         User user = userRepository.findByAccountNumber(childAddRequestDto.getAccountNumber()).orElseThrow(() -> new IllegalArgumentException());
+
+        if (!user.getRole().equals(Role.ROLE_CHILD) || !Objects.isNull(user.getParentId())) {
+            throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
+        }
 
         user.setParentId(parentId);
         userRepository.save(user);
