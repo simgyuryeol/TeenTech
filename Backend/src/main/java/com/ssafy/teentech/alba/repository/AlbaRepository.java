@@ -16,8 +16,6 @@ public interface AlbaRepository extends JpaRepository<Alba, Long> {
 
     List<Alba> getAllByUserAndCloseDateBefore(User user, LocalDate now);
 
-    List<Alba> getAllByUserAndStatusIsNot(User user, Status status);
-
     List<Alba> getAllByUserAndStatus(User user, Status status);
 
     @Query("select new com.ssafy.teentech.alba.dto.response.AlbaDoneResponseDto(a.title, a.content, a.reward, a.startDate, a.closeDate, a.status) from Alba a where a.user = :user and (a.status = :giveUp or a.status = :reject or a.status = :complete or a.status = :expired)")

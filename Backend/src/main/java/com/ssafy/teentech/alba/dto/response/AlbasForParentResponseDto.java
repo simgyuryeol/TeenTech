@@ -9,6 +9,6 @@ import lombok.Getter;
 public class AlbasForParentResponseDto {
 
     private List<AlbaResponseDto> inProgressAlbaList;
-    private List<AlbaResponseDto> createdBeforeNowAlbaList;
+    private List<AlbaResponseDto> postedAlbaList;
 
 }
