@@ -42,6 +42,8 @@ public enum ErrorCode {
     ALREADY_APPROVED_LOAN(400, "이미 승인된 대출입니다."),
     BALANCE_NOT_ENOUGH(400, "계좌 잔액이 부족합니다."),
     LOAN_LIMIT_EXCEED(400, "남은 총 상환 금액과 대출 신청 금액의 합이 용돈의 50% 이상입니다."),
+    INVALID_DEPOSIT_INTEREST_RATE(400, "신용등급에 맞는 예금 이율을 설정해주세요."),
+    INVALID_LOAN_INTEREST_RATE(400, "신용등급에 맞는 대출 이율을 설정해주세요."),
 
     FAIL_SEND_FCM_MESSAGE(400, "알림 보내기를 실패하였습니다."),
 

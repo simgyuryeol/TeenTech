@@ -3,6 +3,8 @@ package com.ssafy.teentech.parent.service;
 import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.parent.dto.request.*;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
 import com.ssafy.teentech.user.domain.ChildDetail;
@@ -128,9 +130,54 @@ public class ParentService {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
 
+        checkDepositInterestLimitation(childDetail.getCreditRating(),
+            interestRateSettingRequestDto.getDeposit());
+        checkLoanInterestLimitation(childDetail.getCreditRating(),
+            interestRateSettingRequestDto.getLoan());
+
         childDetail.setDepositInterestRate(interestRateSettingRequestDto.getDeposit());
         childDetail.setLoanInterestRate(interestRateSettingRequestDto.getLoan());
 
         childDetailRepository.save(childDetail);
+    }
+
+    private void checkDepositInterestLimitation(Integer creditRating, float depositRate) {
+        if (creditRating < 3) {
+            if (depositRate < 2.0 || depositRate > 3.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
+            }
+        } else if (creditRating < 7) {
+            if (depositRate < 1.5 || depositRate > 2.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
+            }
+        } else if (creditRating < 9) {
+            if (depositRate < 1.0 || depositRate > 1.5) {
+                throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
+            }
+        } else if (creditRating < 11) {
+            if (depositRate < 0.0 || depositRate > 1.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
+            }
+        }
+    }
+
+    private void checkLoanInterestLimitation(Integer creditRating, float loanRate) {
+        if (creditRating < 3) {
+            if (loanRate > 5.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
+            }
+        } else if (creditRating < 7) {
+            if (loanRate > 8.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
+            }
+        } else if (creditRating < 9) {
+            if (loanRate > 10.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
+            }
+        } else if (creditRating < 11) {
+            if (loanRate > 15.0) {
+                throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
+            }
+        }
     }
 }
