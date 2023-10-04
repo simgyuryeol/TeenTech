@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AlbaDetail from "../../../components/Alba/JobDetail";
-import Bot from "../Bot/Bot";
+
 const NoCompletedJobs: React.FC = () => {
   return (
     <div className="absolute inset-0 flex justify-center items-center">
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <p className="text-2xl">아직 완료한 아르바이트가 없어요.</p>
     </div>
   );
