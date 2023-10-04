@@ -29,7 +29,7 @@ interface Job {
 }
 
 interface TradingRecord {
-  date: Date;
+  date: string;
   type: number;
   companyName: string;
   amount: number;

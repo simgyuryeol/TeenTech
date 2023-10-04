@@ -1,6 +1,6 @@
 import { getToken } from "firebase/messaging";
+import axios from "axios";
 import messaging from "../firebase";
-// import { transmitFCMtoken } from '../../api/transmitFCMtoken';
 
 const fetchFCMtoken = () => {
   console.log("Requesting permission...");
@@ -15,7 +15,18 @@ const fetchFCMtoken = () => {
             if (currentToken) {
               console.log("FCM Token : ", currentToken);
 
-              // const res = await transmitFCMtoken(currentToken)
+              try {
+                const response = await axios.post(
+                  import.meta.env.VITE_BASE_URL + "/api/v1/notification/save/token",
+                  {
+                    fcmToken: currentToken,
+                  }
+                );
+                console.log("POST Request Response: ", response.data);
+              } catch (error) {
+                console.error("Error sending POST request:", error);
+              }
+
             } else {
               console.log("FCM Token Unavailable");
             }

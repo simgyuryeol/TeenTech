@@ -1,5 +1,4 @@
 import React from "react";
-import useDate from "../../hooks/useDate";
 
 interface TableHeaderProp {
   title: string;
@@ -20,12 +19,11 @@ interface TradingRecordProps {
 
 const TradingRecord: React.FC<TradingRecordProps> = ({ record, className }) => {
   const { date, type, companyName, amount, price } = record;
-  const dateString = useDate(date);
 
   return (
     <tr className={` ${className}`}>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {dateString}
+        {date}
         <br />
         {type ? <span>샀어요</span> : <span>팔았어요</span>}
       </td>
@@ -55,7 +53,10 @@ const TradingRecords: React.FC<TradingRecordsProps> = (props) => {
   const history = props.history;
 
   return (
-    <div className="overflow-x-auto rounded-lg m-3 pl-2">
+    <div
+      className="overflow-x-auto rounded-lg m-3 pl-2 overflow-y-auto"
+      style={{ height: "28rem" }}
+    >
       <table className="divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>

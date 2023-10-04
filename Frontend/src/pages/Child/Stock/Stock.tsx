@@ -31,13 +31,12 @@ const Stock: React.FC = () => {
       // .get(import.meta.env.VITE_BASE_URL + `${child_id}/investments`, {
       .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/investments")
       .then((response) => {
-        console.log(response.data);
         const initialData = response.data.data;
 
         const fetchDataForStock = async (stock) => {
           try {
             const additionalResponse = await axios.post(
-              import.meta.env.VITE_BASE_URL + "34/investments/detail",
+              import.meta.env.VITE_BASE_URL + "/api/v1/34/investments/detail",
               {
                 companyName: stock.companyName,
               }
@@ -46,14 +45,18 @@ const Stock: React.FC = () => {
               -1
             );
             stock.investment = stock.averagePrice * stock.amount;
-            stock.value = additionalData.price * stock.amount;
-            stock.gain = (stock.price - stock.averagePrice) * stock.amount;
+            stock.value = additionalData[0].price * stock.amount;
+            stock.gain =
+              (additionalData[0].price - stock.averagePrice) * stock.amount;
             stock.ror =
-              ((additionalData.price - stock.averagePrice) /
+              ((additionalData[0].price - stock.averagePrice) /
                 stock.averagePrice) *
               100;
           } catch (error) {
-            console.error(`Error fetching data for stock ${stock.id}:`, error);
+            console.error(
+              `Error fetching data for stock ${stock.companyName}:`,
+              error
+            );
           }
         };
         const fetchPromises = initialData.map(fetchDataForStock);
@@ -120,18 +123,6 @@ const Stock: React.FC = () => {
           ) : (
             <EmptyStock />
           )}
-
-          <MyStock
-            stock={{
-              companyName: "삼성전자",
-              averagePrice: 1000,
-              amount: 1,
-              investment: 1000,
-              value: 900,
-              gain: -100,
-              ror: -10.0,
-            }}
-          />
         </div>
 
         <button

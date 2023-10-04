@@ -35,7 +35,6 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
   const handleBuyStock = () => {
     console.log({
       companyName: props.companyName,
-      price: props.price,
       date: todayToString,
       amount: quantity,
     });
@@ -44,7 +43,6 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
       // .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/deposits/create`, {
       .post(import.meta.env.VITE_BASE_URL + `/api/v1/34/investments/buy`, {
         companyName: props.companyName,
-        price: props.price,
         date: todayToString,
         amount: quantity,
       })
