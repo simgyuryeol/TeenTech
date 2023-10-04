@@ -42,13 +42,10 @@ import Bot from "./pages/Child/Bot/Bot";
 import BotChat from "./pages/Child/Bot/BotChat";
 import Mypage from "./pages/Child/Mypage";
 import LoginRedirect from "./pages/Login/LoginRedirect";
-import fetchFCMtoken from "./hooks/fetchFCMToken";
 import LoginRedirect2 from "./pages/Login/LoginRedirect2";
 
 const App: React.FC = () => {
-  useEffect(() => {
-    fetchFCMtoken();
-  }, []);
+
 
   return (
     <React.Fragment>
