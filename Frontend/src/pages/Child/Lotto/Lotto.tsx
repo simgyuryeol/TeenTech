@@ -4,7 +4,6 @@ import LottoList from "../../../components/Lotto/LottoList";
 import Jackpot from "../../../../src/assets/lotto/jackpot2.png";
 import Ticket from "../../../../src/assets/lotto/ticket2.png";
 import axios from "axios";
-import Bot from "../Bot/Bot";
 
 const Lotto: React.FC = () => {
   const navigate = useNavigate();
@@ -42,15 +41,6 @@ const Lotto: React.FC = () => {
         backgroundImage: "linear-gradient(180deg, #141E30 0%, #243B55 100%)",
       }}
     >
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <div className="flex justify-center">
         <div className="relative flex justify-center" style={{ width: "100%" }}>
           <img style={{ width: "auto", height: "200px" }} src={Jackpot} />

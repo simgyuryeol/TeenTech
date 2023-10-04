@@ -4,7 +4,6 @@ import QuizChart from "../../../components/Quiz/QuizChart";
 import TopicList from "../../../components/Quiz/TopicList";
 import { useRecoilValue } from "recoil";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
-import Bot from "../Bot/Bot";
 
 const Quiz: React.FC = () => {
   const quizScore = useRecoilValue(quizScoreAtom);
@@ -35,15 +34,6 @@ const Quiz: React.FC = () => {
 
   return (
     <div className="mt-12">
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <p className="text-2xl font-bold">퀴즈</p>
       <div className="bg-white m-5 rounded-xl p-3 flex">
         {correctProblem === 0 && wrongProblem === 0 ? (
