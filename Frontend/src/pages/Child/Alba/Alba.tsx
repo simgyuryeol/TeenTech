@@ -33,8 +33,7 @@ const Alba: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-10">
-      <div className="p-4"/>
+    <div className="pt-20 max-h pb-3 " style={{ minHeight: "100%" }}>
       <div className="m-4">
         <div className="flex flex-col">
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

@@ -84,7 +84,7 @@ const Pheader: React.FC = () => {
     navigate(`/PChildDetail/${childData.id}`);
   };
 
-  if (locationNow.pathname === "/pmain") return null;
+  if (locationNow.pathname === "/Pmain") return null;
   return (
     <div className="fixed inset-x-0 top-0 z-50 left-0">
       {isMenuOpen && (

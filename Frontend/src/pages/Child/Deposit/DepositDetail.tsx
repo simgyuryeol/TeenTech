@@ -60,7 +60,9 @@ const DepositDetail: React.FC = () => {
             depositName={depositData.depositName}
             depositMoney={depositData.money}
             maturity={depositData.endDate}
-          ></DepositList>
+          >
+            {}
+          </DepositList>
         </div>
       </div>
     </div>
