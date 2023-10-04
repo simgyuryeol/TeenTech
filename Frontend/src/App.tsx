@@ -79,6 +79,7 @@ const App: React.FC = () => {
               <Ptransfer key="ptransfer-component" />,
             ]}
           />
+
           <Route
             path="/Pinterest"
             element={[
@@ -149,6 +150,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Main key="main-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -156,6 +158,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Mypage key="mypage-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -163,6 +166,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <AccountBook key="accountbook-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -170,6 +174,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <AccountBookDetail key="accountbookdetail-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -177,6 +182,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <AccountBookAdd key="accountbookadd-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -184,6 +190,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Alba key="alba-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -191,6 +198,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <AlbaCompleted key="albacompleted-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -198,6 +206,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Deposit key="deposit-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -205,6 +214,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <DepositJoinDetail key="depositjoindetail-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -212,6 +222,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <DepositJoinSuccess key="depositjoinsuccess-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -219,13 +230,19 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <DepositDetail key="depositdetail-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
             path="/Loan"
             element={[
               <Header key="header-component" />,
-              <Loan key="loan-component" totalInProgressLoanCount={0} totalLoanBalance={0} inProgressLoanList={[]} />,
+              <Loan
+                key="loan-component"
+                totalInProgressLoanCount={0}
+                totalLoanBalance={0}
+                inProgressLoanList={[]}
+              />,
             ]}
           />
           <Route
@@ -233,6 +250,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <LoanCompleted key="loancompleted-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -240,6 +258,8 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Quiz key="quiz-component" />,
+
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -247,6 +267,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <QuizList key="quizlist-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -254,6 +275,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <QuizPlay key="quizplay-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -261,6 +283,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <QuizCommentary key="quizcommentary-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -268,6 +291,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Stock key="stock-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -275,6 +299,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <StockMarket key="stockmarket-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -282,6 +307,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <StockDetail key="stockdetail-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -289,6 +315,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <StockTradingList key="stocktradinglist-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -296,6 +323,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Lotto key="lotto-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -303,6 +331,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <LottoChange key="lottochange-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -310,6 +339,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Bot key="bot-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -317,6 +347,7 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <BotChat key="botchat-component" />,
+              <Bot key="bot-componenet" />,
             ]}
           />
         </Routes>
