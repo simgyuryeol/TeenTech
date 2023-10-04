@@ -16,6 +16,7 @@ const PchildDetail: React.FC = () => {
   const [childDetail, setChildDetail] = useState({
     totalBalance: 0,
     creditRating: "",
+    depositNumber: 0,
   });
 
   const [childList, setChildList] = useState([]);
@@ -76,7 +77,7 @@ const PchildDetail: React.FC = () => {
           .map((list) => (
             <Link
               to={`/Pchilddetail/${list.childId}`}
-              key={list.id}
+              key={list.childId}
               className="flex flex-col items-center m-1"
               onClick={() => handleLinkClick(list.childId, list.childName)}
             >
@@ -159,7 +160,9 @@ const PchildDetail: React.FC = () => {
                 예금 내역
               </div>
               <div className="px-3 pt-3 text-end flex justify-end items-center">
-                <div className="text-gray-700 text-4xl mr-3">3</div>
+                <div className="text-gray-700 text-4xl mr-3">
+                  {childDetail.depositNumber}
+                </div>
                 <div className="text-gray-700 text-2xl">건</div>
                 <div className="ml-2">
                   <img src={arrow} style={{ width: "20px" }} />

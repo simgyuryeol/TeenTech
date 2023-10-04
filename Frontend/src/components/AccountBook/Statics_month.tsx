@@ -12,21 +12,25 @@ import minus from "../../../src/assets/accountBook/minus.png";
 import Equal from "../../../src/assets/equal.png";
 import axios from "axios";
 import { setSeconds } from "date-fns";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 interface Props {
   date: string;
+  Datedata: dateDate[] | null;
 }
 interface dateDate {
   date: string;
   importAmount: number;
   spendingAmount: number;
 }
-const Statics_month: React.FC<Props> = ({ date }) => {
-  const [Datedata, setDatedata] = useState<dateDate[]>([]);
+const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
+  // const [Datedata, setDatedata] = useState<dateDate[]>([]);
+  console.log("넘어온 Datedata" + Datedata);
   const [importAmount, setImportAmount] = useState(0);
   const [spendingAmount, setSpendingAmount] = useState(0);
   const [consumptionTypeNull, setConsumptionTypeNull] = useState([]);
-
+  const [childData] = useRecoilState(childIdAtom);
   const [getData, setGetData] = useState([
     {
       name: "용돈",
@@ -100,21 +104,23 @@ const Statics_month: React.FC<Props> = ({ date }) => {
     },
   };
 
-  const getDetail = () => {
-    axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${date}`)
-      .then((response) => {
-        console.log(response.data.data);
-        setDatedata(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const getDetail = () => {
+  //   axios
+  //     .get(
+  //       `https://j9e207.p.ssafy.io/api/v1/${childData.id}/accountbooks/date/${date}`
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data.data);
+  //       setDatedata(response.data.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
-  useEffect(() => {
-    getDetail();
-  }, [date]);
+  // useEffect(() => {
+  // getDetail();
+  // }, [date]);
 
   useEffect(() => {
     // getData의 money값 0으로 초기화
@@ -124,114 +130,117 @@ const Statics_month: React.FC<Props> = ({ date }) => {
 
     setImportAmount(0);
     setSpendingAmount(0);
-    Datedata.forEach((item) => {
-      setImportAmount(
-        (prevImportAmount) => prevImportAmount + item.importAmount
-      );
-      setSpendingAmount(
-        (prevSpendingAmount) => prevSpendingAmount + item.spendingAmount
-      );
+    if (Datedata) {
+      Datedata.forEach((item) => {
+        setImportAmount(
+          (prevImportAmount) => prevImportAmount + item.importAmount
+        );
+        setSpendingAmount(
+          (prevSpendingAmount) => prevSpendingAmount + item.spendingAmount
+        );
 
-      axios
-        .get(
-          `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${item.date}`
-        )
-        .then((response) => {
-          let test = response.data.data;
-          test.forEach((item2) => {
-            if (item2.assetType === "욕구") {
-              setExpenditure((prevExpenditure) => ({
-                ...prevExpenditure,
-                욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
-              }));
-            } else if (item2.assetType === "대출") {
-              if (item2.withdrawalAmount > 0) {
+        axios
+          .get(
+            `https://j9e207.p.ssafy.io/api/v1/${childData.id}/accountbooks/detail/${item.date}`
+          )
+          .then((response) => {
+            let test = response.data.data;
+            test.forEach((item2) => {
+              if (item2.assetType === "욕구") {
                 setExpenditure((prevExpenditure) => ({
                   ...prevExpenditure,
-                  필요: prevExpenditure.필요 + item2.withdrawalAmount,
+                  욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
                 }));
-              }
-            } else if (item2.assetType === "예금") {
-              if (item2.withdrawalAmount > 0) {
-                setExpenditure((prevExpenditure) => ({
-                  ...prevExpenditure,
-                  필요: prevExpenditure.필요 + item2.withdrawalAmount,
-                }));
-              }
-            } else if (item2.assetType === "필요") {
-              setExpenditure((prevExpenditure) => ({
-                ...prevExpenditure,
-                필요: prevExpenditure.필요 + item2.withdrawalAmount,
-              }));
-            } else if (item2.assetType === "소비") {
-              if (item2.consumptionType === null) {
-                const formattedDate = item.date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
-                setConsumptionTypeNull((prevDates) => [
-                  ...prevDates,
-                  formattedDate,
-                ]);
-              } else {
-                if (item2.consumptionType === "필요") {
+              } else if (item2.assetType === "대출") {
+                if (item2.withdrawalAmount > 0) {
                   setExpenditure((prevExpenditure) => ({
                     ...prevExpenditure,
                     필요: prevExpenditure.필요 + item2.withdrawalAmount,
                   }));
-                } else if (item2.consumptionType === "욕구") {
+                }
+              } else if (item2.assetType === "예금") {
+                if (item2.withdrawalAmount > 0) {
                   setExpenditure((prevExpenditure) => ({
                     ...prevExpenditure,
-                    욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
+                    필요: prevExpenditure.필요 + item2.withdrawalAmount,
                   }));
                 }
+              } else if (item2.assetType === "필요") {
+                setExpenditure((prevExpenditure) => ({
+                  ...prevExpenditure,
+                  필요: prevExpenditure.필요 + item2.withdrawalAmount,
+                }));
+              } else if (item2.assetType === "소비") {
+                if (item2.consumptionType === null) {
+                  const formattedDate = item.date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
+                  setConsumptionTypeNull((prevDates) => [
+                    ...prevDates,
+                    formattedDate,
+                  ]);
+                } else {
+                  if (item2.consumptionType === "필요") {
+                    setExpenditure((prevExpenditure) => ({
+                      ...prevExpenditure,
+                      필요: prevExpenditure.필요 + item2.withdrawalAmount,
+                    }));
+                  } else if (item2.consumptionType === "욕구") {
+                    setExpenditure((prevExpenditure) => ({
+                      ...prevExpenditure,
+                      욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
+                    }));
+                  }
+                }
               }
-            }
 
-            if (item2.assetType === "이체") {
-              setGetData((prevData) =>
-                prevData.map((data) =>
-                  data.name === "용돈"
-                    ? { ...data, money: data.money + item2.depositAmount }
-                    : data
-                )
-              );
-            } else if (item2.assetType === "퀴즈") {
-              setGetData((prevData) =>
-                prevData.map((data) =>
-                  data.name === "퀴즈"
-                    ? { ...data, money: data.money + item2.depositAmount }
-                    : data
-                )
-              );
-            } else if (item2.assetType === "투자") {
-              setGetData((prevData) =>
-                prevData.map((data) =>
-                  data.name === "투자"
-                    ? { ...data, money: data.money + item2.depositAmount }
-                    : data
-                )
-              );
-            } else if (item2.assetType === "복권") {
-              setGetData((prevData) =>
-                prevData.map((data) =>
-                  data.name === "복권"
-                    ? { ...data, money: data.money + item2.depositAmount }
-                    : data
-                )
-              );
-            } else if (item2.assetType === "아르바이트") {
-              setGetData((prevData) =>
-                prevData.map((data) =>
-                  data.name === "아르바이트"
-                    ? { ...data, money: data.money + item2.depositAmount }
-                    : data
-                )
-              );
-            }
+              if (item2.assetType === "이체") {
+                setGetData((prevData) =>
+                  prevData.map((data) =>
+                    data.name === "용돈"
+                      ? { ...data, money: data.money + item2.depositAmount }
+                      : data
+                  )
+                );
+              } else if (item2.assetType === "퀴즈") {
+                setGetData((prevData) =>
+                  prevData.map((data) =>
+                    data.name === "퀴즈"
+                      ? { ...data, money: data.money + item2.depositAmount }
+                      : data
+                  )
+                );
+              } else if (item2.assetType === "투자") {
+                setGetData((prevData) =>
+                  prevData.map((data) =>
+                    data.name === "투자"
+                      ? { ...data, money: data.money + item2.depositAmount }
+                      : data
+                  )
+                );
+              } else if (item2.assetType === "복권") {
+                setGetData((prevData) =>
+                  prevData.map((data) =>
+                    data.name === "복권"
+                      ? { ...data, money: data.money + item2.depositAmount }
+                      : data
+                  )
+                );
+              } else if (item2.assetType === "아르바이트") {
+                setGetData((prevData) =>
+                  prevData.map((data) =>
+                    data.name === "아르바이트"
+                      ? { ...data, money: data.money + item2.depositAmount }
+                      : data
+                  )
+                );
+              }
+            });
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+      });
+    }
+
     setConsumptionTypeNull((prevDates) =>
       prevDates.sort((a, b) => parseInt(a) - parseInt(b))
     );
