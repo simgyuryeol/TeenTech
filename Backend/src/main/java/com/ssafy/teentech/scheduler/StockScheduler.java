@@ -54,6 +54,7 @@ public class StockScheduler {
 
                 String stock_price = select.text().split(" ")[0];
                 int price = Integer.parseInt(stock_price.replace(",", ""));
+                price/=100;
 
                 StockSaveDto stockSaveDto = StockSaveDto.builder()
                         .companyName(CompanyName.name())
