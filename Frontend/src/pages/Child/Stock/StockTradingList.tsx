@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TradingSummary from "../../../components/Stock/TradingSummary";
 import TradingRecords from "../../../components/Stock/TradingRecords";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 const StockTradingList: React.FC = () => {
   const [tradingHistory, setTradingHistory] = useState([]);
@@ -10,14 +12,13 @@ const StockTradingList: React.FC = () => {
   const [realizedProfit, setRealizedProfit] = useState(0);
   const [rateOfReturn, setRateOfReturn] = useState(0);
   const navigator = useNavigate();
+  const child = useRecoilValue(childIdAtom);
 
   useEffect(() => {
     axios
-      // .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/deposits/create`, {
-      .get(import.meta.env.VITE_BASE_URL + `/api/v1/34/investments/sales`)
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/sales`)
       .then((response) => {
         const fetchedData = response.data.data;
-        console.log("DATA FETCHED:", fetchedData);
         setTotalInvestment(fetchedData.totalInvestment);
         setRealizedProfit(fetchedData.totalNetProfit);
         setRateOfReturn(fetchedData.rateOfReturn);

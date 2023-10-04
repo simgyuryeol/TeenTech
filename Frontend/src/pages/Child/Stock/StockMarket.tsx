@@ -47,7 +47,7 @@ const StockMarket: React.FC = () => {
                 companyName: currentStock.companyName,
                 value: currentStock.price,
                 priceChange: priceChange,
-                priceChangePercentage: priceChangePercentage,
+                priceChangePercentage: Number(priceChangePercentage.toFixed(2)),
               };
 
               const isDuplicate = newStockList.some(
