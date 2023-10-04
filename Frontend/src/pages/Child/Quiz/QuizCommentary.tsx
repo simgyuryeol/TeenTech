@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import prizeImage from "../../../assets/quiz/prize.gif";
 import { useRecoilValue } from "recoil";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
+import Bot from "../Bot/Bot";
 
 const QuizCommentary: React.FC = () => {
   const score = useRecoilValue(quizScoreAtom);
@@ -17,6 +18,15 @@ const QuizCommentary: React.FC = () => {
 
   return (
     <div className="grid place-items-center h-screen ">
+      {/* 챗봇 */}
+      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
+        <div className="flex items-end">
+          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
+            질문해줘
+          </div>
+          <Bot />
+        </div>
+      </div>
       <div className="mt-0 p-3 flex-col items-center justify-center">
         <div>
           <p className="text-xl">

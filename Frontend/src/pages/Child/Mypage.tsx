@@ -10,6 +10,7 @@ import Sloth from "../../../src/assets/Teen9/Sloth.png";
 import axios from "axios";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilState } from "recoil";
+import Bot from "./Bot/Bot";
 
 const profile = [
   {
@@ -75,6 +76,15 @@ const Mypage: React.FC = () => {
 
   return (
     <div className="pt-24">
+      {/* 챗봇 */}
+      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
+        <div className="flex items-end">
+          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
+            질문해줘
+          </div>
+          <Bot />
+        </div>
+      </div>
       <section className="flex-row justify-start">
         <div className="text-3xl m-4">인증코드</div>
         <input

@@ -7,6 +7,7 @@ import StockNews from "../../../components/Stock/StockNews";
 import BuyStock from "../../../components/Stock/BuyStock";
 import SellStock from "../../../components/Stock/SellStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Bot from "../Bot/Bot";
 
 import "intro.js/introjs.css";
 import { Steps } from "intro.js-react";
@@ -100,6 +101,15 @@ const StockDetail: React.FC = () => {
       />
 
       <div className="mt-12">
+        {/* 챗봇 */}
+        <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
+          <div className="flex items-end">
+            <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
+              질문해줘
+            </div>
+            <Bot />
+          </div>
+        </div>
         <div className="py-4" />
         <p className="font-bold text-3xl">{companyName}</p>
         <div className="flex justify-end mr-4">
@@ -149,7 +159,11 @@ const StockDetail: React.FC = () => {
               className="w-6 h-6 text-gray-600"
             />
           </button>
-          <BuyStock companyName={companyName} price={stockChartInfo.price} onClose={handleBuyClose} />
+          <BuyStock
+            companyName={companyName}
+            price={stockChartInfo.price}
+            onClose={handleBuyClose}
+          />
         </Modal>
       )}
 
@@ -164,7 +178,11 @@ const StockDetail: React.FC = () => {
               className="w-6 h-6 text-gray-600"
             />
           </button>
-          <SellStock companyName={companyName} price={stockChartInfo.price} onClose={handleSellClose} />
+          <SellStock
+            companyName={companyName}
+            price={stockChartInfo.price}
+            onClose={handleSellClose}
+          />
         </Modal>
       )}
     </React.Fragment>
