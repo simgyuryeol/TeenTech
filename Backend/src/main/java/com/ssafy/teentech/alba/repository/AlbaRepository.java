@@ -2,7 +2,7 @@ package com.ssafy.teentech.alba.repository;
 
 import com.ssafy.teentech.alba.domain.Alba;
 import com.ssafy.teentech.alba.domain.Status;
-import com.ssafy.teentech.alba.dto.response.AlbaCompletedResponseDto;
+import com.ssafy.teentech.alba.dto.response.AlbaDoneResponseDto;
 import com.ssafy.teentech.user.domain.User;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +18,10 @@ public interface AlbaRepository extends JpaRepository<Alba, Long> {
 
     List<Alba> getAllByUserAndStatusIsNot(User user, Status status);
 
-    @Query("select new com.ssafy.teentech.alba.dto.response.AlbaCompletedResponseDto(a.title, a.reward, a.startDate, a.closeDate, a.content) from Alba a where a.user = :user and a.closeDate < :now and a.status = :status")
-    List<AlbaCompletedResponseDto> findAllByUserAndCloseDateBeforeAndStatusOrderByStatus(
-        @Param("user") User user, @Param("now") LocalDate now, @Param("status") Status status);
+    List<Alba> getAllByUserAndStatus(User user, Status status);
+
+    @Query("select new com.ssafy.teentech.alba.dto.response.AlbaDoneResponseDto(a.title, a.content, a.reward, a.startDate, a.closeDate, a.status) from Alba a where a.user = :user and (a.status = :giveUp or a.status = :reject or a.status = :complete or a.status = :expired)")
+    List<AlbaDoneResponseDto> findAllByUserAndGiveUpOrRejectOrCompleteOrExpired(
+        @Param("user") User user, @Param("giveUp") Status giveUp, @Param("reject") Status reject,
+        @Param("complete") Status complete, @Param("expired") Status expired);
 }

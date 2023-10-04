@@ -6,8 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AlbaCompletedListResponseDto {
+public class AlbaWaitingListResponseDto {
 
-    private List<AlbaCompletedResponseDto> completedAlbaList;
-
+    private List<AlbaResponseDto> waitForCheckAlbaList;
 }
