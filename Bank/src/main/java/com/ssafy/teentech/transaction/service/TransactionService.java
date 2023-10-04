@@ -94,10 +94,8 @@ public class TransactionService {
             .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
         account.checkOwner(transactionListRequestDto.getUserId());
 
-        Pageable pageable = PageRequest.of(transactionListRequestDto.getIndex(),Integer.MAX_VALUE);
-
         TransactionListResponseDto transactionListResponseDto = new TransactionListResponseDto(
-            transactionRepository.findAllByWithdrawAccountOrDepositAccount(account,pageable).stream()
+            transactionRepository.findAllByWithdrawAccountOrDepositAccount(account, transactionListRequestDto.getIndex()).stream()
                 .map(t -> {
                     if (account.equals(t.getDepositAccount())) {
                         return new TransactionResponseDto(t.getTransactionId(),
