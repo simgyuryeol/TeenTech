@@ -6,7 +6,6 @@ import LoanList from "../../../components/Loan/LoanList";
 import LoanCreate from "../../../components/Loan/LoanCreate";
 import LoanrepaymentButton from "../../../components/Loan/LoanrepaymentButton";
 import axios from "axios";
-import Bot from "../Bot/Bot";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -52,15 +51,6 @@ const Loan: React.FC<Loan> = () => {
 
   return (
     <div className="pt-24">
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <Credit children={""} />
       <div className="flex flex-col justify-center">
         <LoanStatus

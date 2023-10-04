@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./AccountBookAdd.module.css";
 import axios from "axios";
-import Bot from "../Bot/Bot";
 
 const Data2 = [
   {
@@ -148,15 +147,6 @@ const AccountBookAdd: React.FC = () => {
       style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}
       className={`text-xl flex pt-20 container flex-col flex-wrap items-center`}
     >
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <div className="flex flex-col w-11/12">
         <div className="py-3 container"></div>
         <div className="items-center justify-center bg-white rounded-xl drop-shadow-lg mb-4">

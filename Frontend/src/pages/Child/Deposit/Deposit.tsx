@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { childIdAtom } from "../../../recoil/childIdAtom";
-import Bot from "../Bot/Bot";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -128,15 +127,6 @@ const Deposit: React.FC = () => {
 
   return (
     <div className="pt-20 bg-white">
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <div className="border bg-yellow-200 rounded-md ml-2 mr-2 mb-2 pt-4">
         <p className="text-2xl mb-2">예금</p>
         <div className="mb-4 ">
