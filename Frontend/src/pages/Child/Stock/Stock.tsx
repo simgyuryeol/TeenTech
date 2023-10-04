@@ -6,7 +6,6 @@ import MyStock from "../../../components/Stock/MyStock";
 import EmptyStock from "../../../components/Stock/EmptyStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useStockStatistics from "../../../hooks/useStockStatistics";
-import Bot from "../Bot/Bot";
 
 import "intro.js/introjs.css";
 import { Steps } from "intro.js-react";
@@ -98,15 +97,6 @@ const Stock: React.FC = () => {
       />
 
       <div className="mt-16">
-        {/* 챗봇 */}
-        <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-          <div className="flex items-end">
-            <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-              질문해줘
-            </div>
-            <Bot />
-          </div>
-        </div>
         <div className="p-3" />
         <div className="flex justify-end mr-4">
           <Icon

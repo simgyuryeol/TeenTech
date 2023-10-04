@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TradingSummary from "../../../components/Stock/TradingSummary";
 import TradingRecords from "../../../components/Stock/TradingRecords";
-import Bot from "../Bot/Bot";
 
 const StockTradingList: React.FC = () => {
   const [tradingHistory, setTradingHistory] = useState([]);
@@ -35,15 +34,6 @@ const StockTradingList: React.FC = () => {
 
   return (
     <div className="mt-16">
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <div className="p-2" />
       <TradingSummary
         totalInvestment={totalInvestment}

@@ -77,7 +77,7 @@ const Total: React.FC<Props> = ({ childId }) => {
             {/* <div className="text-white text-xl">+ {childDetail.}</div> */}
             <div className="text-gray-700 text-2xl">
               {childDetail?.deposit
-                ? `${childDetail.deposit.toLocaleString()}원 모았어요!`
+                ? `${childDetail.deposit.toLocaleString()} 원 모았어요!`
                 : "Loading..."}
             </div>
           </div>
