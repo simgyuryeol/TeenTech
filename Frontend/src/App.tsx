@@ -243,6 +243,7 @@ const App: React.FC = () => {
                 totalLoanBalance={0}
                 inProgressLoanList={[]}
               />,
+              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
@@ -258,7 +259,6 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Quiz key="quiz-component" />,
-
               <Bot key="bot-componenet" />,
             ]}
           />
@@ -339,7 +339,6 @@ const App: React.FC = () => {
             element={[
               <Header key="header-component" />,
               <Bot key="bot-component" />,
-              <Bot key="bot-componenet" />,
             ]}
           />
           <Route
