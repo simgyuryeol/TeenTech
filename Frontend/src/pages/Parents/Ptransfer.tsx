@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Ptransfer: React.FC = () => {
   const [childid] = useRecoilState(childIdAtom);
-  const [amount, setAmount] = useState<number | "">("");
+  const [amount, setAmount] = useState<number | "">(0);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   console.log(childid.id);
 
@@ -16,10 +16,15 @@ const Ptransfer: React.FC = () => {
 
   const handleConfirm = () => {
     // parent_id랑 child_id 바꿔주기
+    console.log(childid.pid);
+    console.log(childid.id);
     axios
-      .post(`https://j9e207.p.ssafy.io/api/v1/parents/35/${childid.id}/send`, {
-        pinmoney: amount,
-      })
+      .post(
+        `https://j9e207.p.ssafy.io/api/v1/parents/${childid.pid}/${childid.id}/send`,
+        {
+          pinMoney: amount,
+        }
+      )
       .then((response) => {
         console.log(response);
         alert(`${amount}만큼 ${childid.name}에게 송금되었습니다.`);
@@ -28,8 +33,10 @@ const Ptransfer: React.FC = () => {
       })
       .catch((error) => {
         console.log(amount);
+        alert(`다시 시도해주세요`);
         console.log(error);
       });
+    console.log;
   };
 
   const handleCancel = () => {
@@ -53,7 +60,7 @@ const Ptransfer: React.FC = () => {
           />
         </div>
         <button
-          className="text-xl text-black bg-blue-100 rounded-xl drop-shadow "
+          className="text-xl text-black bg-blue-100 rounded-xl drop-shadow-md"
           onClick={handleLinkClick}
           style={{ width: "100%" }}
         >
@@ -68,8 +75,12 @@ const Ptransfer: React.FC = () => {
                 childid.name
               }에게 ${amount.toLocaleString()}원 송금하시겠습니까?`}</p>
               <div className="flex justify-end mt-4">
-                <button onClick={handleCancel}>취소</button>
-                <button onClick={handleConfirm}>확인</button>
+                <button className="drop-shadow-md mr-3" onClick={handleCancel}>
+                  취소
+                </button>
+                <button className="drop-shadow-md" onClick={handleConfirm}>
+                  확인
+                </button>
               </div>
             </div>
           </div>
