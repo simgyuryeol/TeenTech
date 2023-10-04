@@ -5,6 +5,7 @@ import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
+import com.ssafy.teentech.common.error.exception.NotFoundException;
 import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.parent.dto.request.*;
 import com.ssafy.teentech.parent.dto.response.ChildGetResponseDto;
@@ -61,7 +62,7 @@ public class ParentService {
     }
 
     public List<ChildGetResponseDto> childGet(Long parentId) {
-        List<User> userList = userRepository.findAllByParentId(parentId).orElseThrow(() -> new IllegalArgumentException());
+        List<User> userList = userRepository.findAllByParentId(parentId).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         List<ChildGetResponseDto> childGetResponseDtoList = new ArrayList<>();
         for (User user : userList) {
