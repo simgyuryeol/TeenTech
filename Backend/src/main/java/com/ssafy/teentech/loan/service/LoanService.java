@@ -6,10 +6,12 @@ import com.ssafy.teentech.bank.service.BankService;
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.BankException;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
+import com.ssafy.teentech.common.error.exception.NotFoundException;
 import com.ssafy.teentech.common.error.exception.PermissionDeniedException;
 import com.ssafy.teentech.common.fcm.dto.request.FCMNotificationRequestDto;
 import com.ssafy.teentech.common.fcm.service.FCMNotificationService;
 import com.ssafy.teentech.common.response.ApiResponse;
+import com.ssafy.teentech.common.util.Cycle;
 import com.ssafy.teentech.loan.domain.Loan;
 import com.ssafy.teentech.loan.domain.Repayment;
 import com.ssafy.teentech.loan.domain.State;
@@ -63,7 +65,15 @@ public class LoanService {
         Integer totalLoanBalance = inProgressLoanList.stream()
             .map(LoanSummaryResponseDto::getLastBalance).reduce(0, (x, y) -> x + y).intValue();
 
-        if (totalLoanBalance + loanApplyRequestDto.getAmount() >= childDetail.getPocketMoney()) {
+        if (Objects.equals(childDetail.getPocketMoneyCycle(), null)) {
+            throw new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND);
+        }
+
+        Integer limitation =
+            childDetail.getPocketMoneyCycle().equals(Cycle.WEEKLY) ? childDetail.getPocketMoney()
+                * 2 : childDetail.getPocketMoney() / 2;
+
+        if (totalLoanBalance + loanApplyRequestDto.getAmount() >= limitation) {
             throw new InvalidRequestException(ErrorCode.LOAN_LIMIT_EXCEED);
         }
 
@@ -82,6 +92,14 @@ public class LoanService {
         ChildDetail childDetail = childDetailRepository.findByUser(child)
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
 
+        if (Objects.equals(childDetail.getPocketMoneyCycle(), null)) {
+            throw new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND);
+        }
+
+        Integer limitation =
+            childDetail.getPocketMoneyCycle().equals(Cycle.WEEKLY) ? childDetail.getPocketMoney()
+                * 2 : childDetail.getPocketMoney() / 2;
+
         List<LoanSummaryResponseDto> inProgressLoanList = loanRepository.findAllByUserAndBalanceIsGreaterThanZeroAndState(
             child, State.ACCEPT);
 
@@ -90,7 +108,7 @@ public class LoanService {
 
         LoanSummaryListResponseDto loanSummaryListResponseDto = new LoanSummaryListResponseDto(
             childDetail.getCreditRating(),
-            inProgressLoanList.size(), totalLoanBalance, inProgressLoanList);
+            inProgressLoanList.size(), totalLoanBalance, limitation, inProgressLoanList);
 
         return loanSummaryListResponseDto;
     }
@@ -172,6 +190,17 @@ public class LoanService {
             throw new PermissionDeniedException(ErrorCode.NO_PERMISSION_TO_READ_LOAN);
         }
 
+        ChildDetail childDetail = childDetailRepository.findByUser(child)
+            .orElseThrow(() -> new InvalidRequestException(ErrorCode.USER_NOT_FOUND));
+
+        if (Objects.equals(childDetail.getPocketMoneyCycle(), null)) {
+            throw new NotFoundException(ErrorCode.CHILD_DETAIL_NOT_FOUND);
+        }
+
+        Integer limitation =
+            childDetail.getPocketMoneyCycle().equals(Cycle.WEEKLY) ? childDetail.getPocketMoney()
+                * 2 : childDetail.getPocketMoney() / 2;
+
         // 대출 신청 목록
         List<LoanApplyResponseDto> loanApplyResponseDtoList = loanRepository.findAllByUserAndApprovalDateIsNullAndState(
             child, State.APPLY);
@@ -184,7 +213,7 @@ public class LoanService {
             .map(LoanSummaryResponseDto::getLastBalance).reduce(0, (x, y) -> x + y).intValue();
 
         LoanSummaryListParentResponseDto loanSummaryListParentResponseDto = new LoanSummaryListParentResponseDto(
-            inProgressLoanList.size(), totalLoanBalance, loanApplyResponseDtoList,
+            inProgressLoanList.size(), totalLoanBalance, limitation, loanApplyResponseDtoList,
             inProgressLoanList);
 
         return loanSummaryListParentResponseDto;
