@@ -46,8 +46,8 @@ public class NewsScheduler {
     private static String apiUrl = "https://api.openai.com/v1/chat/completions";
 //    private static String apiUrl = "https://api.openai.com/v1/engines/text-davinci-003/completions";
 
-    @Scheduled(cron = "0 0 16 * * *") //매일 오후 4시에 실행
-//    @Scheduled(cron = "0 31 * * * *")
+    @Scheduled(cron = "0 30 17 * * *") //매일 오후 4시에 실행
+//    @Scheduled(cron = "0 18 * * * *")
     public void newsSave(){
         List<News> newsList = new ArrayList<>();
 
