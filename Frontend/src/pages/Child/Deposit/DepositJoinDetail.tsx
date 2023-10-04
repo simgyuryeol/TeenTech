@@ -2,12 +2,15 @@ import React, {useState, useEffect}  from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../../components/Common/Modal';
 import axios from 'axios';
+import { useRecoilValue,} from 'recoil';
+import { childIdAtom } from '../../../recoil/childIdAtom';
+import { CreditAtom } from '../../../recoil/creditAtom';
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const DepositJoinDetail: React.FC = () => {
     const navigate = useNavigate();
-    const interestrate = 2;
+    const interestrate = useRecoilValue(CreditAtom).depositinterest;
     const [depositName, setDepositname] = useState('');
     const [depositMoney, setDepositmoney] = useState('');
     const depositMoney2 = parseInt(depositMoney) >= 10000 ? '약'+ parseFloat(((parseInt(depositMoney)/10000).toFixed(1))) + '만' : depositMoney;
@@ -49,7 +52,7 @@ const DepositJoinDetail: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [depositMoney, depositInterest, depositDate]);
 
-    const child_id = 34
+    const child_id = useRecoilValue(childIdAtom).id
 
     const Depositdata = () => {
       axios

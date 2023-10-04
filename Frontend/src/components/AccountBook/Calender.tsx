@@ -179,9 +179,9 @@ const Calendar: React.FC = () => {
     if (state.id === 0) {
       axios
         .get(
-          `https://j9e207.p.ssafy.io/api/v1/34/accountbooks/date/${formatDate(
-            currentMonth
-          )}`
+          `https://j9e207.p.ssafy.io/api/v1/${
+            childData.id
+          }/accountbooks/date/${formatDate(currentMonth)}`
         )
         .then((response) => {
           setDatedata(response.data.data);
@@ -190,6 +190,7 @@ const Calendar: React.FC = () => {
           console.log(error);
         });
     } else if (state.id === 1) {
+      console.log(childData.id);
       axios
         .get(
           `https://j9e207.p.ssafy.io/api/v1/${
@@ -222,29 +223,30 @@ const Calendar: React.FC = () => {
   const handleDateClick = (date: Date) => {
     const formattedDate = formatDate(date);
     const dataItem = Datedata.find((item) => item.date === formattedDate);
-    // setIncome(dataItem.importAmount);
-    // setSpending(dataItem.spendingAmount);
-    console.log(dataItem.importAmount);
-    console.log(dataItem.spendingAmount);
+    console.log("날짜" + dataItem);
 
-    if (dataItem) {
-      setSelectedDate(date);
-      if (state.id === 1) {
-        navigate(`/PaccountbookDetail`, {
-          state: {
-            date: formattedDate,
-            importAmount: dataItem.importAmount,
-            spendingAmount: dataItem.spendingAmount,
-          },
-        });
+    if (Datedata) {
+      if (dataItem) {
+        setSelectedDate(date);
+        if (state.id === 1) {
+          navigate(`/PaccountbookDetail`, {
+            state: {
+              date: formattedDate,
+              importAmount: dataItem.importAmount,
+              spendingAmount: dataItem.spendingAmount,
+            },
+          });
+        } else {
+          navigate(`/AccountBookDetail`, {
+            state: {
+              date: formattedDate,
+              importAmount: dataItem.importAmount,
+              spendingAmount: dataItem.spendingAmount,
+            },
+          });
+        }
       } else {
-        navigate(`/AccountBookDetail`, {
-          state: {
-            date: formattedDate,
-            importAmount: dataItem.importAmount,
-            spendingAmount: dataItem.spendingAmount,
-          },
-        });
+        alert("이날은 작성한 가계부가 없어요~~");
       }
     } else {
       alert("이날은 작성한 가계부가 없어요~~");
@@ -258,7 +260,12 @@ const Calendar: React.FC = () => {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
-      <Statics_month date={formatDate(currentMonth)} />
+      {Datedata.length === 0 ? (
+        <Statics_month date={formatDate(currentMonth)} Datedata={null} />
+      ) : (
+        <Statics_month date={formatDate(currentMonth)} Datedata={Datedata} />
+      )}
+
       <div
         className={`${styles.calendar} mx-4 bg-white m-3 p-2 drop-shadow-lg rounded-xl`}
       >

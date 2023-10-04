@@ -55,18 +55,25 @@ const LottoList: React.FC = () => {
 
   return (
     <div className="text-2xl">
-      <div className="p-3">당첨내역</div>
       <div>
-        {lottoList.map((item, index) => (
-          <div
-            key={index}
-            className="m-3 rounded-2xl"
-            style={{ backgroundColor: "#D2DEE5" }}
-          >
-            <div className="text-start p-3">{item.date}</div>
-            <div className="text-end  p-3">{item.cost}</div>
-          </div>
-        ))}
+        <div className="p-3">당첨내역</div>
+        {lottoList.length === 0 ? ( // lottoList가 비어있는지 확인
+          <p>당첨내역이 없습니다.</p> // 비어있다면 이 문구를 출력
+        ) : (
+          lottoList.map((
+            item,
+            index // 비어있지 않다면 리스트를 출력
+          ) => (
+            <div
+              key={index}
+              className="m-3 rounded-2xl"
+              style={{ backgroundColor: "#D2DEE5" }}
+            >
+              <div className="text-start p-3">{item.date}</div>
+              <div className="text-end  p-3">{item.cost}</div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
