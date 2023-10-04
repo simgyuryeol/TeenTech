@@ -22,13 +22,13 @@ const AlbaCompleted: React.FC = () => {
     axios
       .get(
         import.meta.env.VITE_BASE_URL +
-          "/api/v1/albas/child/completed-lists",
+          "/api/v1/albas/child/done-lists",
         { headers: customHeaders }
       )
       .then((response) => {
         const fetchedData = response.data.data;
-        console.log("SUCCESS", fetchedData);
-        setCompletedJobs(fetchedData.completedAlbaList);
+        // console.log("SUCCESS", fetchedData);
+        setCompletedJobs(fetchedData.doneAlbaList);
       })
       .catch((error) => {
         console.log(error);
@@ -39,7 +39,7 @@ const AlbaCompleted: React.FC = () => {
     <div className="mt-10">
       <p className="text-2xl">자식 완료한 알바</p>
       <hr />
-      {completedJobs.length ? (
+      {completedJobs && completedJobs.length ? (
         completedJobs.map((job, index) => <AlbaDetail key={index} job={job} />)
       ) : (
         <NoCompletedJobs />

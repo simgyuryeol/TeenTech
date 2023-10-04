@@ -10,6 +10,8 @@ const Alba: React.FC = () => {
 
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
+  const [waitForApprovalJobs, setWaitForApprovalJobs] = useState<Job[]>([]);
+  const [rewardWaiting, setRewardWaiting] = useState(0);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -23,9 +25,48 @@ const Alba: React.FC = () => {
       })
       .then((response) => {
         const fetchedData = response.data.data;
-        console.log("Fetched Data: ", response.data);
+        // console.log("Fetched Data: ", fetchedData);
         setCurrentJobs(fetchedData.inProgressAlbaList);
         setAvailableJobs(fetchedData.applicableAlbaList);
+
+        axios
+          .get(
+            import.meta.env.VITE_BASE_URL +
+              `/api/v1/albas/child/wait-for-check-lists`,
+            {
+              headers: customHeaders,
+            }
+          )
+          .then((secondResponse) => {
+            const secondFetchedData = secondResponse.data.data;
+            // console.log("Second Fetched Data: ", secondFetchedData);
+            setWaitForApprovalJobs(secondFetchedData.waitForCheckAlbaList);
+            if (secondFetchedData.waitForCheckAlbaList) {
+              const totalReward = waitForApprovalJobs.reduce((acc, job) => {
+                return acc + job.reward;
+              }, 0);
+              setRewardWaiting(totalReward);
+            }
+
+            // axios
+            //   .get(
+            //     import.meta.env.VITE_BASE_URL +
+            //       `/api/v1/albas/child/done-lists`,
+            //     {
+            //       headers: customHeaders,
+            //     }
+            //   )
+            //   .then((thirdResponse) => {
+            //     const thirdFetchedData = thirdResponse.data.data;
+            //     // console.log("Second Fetched Data: ", thirdFetchedData);
+            //   })
+            //   .catch((thirdError) => {
+            //     console.log("Error in second request:", thirdError);
+            //   });
+          })
+          .catch((secondError) => {
+            console.log("Error in second request:", secondError);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -49,7 +90,7 @@ const Alba: React.FC = () => {
                     onClick={() => navigate("/AlbaCompleted")}
                     className="ml-8"
                   >
-                    완료알바보기
+                    지난 알바보기
                   </button>
                 </div>
                 <div className=" text-gray-700 pr-2">
@@ -62,7 +103,7 @@ const Alba: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <p>진행 완료</p>
                     <p className="text-red-600">
-                      {availableJobs ? availableJobs.length : 0}건
+                      {waitForApprovalJobs ? waitForApprovalJobs.length : 0}건
                     </p>
                   </div>
                 </div>
@@ -80,12 +121,14 @@ const Alba: React.FC = () => {
                 </div>
                 <div className=" text-gray-700 pr-2 mt-2">
                   <div className="flex items-center justify-between">
-                    <p>총지급액</p>
-                    <p className="text-red-600">5000원</p>
+                    {/* <p>총지급액</p>
+                    <p className="text-red-600">5000원</p> */}
                   </div>
                   <div className="flex items-center justify-between">
                     <p>미지급액</p>
-                    <p className="text-red-600">1000원</p>
+                    <p className="text-red-600">
+                      {rewardWaiting ? rewardWaiting : 0}원
+                    </p>
                   </div>
                 </div>
               </div>
