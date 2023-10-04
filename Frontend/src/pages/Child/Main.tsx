@@ -37,7 +37,11 @@ const Main: React.FC = () => {
       .then((response) => {
         setChildDetail(response.data.data);
         setTotalBalance(response.data.data.totalBalance);
-        setChild({ id: child.id, pid: child.pid, name: child.name });
+        setChild({
+          id: child.id,
+          pid: child.pid,
+          name: response.data.data.name,
+        });
         setQuizPoint(response.data.data.quizPoint);
         console.log(response.data.data);
       })
