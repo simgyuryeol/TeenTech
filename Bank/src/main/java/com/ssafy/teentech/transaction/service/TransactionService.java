@@ -16,6 +16,8 @@ import com.ssafy.teentech.transaction.repository.TransactionRepository;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -92,8 +94,10 @@ public class TransactionService {
             .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
         account.checkOwner(transactionListRequestDto.getUserId());
 
+        Pageable pageable = PageRequest.of(transactionListRequestDto.getIndex(),Integer.MAX_VALUE);
+
         TransactionListResponseDto transactionListResponseDto = new TransactionListResponseDto(
-            transactionRepository.findAllByWithdrawAccountOrDepositAccount(account).stream()
+            transactionRepository.findAllByWithdrawAccountOrDepositAccount(account,pageable).stream()
                 .map(t -> {
                     if (account.equals(t.getDepositAccount())) {
                         return new TransactionResponseDto(t.getTransactionId(),
