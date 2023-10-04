@@ -38,7 +38,7 @@ public class ParentService {
     public void sendPinMoney(SendPinMoneyRequestDto sendPinMoney, Long childId, Long parentId) {
         User user = userRepository.findById(childId).orElseThrow(() -> new IllegalArgumentException());
         //이체 로직
-        AccountResponseDto depositInformation = bankService.getAccountInformation(parentId);
+        AccountResponseDto depositInformation = bankService.getAccountInformation(user.getUserId());
         String depositAccountNumber = depositInformation.getAccountNumber();
 
         AccountResponseDto withdrawInformation = bankService.getAccountInformation(user.getParentId());
