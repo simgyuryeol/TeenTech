@@ -14,5 +14,7 @@ public class LoanSummaryListResponseDto {
 
     private Integer totalLoanBalance;
 
+    private Integer loanLimitation;
+
     private List<LoanSummaryResponseDto> inProgressLoanList;
 }

@@ -12,6 +12,8 @@ public class LoanSummaryListParentResponseDto {
 
     private Integer totalLoanBalance;
 
+    private Integer loanLimitation;
+
     private List<LoanApplyResponseDto> applyLoanList;
 
     private List<LoanSummaryResponseDto> inProgressLoanList;
