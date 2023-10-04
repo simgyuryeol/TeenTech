@@ -11,6 +11,9 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
+      workbox: {
+        importScripts: ["my-custom-sw.js"],
+      },
       manifest: {
         icons: [
           {
