@@ -35,7 +35,7 @@ const Palba: React.FC = () => {
 
         <div className="ml-3 w-10/12">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-xl">재범이 알바</span>
+            <span className="font-bold text-xl">알바 현황</span>
             <button onClick={() => navigate("/AlbaCompleted")} className="ml-8">
               완료알바보기
             </button>
