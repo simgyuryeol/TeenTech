@@ -65,11 +65,13 @@ const Deposit: React.FC = () => {
         </div>
       </div>
         <hr></hr>
-      <div className='bg-green-300 ml-2 mr-2 rounded-md pt-1 h-[full]'>
+      <div className='bg-green-300 ml-2 mr-2 rounded-md pt-1 pb-80'>
         <div className="text-2xl font-bold mt-3 mb-3">가입한 예금 상품</div>
-          {deposits.map((item, index) => (
-            <Link to={`/DepositDetail/${item.depositId}`} state={item} key={index}>
-            <div
+        {deposits.length > 0 ? (
+    deposits.map((item, index) => (
+      <Link to={`/DepositDetail/${item.depositId}`} state={item} key={index}>
+        {/* 예금 상품 내용 */}
+        <div
               className="rounded-xl shadow-md m-6 mb-1 flex justify-between bg-white"
               style={{ borderColor: "#ABD0CE" }}
             >
@@ -103,8 +105,13 @@ const Deposit: React.FC = () => {
                 <p className="text-black">{item.endDate}</p>
               </div>
             </div>
-          </Link>
-        ))}
+      </Link>
+    ))
+  ) : (
+    <div className="flex justify-center items-center h-full">
+      <p className="text-gray-500">예금 상품이 없습니다.</p>
+    </div>
+  )}
       </div>
     </div>
   );

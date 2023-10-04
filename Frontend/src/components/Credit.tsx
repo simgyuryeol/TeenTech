@@ -56,6 +56,7 @@ const Credit: React.FC<CreditProps> = (props) => {
             .then(response => {
                 console.log(response.data);
                 SetCredit(response.data.data.creditRating)
+                setAlba(response.data.data.albaSuccessStreak)
                 SetCredits((prevCredit) => ({
                     ...prevCredit,
                     credit: response.data.data.creditRating,
@@ -73,7 +74,7 @@ const Credit: React.FC<CreditProps> = (props) => {
   }, []); 
 
   const [credit, SetCredit] = useState(1)
-  const alba = 2
+  const [alba, setAlba] = useState(0)
   const creditNumber = (credit >= 1 && credit <= 10) ? (0.05 + (credit - 1) * 	0.1) : 0.95; 
   const chartStyle = {
 	height: '90',
