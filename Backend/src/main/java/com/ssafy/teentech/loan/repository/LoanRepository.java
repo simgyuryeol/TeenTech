@@ -34,7 +34,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     List<LoanApplyResponseDto> findAllByUserAndApprovalDateIsNullAndState(@Param("user") User user,
         @Param("state") State state);
 
-    @Query("SELECT l FROM Loan l WHERE l.user = :user AND l.maturityDate IS NOT NULL AND l.repaymentCompletionDate IS NULL ORDER BY l.maturityDate DESC")
+    @Query("SELECT l FROM Loan l WHERE l.user = :user AND l.maturityDate IS NOT NULL AND l.repaymentCompletionDate IS NULL ORDER BY l.maturityDate ASC ")
     Optional<List<Loan>> findLatestUncompletedLoanByUser(@Param("user") User user, Pageable pageable);
 
     List<Loan> findAllByMaturityDateIsBeforeAndState(LocalDate now, State state);
