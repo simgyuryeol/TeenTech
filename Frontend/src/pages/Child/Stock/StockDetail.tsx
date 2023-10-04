@@ -169,7 +169,7 @@ const StockDetail: React.FC = () => {
             />
           </button>
           <BuyStock
-            companyName={companyName}
+            companyName={maskedCompanyName}
             price={stockChartInfo.price}
             onClose={handleBuyClose}
           />
@@ -188,7 +188,7 @@ const StockDetail: React.FC = () => {
             />
           </button>
           <SellStock
-            companyName={companyName}
+            companyName={maskedCompanyName}
             price={stockChartInfo.price}
             onClose={handleSellClose}
           />
