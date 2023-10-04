@@ -1,5 +1,6 @@
 package com.ssafy.teentech.parent.dto.response;
 
+import com.ssafy.teentech.common.util.Cycle;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,4 +18,6 @@ public class ChildDetailResponseDto {
     private Integer loneDay;
     private Integer quizPoint;
     private String avatarImageUrl;
+    private Integer pocketMoney;
+    private Cycle pocketMoneyCycle;
 }

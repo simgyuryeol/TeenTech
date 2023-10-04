@@ -130,6 +130,8 @@ public class ChildService {
                 .loneDay(loanDay.intValue())
                 .quizPoint(childDetail.getQuizPoint())
                 .avatarImageUrl(childDetail.getAvatarImageUrl())
+                .pocketMoney(childDetail.getPocketMoney())
+                .pocketMoneyCycle(childDetail.getPocketMoneyCycle())
                 .build();
 
         return childDetailResponseDto;
