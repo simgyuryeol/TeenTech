@@ -76,7 +76,7 @@ const Pmain: React.FC = () => {
   return (
     <div className="">
       <div className="p-5">
-        <h2>우리 가족!!!</h2>
+        <h2>우리 가족!!!!!!</h2>
       </div>
       <div className="bg-white mx-4 p-3 rounded-2xl">
         <ul className="">
