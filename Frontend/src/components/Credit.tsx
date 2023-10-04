@@ -1,20 +1,28 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import GaugeChart from "react-gauge-chart";
 import axios from 'axios';
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CreditAtom } from '../recoil/creditAtom';
+import { stateAtom } from '../recoil/stateAtom';
+import { childIdAtom } from '../recoil/childIdAtom';
 
 interface CreditProps {
   children: ReactNode;
 }
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
-const dddd = 1
+
 const accessToken = window.localStorage.getItem('accessToken')
 
 const Credit: React.FC<CreditProps> = (props) => {
 
+    const state = useRecoilValue(stateAtom).id;
+    const childId = useRecoilValue(childIdAtom).id;
+    const SetCredits = useSetRecoilState(CreditAtom);
+
   useEffect(() => {
     const Creditdata = () => {
-        if(dddd === null){
+        if(state === 0){
             axios
             .get(base_URL + `/api/v1/users/credit-and-interests/`,{
                 headers: {
@@ -24,6 +32,12 @@ const Credit: React.FC<CreditProps> = (props) => {
             .then(response => {
                 console.log(response.data);
                 SetCredit(response.data.data.creditRating)
+                SetCredits((prevCredit) => ({
+                    ...prevCredit,
+                    credit: response.data.data.creditRating,
+                    depositinterest: response.data.data.depositInterestRate,
+                    loaninterest: response.data.data.loanInterestRate,
+                  }));
                 // const depositid = response.data
                 // navigate(`/DepositJoinSuccess/${depositid}`);
             })
@@ -33,7 +47,7 @@ const Credit: React.FC<CreditProps> = (props) => {
         }
         else{
             axios
-            .get(base_URL + `/api/v1/users/credit-and-interests/`, {
+            .get(base_URL + `/api/v1/users/credit-and-interests/${childId}`, {
                 // userId: window.localStorage.getItem('userId'),
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -42,7 +56,13 @@ const Credit: React.FC<CreditProps> = (props) => {
             .then(response => {
                 console.log(response.data);
                 SetCredit(response.data.data.creditRating)
-                // navigate(`/DepositJoinSuccess/${depositid}`);
+                setAlba(response.data.data.albaSuccessStreak)
+                SetCredits((prevCredit) => ({
+                    ...prevCredit,
+                    credit: response.data.data.creditRating,
+                    depositinterest: response.data.data.depositInterestRate,
+                    loaninterest: response.data.data.loanInterestRate,
+                  }));
             })
             .catch(error => {
                 console.log(error);
@@ -54,7 +74,7 @@ const Credit: React.FC<CreditProps> = (props) => {
   }, []); 
 
   const [credit, SetCredit] = useState(1)
-  const alba = 2
+  const [alba, setAlba] = useState(0)
   const creditNumber = (credit >= 1 && credit <= 10) ? (0.05 + (credit - 1) * 	0.1) : 0.95; 
   const chartStyle = {
 	height: '90',

@@ -9,7 +9,10 @@ interface LoanListProps {
   lastBalance: number;  
   loanId: number;
   title: string;  
-  maturityDate: string;  
+  maturityDate: string;
+  reason: string;
+  interestRate: number;
+  initialBalance: number;
 }
 
 const LoanList: React.FC<LoanListProps> = (props) => {
@@ -20,19 +23,20 @@ const LoanList: React.FC<LoanListProps> = (props) => {
 
   const LoanName = props.title;
   // 총 갚아야 될 돈
-  const [totalLoanMoney, setTotalLoanmoney] = useState(props.amount)
+  // const [totalLoanMoney, setTotalLoanmoney] = useState(props.amount)
+  const totalLoanMoney = props.initialBalance
   // 갚은 돈
-  const [LoanMoney, setLoanmoney] = useState(totalLoanMoney - props.lastBalance)
-  // const LoanMoney = totalLoanMoney - props.lastBalance;
+  // const [LoanMoney, setLoanmoney] = useState(totalLoanMoney - props.lastBalance)
+  const LoanMoney = totalLoanMoney - props.lastBalance;
   const progress = (LoanMoney / totalLoanMoney) * 100;
-  useEffect(() => {
-    if (LoanMoney < 0){
-      const interest = props.lastBalance - props.amount
-      setLoanmoney(LoanMoney + interest)
-      setTotalLoanmoney(props.lastBalance + LoanMoney + interest)
-    }
+  // useEffect(() => {
+  //   if (LoanMoney < 0){
+  //     const interest = props.lastBalance - props.amount
+  //     setLoanmoney(LoanMoney + interest)
+  //     setTotalLoanmoney(props.lastBalance + LoanMoney + interest)
+  //   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // }, []);
   const maturity = props.maturityDate;
 
   const [open, setOpen] = React.useState(0);
@@ -101,7 +105,7 @@ const LoanList: React.FC<LoanListProps> = (props) => {
         </div>
       </div>
       {open === 1 && (
-        <LoanCompo loanId={props.loanId} title={props.title} amount={props.amount} closeModal={handleOpen} children2={props.children2}>
+        <LoanCompo loanId={props.loanId} title={props.title} amount={props.amount} reason={props.reason} initialBalance={props.initialBalance} interestRate={props.interestRate} maturityDate={props.maturityDate} closeModal={handleOpen} children2={props.children2}>
           {}
         </LoanCompo>
       )}

@@ -18,6 +18,7 @@ interface Detail {
   stockRate: number;
   totalBalance: null | number;
   username: null | string;
+  depositNumber: null | number;
 }
 
 const Total: React.FC<Props> = ({ childId }) => {
@@ -70,14 +71,14 @@ const Total: React.FC<Props> = ({ childId }) => {
             얼마가 모였는지 확인해 볼까요?
           </div>
           <div className=" pl-3 text-start text-gray-700">
-            <span className="text-xl mr-1">{childDetail?.creditRating}</span>건
+            <span className="text-xl mr-1">{childDetail?.depositNumber}</span>건
             진행중이에요.
           </div>
           <div className="px-3 pb-2 text-end">
             {/* <div className="text-white text-xl">+ {childDetail.}</div> */}
             <div className="text-gray-700 text-2xl">
               {childDetail?.deposit
-                ? `${childDetail.deposit.toLocaleString()}원 모았어요!`
+                ? `${childDetail.deposit.toLocaleString()} 원 모았어요!`
                 : "Loading..."}
             </div>
           </div>

@@ -4,6 +4,7 @@ import MenuList from "../../components/Main/MenuList";
 import { useRecoilState } from "recoil";
 import { stateAtom, state } from "../../recoil/stateAtom";
 import { childIdAtom } from "../../recoil/childIdAtom";
+import { quizPointAtom } from "../../recoil/quizPointAtom";
 import { balanceAtom } from "../../recoil/balanceAtom";
 import Boy from "../../../src/assets/main/boy_1.png";
 import axios from "axios";
@@ -25,15 +26,23 @@ const Main: React.FC = () => {
   const [getAllowance, setGetAllowance] = useState(0);
   const [childDetail, setChildDetail] = useState<Detail>();
   const [totalBalance, setTotalBalance] = useRecoilState(balanceAtom);
+  const [child, setChild] = useRecoilState(childIdAtom);
+  const [quizPoint, setQuizPoint] = useRecoilState(quizPointAtom);
 
   const getDetail = () => {
     console.log("asiox..");
     setState({ id: 0 });
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/34`)
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${child.id}`)
       .then((response) => {
         setChildDetail(response.data.data);
         setTotalBalance(response.data.data.totalBalance);
+        setChild({
+          id: child.id,
+          pid: child.pid,
+          name: response.data.data.name,
+        });
+        setQuizPoint(response.data.data.quizPoint);
         console.log(response.data.data);
       })
       .catch((error) => {
@@ -54,15 +63,6 @@ const Main: React.FC = () => {
         position: "relative",
       }}
     >
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
-
       <div
         className="justify-between items-center px-8 flex relative"
         style={{
@@ -128,9 +128,8 @@ const Main: React.FC = () => {
       </div>
       <div style={{ height: "65px" }}></div>
       <div className="mx-4 rounded-2xl mt-28">
-        <Total childId={34} />
+        <Total childId={child.id} />
       </div>
-      {/* <GptTest /> */}
     </div>
   );
 };

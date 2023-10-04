@@ -1,10 +1,17 @@
 import React from "react";
 import Card from "../Common/Card";
+import { number } from "prop-types";
 
-const TradingSummary: React.FC = () => {
-  const totalInvestment = "38,640";
-  const realizedProfit = "3,290";
-  const rateOfReturn = 9.87;
+interface TradingSummaryProp {
+  totalInvestment: number;
+  realizedProfit: number;
+  rateOfReturn: number;
+}
+
+const TradingSummary: React.FC<TradingSummaryProp> = (props) => {
+  const totalInvestment = props.totalInvestment.toLocaleString();
+  const realizedProfit = props.realizedProfit.toLocaleString();
+  const rateOfReturn = props.rateOfReturn
 
   return (
     <Card>

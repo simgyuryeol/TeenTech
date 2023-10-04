@@ -1,32 +1,32 @@
-import React from 'react';
-import DepositList from '../../../components/Deposit/DepositList';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import DepositList from "../../../components/Deposit/DepositList";
+import { useLocation } from "react-router-dom";
 
 const DepositDetail: React.FC = () => {
+  const now = new Date();
 
-    const now = new Date();
-    
-    const location = useLocation()
-    const depositData = location.state
-    //가입일
-    const startdate = depositData.startDate
-    //만기일
-    const enddate = depositData.endDate
-    //예금 남은 기간(밀리초)
-    const distance = new Date(enddate).getTime() - now.getTime()
-    //총 예금 기간(밀리초)
-    const distance2 = new Date(enddate).getTime() - new Date(startdate).getTime()
-    //예금 남은 일
-    const maturitydate = Math.floor(distance / (1000 * 60 * 60 * 24));
-    //총 예금 일
-    const maturitydate2 = Math.floor(distance2 / (1000 * 60 * 60 * 24));
-    //가입 중인 기간
-    const maturitydate3 = maturitydate2 - maturitydate
-    //현재까지 쌓인 이자
-    const nowinterest = depositData.money * ((depositData.interest)/700 * maturitydate3)
+  const location = useLocation();
+  const depositData = location.state;
+  //가입일
+  const startdate = depositData.startDate;
+  //만기일
+  const enddate = depositData.endDate;
+  //예금 남은 기간(밀리초)
+  const distance = new Date(enddate).getTime() - now.getTime();
+  //총 예금 기간(밀리초)
+  const distance2 = new Date(enddate).getTime() - new Date(startdate).getTime();
+  //예금 남은 일
+  const maturitydate = Math.floor(distance / (1000 * 60 * 60 * 24));
+  //총 예금 일
+  const maturitydate2 = Math.floor(distance2 / (1000 * 60 * 60 * 24));
+  //가입 중인 기간
+  const maturitydate3 = maturitydate2 - maturitydate;
+  //현재까지 쌓인 이자
+  const nowinterest =
+    depositData.money * ((depositData.interest / 700) * maturitydate3);
 
     return (
-        <div className='mt-20'>
+        <div className='mt-20 bg-green-300 h-[100vh]'>
         <div className="flex flex-col items-center justify-center">
             {/* <h2 className="fixed inset-x-0 top-10 z-50 left-0">자식 보유예금 상세</h2> */}
             {/* <p>xx정기예금</p> */}
@@ -40,14 +40,13 @@ const DepositDetail: React.FC = () => {
             </div>
             <div className='ml-4 mr-4 mt-8 w-[75%]'>
                 <DepositList 
-                depositName={depositData.depositName} depositMoney={depositData.money} maturity={depositData.endDate}
+                depositName={depositData.depositName} depositMoney={depositData.money} maturity={depositData.endDate} interestrate={depositData.interest}
                 >
-                    
                 </DepositList>
-            </div>
         </div>
-        </div>
-    )
+      </div>
+    </div>
+  );
 };
 
 export default DepositDetail;

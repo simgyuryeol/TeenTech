@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import QuizChart from "../../../components/Quiz/QuizChart";
@@ -25,12 +25,11 @@ const QuizList: React.FC = () => {
       });
   }, []);
 
-
   return (
     <div className="mt-10">
       <p className="text-xl pt-3">{eng}</p>
       <div className="bg-white m-5 rounded-xl p-3 flex">
-      {correctProblem === 0 && wrongProblem === 0 ? (
+        {correctProblem === 0 && wrongProblem === 0 ? (
           <div className="w-48 flex justify-center items-center bg-orange-100 rounded-xl m-2">
             아직 푼 문제가 없어요.
           </div>
@@ -52,7 +51,7 @@ const QuizList: React.FC = () => {
         </div>
       </div>
 
-      <QuizToday topic={eng}/>
+      <QuizToday topic={eng} />
     </div>
   );
 };

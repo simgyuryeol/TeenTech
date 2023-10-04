@@ -5,11 +5,11 @@ function useDate(date: Date) {
 
   useEffect(() => {
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
     setDateString(formattedDate);
-  }, [dateString]);
+  }, [date]);
 
   return dateString;
 }
