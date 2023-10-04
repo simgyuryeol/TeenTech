@@ -143,19 +143,19 @@ public class ParentService {
 
     private void checkDepositInterestLimitation(Integer creditRating, float depositRate) {
         if (creditRating < 3) {
-            if (depositRate < 2.0 || depositRate > 3.0) {
+            if (depositRate < 2.0f || depositRate > 3.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
             }
         } else if (creditRating < 7) {
-            if (depositRate < 1.5 || depositRate > 2.0) {
+            if (depositRate < 1.5f || depositRate > 2.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
             }
         } else if (creditRating < 9) {
-            if (depositRate < 1.0 || depositRate > 1.5) {
+            if (depositRate < 1.0f || depositRate > 1.5f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
             }
         } else if (creditRating < 11) {
-            if (depositRate < 0.0 || depositRate > 1.0) {
+            if (depositRate < 0.0f || depositRate > 1.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_INTEREST_RATE);
             }
         }
@@ -163,19 +163,19 @@ public class ParentService {
 
     private void checkLoanInterestLimitation(Integer creditRating, float loanRate) {
         if (creditRating < 3) {
-            if (loanRate > 5.0) {
+            if (loanRate > 5.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
             }
         } else if (creditRating < 7) {
-            if (loanRate > 8.0) {
+            if (loanRate > 8.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
             }
         } else if (creditRating < 9) {
-            if (loanRate > 10.0) {
+            if (loanRate > 10.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
             }
         } else if (creditRating < 11) {
-            if (loanRate > 15.0) {
+            if (loanRate > 15.0f) {
                 throw new InvalidRequestException(ErrorCode.INVALID_LOAN_INTEREST_RATE);
             }
         }
