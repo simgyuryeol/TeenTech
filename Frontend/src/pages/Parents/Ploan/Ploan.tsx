@@ -17,6 +17,7 @@ interface Loan {
     inProgressLoanList: any[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     applyLoanList: any[];
+    loanLimitation: number;
   }
 
 const Ploan: React.FC = () => {
@@ -26,6 +27,7 @@ const Ploan: React.FC = () => {
     const totalLoanBalance = loans.totalLoanBalance;
     const loanList = loans.inProgressLoanList;
     const applyloanList = loans.applyLoanList;
+    const LoanLimitation = loans.loanLimitation;
 
     useEffect(() => {
         const fetchLoans = async () => {
@@ -52,7 +54,7 @@ const Ploan: React.FC = () => {
         <div>
             <h2 className='mt-10'>부모 대출 페이지</h2>
             <div className='mt-2 mb-2 flex flex-col'>
-                <LoanStatus totalInProgressLoanCount={totalInProgressLoanCount} totalLoanBalance={totalLoanBalance}>
+                <LoanStatus totalInProgressLoanCount={totalInProgressLoanCount} totalLoanBalance={totalLoanBalance} loanLimitation={LoanLimitation}>
                     
                 </LoanStatus>
                 <Link to='/ploandetail'>
