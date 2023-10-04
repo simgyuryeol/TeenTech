@@ -4,6 +4,8 @@ import LoanReview from '../../../components/Loan/LoanReview';
 // import LoanList from '../../../components/Loan/LoanList';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useRecoilValue,} from 'recoil';
+import { childIdAtom } from '../../../recoil/childIdAtom';
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 const accessToken = window.localStorage.getItem('accessToken')
@@ -19,7 +21,7 @@ interface Loan {
 
 const Ploan: React.FC = () => {
     const [loans, setLoans] = useState<Partial<Loan>>({});
-    const childId= 34
+    const childId= useRecoilValue(childIdAtom).id
     const totalInProgressLoanCount = loans.totalInProgressLoanCount;
     const totalLoanBalance = loans.totalLoanBalance;
     const loanList = loans.inProgressLoanList;
@@ -59,20 +61,20 @@ const Ploan: React.FC = () => {
             </div>
             <hr className='border-2'></hr>
             <div>
-                <p>대출 신청서</p>
+                <p className='text-3xl'>대출 신청서</p>
                 {applyloanList? (applyloanList.map((loan, index) => (
                 <LoanReview key={index} loanId={loan.loanId} title={loan.title} amount={loan.amount} interestRate={loan.interestRate} period={loan.period} reason={loan.reason}></LoanReview>
                 ))) : ('')}
             </div>
             <hr className='border-2'></hr>
             <div>
-                <p>대출 리스트</p>
+                <p className='text-3xl'>대출 리스트</p>
                 {loanList? (loanList.map((loan, index)=>(
-                    <div key={index} className='border w-[90%] ml-[5%] p-4 bg-white rounded-md shadow-md flex flex-col items-start'>
+                    <div key={index} className='border w-[90%] ml-[5%] p-4 bg-white rounded-md shadow-md flex flex-col items-start mb-1'>
                         {/* 상태: 대출중 */}
                     <div>대출명: {loan.title}</div>
-                    <div>대출금액: {loan.amount}</div>
-                    <div>남은 상환 금액: {loan.lastBalance}</div>
+                      <div>대출금액: {loan.initialBalance.toLocaleString()}원 (원금{loan.amount.toLocaleString()}원+이자{loan.initialBalance - loan.amount}원)</div>
+                    <div>남은 상환 금액: { loan.lastBalance}</div>
                     {/* <div>{loan.loanId}</div> */}
                     <div>만료일: {loan.maturityDate}</div>
                     </div>

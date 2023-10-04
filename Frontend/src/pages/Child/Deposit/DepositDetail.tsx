@@ -26,7 +26,7 @@ const DepositDetail: React.FC = () => {
     const nowinterest = depositData.money * ((depositData.interest)/700 * maturitydate3)
 
     return (
-        <div className='mt-20'>
+        <div className='mt-20 bg-green-300 h-[100vh]'>
         <div className="flex flex-col items-center justify-center">
             {/* <h2 className="fixed inset-x-0 top-10 z-50 left-0">자식 보유예금 상세</h2> */}
             {/* <p>xx정기예금</p> */}
@@ -40,7 +40,7 @@ const DepositDetail: React.FC = () => {
             </div>
             <div className='ml-4 mr-4 mt-8 w-[75%]'>
                 <DepositList 
-                depositName={depositData.depositName} depositMoney={depositData.money} maturity={depositData.endDate}
+                depositName={depositData.depositName} depositMoney={depositData.money} maturity={depositData.endDate} interestrate={depositData.interest}
                 >
                     
                 </DepositList>

@@ -1,6 +1,8 @@
 import React,{useEffect, useState} from 'react';
 import LoanDetail from '../../../components/Loan/LoanDetail';
 import axios from 'axios';
+import { useRecoilValue,} from 'recoil';
+import { childIdAtom } from '../../../recoil/childIdAtom';
 
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
@@ -8,7 +10,7 @@ const base_URL = import.meta.env.VITE_SERVER_URL;
 const Ploandetail: React.FC = () => {
     const accessToken = window.localStorage.getItem('accessToken')
     const [completedloans, setCompletedLoans] = useState([]);
-    const childId = 34
+    const childId = useRecoilValue(childIdAtom).id
     useEffect(() => {
         const fetchLoans = async () => {
           try {

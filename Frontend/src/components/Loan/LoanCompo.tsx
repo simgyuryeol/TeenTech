@@ -10,18 +10,22 @@ interface LoanCompoProps {
   loanId: number; 
   title: string; 
   amount: number;
+  maturityDate: string;
+  reason: string;
+  interestRate: number;
+  initialBalance: number;
 }
 
 const LoanCompo: React.FC<LoanCompoProps> = (props) => {
-  const interestrate = 2;
+  const interestrate = props.interestRate;
   const loanName = props.title;
   const loanMoney = props.amount;
-  const maturity = "2023.10.04";
-  const reason = "우리 세진이 생일 선물 사줘야합니다 존경하는 부모님";
+  const maturity = props.maturityDate;
+  const reason = props.reason;
 
   return (
     <Modal>
-      <div className="">
+      <div className="w-[100%]">
         {props.children}
         <div className="flex flex-col mt-4">
           <div className="flex">
@@ -41,7 +45,7 @@ const LoanCompo: React.FC<LoanCompoProps> = (props) => {
             className="ml-[5%] border rounded-md w-[90%] p-3"
             style={{ backgroundColor: "#EBF0F3" }}
           >
-            {loanMoney}
+            {props.initialBalance.toLocaleString()}원  (원금{loanMoney.toLocaleString()}원 + 이자{props.initialBalance - loanMoney}원)
           </p>
         </div>
         <div>

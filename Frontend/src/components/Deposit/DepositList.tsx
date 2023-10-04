@@ -6,13 +6,14 @@ interface DepositListProps {
     depositMoney: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     maturity: any;
+    interestrate: number;
   }
 
 const DepositList: React.FC<DepositListProps> = (props) => {
     // const depositName= '뀨뀨 정기 예금'
     // const depositMoney = 100000;
     const depositMoney2 = props.depositMoney >= 10000 ? props.depositMoney / 10000 +'만' : props.depositMoney;
-    const interestrate = '2'
+    // const interestrate = '2'
     // const maturity = '2023.10.04'
 
     return (
@@ -28,7 +29,7 @@ const DepositList: React.FC<DepositListProps> = (props) => {
         </div>
         <div className='flex justify-around'>
         <h2 className='flex mt-1 mb-1 mr-1'>적용금리: </h2>
-        <h2 className='flex items-end mb-1 mt-1 ml-1'>월 {interestrate}%</h2>
+        <h2 className='flex items-end mb-1 mt-1 ml-1'>월 {props.interestrate}%</h2>
         </div>
         <div className='flex justify-around'>
         <h2 className='flex mt-1 mb-1 ml-2'>만기일: </h2>

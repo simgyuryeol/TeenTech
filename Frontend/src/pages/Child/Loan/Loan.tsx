@@ -84,7 +84,7 @@ const Loan: React.FC<Loan> = () => {
       </div>
       <div>
       {loanList? (loanList.map((loan, index) => (
-          <LoanList children2={''} key={index} loanId={loan.loanId} title={loan.title} amount={loan.amount} lastBalance={loan.lastBalance} maturityDate={loan.maturityDate}>
+          <LoanList children2={''} key={index} loanId={loan.loanId} title={loan.title} initialBalance={loan.initialBalance} lastBalance={loan.lastBalance} maturityDate={loan.maturityDate} reason={loan.reason} interestRate={loan.interestRate} amount={loan.amount}>
             <div className="">
               <div className="border-2 rounded-md pl-5 pr-5 py-1 mr-2 mb-3 bg-gray-300">
                 <LoanrepaymentButton loanId={loan.loanId}></LoanrepaymentButton>

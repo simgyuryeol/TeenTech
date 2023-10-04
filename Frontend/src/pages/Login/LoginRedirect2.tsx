@@ -8,7 +8,8 @@ import axios from "axios";
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const Login3: React.FC = () => {
-  const accessToken = window.localStorage.getItem("accessToken");
+  const [accessToken, setAccessToken] = useState(window.localStorage.getItem('accessToken'))
+//   const accessToken = window.localStorage.getItem("accessToken");
   const [payload, Setpayload] = useState("");
   const authtargetKey = "auth";
   const authregex = new RegExp(`"${authtargetKey}":"([^"]+)"`);
@@ -42,6 +43,7 @@ const Login3: React.FC = () => {
       .then((response) => {
         console.log(response.data.data);
         window.localStorage.setItem("accessToken", response.data.data.accessToken);
+        setAccessToken(window.localStorage.getItem("accessToken"))
         performReload();
       })
       .catch((error) => {
@@ -61,22 +63,18 @@ const Login3: React.FC = () => {
     );
     const dec = base64.decode(payload);
     Setpayload(dec);
-    const parentIdtargetKey = "parentId";
-    const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
-    const parentIdmatch = payload.match(parentIdregex);
-    const parentId = parentIdmatch ? parentIdmatch[1] : "";
+    // const parentIdtargetKey = "parentId";
+    // const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
+    // const parentIdmatch = payload.match(parentIdregex);
+    // const parentId = parentIdmatch ? parentIdmatch[1] : "";
     // console.log(parentId)
     console.log(`'차일드아이디':${childId.id}`);
     console.log(`'부모 아이디':${childId.pid}`);
-    SetChildid((prevChild) => ({
-      ...prevChild,
-      pid: Number(parentId),
-    }));
     if (childId.pid != 0) {
       navigate("../main");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accessToken, childId.id, childId.pid, SetChildid, navigate]);
   return (
     <div className="w-[100vw] h-[100vh]" style={{ backgroundColor: "#B6DBEE" }}>
       <div className="h-[20vh]"></div>
