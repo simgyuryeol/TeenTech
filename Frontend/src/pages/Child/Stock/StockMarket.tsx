@@ -75,7 +75,7 @@ const StockMarket: React.FC = () => {
   nextDay.setHours(15, 0, 0, 0);
 
   const handleCountdownZero = () => {
-    console.log("오후 4시 정각");
+    window.location.reload();
   };
 
   return (
