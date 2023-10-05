@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
+import { childIdAtom } from "../../../recoil/childIdAtom";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
+import { solvedQuizAtom } from "../../../recoil/quizScoreAtom";
 import Card from "../../../components/Common/Card";
 
 interface QuizData {
+  quizId: number;
   answer: string;
   choice: string;
   commentary: string;
   question: string;
+}
+
+interface SolveData {
+  quizId: number;
+  answer: string;
 }
 
 const QuizPlay: React.FC = () => {
@@ -25,6 +33,8 @@ const QuizPlay: React.FC = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const setQuizScore = useSetRecoilState(quizScoreAtom);
+  const child = useRecoilValue(childIdAtom);
+  const [solvedQuizzes, setSolvedQuizzes] = useRecoilState(solvedQuizAtom);
 
   let title: string;
   switch (eng) {
@@ -51,18 +61,19 @@ const QuizPlay: React.FC = () => {
   const convertToQuiz = (data: QuizData): Quiz => {
     let choices: Choice[] = [];
     const answer = data.answer;
+    const id = data.quizId
     const choiceParts = data.choice.match(/[a-d]\.(.*?)(?=[a-d]\.|$)/g);
 
     if (data.choice === "a.Ob.X") {
       choices = [
-        { text: "O", correct: false },
-        { text: "X", correct: false },
+        { id: id, text: "O", correct: false },
+        { id: id, text: "X", correct: false },
       ];
     } else {
       choices = choiceParts.map((part) => {
         const text = part.replace(/[a-d]\./, "").trim();
         const correct = false;
-        return { text, correct };
+        return { id, text, correct };
       });
     }
 
@@ -84,6 +95,7 @@ const QuizPlay: React.FC = () => {
     }
 
     const quiz: Quiz = {
+      id: id,
       question: data.question,
       choices: choices,
       explanation: data.commentary,
@@ -94,7 +106,10 @@ const QuizPlay: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_BASE_URL + `/api/v1/34/quizzes/solve/${eng}`)
+      .get(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/${child.id}/quizzes/solve/${eng}`
+      )
       .then((response) => {
         const fetchedData: QuizData[] = response.data.data;
         const quiz = fetchedData.map(convertToQuiz);
@@ -107,11 +122,40 @@ const QuizPlay: React.FC = () => {
       });
   }, []);
 
+
+
   const handleChoice = (choice: Choice, index: number) => {
     if (choice.correct) {
       setScore(score + 1);
     }
     setSelectedChoiceIndex(index);
+
+    let answer: string;
+    switch (index) {
+      case 0:
+        answer = "a";
+        break;
+      case 1:
+        answer = "b";
+        break;
+      case 2:
+        answer = "c";
+        break;
+      case 3:
+        answer = "d";
+        break;
+      default:
+        break;
+    }
+    const currentQuizId = currentQuiz.quizId;
+    console.log("current: ", currentQuizId);
+    setSolvedQuizzes((prev) => [
+      ...prev,
+      {
+        quizId: choice.id,
+        answer: answer,
+      },
+    ]);
 
     setTimeout(() => {
       setSelectedChoiceIndex(null);
@@ -125,16 +169,17 @@ const QuizPlay: React.FC = () => {
   };
 
   const handleNextPage = () => {
-    setQuizScore({ score: score, date: new Date(), topic:eng });
+    setQuizScore({ score: score, date: new Date(), topic: eng });
+    
+    console.log(solvedQuizzes);
     navigate(`/QuizCommentary/${eng}`);
   };
 
   if (isLoading) {
-    return <Card>뭐야</Card>;
+    return <Card>로딩 중</Card>;
   }
 
   const currentQuiz = quizSet[currentQuestionIndex];
-
   return (
     <div className="mt-10">
       <div className="h-5" />

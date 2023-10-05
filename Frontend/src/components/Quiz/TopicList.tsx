@@ -12,9 +12,9 @@ const TopicList: React.FC = () => {
       { kor: "돈, 화폐", eng: "MONEY", color: "#FE9182" },
       { kor: "소득, 지출", eng: "SAVING", color: "#A64DFF" },
       { kor: "투자, 펀드", eng: "INVEST", color: "#12A5FF" },
-      { kor: "물가", eng: "PRICE", color: "#FFDB55" },
-      { kor: "세금", eng: "TAX", color: "#13DB96" },
-      { kor: "세금", eng: "TAX", color: "#F76997" },
+      // { kor: "물가", eng: "PRICE", color: "#FFDB55" },
+      // { kor: "세금", eng: "TAX", color: "#13DB96" },
+      // { kor: "세금", eng: "TAX", color: "#F76997" },
     ];
   
     return (
