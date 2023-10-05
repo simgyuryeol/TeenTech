@@ -45,9 +45,6 @@ const AccountBookDetail: React.FC<Props> = () => {
   // 필요, 욕구 소비 체크 다 되어있는지 확인 ( 0이면 수정, 1이면 쓰기 )
   const [buttonState, setButtonState] = useState(0);
   const [childId] = useRecoilState(childIdAtom);
-  console.log("토탈" + total);
-  console.log("몇일이야??");
-  console.log(date?.toString());
 
   const getDetail = () => {
     console.log("가계부 디테일 : ");
@@ -69,15 +66,15 @@ const AccountBookDetail: React.FC<Props> = () => {
   }, []);
 
   useEffect(() => {
-    // Datedata 배열의 각 요소를 검사하여 "소비" 타입인데 "욕구"나 "필요"가 아닌 요소가 있는지 확인합니다.
+    // Datedata 배열의 각 요소를 검사하여 "소비" 타입인데 "욕구"나 "필요"가 아닌 요소가 있는지 확인
     const hasUnspecifiedConsumptionType = Datedata.some(
       (item) =>
-        item.assetType === "소비" &&
-        item.consumptionType !== "욕구" &&
-        item.consumptionType !== "필요"
+        item.assetType === "WITHDRAW" &&
+        item.consumptionType !== "욕구소비" &&
+        item.consumptionType !== "필요소비"
     );
 
-    // 해당하는 요소가 있다면 buttonState를 1로 설정합니다.
+    // 해당하는 요소가 있다면 buttonState를 1로 설정
     if (hasUnspecifiedConsumptionType) {
       setButtonState(1);
     } else {
@@ -145,12 +142,12 @@ const AccountBookDetail: React.FC<Props> = () => {
             color = "text-green-500";
             money = item.depositAmount;
           } else if (item.withdrawalAmount > 0) {
-            if (item.assetType === "소비") {
+            if (item.assetType === "WITHDRAW") {
               switch (item.consumptionType) {
-                case "욕구":
+                case "욕구소비":
                   icon = desire;
                   break;
-                case "필요":
+                case "필요소비":
                   icon = need;
                   break;
                 default:
@@ -158,11 +155,15 @@ const AccountBookDetail: React.FC<Props> = () => {
               }
               color = "text-red-500";
               money = item.withdrawalAmount;
-            } else if (item.content === "대출 상환") {
+            } else if (item.content === "투자 소비") {
               icon = need;
               color = "text-red-500";
               money = item.withdrawalAmount;
             } else if (item.content === "예금 가입") {
+              icon = need;
+              color = "text-red-500";
+              money = item.withdrawalAmount;
+            } else if (item.content === "투자") {
               icon = need;
               color = "text-red-500";
               money = item.withdrawalAmount;

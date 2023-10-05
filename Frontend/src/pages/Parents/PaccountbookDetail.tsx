@@ -64,7 +64,12 @@ const PaccountbookDetail: React.FC<Props> = () => {
         <div className="pb-3">
           {Datedata.map((item, index) => (
             <div key={index} className="m-2 flex justify-around text-black">
-              <div>{item.assetType}</div>
+              {item.assetType === "WITHDRAW" ? (
+                <div className="text-red-500">소비</div>
+              ) : (
+                <div className="text-blue-500">수입</div>
+              )}
+
               <div>{item.content}</div>
               {item.depositAmount > 0 ? (
                 <div className="text-blue-500">{item.depositAmount}</div>
