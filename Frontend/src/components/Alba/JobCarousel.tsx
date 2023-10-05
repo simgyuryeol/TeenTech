@@ -37,7 +37,9 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     axios
       .post(
         import.meta.env.VITE_BASE_URL +
-          `/api/v1/albas/child/${selectedJob.albaId}/${status}`,
+          `/api/v1/albas/child/${selectedJob.albaId}/${status}`,{
+
+          },
         {
           headers: customHeaders,
         }
