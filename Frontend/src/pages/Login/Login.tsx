@@ -3,6 +3,7 @@ import React from "react";
 // import Bot from '../Child/Bot/Bot';
 import kakaoImg from "../../assets/kakao_login_large_narrow.png";
 import teentech from "../../assets/Teen-Tech2.mp4";
+import TeenTech from "../../assets/login/Teen-Tech.gif";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 const Login: React.FC = () => {
@@ -22,14 +23,15 @@ const Login: React.FC = () => {
     <div className="w-[100vw] h-[100vh]" style={{ backgroundColor: "#B6DBEE" }}>
       <div className="p-[50px]"></div>
       <div className="flex justify-center ml-[10%] w-[80vw] h-[50vh]">
-        <video muted autoPlay>
+        {/* <video muted autoPlay>
           <source
             src={teentech}
             type="video/mp4"
             width={"100%"}
             height={"100vh"}
           />
-        </video>
+        </video> */}
+        <img src={TeenTech} />
       </div>
       <div className="">
         {/* <Link to='/Main'><span>로그인</span></Link> */}

@@ -133,12 +133,12 @@ const RenderCells: React.FC<{
             <div className="container h-full flex-row justify-center">
               {dataItem.importAmount !== 0 && (
                 <div className="text-xs text-blue-500">
-                  {dataItem.importAmount}
+                  {dataItem.importAmount.toLocaleString()}
                 </div>
               )}
               {dataItem.spendingAmount !== 0 && (
                 <div className="text-xs text-red-500">
-                  {dataItem.spendingAmount}
+                  {dataItem.spendingAmount.toLocaleString()}
                 </div>
               )}
             </div>
