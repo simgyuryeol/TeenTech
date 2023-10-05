@@ -173,7 +173,11 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
       else if (item.assetType === "WITHDRAW") {
         sobi = true;
         if (item.consumptionType === null) {
-          if (item.content === "투자 소비" || item.content === "대출") {
+          if (
+            item.content === "투자 소비" ||
+            item.content === "대출" ||
+            item.consumptionType === "필요소비"
+          ) {
             setExpenditure((prevExpenditure) => ({
               ...prevExpenditure,
               필요: prevExpenditure.필요 + item.withdrawalAmount,
@@ -186,21 +190,21 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
           } else {
             consumptionnull = true;
           }
+        } else if (
+          item.content === "투자 소비" ||
+          item.content === "대출" ||
+          item.consumptionType === "필요소비"
+        ) {
+          setExpenditure((prevExpenditure) => ({
+            ...prevExpenditure,
+            필요: prevExpenditure.필요 + item.withdrawalAmount,
+          }));
+        } else if (item.consumptionType === "욕구소비") {
+          setExpenditure((prevExpenditure) => ({
+            ...prevExpenditure,
+            욕구: prevExpenditure.욕구 + item.withdrawalAmount,
+          }));
         }
-        // else if (
-        //   item.content === "투자 소비" ||
-        //   item.content === "대출"
-        // ) {
-        //   setExpenditure((prevExpenditure) => ({
-        //     ...prevExpenditure,
-        //     필요: prevExpenditure.필요 + item.withdrawalAmount,
-        //   }));
-        // } else if (item.consumptionType === "욕구소비") {
-        //   setExpenditure((prevExpenditure) => ({
-        //     ...prevExpenditure,
-        //     욕구: prevExpenditure.욕구 + item.withdrawalAmount,
-        //   }));
-        // }
       }
     });
     setSobi(sobi);
