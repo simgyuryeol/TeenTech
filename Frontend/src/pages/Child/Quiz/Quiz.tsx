@@ -18,7 +18,9 @@ const Quiz: React.FC = () => {
 
   useEffect(() => {
     const today = new Date().toDateString();
-    if (quizScore.score !== null) {
+    console.log("Quiz Score for today:", quizScore);
+    if (quizScore.score !== null && quizScore.date instanceof Date) {
+      console.log("here", quizScore.date)
       const dateSolved = quizScore.date.toDateString();
       if (dateSolved !== today) {
         setQuizScore({
@@ -28,9 +30,9 @@ const Quiz: React.FC = () => {
         });
         return;
       }
-      setSolved(true);
     }
-  }, [quizScore]);
+    setSolved(true);
+  }, []);
 
   useEffect(() => {
     axios
@@ -39,7 +41,7 @@ const Quiz: React.FC = () => {
         const fetchedData = response.data.data;
         setCorrectProblem(fetchedData.correctProblem);
         setWrongProblem(fetchedData.wrongProblem);
-        setTotalPoint(fetchedData.totalPoint);
+        setTotalPoint(fetchedData.point);
       })
       .catch((error) => {
         console.log(error);
