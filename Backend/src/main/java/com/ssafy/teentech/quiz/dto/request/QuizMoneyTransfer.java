@@ -11,7 +11,7 @@ import java.util.List;
 public class QuizMoneyTransfer {
     private Subject subject;
     private LocalDate date;
-    private List<QuizData> quizList;
+    private List<QuizData> quiz;
 
     @Getter
     public static class QuizData {
