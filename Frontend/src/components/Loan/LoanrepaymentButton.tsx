@@ -3,6 +3,7 @@ import Loanrepayment from './Loanrepayment';
 
 interface LoanrepaymentButtonProps{
     loanId: number;
+    initialBalance: number;
 }
 
 const LoanrepaymentButton: React.FC<LoanrepaymentButtonProps> = (props) => {
@@ -14,7 +15,7 @@ const LoanrepaymentButton: React.FC<LoanrepaymentButtonProps> = (props) => {
         <div className=''>
             <p onClick={() => handleOpen(1)} className=''>상환하기</p>
             {open === 1 && (
-            <Loanrepayment loanId={props.loanId} closeModal={handleOpen}>
+            <Loanrepayment loanId={props.loanId} initialBalance={props.initialBalance} closeModal={handleOpen}>
             </Loanrepayment>
              )}
         </div>
