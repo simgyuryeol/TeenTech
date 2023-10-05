@@ -4,7 +4,7 @@ import AlbaDetail from "../../components/Alba/JobDetail";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilValue } from "recoil";
 
-const childId = useRecoilValue(childIdAtom).id;
+
 
 const NoCompletedJobs: React.FC = () => {
   return (
@@ -17,17 +17,18 @@ const NoCompletedJobs: React.FC = () => {
 const PalbaCompleted: React.FC = () => {
   const [completedJobs, setCompletedJobs] = useState<Job[]>([]);
   const accessToken = localStorage.getItem("accessToken");
-
+  
   const customHeaders = {
     Authorization: `Bearer ${accessToken}`,
   };
-
+  
+  const childId = useRecoilValue(childIdAtom).id;
   useEffect(() => {
     axios
-      .get(
-        import.meta.env.VITE_BASE_URL +
-          `/api/v1/albas/child/done-lists/${childId}`,
-        { headers: customHeaders }
+    .get(
+      import.meta.env.VITE_BASE_URL +
+      `/api/v1/albas/child/done-lists/${childId}`,
+      { headers: customHeaders }
       )
       .then((response) => {
         const fetchedData = response.data.data;
