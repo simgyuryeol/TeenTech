@@ -40,7 +40,7 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-            .antMatchers("/", "/oauth2/**", "/**").permitAll()
+            .antMatchers("/oauth2/**").permitAll()
             .anyRequest().authenticated();
 
         //oauth2Login
