@@ -84,8 +84,10 @@ const CreateJobForm: React.FC = () => {
       console.log("RESPONSE", response.data);
       setFormError("");
       window.location.reload();
+      alert("아르바이트를 성공적으로 등록했어요.");
     } catch (error) {
       console.error(error);
+      alert("다시 시도해주세요.");
     }
   };
 
@@ -133,7 +135,7 @@ const CreateJobForm: React.FC = () => {
                 id="reward"
                 placeholder="1000"
                 className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                value={formData.reward}
+                value={formData.reward.toString()}
                 onChange={handleChange}
               />
             </div>

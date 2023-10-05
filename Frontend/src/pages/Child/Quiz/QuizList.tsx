@@ -21,10 +21,11 @@ const QuizList: React.FC = () => {
         console.log(fetchedData);
         setCorrectProblem(fetchedData.correctProblem);
         setWrongProblem(fetchedData.wrongProblem);
-        setTotalPoint(fetchedData.totalPoint);
+        setTotalPoint(fetchedData.point);
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 

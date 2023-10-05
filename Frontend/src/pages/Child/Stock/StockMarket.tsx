@@ -66,6 +66,7 @@ const StockMarket: React.FC = () => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
+        alert(error.message);
       }
     };
     fetchData();

@@ -49,10 +49,12 @@ const Palba: React.FC = () => {
           })
           .catch((secondError) => {
             console.log("Error in second request:", secondError);
+            alert(secondError.message);
           });
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 

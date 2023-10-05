@@ -61,6 +61,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
       console.log("RESPONSE", response.data);
     } catch (error) {
       console.error(error);
+      alert(error.message);
     }
     setSelectedJob(null);
     setIsModalOpen(false);

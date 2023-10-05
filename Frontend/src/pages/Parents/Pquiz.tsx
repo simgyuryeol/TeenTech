@@ -33,6 +33,7 @@ const Pquiz: React.FC = () => {
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 

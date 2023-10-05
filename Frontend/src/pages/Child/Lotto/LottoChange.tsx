@@ -330,7 +330,7 @@ const LottoChange: React.FC = () => {
           className="bg-transparent hover:bg-blue-dark p2 border border-blue-dark hover:text-white rounded transition ease-in-out duration200"
           onClick={() => rendomClick()}
         >
-          rendom
+          Random
         </button>
       </div>
       {selectedNumbers.length === 3 && (

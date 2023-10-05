@@ -19,6 +19,24 @@ interface TradingRecordProps {
 
 const TradingRecord: React.FC<TradingRecordProps> = ({ record, className }) => {
   const { date, type, companyName, amount, price } = record;
+  let maskedCompanyName: string;
+  switch (companyName) {
+    case "삼성전자":
+      maskedCompanyName = "싸피전자";
+      break;
+    case "카카오":
+      maskedCompanyName = "싸피IT";
+      break;
+    case "LG화학":
+      maskedCompanyName = "싸피화학";
+      break;
+    case "KB금융":
+      maskedCompanyName = "싸피금융";
+      break;
+    default:
+      maskedCompanyName = "";
+      break;
+  }
 
   return (
     <tr className={` ${className}`}>
@@ -29,7 +47,7 @@ const TradingRecord: React.FC<TradingRecordProps> = ({ record, className }) => {
       </td>
 
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {companyName}
+        {maskedCompanyName}
       </td>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
         {amount}
