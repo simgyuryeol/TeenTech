@@ -23,7 +23,7 @@ interface Props {
 
 const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
   const [Datedata, setDatedata] = useState([]);
-  const [consumptionTypeNull, setConsumptionTypeNull] = useState([]);
+  const [consumptionTypeNull, setConsumptionTypeNull] = useState(false);
   const [expenditure, setExpenditure] = useState({
     욕구: 0,
     필요: 0,
@@ -120,87 +120,155 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
 
   useEffect(() => {
     // getData의 money값을 모두 0으로 초기화
-
-    setConsumptionTypeNull([]);
+    let consumptionnull = false;
+    let sobi = false;
     setExpenditure({ 욕구: 0, 필요: 0 });
-    setGetData((prevData) => prevData.map((data) => ({ ...data, money: 0 })));
+    // setGetData((prevData) => prevData.map((data) => ({ ...data, money: 0 })));
     Datedata.forEach((item) => {
-      if (item.assetType === "대출") {
-        if (item.withdrawalAmount > 0) {
-          setExpenditure((prevExpenditure) => ({
-            ...prevExpenditure,
-            필요: prevExpenditure.필요 + item.withdrawalAmount,
-          }));
-        }
-      } else if (item.assetType === "예금") {
-        if (item.withdrawalAmount > 0) {
-          setExpenditure((prevExpenditure) => ({
-            ...prevExpenditure,
-            필요: prevExpenditure.필요 + item.withdrawalAmount,
-          }));
-        }
-      } else if (item.assetType === "소비") {
-        setSobi(true);
-        if (item.consumptionType === null) {
-          const formattedDate = date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
-          setConsumptionTypeNull((prevDates) => [...prevDates, formattedDate]);
-        } else {
-          if (item.consumptionType === "필요") {
-            setExpenditure((prevExpenditure) => ({
-              ...prevExpenditure,
-              필요: prevExpenditure.필요 + item.withdrawalAmount,
-            }));
-          } else if (item.consumptionType === "욕구") {
-            setExpenditure((prevExpenditure) => ({
-              ...prevExpenditure,
-              욕구: prevExpenditure.욕구 + item.withdrawalAmount,
-            }));
-          }
+      // 수입
+      if (item.assetType === "DEPOSIT") {
+        if (item.content === "용돈") {
+          setGetData((prevData) =>
+            prevData.map((data) =>
+              data.name === "용돈"
+                ? { ...data, money: data.money + item.depositAmount }
+                : data
+            )
+          );
+        } else if (item.content === "투자") {
+          setGetData((prevData) =>
+            prevData.map((data) =>
+              data.name === "투자"
+                ? { ...data, money: data.money + item.depositAmount }
+                : data
+            )
+          );
+        } else if (item.content === "아르바이트") {
+          setGetData((prevData) =>
+            prevData.map((data) =>
+              data.name === "아르바이트"
+                ? { ...data, money: data.money + item.depositAmount }
+                : data
+            )
+          );
+        } else if (item.content === "퀴즈") {
+          setGetData((prevData) =>
+            prevData.map((data) =>
+              data.name === "퀴즈"
+                ? { ...data, money: data.money + item.depositAmount }
+                : data
+            )
+          );
+        } else if (item.content === "복권") {
+          setGetData((prevData) =>
+            prevData.map((data) =>
+              data.name === "복권"
+                ? { ...data, money: data.money + item.depositAmount }
+                : data
+            )
+          );
         }
       }
-
-      if (item.assetType === "이체") {
-        setGetData((prevData) =>
-          prevData.map((data) =>
-            data.name === "용돈"
-              ? { ...data, money: data.money + item.depositAmount }
-              : data
-          )
-        );
-      } else if (item.assetType === "아르바이트") {
-        setGetData((prevData) =>
-          prevData.map((data) =>
-            data.name === "아르바이트"
-              ? { ...data, money: data.money + item.depositAmount }
-              : data
-          )
-        );
-      } else if (item.assetType === "퀴즈") {
-        setGetData((prevData) =>
-          prevData.map((data) =>
-            data.name === "퀴즈"
-              ? { ...data, money: data.money + item.depositAmount }
-              : data
-          )
-        );
-      } else if (item.assetType === "투자") {
-        setGetData((prevData) =>
-          prevData.map((data) =>
-            data.name === "투자"
-              ? { ...data, money: data.money + item.depositAmount }
-              : data
-          )
-        );
-      } else if (item.assetType === "복권") {
-        setGetData((prevData) =>
-          prevData.map((data) =>
-            data.name === "복권"
-              ? { ...data, money: data.money + item.depositAmount }
-              : data
-          )
-        );
+      // 소비
+      else if (item.assetType === "WITHDRAW") {
+        sobi = true;
+        if (item.consumptionType === null) {
+          consumptionnull = true;
+        } else if (
+          item.consumptionType === "필요소비" ||
+          item.consumptionType === "대출"
+        ) {
+          setExpenditure((prevExpenditure) => ({
+            ...prevExpenditure,
+            필요: prevExpenditure.필요 + item.withdrawalAmount,
+          }));
+        } else if (item.consumptionType === "욕구소비") {
+          setExpenditure((prevExpenditure) => ({
+            ...prevExpenditure,
+            필요: prevExpenditure.필요 + item.withdrawalAmount,
+          }));
+        }
       }
     });
+    // Datedata.forEach((item) => {
+    //   if (item.assetType === "대출") {
+    //     if (item.withdrawalAmount > 0) {
+    //       setExpenditure((prevExpenditure) => ({
+    //         ...prevExpenditure,
+    //         필요: prevExpenditure.필요 + item.withdrawalAmount,
+    //       }));
+    //     }
+    //   } else if (item.assetType === "예금") {
+    //     if (item.withdrawalAmount > 0) {
+    //       setExpenditure((prevExpenditure) => ({
+    //         ...prevExpenditure,
+    //         필요: prevExpenditure.필요 + item.withdrawalAmount,
+    //       }));
+    //     }
+    //   } else if (item.assetType === "소비") {
+    //     setSobi(true);
+    //     if (item.consumptionType === null) {
+    //       const formattedDate = date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
+    //       setConsumptionTypeNull((prevDates) => [...prevDates, formattedDate]);
+    //     } else {
+    //       if (item.consumptionType === "필요") {
+    //         setExpenditure((prevExpenditure) => ({
+    //           ...prevExpenditure,
+    //           필요: prevExpenditure.필요 + item.withdrawalAmount,
+    //         }));
+    //       } else if (item.consumptionType === "욕구") {
+    //         setExpenditure((prevExpenditure) => ({
+    //           ...prevExpenditure,
+    //           욕구: prevExpenditure.욕구 + item.withdrawalAmount,
+    //         }));
+    //       }
+    //     }
+    //   }
+
+    //   if (item.assetType === "이체") {
+    //     setGetData((prevData) =>
+    //       prevData.map((data) =>
+    //         data.name === "용돈"
+    //           ? { ...data, money: data.money + item.depositAmount }
+    //           : data
+    //       )
+    //     );
+    //   } else if (item.assetType === "아르바이트") {
+    //     setGetData((prevData) =>
+    //       prevData.map((data) =>
+    //         data.name === "아르바이트"
+    //           ? { ...data, money: data.money + item.depositAmount }
+    //           : data
+    //       )
+    //     );
+    //   } else if (item.assetType === "퀴즈") {
+    //     setGetData((prevData) =>
+    //       prevData.map((data) =>
+    //         data.name === "퀴즈"
+    //           ? { ...data, money: data.money + item.depositAmount }
+    //           : data
+    //       )
+    //     );
+    //   } else if (item.assetType === "투자") {
+    //     setGetData((prevData) =>
+    //       prevData.map((data) =>
+    //         data.name === "투자"
+    //           ? { ...data, money: data.money + item.depositAmount }
+    //           : data
+    //       )
+    //     );
+    //   } else if (item.assetType === "복권") {
+    //     setGetData((prevData) =>
+    //       prevData.map((data) =>
+    //         data.name === "복권"
+    //           ? { ...data, money: data.money + item.depositAmount }
+    //           : data
+    //       )
+    //     );
+    //   }
+    // });
+    setSobi(sobi);
+    setConsumptionTypeNull(consumptionnull);
   }, [Datedata]);
 
   const [tab, setTab] = useState("소득");
@@ -316,7 +384,7 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
                 </div>
               </div>
             </div>
-            {sobi && consumptionTypeNull.length > 0 && (
+            {sobi && consumptionTypeNull && (
               <div className="mt-3 pb-3 text-xl">
                 <div>오늘의 가계부가 작성되지 않았어요.</div>
                 <div>작성해주세요</div>
