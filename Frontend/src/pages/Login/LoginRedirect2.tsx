@@ -105,11 +105,11 @@ const Login3: React.FC = () => {
     );
     const dec = base64.decode(payload);
     Setpayload(dec);
-    // const parentIdtargetKey = "parentId";
-    // const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
-    // const parentIdmatch = payload.match(parentIdregex);
-    // const parentId = parentIdmatch ? parentIdmatch[1] : "";
-    // console.log(parentId)
+    const parentIdtargetKey = "parentId";
+    const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
+    const parentIdmatch = payload.match(parentIdregex);
+    const parentId = parentIdmatch ? parentIdmatch[1] : "";
+    console.log(parentId)
     console.log(`'차일드아이디':${childId.id}`);
     console.log(`'부모 아이디':${childId.pid}`);
     if (childId.pid !== null && childId.pid !== 0 && !isNaN(childId.pid)) {
@@ -126,9 +126,9 @@ const Login3: React.FC = () => {
         계좌번호
         <div className="text-6xl mb-20">{accountNumber}</div>
       </div>
-      {/* <div className="text-3xl" onClick={reload}>
+      <div className="text-3xl" onClick={reload}>
         확인
-      </div> */}
+      </div>
       <Link
         to="/"
         className="text-5xl text-gray-600 fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 overflow-hidden rounded-xl w-[70%] sm:w-[70%] md:w-[50%] lg:w-[30%]"
