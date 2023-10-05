@@ -14,6 +14,7 @@ const LottoChange: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const location = useLocation();
   const totalLotteryPrize = location.state?.totalLotteryPrize;
+  const lottoTicket = location.state?.lottoTicket;
   const drumSound = new Audio("../../../src/assets/audio/drum.mp3");
   const yeah = new Audio("../../../src/assets/audio/yeah.mp3");
   yeah.volume = 0.3;
@@ -101,6 +102,10 @@ const LottoChange: React.FC = () => {
   }, []);
 
   const startLottery = () => {
+    if (lottoTicket === 0) {
+      alert("티켓이 부족해요. 아르바이트를 통해 티켓을 모아주세요");
+      return;
+    }
     playAudio(drumSound);
     setIsLotteryRunning(true);
     let numbers: number[] = Array.from({ length: 6 }, (_, i) => i + 1);
