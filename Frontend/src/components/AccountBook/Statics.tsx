@@ -312,10 +312,14 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
               <div className="rounded-lg mr-10 my-1 ">
                 <div className="flex flex-col items-start	">
                   <div>
-                    <div className="text-xl">욕구소비 : {expenditure.욕구}</div>
+                    <div className="text-xl">
+                      욕구소비 : {expenditure.욕구.toLocaleString()}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-xl">필요소비 : {expenditure.필요}</div>
+                    <div className="text-xl">
+                      필요소비 : {expenditure.필요.toLocaleString()}
+                    </div>
                   </div>
                 </div>
               </div>
