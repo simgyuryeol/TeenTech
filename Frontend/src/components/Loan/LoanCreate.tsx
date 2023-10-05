@@ -19,6 +19,8 @@ const LoanCreate: React.FC<LoanCreateProps> = (props) => {
 
   const [loanName, setLoanName] = useState("");
   const [loanMoney, setLoanmoney] = useState("");
+  const loanMoney2 = parseInt(loanMoney)* (1 + interestrate/100) > 0 ? (parseInt(loanMoney)* (1 + interestrate/100)).toFixed(0) : 0 ;
+
   const [loanDate, setLoandate] = useState(1);
   const Datehandle = (value) => {setLoandate(value);};
   const [reason, setReason] = useState("");
@@ -75,7 +77,7 @@ const LoanCreate: React.FC<LoanCreateProps> = (props) => {
             style={{ backgroundColor: "#EBF0F3" }}
             type="text"
             id="name"
-            placeholder=""
+            placeholder="대출 이름을 입력해주세요."
             value={loanName}
             onChange={(e) => setLoanName(e.target.value)}
             required
@@ -90,7 +92,7 @@ const LoanCreate: React.FC<LoanCreateProps> = (props) => {
             style={{ backgroundColor: "#EBF0F3" }}
             type="number"
             id="money"
-            placeholder="최소 금액 5,000원"
+            placeholder="대출 금액을 입력해주세요."
             value={loanMoney}
             onChange={(e) => setLoanmoney(e.target.value)}
             required
@@ -117,7 +119,7 @@ const LoanCreate: React.FC<LoanCreateProps> = (props) => {
               </div>
             </div>
 
-        <div className="mb-2">
+        <div className="mb-0">
           <label htmlFor="reason" className="flex w-[100%] text-lg">
             대출 사유
           </label>
@@ -126,11 +128,14 @@ const LoanCreate: React.FC<LoanCreateProps> = (props) => {
             className="border rounded-md w-[100%] pb-10 break-words p-3"
             style={{ backgroundColor: "#EBF0F3" }}
             id="reason"
-            placeholder=""
+            placeholder="빌리는 이유를 적어주세요."
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             required
           ></textarea>
+        </div>
+        <div className="mb-2 text-lg">
+          <p>상환해야 될 금액: {loanMoney2.toLocaleString()}원</p>
         </div>
         <div className="flex justify-around mb-4">
           <div className="border-2 border-black rounded-md mr-2 ">

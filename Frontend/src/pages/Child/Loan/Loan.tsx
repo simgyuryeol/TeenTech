@@ -91,18 +91,29 @@ const Loan: React.FC<Loan> = () => {
         <p className="m-4 text-lg">대출 리스트</p>
       </div>
       <div className="pb-10">
-      {loanList === null ? (loanList.map((loan, index) => (
-          <LoanList children2={''} key={index} loanId={loan.loanId} title={loan.title} initialBalance={loan.initialBalance} lastBalance={loan.lastBalance} maturityDate={loan.maturityDate} reason={loan.reason} interestRate={loan.interestRate} amount={loan.amount}>
-            <div className="">
-              <div className="border-2 rounded-md pl-5 pr-5 py-1 mr-2 mb-3 bg-gray-300">
-                <LoanrepaymentButton loanId={loan.loanId}></LoanrepaymentButton>
-              </div>
+  {loanList && loanList.length > 0 ? (
+    loanList.map((loan, index) => {
+      if (loan.initialBalance === 0) {
+        return null; 
+      }
+      
+      return (
+        <LoanList children2={''} key={index} loanId={loan.loanId} title={loan.title} initialBalance={loan.initialBalance} lastBalance={loan.lastBalance} maturityDate={loan.maturityDate} reason={loan.reason} interestRate={loan.interestRate} amount={loan.amount}>
+          <div className="">
+            <div className="border-2 rounded-md pl-5 pr-5 py-1 mr-2 mb-3 bg-gray-300">
+              <LoanrepaymentButton loanId={loan.loanId} initialBalance={loan.lastBalance}></LoanrepaymentButton>
             </div>
-          </LoanList>
-      ))):(<div className="flex justify-center items-center h-full">
+          </div>
+        </LoanList>
+      );
+    })
+  ) : (
+    <div className="flex justify-center items-center h-full">
       <p className="text-gray-500">대출 상품이 없습니다.</p>
-    </div>)}
-      </div>
+    </div>
+  )}
+</div>
+
       {open === 1 && (
         <LoanCreate
           loanLimit={LoanLimitation- totalLoanBalance}
