@@ -88,12 +88,12 @@ const Login3: React.FC = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    // const payload = accessToken.substring(
-    //   accessToken.indexOf(".") + 1,
-    //   accessToken.lastIndexOf(".")
-    // );
-    // const dec = base64.decode(payload);
-    // Setpayload(dec);
+    const payload = accessToken.substring(
+      accessToken.indexOf(".") + 1,
+      accessToken.lastIndexOf(".")
+    );
+    const dec = base64.decode(payload);
+    Setpayload(dec);
     // // const parentIdtargetKey = "parentId";
     // // const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
     // // const parentIdmatch = payload.match(parentIdregex);
