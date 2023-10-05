@@ -60,6 +60,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
 
       const response = await axios(axiosConfig);
       console.log("RESPONSE", response.data);
+      window.location.reload()
     } catch (error) {
       console.error(error);
       alert(error.message);
