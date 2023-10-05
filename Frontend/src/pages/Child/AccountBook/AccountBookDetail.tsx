@@ -163,7 +163,7 @@ const AccountBookDetail: React.FC<Props> = () => {
               icon = need;
               color = "text-red-500";
               money = item.withdrawalAmount;
-            } else if (item.content === "투자") {
+            } else if (item.content === "대출") {
               icon = need;
               color = "text-red-500";
               money = item.withdrawalAmount;
@@ -185,7 +185,7 @@ const AccountBookDetail: React.FC<Props> = () => {
               )}
 
               <div>{item.content}</div>
-              <div className={`${color}`}>{money}</div>
+              <div className={`${color}`}>{money.toLocaleString()}</div>
             </div>
           );
         })}

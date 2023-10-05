@@ -55,31 +55,39 @@ const PaccountbookDetail: React.FC<Props> = () => {
             height: "1px",
           }}
         ></div>
-        <div className="flex text-black justify-around">
-          <div>카테고리</div>
-          <div>내용</div>
-          <div>금액</div>
-          <div>유형</div>
+        <div className="flex text-black">
+          <div style={{ width: "25%" }}>카테고리</div>
+          <div style={{ width: "25%" }}>내용</div>
+          <div style={{ width: "25%" }}>금액</div>
+          <div style={{ width: "25%" }}>유형</div>
         </div>
         <div className="pb-3">
           {Datedata.map((item, index) => (
-            <div key={index} className="m-2 flex justify-around text-black">
+            <div key={index} className="m-2 flex text-black">
               {item.assetType === "WITHDRAW" ? (
-                <div className="text-red-500">소비</div>
+                <div className="text-red-500" style={{ width: "25%" }}>
+                  소비
+                </div>
               ) : (
-                <div className="text-blue-500">수입</div>
+                <div className="text-blue-500" style={{ width: "25%" }}>
+                  수입
+                </div>
               )}
 
-              <div>{item.content}</div>
+              <div style={{ width: "25%" }}>{item.content}</div>
               {item.depositAmount > 0 ? (
-                <div className="text-blue-500">{item.depositAmount}</div>
+                <div className="text-blue-500" style={{ width: "25%" }}>
+                  {item.depositAmount.toLocaleString()}
+                </div>
               ) : (
-                <div className="text-red-500">{item.withdrawalAmount}</div>
+                <div className="text-red-500" style={{ width: "25%" }}>
+                  {item.withdrawalAmount.toLocaleString()}
+                </div>
               )}
               {item.consumptionType === null ? (
-                <div>x</div>
+                <div style={{ width: "25%" }}>x</div>
               ) : (
-                <div>{item.consumptionType}</div>
+                <div style={{ width: "25%" }}>{item.consumptionType}</div>
               )}
             </div>
           ))}
