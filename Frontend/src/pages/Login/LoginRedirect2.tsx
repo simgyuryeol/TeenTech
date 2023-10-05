@@ -51,6 +51,8 @@ const Login3: React.FC = () => {
           );
           const dec = base64.decode(payload);
           Setpayload(dec);
+          console.log(dec)
+          console.log(payload)
           const parentIdtargetKey = "parentId";
           const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
           const parentIdmatch = payload.match(parentIdregex);
@@ -65,7 +67,7 @@ const Login3: React.FC = () => {
           }
 
 
-        performReload();
+        // performReload();
       })
       .catch((error) => {
         console.log(error);
