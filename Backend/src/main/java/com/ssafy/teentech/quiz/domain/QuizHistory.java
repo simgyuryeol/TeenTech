@@ -24,7 +24,7 @@ public class QuizHistory {
 
     private LocalDate date;
     private Integer point;
-    private Answer answer;
+    private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quizId")
@@ -32,7 +32,7 @@ public class QuizHistory {
 
 
     @Builder
-    public QuizHistory(User user, LocalDate date, Integer point, Answer answer, Quiz quiz){
+    public QuizHistory(User user, LocalDate date, Integer point, String answer, Quiz quiz){
         this.quizHistoryId=null;
         this.user = user;
         this.date=date;

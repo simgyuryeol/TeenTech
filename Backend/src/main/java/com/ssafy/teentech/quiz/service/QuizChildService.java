@@ -48,7 +48,7 @@ public class QuizChildService {
         Integer point = 0;
 
         for (QuizHistory quizHistory : quizHistories) {
-            if(quizHistory.getAnswer()== Answer.CORRECT){
+            if(quizHistory.getAnswer().equals(quizHistory.getQuiz().getAnswer())){
                 correct+=1;
                 point+=quizHistory.getPoint();
             }
@@ -89,7 +89,7 @@ public class QuizChildService {
         Integer point = 0;
 
         for (QuizHistory quizHistory : quizHistories) {
-            if(quizHistory.getAnswer()== Answer.CORRECT){
+            if(quizHistory.getAnswer().equals(quizHistory.getQuiz().getAnswer())){
                 correctProblem+=1;
                 point+=quizHistory.getPoint();
             }
@@ -122,11 +122,11 @@ public class QuizChildService {
         List<QuizHistory> quizHistorySaveDtoList = new ArrayList<>();
 
         for(QuizMoneyTransfer.QuizData quizData :quizMoneyTransfer.getQuizList()){
-            if(quizData.getAnswer()==Answer.CORRECT){
+            Quiz quiz = quizRepository.findById(quizData.getQuizId()).orElseThrow(() -> new IllegalArgumentException());
+
+            if(quizData.getAnswer().equals(quiz.getAnswer())){
                 amount+=(childDetail.getQuizPoint());
             }
-
-            Quiz quiz = quizRepository.findById(quizData.getQuizId()).orElseThrow(() -> new IllegalArgumentException());
 
             QuizHistorySaveDto quizHistorySaveDto = QuizHistorySaveDto.builder()
                     .answer(quizData.getAnswer())
