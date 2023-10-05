@@ -56,7 +56,7 @@ public class LottoChildService {
                     withdrawAccountNumber,
                     depositAccountNumber,
                     (long)childDetail.getTotalLotteryPrize(),
-                    "투자"
+                    "복권"
             );
 
             bankService.autoTransfer(autoTransactionRequestDto);
