@@ -86,7 +86,7 @@ public class InvestService {
         String withdrawAccountNumber = withdrawInformation.getAccountNumber();
 
         AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
-            childId,
+                user.getParentId(),
             withdrawAccountNumber,
             depositAccountNumber,
             (long) stockTransactionRequestDto.getAmount() * stock.getPrice(),
@@ -112,8 +112,7 @@ public class InvestService {
             .orElseThrow(() -> new IllegalArgumentException());
         User user = userRepository.findById(childId)
             .orElseThrow(() -> new IllegalArgumentException());
-        StocksHeld byStock = stocksHeldRepository.findByStockAndUser(stock, user)
-            .orElse(StocksHeld.builder().stock(stock).user(user).averagePrice(0).amount(0).build());
+
 
         // 1. 은행으로 거래 요청
         AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
@@ -132,6 +131,10 @@ public class InvestService {
         );
 
         bankService.autoTransfer(autoTransactionRequestDto);
+
+        StocksHeld byStock = stocksHeldRepository.findByStockAndUser(stock, user)
+                .orElse(StocksHeld.builder().stock(stock).user(user).averagePrice(stockTransactionRequestDto.getAmount()*stock.getPrice()).amount(stockTransactionRequestDto.getAmount()).build());
+
 
         // 2. 주식 거래 내역 추가
         addStockTransactionHistory(stock, user, stockTransactionRequestDto, 1, byStock);

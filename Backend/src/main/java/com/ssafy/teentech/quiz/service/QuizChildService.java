@@ -150,7 +150,7 @@ public class QuizChildService {
 
 
         AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
-                childId,
+                user.getParentId(),
                 withdrawAccountNumber,
                 depositAccountNumber,
                 amount,
