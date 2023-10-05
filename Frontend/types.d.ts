@@ -23,8 +23,8 @@ interface Job {
   title: string;
   content: string;
   reward: number;
-  startDate: Date;
-  closeDate: Date;
+  startDate: string;
+  closeDate: string;
   status: Status;
 }
 

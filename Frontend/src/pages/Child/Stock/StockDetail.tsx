@@ -7,6 +7,8 @@ import StockNews from "../../../components/Stock/StockNews";
 import BuyStock from "../../../components/Stock/BuyStock";
 import SellStock from "../../../components/Stock/SellStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 import "intro.js/introjs.css";
 import { Steps } from "intro.js-react";
@@ -21,6 +23,7 @@ const StockDetail: React.FC = () => {
   const [stockChartInfo, setStockChartInfo] = useState(null);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
+  const child = useRecoilValue(childIdAtom);
 
   let maskedCompanyName: string;
   switch (companyName) {
@@ -43,10 +46,13 @@ const StockDetail: React.FC = () => {
 
   useEffect(() => {
     axios
-      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/investments`, {
-      .post(import.meta.env.VITE_BASE_URL + "/api/v1/34/investments/detail", {
-        companyName: companyName,
-      })
+      .post(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/${child.id}/investments/detail`,
+        {
+          companyName: companyName,
+        }
+      )
       .then((response) => {
         const stockList = response.data.data.stockList;
         const slicedStockList = stockList.slice(-2);
@@ -54,15 +60,16 @@ const StockDetail: React.FC = () => {
         const currentStock = slicedStockList[1];
         const prevStock = slicedStockList[0];
 
-        const priceChangePercentage =
-          ((currentStock.price - prevStock.price) / prevStock.price) * 100;
+        const priceChangePercentage = Number(
+          ((currentStock.price - prevStock.price) / prevStock.price) * 100
+        ).toFixed(2);
 
         const priceData = stockList.map((stock) => ({
           x: stock.stockDate,
           y: stock.price,
         }));
 
-        const firstStock = stockList[0];
+        const firstStock = stockList[stockList.length - 1];
         const stockName = firstStock.companyName;
         const price = firstStock.price;
 
@@ -130,7 +137,10 @@ const StockDetail: React.FC = () => {
         </div>
 
         {stockChartInfo ? (
-          <StockChart stockInfo={stockChartInfo} maskedStockName={maskedCompanyName}/>
+          <StockChart
+            stockInfo={stockChartInfo}
+            maskedStockName={maskedCompanyName}
+          />
         ) : (
           <div>로딩 중...</div>
         )}

@@ -5,21 +5,39 @@ import { Icon } from "@iconify/react";
 import CreateJob from "../../components/PAlba/CreateJob";
 import PJobCarousel from "../../components/PAlba/PJobCarousel";
 import NoJob from "../../components/Alba/NoJob";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 const Palba: React.FC = () => {
   const navigate = useNavigate();
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
   const [createdJobs, setCreatedJobs] = useState<Job[]>([]);
+  const [waitForApprovalJobs, setWaitForApprovalJobs] = useState<Job[]>([]);
+  const child = useRecoilValue(childIdAtom);
 
   useEffect(() => {
     axios
-      // .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${childId}`, {
-      .get(import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/34`)
+      .get(
+        import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${child.id}`
+      )
       .then((response) => {
-        const fetchedData = response.data;
-        console.log("SUCCESS", response.data);
+        const fetchedData = response.data.data;
         setCurrentJobs(fetchedData.inProgressAlbaList);
-        setCreatedJobs(fetchedData.createdBeforeNowAlbaList);
+        setCreatedJobs(fetchedData.postedAlbaList);
+
+        axios
+          .get(
+            import.meta.env.VITE_BASE_URL +
+              `/api/v1/albas/parent/wait-for-check-lists/34${child.id}`
+          )
+          .then((secondResponse) => {
+            const secondFetchedData = secondResponse.data.data;
+            console.log("Second Fetched Data: ", secondFetchedData);
+            setWaitForApprovalJobs(secondFetchedData.waitForCheckAlbaList);
+          })
+          .catch((secondError) => {
+            console.log("Error in second request:", secondError);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -44,7 +62,7 @@ const Palba: React.FC = () => {
                 onClick={() => navigate("/AlbaCompleted")}
                 className="ml-8"
               >
-                완료알바보기
+                지난 알바보기
               </button>
             </div>
             <div className=" text-gray-700 pr-2">
@@ -55,14 +73,16 @@ const Palba: React.FC = () => {
                 </p>
               </div>
               <div className="flex items-center justify-between">
-                <p>진행 완료</p>
-                <p className="text-red-600">0건</p>
+                <p>승인 대기</p>
+                <p className="text-red-600">
+                  {waitForApprovalJobs ? waitForApprovalJobs.length : 0}건
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex rounded-xl bg-white p-4 shadow-lg my-4">
+        {/* <div className="flex rounded-xl bg-white p-4 shadow-lg my-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-full border border-orange-100 bg-orange-50">
             <Icon icon="circum:dollar" className="h-8 w-8" />
           </div>
@@ -74,7 +94,7 @@ const Palba: React.FC = () => {
               <p className="text-sm text-gray-500">5000원</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <CreateJob />
 
