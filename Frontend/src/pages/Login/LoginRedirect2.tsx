@@ -51,12 +51,16 @@ const Login3: React.FC = () => {
           );
           const dec = base64.decode(payload);
           Setpayload(dec);
-          console.log(dec)
-          console.log(payload)
+          console.log(`dec: ${dec}`)
+          console.log(`payload: ${payload}`)
           const parentIdtargetKey = "parentId";
           const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
           const parentIdmatch = payload.match(parentIdregex);
           const parentId = parentIdmatch ? parentIdmatch[1] : "";
+          const parentIdmatch2 = dec.match(parentIdregex);
+          const parentId2 = parentIdmatch2 ? parentIdmatch[1] : "";
+          console.log(`parentId:${parentId}`)
+          console.log(`parentId2:${parentId2}`)
           SetChildid((prevChild) => ({
             ...prevChild,
             pid: Number(parentId),
