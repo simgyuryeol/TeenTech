@@ -160,7 +160,7 @@ const AccountBookAdd: React.FC = () => {
             <div key={index} className={`${styles.borderBottom} py-3`}>
               <div className="flex justify-between py-2">
                 {item.assetType === "WITHDRAW" ? (
-                  <div className="w-1/3">지출</div>
+                  <div className="w-1/3">소비</div>
                 ) : (
                   <div className="w-1/3">소득</div>
                 )}
@@ -178,7 +178,10 @@ const AccountBookAdd: React.FC = () => {
                 )}
               </div>
 
-              {item.assetType === "WITHDRAW" && item.withdrawalAmount > 0 ? (
+              {item.assetType === "WITHDRAW" &&
+              item.withdrawalAmount > 0 &&
+              item.content != "투자 소비" &&
+              item.content != "대출" ? (
                 <>
                   <button
                     className="bg-white-300 dropdown mt-2 drop-shadow-md text-lg"
