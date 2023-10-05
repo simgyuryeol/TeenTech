@@ -82,4 +82,8 @@ public class ChildDetail {
 
     @Setter
     private float loanInterestRate;
+
+    @Setter
+    @Column(name = "INDEX_NUMBER")
+    private Integer index;
 }

@@ -77,7 +77,7 @@ public class UserService {
          * child라면 childDetail 테이블 생성
          */
         if(user.getRole().equals(Role.ROLE_CHILD)){
-            childDetailRepository.save(new ChildDetail(null,user,5,0,0,0,null,0,0,"Dog",0f,0f));
+            childDetailRepository.save(new ChildDetail(null,user,5,0,0,0,null,0,0,"Dog",0f,0f,0));
         }
 
     }

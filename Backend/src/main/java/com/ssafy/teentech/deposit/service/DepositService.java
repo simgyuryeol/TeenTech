@@ -56,6 +56,27 @@ public class DepositService {
             maturityPaymentAmount = (int)(depositCreateRequestDto.getMoney() * Math.pow(1+(childDetail.getDepositInterestRate()/100),depositCreateRequestDto.getWeeks()));
         }
 
+        // 예금을 하면 그만큼 자녀 돈에서 깎임
+        // 은행으로 거래 요청
+        AccountResponseDto depositInformation = bankService.getAccountInformation(childId);
+        String depositAccountNumber = depositInformation.getAccountNumber();
+
+        AccountResponseDto withdrawInformation = bankService.getAccountInformation(
+                user.getParentId());
+        String withdrawAccountNumber = withdrawInformation.getAccountNumber();
+
+        AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
+                childId,
+                depositAccountNumber,
+                withdrawAccountNumber,
+                (long) depositCreateRequestDto.getMoney(),
+                "투자 소비"
+        );
+
+        bankService.autoTransfer(autoTransactionRequestDto);
+
+
+
         // 3. 가입 저장
         DepositCreateResponseDto depositCreateResponseDto = DepositCreateResponseDto.builder()
                 .depositName(depositCreateRequestDto.getDepositName())

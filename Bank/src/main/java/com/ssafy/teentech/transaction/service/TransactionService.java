@@ -16,6 +16,8 @@ import com.ssafy.teentech.transaction.repository.TransactionRepository;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -93,7 +95,7 @@ public class TransactionService {
         account.checkOwner(transactionListRequestDto.getUserId());
 
         TransactionListResponseDto transactionListResponseDto = new TransactionListResponseDto(
-            transactionRepository.findAllByWithdrawAccountOrDepositAccount(account).stream()
+            transactionRepository.findAllByWithdrawAccountOrDepositAccountAndTransactionIdGreaterThan(account, transactionListRequestDto.getIndex()).stream()
                 .map(t -> {
                     if (account.equals(t.getDepositAccount())) {
                         return new TransactionResponseDto(t.getTransactionId(),
