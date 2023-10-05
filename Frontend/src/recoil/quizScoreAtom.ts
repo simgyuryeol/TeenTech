@@ -21,3 +21,14 @@ export const quizScoreAtom = atom<QuizScore>({
   },
   effects_UNSTABLE: [persistAtom],
 });
+
+export interface SolvedQuiz {
+  quizId: number;
+  answer: string;
+}
+
+export const solvedQuizAtom = atom<SolvedQuiz[]>({
+  key: 'solvedQuizAtom',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+})
