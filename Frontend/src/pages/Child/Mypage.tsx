@@ -65,7 +65,7 @@ const Mypage: React.FC = () => {
   const [isModal, setIsModal] = useState(false);
   const [childId] = useRecoilState(childIdAtom);
   const [teen9url, setTeen9url] = useRecoilState(teen9Atom);
-  const [preTeen9, setPreTeen9] = useState("Dog");
+  const [preTeen9, setPreTeen9] = useState(teen9url.avatarImageUrl);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   // 틴구 변경 api

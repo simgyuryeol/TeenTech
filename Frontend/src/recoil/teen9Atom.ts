@@ -7,10 +7,7 @@ export interface teen9 {
 }
 
 export const teen9Atom = atom<teen9>({
-  // state 1 -> 부모 0 -> 자녀
-  key: "teen9Atom",
-  default: {
-    avatarImageUrl: "Dog",
-  },
+  key: "teenAtom",
+  default: { avatarImageUrl: "" }, // 기본값 설정
   effects_UNSTABLE: [persistAtom],
 });
