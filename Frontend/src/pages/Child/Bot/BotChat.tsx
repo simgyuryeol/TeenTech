@@ -24,7 +24,7 @@ const BotChat: React.FC = () => {
       setLoading(true);
       // http://127.0.0.1:8000
       await axios
-        .post(`http://127.0.0.1:8000/chat`, {
+        .post(`${base_URL}}`, {
           conversation_id: `${conversation_id}`,
           message: `${prompt}`,
         })
@@ -70,7 +70,8 @@ const BotChat: React.FC = () => {
   <textarea
   value={prompt}
    onChange={(e) => setPrompt(e.target.value)}
-   placeholder="궁금한 질문을 입력해주세요."
+   placeholder="궁금한 질문을 입력해주세요. 
+일부 답변이 정확하지 않을 수 있습니다."
    className="focus:outline-none h-[10vh] pl-1 resize-none"
   ></textarea>
    
