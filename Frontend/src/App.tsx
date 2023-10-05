@@ -8,6 +8,7 @@ import PchildDetail from "./pages/Parents/PchildDetail";
 import Ptransfer from "./pages/Parents/Ptransfer";
 import Pinterest from "./pages/Parents/Pinterest";
 import Palba from "./pages/Parents/Palba";
+import PalbaCompleted from "./pages/Parents/PalbaCompleted";
 import Pdeposit from "./pages/Parents/Pdeposit";
 import PaccountBook from "./pages/Parents/Paccountbook";
 import PaccountbookDetail from "./pages/Parents/PaccountbookDetail";
@@ -64,6 +65,7 @@ const App: React.FC = () => {
           <Route path="/Ptransfer" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <Ptransfer key="ptransfer"/>]}/>}/>
           <Route path="/Pinterest" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <Pinterest key="pinterest"/>]}/>}/>
           <Route path="/Palba" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <Palba key="palba"/>]}/>}/>
+          <Route path="/PalbaCompleted" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <PalbaCompleted key="palbacompleted"/>,  <Bot key="bot-componenet" />]}/>}/>
           <Route path="/Pdeposit" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <Pdeposit key="pdeposit"/>]}/>}/>
           <Route path="/Paccountbook" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <PaccountBook key="paccountbook"/>]}/>}/>
           <Route path="/PaccountbookDetail" element={<PrivateRoute state={state} authenticated={1} component={[<Pheader key="pheader-component"/>, <PaccountbookDetail key="paccountbookdetail"/>]}/>}/>

@@ -73,7 +73,7 @@ const Palba: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="font-bold text-xl">알바 현황</span>
               <button
-                onClick={() => navigate("/AlbaCompleted")}
+                onClick={() => navigate("/PalbaCompleted")}
                 className="ml-8"
               >
                 지난 알바보기
