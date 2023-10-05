@@ -87,7 +87,7 @@ public class AccountBookService {
         for (TransactionResponseDto transactionResponseDto : transactions.getTransactions()) {
             Integer depositAmount = 0;
             Integer withdrawalAmount = 0;
-            if (transactions.equals("DEPOSIT")){ //수입인 경우
+            if (transactionResponseDto.getType().equals("DEPOSIT")){ //수입인 경우
                 depositAmount = transactionResponseDto.getTransferAmount().intValue();
             }
             else{
