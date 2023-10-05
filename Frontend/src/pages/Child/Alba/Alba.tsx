@@ -25,7 +25,7 @@ const Alba: React.FC = () => {
       })
       .then((response) => {
         const fetchedData = response.data.data;
-        // console.log("Fetched Data: ", fetchedData);
+        console.log("Fetched Data: ", fetchedData);
         setCurrentJobs(fetchedData.inProgressAlbaList);
         setAvailableJobs(fetchedData.applicableAlbaList);
 
@@ -127,7 +127,7 @@ const Alba: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <p>미지급액</p>
                     <p className="text-red-600">
-                      {rewardWaiting ? rewardWaiting : 0}원
+                      {rewardWaiting ? rewardWaiting.toLocaleString() : 0}원
                     </p>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ const Alba: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 bg-sky-300 py-4 m-2 rounded-xl">
+        <div className="mt-12 bg-sky-300 py-4 m-0 rounded-xl">
           <p className="text-2xl font-bold">진행 중인 아르바이트</p>
           {currentJobs && currentJobs.length ? (
             <JobCarousel jobs={currentJobs} />
@@ -145,7 +145,7 @@ const Alba: React.FC = () => {
           )}
         </div>
 
-        <div className="mt-10 bg-green-200 py-4 m-2 rounded-xl">
+        <div className="mt-10 bg-emerald-300 py-4 m-0 rounded-xl">
           <p className="text-2xl font-bold">신청 가능한 아르바이트</p>
           {availableJobs && availableJobs.length ? (
             <JobCarousel jobs={availableJobs} />

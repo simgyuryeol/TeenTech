@@ -25,6 +25,7 @@ const FormBlock: React.FC<FormBlockProps> = (props) => {
 
 interface BuyStockProps {
   companyName: string;
+  unmaskedName: string;
   price: number;
   onClose: () => void;
 }
@@ -49,7 +50,7 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
 
     axios
       .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/buy`, {
-        companyName: props.companyName,
+        companyName: props.unmaskedName,
         date: todayToString,
         amount: quantity,
       })

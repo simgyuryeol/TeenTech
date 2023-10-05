@@ -18,12 +18,12 @@ interface Quiz {
 }
 
 type Status =
-  | "POSTED"
-  | "IN_PROGRESS"
-  | "WAIT_FOR_CHECK"
-  | "REJECT"
-  | "COMPLETE"
-  | "EXPIRED";
+  | "게시"
+  | "진행"
+  | "검사 대기"
+  | "거절"
+  | "완료"
+  | "만료";
 
 interface Job {
   albaId: number;

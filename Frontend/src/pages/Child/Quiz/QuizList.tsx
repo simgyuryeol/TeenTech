@@ -31,9 +31,9 @@ const QuizList: React.FC = () => {
   return (
     <div className="mt-10">
       <p className="text-xl pt-3">{eng}</p>
-      <div className="bg-white m-5 rounded-xl p-3 flex">
+      <div className="bg-rose-100 m-5 rounded-xl p-3 flex">
         {correctProblem === 0 && wrongProblem === 0 ? (
-          <div className="w-48 flex justify-center items-center bg-orange-100 rounded-xl m-2">
+          <div className="w-48 flex justify-center items-center bg-white rounded-xl m-2">
             아직 푼 문제가 없어요.
           </div>
         ) : (
@@ -42,12 +42,12 @@ const QuizList: React.FC = () => {
             wrongProblem={wrongProblem}
           />
         )}
-        <div className="flex flex-col">
-          <div className="bg-gray-300 m-1 p-1 rounded-xl">
+        <div className="flex flex-col ml-2">
+          <div className="m-1 p-1">
             <p>맞힌 문제: {correctProblem}개</p>
             <p>틀린 문제: {wrongProblem}개</p>
           </div>
-          <div className="bg-gray-300 m-1 p-1 rounded-xl">
+          <div className="m-1 p-1">
             <p>받은 포인트</p>
             <p>{totalPoint}원</p>
           </div>

@@ -52,12 +52,12 @@ const MyStock: React.FC<MyStockProps> = (props) => {
         <div className="flex">
           <div>
             <p className="m-2 text-2xl font-bold">
-              {value}
+              {value.toLocaleString()}
               <span className="text-sm">원</span>
             </p>
             <div className="flex flex-col justify-between text-sm">
-              <p>투자금: {investment}원</p>
-              <p className="pl-5">손익: {gain}원</p>
+              <p>투자금: {investment.toLocaleString()}원</p>
+              <p className="pl-5">손익: {gain.toLocaleString()}원</p>
             </div>
           </div>
 
