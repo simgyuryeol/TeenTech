@@ -194,7 +194,7 @@ public class InvestService {
 
     public TradingRecordsPageResponseDto tradingRecords(Long childId) {
         User user = userRepository.findById(childId)
-            .orElseThrow(() -> new IllegalArgumentException());
+                .orElseThrow(() -> new IllegalArgumentException());
         List<StockTrade> stockTradeList = stockTradeRepository.findAllByUser(user)
             .orElseThrow(() -> new IllegalArgumentException());
 
@@ -206,11 +206,11 @@ public class InvestService {
 
         for (StockTrade stockTrade : stockTradeList) {
             TradingRecordsResponseDto tradingRecordsResponseDto = TradingRecordsResponseDto.builder()
-                .companyName(stockTrade.getStock().getCompanyName())
                 .date(stockTrade.getTradeDate())
                 .amount(stockTrade.getAmount())
                 .price(stockTrade.getPrice())
                 .type(stockTrade.getType())
+                    .companyName(stockTrade.getStock().getCompanyName())
                 .build();
 
             tradingRecordsResponseDtoList.add(tradingRecordsResponseDto);
