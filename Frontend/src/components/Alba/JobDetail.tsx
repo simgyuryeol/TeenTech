@@ -1,10 +1,8 @@
 import React from "react";
-import useDate from "../../hooks/useDate";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 
 const JobDetail: React.FC<{job:Job}> = ({job}) => {
-  const closeDateDate = useDate(job.closeDate);
 
   return (
     <div className="flex flex-col border rounded-lg overflow-hidden bg-white m-3">
@@ -13,7 +11,7 @@ const JobDetail: React.FC<{job:Job}> = ({job}) => {
           <span className="mr-3 mt-2">
             <Icon icon="circum:bookmark" />
           </span>
-          <p className="flex items-center   text-lg font-bold">{job.title}</p>
+          <p className="flex items-center text-lg font-bold">{job.title}</p>
         </div>
 
         {/* 아르바이트 비*/}
@@ -40,7 +38,7 @@ const JobDetail: React.FC<{job:Job}> = ({job}) => {
                 <span className="font-semibold mr-2 text-xs uppercase">
                   시작한 날짜:
                 </span>
-                <span>{closeDateDate}</span>
+                <span>{job.startDate}</span>
               </p>
             </div>
 
@@ -53,7 +51,7 @@ const JobDetail: React.FC<{job:Job}> = ({job}) => {
                 <span className="font-semibold mr-2 text-xs uppercase">
                   완료한 날짜:
                 </span>
-                <span>{closeDateDate}</span>
+                <span>{job.closeDate}</span>
               </p>
             </div>
           </React.Fragment>
@@ -66,7 +64,7 @@ const JobDetail: React.FC<{job:Job}> = ({job}) => {
               <span className="font-semibold mr-2 text-xs uppercase">
                 마감 날짜:
               </span>
-              <span>{closeDateDate}</span>
+              <span>{job.closeDate}</span>
             </p>
           </div>
         )}

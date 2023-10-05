@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useDate from "../../hooks/useDate";
+import { balanceAtom } from "../../recoil/balanceAtom";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
+
 
 interface FormBlockProps {
   title: string;
@@ -28,6 +32,11 @@ interface BuyStockProps {
 const BuyStock: React.FC<BuyStockProps> = (props) => {
   const [isOrdered, setIsOrdered] = useState(false);
   const [quantity, setQuantity] = useState(0);
+  const balance = useRecoilValue(balanceAtom);
+  const child = useRecoilValue(childIdAtom);
+  const balanceToNumber = Number(balance)
+  const buyLimit = Math.floor(balanceToNumber / props.price);
+
 
   const today = new Date();
   const todayToString = useDate(today);
@@ -40,8 +49,7 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
     });
 
     axios
-      // .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child_id}/deposits/create`, {
-      .post(import.meta.env.VITE_BASE_URL + `/api/v1/34/investments/buy`, {
+      .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/buy`, {
         companyName: props.companyName,
         date: todayToString,
         amount: quantity,
@@ -112,13 +120,14 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
                   value={quantity}
                   onChange={handleQuantityChange}
                   className="w-20 px-3 py-1 text-2xl font-bold text-right border border-gray-300 rounded-lg"
+                  max={buyLimit}
                 />
                 <p className="ml-1 text-2xl font-bold text-right">개</p>
               </div>
             </div>
 
             <p className="text-sm text-red-500 text-right">
-              최대 n개까지 살 수 있어요!
+              최대 {buyLimit}개까지 살 수 있어요!
             </p>
 
             <span className="block w-56 h-1 my-3 bg-gray-100 rounded-lg"></span>
@@ -126,10 +135,10 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
             <button
               type="button"
               className={`w-56 px-3 py-3 m-auto text-sm text-black  border border-black rounded-lg shadow ${
-                quantity === 0 ? "bg-gray-200" : "bg-red-300"
+                quantity === 0 || quantity > buyLimit ? "bg-gray-200" : "bg-red-300"
               }`}
               onClick={handleBuyStock}
-              disabled={quantity === 0}
+              disabled={quantity === 0 || quantity > buyLimit}
             >
               살래요
             </button>

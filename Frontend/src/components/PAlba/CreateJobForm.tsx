@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import axios, { AxiosRequestConfig } from "axios";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 const CreateJobForm: React.FC = () => {
+  const child = useRecoilValue(childIdAtom);
   const [formError, setFormError] = useState("");
   const [formData, setFormData] = useState({
-    childId: 34,
+    childId: child.id,
     title: "",
     content: "",
     reward: 0,
@@ -73,10 +76,10 @@ const CreateJobForm: React.FC = () => {
         data: formData,
       };
 
-      console.log(formData);
       const response = await axios(axiosConfig);
       console.log("RESPONSE", response.data);
       setFormError("");
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

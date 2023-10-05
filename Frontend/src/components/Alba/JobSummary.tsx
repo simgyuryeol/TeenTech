@@ -1,15 +1,13 @@
 import React from "react";
-import useDate from "../../hooks/useDate";
 
 interface Job {
   title: string;
   reward: number;
-  closeDate: Date;
+  closeDate: string;
 }
 
 const JobSummary: React.FC<Job> = (props) => {
   const { title, reward, closeDate } = props;
-  const date = useDate(closeDate);
 
   return (
     <div className="px-5 py-5 mx-auto" style={{width: "92vw"}}>
@@ -20,7 +18,7 @@ const JobSummary: React.FC<Job> = (props) => {
             <p className="text-gray-900 text-xl font-bold">{title}</p>
 
             <div className="flex items-center justify-between" style={{width: "70vw"}}>
-              <p className="font-semibold text-gray-400">{date}까지</p>
+              <p className="font-semibold text-gray-400">{closeDate}까지</p>
               <p className="text-xl font-bold text-yellow-500">+ {reward}</p>
             </div>
           </div>
