@@ -46,8 +46,12 @@ const AccountBookDetail: React.FC<Props> = () => {
   const [buttonState, setButtonState] = useState(0);
   const [childId] = useRecoilState(childIdAtom);
   console.log("토탈" + total);
+  console.log("몇일이야??");
+  console.log(date?.toString());
 
   const getDetail = () => {
+    console.log("가계부 디테일 : ");
+    setDatedata([]);
     axios
       .get(
         `https://j9e207.p.ssafy.io/api/v1/${childId.id}/accountbooks/detail/${date}`

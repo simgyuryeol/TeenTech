@@ -175,7 +175,45 @@ const Calendar: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const getDate = () => {
+  // const getDate = () => {
+  //   if (state.id === 0) {
+  //     axios
+  //       .get(
+  //         `https://j9e207.p.ssafy.io/api/v1/${
+  //           childData.id
+  //         }/accountbooks/date/${formatDate(currentMonth)}`
+  //       )
+  //       .then((response) => {
+  //         setDatedata(response.data.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   } else if (state.id === 1) {
+  //     console.log(childData.id);
+  //     console.log(formatDate(currentMonth));
+  //     axios
+  //       .get(
+  //         `https://j9e207.p.ssafy.io/api/v1/${
+  //           childData.id
+  //         }/accountbooks/date/${formatDate(currentMonth)}`
+  //       )
+  //       .then((response) => {
+  //         console.log("월달력확인");
+  //         console.log(response.data.data);
+  //         setDatedata(response.data.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getDate();
+  // }, [currentMonth]);
+
+  const getDate = async () => {
     if (state.id === 0) {
       axios
         .get(
@@ -212,6 +250,10 @@ const Calendar: React.FC = () => {
   useEffect(() => {
     getDate();
   }, [currentMonth]);
+
+  useEffect(() => {
+    getDate();
+  }, []);
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
