@@ -9,7 +9,10 @@ import monkey from "../../../assets/Teen9/monkey.png";
 import Panda from "../../../assets/Teen9/Panda.png";
 import Sloth from "../../../assets/Teen9/Sloth.png";
 import { teen9Atom } from "../../../recoil/teen9Atom";
+import { childIdAtom } from "../../../recoil/childIdAtom";
 import { useRecoilState } from "recoil";
+import axios from "axios";
+import { useEffect } from "react";
 
 const imageMap = {
   Bear: Bear,
@@ -23,8 +26,26 @@ const imageMap = {
 
 const Bot: React.FC = () => {
   const [open, setOpen] = React.useState(0);
-  const [teen9url] = useRecoilState(teen9Atom);
-  console.log(teen9url.avatarImageUrl);
+  const [teen9url, setTeen9Url] = useRecoilState(teen9Atom);
+  const [child, setChild] = useRecoilState(childIdAtom);
+
+  const getDetail = () => {
+    console.log("asiox..");
+    console.log(child);
+    axios
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${child.id}`)
+      .then((response) => {
+        setTeen9Url(response.data.data.avatarImageUrl);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
 
   const handleOpen = (value: React.SetStateAction<number>) =>
     setOpen(open === value ? 0 : value);
@@ -36,7 +57,8 @@ const Bot: React.FC = () => {
           질문해줘
         </div>
         <img
-          src={imageMap[teen9url.avatarImageUrl]}
+          // src={imageMap[teen9url.avatarImageUrl]}
+          src={Dog}
           width={"70px"}
           onClick={() => handleOpen(1)}
         ></img>
