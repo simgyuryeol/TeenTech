@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./AccountBookAdd.module.css";
 import axios from "axios";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 const Data2 = [
   {
@@ -39,6 +41,7 @@ interface SelectedItem {
 }
 
 const AccountBookAdd: React.FC = () => {
+  const [childId] = useRecoilState(childIdAtom);
   const [priceSum, setPriceSum] = useState(0);
   const [selectedRadio, setSelectedRadio] = useState<SelectedItem>({});
 
@@ -71,7 +74,9 @@ const AccountBookAdd: React.FC = () => {
 
   const getData = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .get(
+        `https://j9e207.p.ssafy.io/api/v1/${childId.id}/accountbooks/detail/${date}`
+      )
       .then((response) => {
         setDatedata(response.data.data);
       })
@@ -124,10 +129,13 @@ const AccountBookAdd: React.FC = () => {
     // Promise.all을 사용하여 모든 요청이 완료될 때까지 기다립니다.
     Promise.all(
       selectedValues.map((item) =>
-        axios.post(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks`, {
-          accountBookId: item.accountBookId,
-          consumptionType: item.consumptionType,
-        })
+        axios.post(
+          `https://j9e207.p.ssafy.io/api/v1/${childId.id}/accountbooks`,
+          {
+            accountBookId: item.accountBookId,
+            consumptionType: item.consumptionType,
+          }
+        )
       )
     )
       .then(() => {
