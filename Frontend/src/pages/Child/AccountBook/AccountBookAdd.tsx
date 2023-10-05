@@ -168,12 +168,12 @@ const AccountBookAdd: React.FC = () => {
                 <div className="w-1/3">{item.content}</div>
                 {item.depositAmount > 0 && (
                   <div className="w-1/3 text-green-600">
-                    {item.depositAmount}
+                    {item.depositAmount.toLocaleString()}
                   </div>
                 )}
                 {item.withdrawalAmount > 0 && (
                   <div className="w-1/3 text-red-600">
-                    {item.withdrawalAmount}
+                    {item.withdrawalAmount.toLocaleString()}
                   </div>
                 )}
               </div>
