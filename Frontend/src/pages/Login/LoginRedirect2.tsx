@@ -24,21 +24,10 @@ const Login3: React.FC = () => {
   const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
   const parentIdmatch = payload.match(parentIdregex);
   const parentId = parentIdmatch ? parentIdmatch[1] : "";
-  const [parentId3, setParentId3] = useState(0)
 
   const childId = useRecoilValue(childIdAtom);
   const SetChildid = useSetRecoilState(childIdAtom);
-  const zzz = () => {
-    console.log(`parentId3:${parentId3}`)
-    SetChildid((prevChild) => ({
-      ...prevChild,
-      pid: Number(parentId3),
-    }));
-    console.log(childId.pid)
-    if (parentId3 !== null && parentId3 !== 0 && !isNaN(parentId3)) {
-      navigate("../main");
-    }
-  }
+
   const navigate = useNavigate();
   const reload = () => {
     axios
@@ -62,30 +51,16 @@ const Login3: React.FC = () => {
           );
           const dec = base64.decode(payload);
           Setpayload(dec);
-          console.log(`dec: ${dec}`)
-          console.log(`payload: ${payload}`)
           const parentIdtargetKey = "parentId";
           const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
           const parentIdmatch = payload.match(parentIdregex);
           const parentId = parentIdmatch ? parentIdmatch[1] : "";
-          const parentIdmatch2 = dec.match(parentIdregex);
-          const parentId2 = parentIdmatch2 ? parentIdmatch[1] : "";
-          console.log(`parentId:${parentId}`)
-          console.log(`parentId2:${parentId2}`)
-          const data = JSON.parse(dec);
-          // const parentId3 = data.parentId;
-          setParentId3(data.parentId)
-          console.log(`parentId3:${parentId3}`)
-          // SetChildid((prevChild) => ({
-          //   ...prevChild,
-          //   pid: Number(parentId3),
-          // }));
-          // console.log(childId.pid)
-          // if (parentId3 !== null && parentId3 !== 0 && !isNaN(parentId3) && parentId3 !== "") {
-          //   navigate("../main");
-          // }
-          zzz
-        // performReload();
+          if (Number(parentId) != 0) {
+            navigate("../main");
+          }
+
+
+        performReload();
       })
       .catch((error) => {
         console.log(error);
@@ -97,7 +72,6 @@ const Login3: React.FC = () => {
   };
   
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const payload = accessToken.substring(
       accessToken.indexOf(".") + 1,
@@ -105,19 +79,18 @@ const Login3: React.FC = () => {
     );
     const dec = base64.decode(payload);
     Setpayload(dec);
-    const parentIdtargetKey = "parentId";
-    const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
-    const parentIdmatch = payload.match(parentIdregex);
-    const parentId = parentIdmatch ? parentIdmatch[1] : "";
-    console.log(parentId)
+    // const parentIdtargetKey = "parentId";
+    // const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
+    // const parentIdmatch = payload.match(parentIdregex);
+    // const parentId = parentIdmatch ? parentIdmatch[1] : "";
+    // console.log(parentId)
     console.log(`'차일드아이디':${childId.id}`);
     console.log(`'부모 아이디':${childId.pid}`);
-    if (childId.pid !== null && childId.pid !== 0 && !isNaN(childId.pid)) {
+    if (childId.pid != 0) {
       navigate("../main");
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  }, [accessToken, childId.id, childId.pid, SetChildid, navigate]);
   return (
     <div className="w-[100vw] h-[100vh]" style={{ backgroundColor: "#B6DBEE" }}>
       <div className="h-[20vh]"></div>
