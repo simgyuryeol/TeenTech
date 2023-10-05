@@ -124,12 +124,12 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
   useEffect(() => {
     // getData의 money값 0으로 초기화
     setGetData((prevData) => prevData.map((data) => ({ ...data, money: 0 })));
-    setConsumptionTypeNull([]);
     setExpenditure({ 욕구: 0, 필요: 0 });
 
     setImportAmount(0);
     setSpendingAmount(0);
     console.log("useEffect안 ", Datedata);
+    let consumptionDate = [];
     if (Datedata) {
       Datedata.forEach((item) => {
         setImportAmount(
@@ -195,13 +195,9 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
               else if (item2.assetType === "WITHDRAW") {
                 if (item2.consumptionType === null) {
                   const formattedDate = item.date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
-                  setConsumptionTypeNull((prevDates) => {
-                    if (!prevDates.includes(formattedDate)) {
-                      return [...prevDates, formattedDate];
-                    } else {
-                      return prevDates;
-                    }
-                  });
+                  if (!consumptionDate.includes(formattedDate)) {
+                    consumptionDate.push(formattedDate);
+                  }
                 } else if (
                   item2.consumptionType === "필요소비" ||
                   item2.consumptionType === "대출"
@@ -225,15 +221,14 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
       });
     }
     console.log("타입없는거");
-    const sortedDates = [...consumptionTypeNull].sort(
-      (a, b) => parseInt(a) - parseInt(b)
+    console.log(consumptionDate);
+    setConsumptionTypeNull(
+      consumptionDate.sort((a, b) => parseInt(a) - parseInt(b))
     );
-    setConsumptionTypeNull(sortedDates);
-    console.log(consumptionTypeNull);
   }, [Datedata]);
 
   const [tab, setTab] = useState("소득");
-  console.log(consumptionTypeNull);
+  // console.log(consumptionTypeNull);
   return (
     <div className="mx-4">
       <div className="drop-shadow-lg rounded-xl bg-white mb-5">
