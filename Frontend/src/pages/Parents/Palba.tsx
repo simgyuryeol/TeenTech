@@ -28,7 +28,7 @@ const Palba: React.FC = () => {
         axios
           .get(
             import.meta.env.VITE_BASE_URL +
-              `/api/v1/albas/parent/wait-for-check-lists/34${child.id}`
+              `/api/v1/albas/parent/wait-for-check-lists/${child.id}`
           )
           .then((secondResponse) => {
             const secondFetchedData = secondResponse.data.data;
