@@ -92,7 +92,7 @@ public class AlbaService {
         Alba alba = albaRepository.findById(albaAcceptCompleteRequestDto.getAlbaId())
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));
 
-        if (!Objects.equals(parent.getParentId(), child.getParentId())) {
+        if (!Objects.equals(parent.getUserId(), child.getParentId())) {
             throw new AuthException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
 
@@ -137,7 +137,7 @@ public class AlbaService {
         Alba alba = albaRepository.findById(albaRejectCompleteRequestDto.getAlbaId())
             .orElseThrow(() -> new InvalidRequestException(ErrorCode.ALBA_NOT_FOUND));
 
-        if (!Objects.equals(parent.getParentId(), child.getParentId())) {
+        if (!Objects.equals(parent.getUserId(), child.getParentId())) {
             throw new AuthException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
 
