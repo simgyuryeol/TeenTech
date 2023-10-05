@@ -3,16 +3,19 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import QuizChart from "../../../components/Quiz/QuizChart";
 import QuizToday from "../../../components/Quiz/QuizToday";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 const QuizList: React.FC = () => {
   const { eng } = useParams();
   const [correctProblem, setCorrectProblem] = useState(0);
   const [wrongProblem, setWrongProblem] = useState(0);
   const [totalPoint, setTotalPoint] = useState(0);
+  const child = useRecoilValue(childIdAtom)
 
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_BASE_URL + `/api/v1/34/quizzes/${eng}`)
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes/${eng}`)
       .then((response) => {
         const fetchedData = response.data.data;
         console.log(fetchedData);

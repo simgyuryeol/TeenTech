@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import Card from "../Common/Card";
 import { quizPointAtom } from "../../recoil/quizPointAtom";
-import { useRecoilState } from "recoil";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const SetQuizPrize: React.FC = () => {
   const [prize, setPrize] = useRecoilState(quizPointAtom);
   const prizeToString: string = "현재 상금"+ prize.toString();
+  const child = useRecoilValue(childIdAtom);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -22,7 +24,7 @@ const SetQuizPrize: React.FC = () => {
 
   const handleSet = () => {
     axios
-      .post(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/reward/set", {
+      .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes/reward/set`, {
         cost: prize,
       })
       .then((response) => {

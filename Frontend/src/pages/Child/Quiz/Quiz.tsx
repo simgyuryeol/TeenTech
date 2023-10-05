@@ -5,10 +5,12 @@ import TopicList from "../../../components/Quiz/TopicList";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
 import { quizPointAtom } from "../../../recoil/quizPointAtom";
+import { childIdAtom } from "../../../recoil/childIdAtom";
 
 const Quiz: React.FC = () => {
   const [quizScore, setQuizScore] = useRecoilState(quizScoreAtom);
   const quizPoint = useRecoilValue(quizPointAtom);
+  const child = useRecoilValue(childIdAtom);
   const [solved, setSolved] = useState(false);
   const [correctProblem, setCorrectProblem] = useState(0);
   const [wrongProblem, setWrongProblem] = useState(0);
@@ -32,7 +34,7 @@ const Quiz: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/histories")
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes/histories`)
       .then((response) => {
         const fetchedData = response.data.data;
         setCorrectProblem(fetchedData.correctProblem);
