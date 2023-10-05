@@ -42,7 +42,7 @@ const Ploandetail: React.FC = () => {
       }}
     >
       <h2>지난 대출</h2>
-      {completedloans ? (
+      {completedloans && completedloans.length > 0 ? (
         completedloans.map((loan, index) => (
           <LoanDetail
             key={index}
