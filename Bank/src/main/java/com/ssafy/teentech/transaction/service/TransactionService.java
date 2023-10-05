@@ -95,7 +95,7 @@ public class TransactionService {
         account.checkOwner(transactionListRequestDto.getUserId());
 
         TransactionListResponseDto transactionListResponseDto = new TransactionListResponseDto(
-            transactionRepository.findAllByWithdrawAccountOrDepositAccountAndTransactionIdGreaterThan(account, transactionListRequestDto.getIndex()).stream()
+            transactionRepository.findAllByWithdrawAccountOrDepositAccountAndTransactionIdGreaterThan(account, new Long(transactionListRequestDto.getIndex())).stream()
                 .map(t -> {
                     if (account.equals(t.getDepositAccount())) {
                         return new TransactionResponseDto(t.getTransactionId(),
