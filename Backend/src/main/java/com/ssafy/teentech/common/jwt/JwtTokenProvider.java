@@ -2,10 +2,8 @@ package com.ssafy.teentech.common.jwt;
 
 import com.ssafy.teentech.common.error.ErrorCode;
 import com.ssafy.teentech.common.error.exception.AuthException;
-import com.ssafy.teentech.common.oauth.UserPrincipal;
 import com.ssafy.teentech.common.util.RedisService;
 import com.ssafy.teentech.common.util.TokenInfo;
-import com.ssafy.teentech.user.domain.User;
 import com.ssafy.teentech.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -28,6 +26,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -119,9 +118,7 @@ public class JwtTokenProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        User user = userService.getUser(claims.getSubject());
-        UserDetails principal = new UserPrincipal(user.getUserId(), user.getEmail(), authorities);
-
+        UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, null, authorities);
     }
 
