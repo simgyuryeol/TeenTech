@@ -61,12 +61,15 @@ const Login3: React.FC = () => {
           const parentId2 = parentIdmatch2 ? parentIdmatch[1] : "";
           console.log(`parentId:${parentId}`)
           console.log(`parentId2:${parentId2}`)
+          const data = JSON.parse(dec);
+          const parentId3 = data.parentId;
+          console.log(`parentId3:${parentId3}`)
           SetChildid((prevChild) => ({
             ...prevChild,
-            pid: Number(parentId),
+            pid: Number(parentId3),
           }));
           console.log(childId.pid)
-          if (Number(parentId) != 0) {
+          if (Number(parentId3) != 0) {
             navigate("../main");
           }
 
