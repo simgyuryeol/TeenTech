@@ -3,6 +3,8 @@ package com.ssafy.teentech.deposit.service;
 import com.ssafy.teentech.bank.dto.request.AutoTransactionRequestDto;
 import com.ssafy.teentech.bank.dto.response.AccountResponseDto;
 import com.ssafy.teentech.bank.service.BankService;
+import com.ssafy.teentech.common.error.ErrorCode;
+import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.deposit.domain.Deposit;
 import com.ssafy.teentech.deposit.domain.InterestType;
 import com.ssafy.teentech.deposit.dto.request.DepositCreateRequestDto;
@@ -42,8 +44,8 @@ public class DepositService {
         ChildDetail childDetail = childDetailRepository.findByUser(user).orElseThrow(() -> new IllegalArgumentException());
         // 1. 복리라면 사용 가능해도 되는지 확인
         // 복리이면서 3등급 이상이면 실패
-        if (depositCreateRequestDto.getInterestType()== InterestType.복리 && childDetail.getCreditRating()>3){
-            return null;
+        if (depositCreateRequestDto.getInterestType() == InterestType.복리 && childDetail.getCreditRating()>3){
+            throw new InvalidRequestException(ErrorCode.INVALID_DEPOSIT_TYPE);
         }
 
         //2. 만기지급액 계산

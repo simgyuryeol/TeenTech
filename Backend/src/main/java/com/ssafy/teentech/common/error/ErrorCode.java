@@ -44,6 +44,7 @@ public enum ErrorCode {
     LOAN_LIMIT_EXCEED(400, "남은 총 상환 금액과 대출 신청 금액의 합이 용돈의 50% 이상입니다."),
     INVALID_DEPOSIT_INTEREST_RATE(400, "신용등급에 맞는 예금 이율을 설정해주세요."),
     INVALID_LOAN_INTEREST_RATE(400, "신용등급에 맞는 대출 이율을 설정해주세요."),
+    INVALID_DEPOSIT_TYPE(400, "3등급 이하만 복리로 신청할 수 있습니다."),
 
     FAIL_SEND_FCM_MESSAGE(400, "알림 보내기를 실패하였습니다."),
 
