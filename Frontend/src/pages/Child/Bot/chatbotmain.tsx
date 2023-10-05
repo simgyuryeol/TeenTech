@@ -4,11 +4,29 @@ import ChatBot, { Steps } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import { Link } from 'react-router-dom';
 import BotModal from '../../../components/Bot/BotModal';
-import dog from "../../../assets/Teen9/Dog.png"
+import Bear from "../../../assets/Teen9/Bear.png";
+import Dog from "../../../assets/Teen9/Dog.png";
+import Elephant from "../../../assets/Teen9/Elephant.png";
+import Koala from "../../../assets/Teen9/Koala.png";
+import monkey from "../../../assets/Teen9/monkey.png";
+import Panda from "../../../assets/Teen9/Panda.png";
+import Sloth from "../../../assets/Teen9/Sloth.png";
+import { teen9Atom } from "../../../recoil/teen9Atom";
+import { useRecoilState } from "recoil";
 
 // import axios from 'axios';
 
 // const base_URL = import.meta.env.VITE_SERVER_URL;
+
+const imageMap = {
+  Bear: Bear,
+  Dog: Dog,
+  Elephant: Elephant,
+  Koala: Koala,
+  monkey: monkey,
+  Panda: Panda,
+  Sloth: Sloth,
+};
 
 
   const Deposit: React.FC = () => {
@@ -248,6 +266,8 @@ const Chatbotmain = (_closeModal:any) => {
         userBubbleColor: '#EBF0F3',
         userFontColor: '#4a4a4a',
       };
+      const [teen9url] = useRecoilState(teen9Atom);
+
 
         return (
             <BotModal>
@@ -258,12 +278,12 @@ const Chatbotmain = (_closeModal:any) => {
                         </div> */}
                     <ChatBot
                         headerTitle= '틴구❤'
-                        botAvatar= {dog}
+                        botAvatar= {imageMap[teen9url.avatarImageUrl]}
                         hideUserAvatar= 'true'
                         steps={[
                             {
                                 id: '0',
-                                message: '안녕? 무엇이 궁금하냐 멍?',
+                                message: '안녕? 어떤게 궁금해?',
                                 trigger: 'select',
                             },
                             {

@@ -56,6 +56,7 @@ const LoanReview: React.FC<LoanReviewProps> = (props) => {
       })
       .then(response => {
         console.log(response.data.data);
+        window.location.reload();
       })
       .catch(error => {
         console.log(props.loanId)
