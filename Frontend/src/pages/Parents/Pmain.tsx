@@ -101,7 +101,6 @@ const Pmain: React.FC = () => {
                   className="text-black"
                   onClick={() => getchild(list)}
                 >
-                  dkkk
                   {list.childName}
                 </Link>
               </div>

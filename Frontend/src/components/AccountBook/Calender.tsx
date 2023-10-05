@@ -191,6 +191,7 @@ const Calendar: React.FC = () => {
         });
     } else if (state.id === 1) {
       console.log(childData.id);
+      console.log(formatDate(currentMonth));
       axios
         .get(
           `https://j9e207.p.ssafy.io/api/v1/${
