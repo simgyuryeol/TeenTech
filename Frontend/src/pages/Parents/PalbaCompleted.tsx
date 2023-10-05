@@ -27,7 +27,7 @@ const PalbaCompleted: React.FC = () => {
     axios
     .get(
       import.meta.env.VITE_BASE_URL +
-      `/api/v1/albas/child/done-lists/${childId}`,
+      `/api/v1/albas/parent/done-lists/${childId}`,
       { headers: customHeaders }
       )
       .then((response) => {
