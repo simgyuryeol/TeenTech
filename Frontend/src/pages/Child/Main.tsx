@@ -6,9 +6,9 @@ import { stateAtom, state } from "../../recoil/stateAtom";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { quizPointAtom } from "../../recoil/quizPointAtom";
 import { balanceAtom } from "../../recoil/balanceAtom";
+import { teen9Atom } from "../../recoil/teen9Atom";
 import Boy from "../../../src/assets/main/boy_1.png";
 import axios from "axios";
-import Bot from "../Child/Bot/Bot";
 
 interface Detail {
   creditRating: number;
@@ -25,6 +25,7 @@ const Main: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
   const [getAllowance, setGetAllowance] = useState(0);
   const [childDetail, setChildDetail] = useState<Detail>();
+  const [teen9url, setTeen9Url] = useRecoilState(teen9Atom);
   const [totalBalance, setTotalBalance] = useRecoilState(balanceAtom);
   const [child, setChild] = useRecoilState(childIdAtom);
   const [quizPoint, setQuizPoint] = useRecoilState(quizPointAtom);
@@ -44,6 +45,7 @@ const Main: React.FC = () => {
           name: response.data.data.username,
         });
         setQuizPoint(response.data.data.quizPoint);
+        setTeen9Url(response.data.data.avatarImageUrl);
         console.log(response.data.data);
       })
       .catch((error) => {
