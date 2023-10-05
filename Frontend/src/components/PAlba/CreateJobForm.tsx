@@ -84,8 +84,10 @@ const CreateJobForm: React.FC = () => {
       console.log("RESPONSE", response.data);
       setFormError("");
       window.location.reload();
+      alert("아르바이트를 성공적으로 등록했어요.");
     } catch (error) {
       console.error(error);
+      alert("다시 시도해주세요.");
     }
   };
 

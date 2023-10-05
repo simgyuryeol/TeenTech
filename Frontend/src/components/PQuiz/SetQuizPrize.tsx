@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 
 const SetQuizPrize: React.FC = () => {
   const [prize, setPrize] = useRecoilState(quizPointAtom);
-  const prizeToString: string = "현재 상금"+ prize.toString();
+  const prizeToString: string = "현재 상금" + prize.toString();
   const child = useRecoilValue(childIdAtom);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,14 +24,20 @@ const SetQuizPrize: React.FC = () => {
 
   const handleSet = () => {
     axios
-      .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes/reward/set`, {
-        cost: prize,
-      })
+      .post(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/${child.id}/quizzes/reward/set`,
+        {
+          cost: prize,
+        }
+      )
       .then((response) => {
         console.log(response.data);
+        alert("퀴즈 상금을 저장했어요.");
       })
       .catch((error) => {
         console.log(error);
+        alert("다시 시도해주세요.");
       });
   };
 

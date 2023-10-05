@@ -60,6 +60,7 @@ const Stock: React.FC = () => {
               `Error fetching data for stock ${stock.companyName}:`,
               error
             );
+            alert(error.message);
           }
         };
         const fetchPromises = initialData.map(fetchDataForStock);
@@ -70,10 +71,12 @@ const Stock: React.FC = () => {
           })
           .catch((error) => {
             console.error("Error fetching additional data for stocks:", error);
+            alert(error.message);
           });
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 

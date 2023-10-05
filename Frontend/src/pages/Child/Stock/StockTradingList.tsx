@@ -26,6 +26,7 @@ const StockTradingList: React.FC = () => {
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 
