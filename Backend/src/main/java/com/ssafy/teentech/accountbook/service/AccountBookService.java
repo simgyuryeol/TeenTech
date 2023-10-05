@@ -108,9 +108,7 @@ public class AccountBookService {
 
             childDetail.setIndex(transactionResponseDto.getTransactionId().intValue()); //인덱스값 더하기
         }
-
-
-
+        
         accountBookRepository.saveAll(accountBooks);
 
 
