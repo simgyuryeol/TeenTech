@@ -55,6 +55,11 @@ const Login3: React.FC = () => {
           const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
           const parentIdmatch = payload.match(parentIdregex);
           const parentId = parentIdmatch ? parentIdmatch[1] : "";
+          SetChildid((prevChild) => ({
+            ...prevChild,
+            pid: Number(parentId),
+          }));
+          console.log(childId.pid)
           if (Number(parentId) != 0) {
             navigate("../main");
           }
@@ -72,6 +77,7 @@ const Login3: React.FC = () => {
   };
   
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const payload = accessToken.substring(
       accessToken.indexOf(".") + 1,
@@ -90,7 +96,7 @@ const Login3: React.FC = () => {
       navigate("../main");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, childId.id, childId.pid, SetChildid, navigate]);
+  });
   return (
     <div className="w-[100vw] h-[100vh]" style={{ backgroundColor: "#B6DBEE" }}>
       <div className="h-[20vh]"></div>
