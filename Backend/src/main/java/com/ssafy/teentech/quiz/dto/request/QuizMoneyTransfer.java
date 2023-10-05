@@ -11,10 +11,10 @@ import java.util.List;
 public class QuizMoneyTransfer {
     private Subject subject;
     private LocalDate date;
-    private List<QuizData> quiz;
+    private List<quiz> quiz;
 
     @Getter
-    public static class QuizData {
+    public static class quiz {
         private Long quizId;
         private String answer;
     }
