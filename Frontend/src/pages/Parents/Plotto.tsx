@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import LottoList from "../../components/Lotto/LottoList";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
@@ -7,7 +7,7 @@ import { childIdAtom } from "../../recoil/childIdAtom";
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const Plotto: React.FC = () => {
-  const child_id = useRecoilValue(childIdAtom).id
+  const child_id = useRecoilValue(childIdAtom).id;
   const [pocketMoney, setPocketmoney] = useState(0);
   const handlePocketmoney = (e) => {
     const money = e.target.value;
@@ -31,8 +31,11 @@ const Plotto: React.FC = () => {
       });
   };
   return (
-    <div className="pt-24" style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}>
-            <div className="mb-3">
+    <div
+      className="pt-24"
+      style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}
+    >
+      <div className="mb-3">
         <p className="text-2xl font-bold">복권 당첨금 설정</p>
         <div
           className="flex flex-col border-2 rounded-xl mr-6 ml-6 mb-1 p-2 pt-4 bg-white"
@@ -66,7 +69,7 @@ const Plotto: React.FC = () => {
           </p>
         </div>
       </div>
-      <hr/>
+      <hr />
       <div>
         <LottoList />
       </div>
