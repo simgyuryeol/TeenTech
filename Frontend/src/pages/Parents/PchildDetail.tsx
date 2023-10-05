@@ -65,7 +65,11 @@ const PchildDetail: React.FC = () => {
 
   const handleLinkClick = (id?: number, name?: string) => {
     if (id && name) {
-      setChildData({ id, name, pid: 0 });
+      setChildData((prevData) => ({
+        ...prevData,
+        id: id,
+        name: name,
+      }));
     }
   };
 

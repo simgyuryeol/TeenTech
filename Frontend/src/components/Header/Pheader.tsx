@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilState } from "recoil";
+import back from "../../assets/main/back.png";
+import hamburger from "../../assets/main/hamburger.png";
+import home from "../../assets/main/home.png";
+import close from "../../assets/main/close.png";
+
 const menulist = [
   {
     link: "/Pinterest",
@@ -104,16 +109,16 @@ const Pheader: React.FC = () => {
               onClick={goBack}
               className="inline-flex items-center justify-center p-2 w-11 h-11"
             >
-              <img src="../../../src/assets/main/back.png" />
+              <img src={back} />
             </div>
             <div className="p-2 text-xl">{childData.name}</div>
           </div>
           <div className="flex w-2/6 justify-end">
             <div className="p-2 w-11 h-11" onClick={clickHome}>
-              <img src="../../../src/assets/main/home.png" />
+              <img src={home} />
             </div>
             <div onClick={toggleMenu} className="p-2 w-11 h-11">
-              <img src="../../../src/assets/main/hamburger.png" />
+              <img src={hamburger} />
             </div>
           </div>
         </div>
@@ -127,7 +132,7 @@ const Pheader: React.FC = () => {
           {/* 메뉴 내용 */}
           <div className="flex jusfify-end">
             <div onClick={toggleMenu} className="w-10">
-              <img src="../../../src/assets/main/close.png" />
+              <img src={close} />
             </div>
           </div>
           <ul>

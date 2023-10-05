@@ -14,7 +14,7 @@ const Lotto: React.FC = () => {
   const [totalLotteryPrize, sedTotalLotteryPrize] = useState(0); // 부모가 설정한 당첨금액
 
   const ClickChange = () => {
-    navigate("/LottoChange", { state: { totalLotteryPrize } });
+    navigate("/LottoChange", { state: { totalLotteryPrize, lottoTicket } });
   };
 
   const getlottoticket = () => {
