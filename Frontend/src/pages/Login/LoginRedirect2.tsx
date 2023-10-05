@@ -24,10 +24,21 @@ const Login3: React.FC = () => {
   const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
   const parentIdmatch = payload.match(parentIdregex);
   const parentId = parentIdmatch ? parentIdmatch[1] : "";
+  const [parentId3, setParentId3] = useState(0)
 
   const childId = useRecoilValue(childIdAtom);
   const SetChildid = useSetRecoilState(childIdAtom);
-
+  const zzz = () => {
+    console.log(`parentId3:${parentId3}`)
+    SetChildid((prevChild) => ({
+      ...prevChild,
+      pid: Number(parentId3),
+    }));
+    console.log(childId.pid)
+    if (parentId3 !== null && parentId3 !== 0 && !isNaN(parentId3)) {
+      navigate("../main");
+    }
+  }
   const navigate = useNavigate();
   const reload = () => {
     axios
@@ -62,18 +73,18 @@ const Login3: React.FC = () => {
           console.log(`parentId:${parentId}`)
           console.log(`parentId2:${parentId2}`)
           const data = JSON.parse(dec);
-          const parentId3 = data.parentId;
+          // const parentId3 = data.parentId;
+          setParentId3(data.parentId)
           console.log(`parentId3:${parentId3}`)
-          SetChildid((prevChild) => ({
-            ...prevChild,
-            pid: Number(parentId3),
-          }));
-          console.log(childId.pid)
-          if (parentId3 !== null && parentId3 !== 0 && !isNaN(parentId3) && parentId3 !== "") {
-            navigate("../main");
-          }
-
-
+          // SetChildid((prevChild) => ({
+          //   ...prevChild,
+          //   pid: Number(parentId3),
+          // }));
+          // console.log(childId.pid)
+          // if (parentId3 !== null && parentId3 !== 0 && !isNaN(parentId3) && parentId3 !== "") {
+          //   navigate("../main");
+          // }
+          zzz
         // performReload();
       })
       .catch((error) => {

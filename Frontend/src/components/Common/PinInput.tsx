@@ -51,10 +51,11 @@ const PinInput: React.FC<PinInputProps> = ({
 
   const validatePin = async (code: string) => {
     try {
+      const requestData = { password: code, ...data }
       const axiosConfig: AxiosRequestConfig = {
         method,
         url,
-        data: { password: code, ...data },
+        data: requestData,
         headers,
       };
       const response = await axios(axiosConfig);
