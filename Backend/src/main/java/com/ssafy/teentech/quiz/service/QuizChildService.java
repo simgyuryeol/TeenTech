@@ -121,7 +121,7 @@ public class QuizChildService {
         //1. 퀴즈 내역에 저장
         List<QuizHistory> quizHistorySaveDtoList = new ArrayList<>();
 
-        for(QuizMoneyTransfer.QuizData quizData :quizMoneyTransfer.getQuizList()){
+        for(QuizMoneyTransfer.QuizData quizData :quizMoneyTransfer.getQuiz()){
             Quiz quiz = quizRepository.findById(quizData.getQuizId()).orElseThrow(() -> new IllegalArgumentException());
 
             if(quizData.getAnswer().equals(quiz.getAnswer())){
