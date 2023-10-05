@@ -84,6 +84,7 @@ const StockDetail: React.FC = () => {
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 

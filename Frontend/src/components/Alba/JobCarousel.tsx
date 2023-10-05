@@ -47,6 +47,7 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   };
 

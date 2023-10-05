@@ -23,7 +23,7 @@ const TradingSummary: React.FC<TradingSummaryProp> = (props) => {
       </div>
       <div className="flex justify-between p-4">
         <div>
-          <p>총 실현 손익</p>
+          <p>판매 손익</p>
           <p className="font-bold text-lg pt-1 text-left">￦{realizedProfit}</p>
         </div>
         <div>

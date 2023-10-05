@@ -6,7 +6,6 @@ import { balanceAtom } from "../../recoil/balanceAtom";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilValue } from "recoil";
 
-
 interface FormBlockProps {
   title: string;
   value: number;
@@ -36,30 +35,39 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
   const balance = useRecoilValue(balanceAtom);
   const child = useRecoilValue(childIdAtom);
   const buyLimit = Math.floor(balance / props.price);
-
+  const accessToken = localStorage.getItem("accessToken");
 
   const today = new Date();
   const todayToString = useDate(today);
 
   const handleBuyStock = () => {
     console.log({
-      companyName: props.companyName,
+      companyName: props.unmaskedName,
       date: todayToString,
       amount: quantity,
     });
 
     axios
-      .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/buy`, {
-        companyName: props.unmaskedName,
-        date: todayToString,
-        amount: quantity,
-      })
+      .post(
+        import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/buy`,
+        {
+          companyName: props.unmaskedName,
+          date: todayToString,
+          amount: quantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response.data);
         setIsOrdered(true);
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   };
 
@@ -117,7 +125,7 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
                 <input
                   type="number"
                   id="quantity"
-                  value={quantity}
+                  value={quantity.toString()}
                   onChange={handleQuantityChange}
                   className="w-20 px-3 py-1 text-2xl font-bold text-right border border-gray-300 rounded-lg"
                   max={buyLimit}
@@ -135,7 +143,9 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
             <button
               type="button"
               className={`w-56 px-3 py-3 m-auto text-sm text-black  border border-black rounded-lg shadow ${
-                quantity === 0 || quantity > buyLimit ? "bg-gray-200" : "bg-red-300"
+                quantity === 0 || quantity > buyLimit
+                  ? "bg-gray-200"
+                  : "bg-red-300"
               }`}
               onClick={handleBuyStock}
               disabled={quantity === 0 || quantity > buyLimit}

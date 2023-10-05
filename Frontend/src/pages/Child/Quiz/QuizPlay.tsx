@@ -119,6 +119,7 @@ const QuizPlay: React.FC = () => {
       .catch((error) => {
         console.log(error);
         setIsLoading(false);
+        alert(error.message);
       });
   }, []);
 

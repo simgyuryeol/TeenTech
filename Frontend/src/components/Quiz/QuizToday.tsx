@@ -14,7 +14,7 @@ const QuizToday: React.FC<QuizTopic> = (props) => {
   const [solved, setSolved] = useState(false);
 
   let title: string;
-  switch (eng) {
+  switch (quizScore.topic) {
     case "MONEY":
       title = "돈, 화폐";
       break;
@@ -37,7 +37,7 @@ const QuizToday: React.FC<QuizTopic> = (props) => {
 
   useEffect(() => {
     const today = new Date().toDateString();
-    if (quizScore.score !== null) {
+    if (quizScore.score !== null && quizScore.date instanceof Date) {
       const dateSolved = quizScore.date.toDateString();
       if (dateSolved !== today) {
         setQuizScore({
@@ -47,8 +47,8 @@ const QuizToday: React.FC<QuizTopic> = (props) => {
         });
         return;
       }
-      setSolved(true);
     }
+    setSolved(true);
   }, [quizScore]);
 
   return (

@@ -17,7 +17,7 @@ const QuizCommentary: React.FC = () => {
   const solvedQuiz = useRecoilValue(solvedQuizAtom);
 
   const prize = quizScore.score !== null ? quizScore.score * quizPoint : 0;
-  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
 
   let topic: string;
   switch (eng) {
@@ -53,20 +53,32 @@ const QuizCommentary: React.FC = () => {
       quiz: solvedQuiz,
       subject: eng,
       date: formattedDate,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     axios
-      .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes`, {
-        quiz: solvedQuiz,
-        subject: eng,
-        date: formattedDate,
-      })
+      .post(
+        import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes`,
+        {
+          quiz: solvedQuiz,
+          subject: eng,
+          date: formattedDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         const fetchedData = response.data.data;
         console.log("Fetched Data: ", fetchedData);
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   }, []);
 

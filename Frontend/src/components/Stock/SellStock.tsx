@@ -50,11 +50,13 @@ const SellStock: React.FC<SellStockProps> = (props) => {
   }, [mystock, props.companyName]);
 
   const handleSellStock = () => {
+
     console.log("Data sent: ", {
       companyName: props.unmaskedName,
       date: todayToString,
       amount: quantity,
     });
+
     axios
       .post(
         import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/sell`,
@@ -75,6 +77,7 @@ const SellStock: React.FC<SellStockProps> = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        alert(error.message);
       });
   };
 
@@ -131,7 +134,7 @@ const SellStock: React.FC<SellStockProps> = (props) => {
               <input
                 type="number"
                 id="quantity"
-                value={quantity}
+                value={quantity.toString()}
                 onChange={handleQuantityChange}
                 className="w-20 px-3 py-1 text-2xl font-bold text-right border border-gray-300 rounded-lg"
               />
