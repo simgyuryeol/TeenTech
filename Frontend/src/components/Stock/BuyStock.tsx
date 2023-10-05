@@ -34,8 +34,7 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
   const [quantity, setQuantity] = useState(0);
   const balance = useRecoilValue(balanceAtom);
   const child = useRecoilValue(childIdAtom);
-  const balanceToNumber = Number(balance)
-  const buyLimit = Math.floor(balanceToNumber / props.price);
+  const buyLimit = Math.floor(balance / props.price);
 
 
   const today = new Date();
