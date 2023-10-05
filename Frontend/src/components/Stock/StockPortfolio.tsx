@@ -20,7 +20,7 @@ const StockPortfolio: React.FC<StockPortfolioProps> = (props) => {
       <div className="flex justify-between p-4">
         <div className="flex flex-col items-start" id="portfolio-today">
           <p>포트폴리오 자산</p>
-          <p className="font-bold text-xl pt-1">￦{props.totalValue}</p>
+          <p className="font-bold text-xl pt-1">￦{props.totalValue.toLocaleString()}</p>
         </div>
         <button onClick={handleClick} id="trading-btn" className="bg-amber-50">
           매매내역
@@ -29,7 +29,7 @@ const StockPortfolio: React.FC<StockPortfolioProps> = (props) => {
       <div className="flex justify-between p-4" id="portfolio-profit">
         <div>
           <p>총 손익</p>
-          <p className="font-bold text-lg pt-1">￦{props.totalGain}</p>
+          <p className="font-bold text-lg pt-1">￦{props.totalGain.toLocaleString()}</p>
         </div>
         <div>
           <p>수익률</p>

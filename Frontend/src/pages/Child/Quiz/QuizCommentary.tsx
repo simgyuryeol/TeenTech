@@ -55,7 +55,6 @@ const QuizCommentary: React.FC = () => {
       date: formattedDate,
     });
 
-    console.log("hey");
     axios
       .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes`, {
         quiz: solvedQuiz,
@@ -64,7 +63,7 @@ const QuizCommentary: React.FC = () => {
       })
       .then((response) => {
         const fetchedData = response.data.data;
-        console.log("hi", fetchedData);
+        console.log("Fetched Data: ", fetchedData);
       })
       .catch((error) => {
         console.log(error);

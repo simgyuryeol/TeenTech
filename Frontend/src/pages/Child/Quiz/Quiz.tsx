@@ -49,9 +49,9 @@ const Quiz: React.FC = () => {
   return (
     <div className="mt-12">
       <p className="text-2xl font-bold">퀴즈</p>
-      <div className="bg-white m-5 rounded-xl p-3 flex">
+      <div className="bg-rose-100 m-5 rounded-xl p-3 flex">
         {correctProblem === 0 && wrongProblem === 0 ? (
-          <div className="w-48 flex justify-center items-center bg-orange-100 rounded-xl m-2">
+          <div className="w-48 flex justify-center items-center bg-white rounded-xl m-2">
             아직 푼 문제가 없어요.
           </div>
         ) : (
@@ -61,13 +61,13 @@ const Quiz: React.FC = () => {
           />
         )}
 
-        <div className="flex flex-col">
-          <div className="bg-gray-300 m-1 p-1 rounded-xl">
-            <p>오늘 맞힌 문제</p>
+        <div className="flex flex-col ml-2">
+          <div className="m-1">
+            <p className="font-bold text-lg">오늘 맞힌 문제</p>
             {solved ? <p>{quizScore.score}/5</p> : <p>-</p>}
           </div>
-          <div className="bg-gray-300 m-1 p-1 rounded-xl">
-            <p>받은 포인트</p>
+          <div className="m-1 p-1">
+            <p className="font-bold text-lg">받은 포인트</p>
             {solved ? (
               <p>
                 오늘: {quizScore.score ? quizScore.score * quizPoint : 0}원
@@ -80,8 +80,8 @@ const Quiz: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-12">
-        <p className="text-2xl font-bold">퀴즈 주제</p>
+      <div className="mt-8 py-4 m-5 bg-amber-100 rounded-xl">
+        <p className="text-2xl font-bold ">퀴즈 주제</p>
         <TopicList />
       </div>
     </div>
