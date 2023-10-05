@@ -31,9 +31,12 @@ const LoanCompleted: React.FC = () => {
     return (
         <div className='mt-20'  style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}>
         <h2 className="fixed inset-x-0 top-10 z-50 left-0">지난 대출</h2>
-        {completedloans? (completedloans.map((loan, index) => (
+        {completedloans.length > 0? (
+          completedloans.map((loan, index) => (
                 <LoanDetail key={index} loanId={loan.loanId} title={loan.title} amount={loan.amount} interestRate={loan.interestRate} period={loan.period} reason={loan.reason} state={loan.state}></LoanDetail>
-                ))) : ('')}
+                ))) : (<div className="flex justify-center items-center h-full">
+                <p className="text-gray-500">대출정보가 없습니다.</p>
+              </div>)}
         </div>
     )
 };

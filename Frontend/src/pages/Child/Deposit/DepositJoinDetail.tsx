@@ -70,7 +70,7 @@ const DepositJoinDetail: React.FC = () => {
           // navigate(`/DepositJoinSuccess/${depositid}`);
         })
         .catch(error => {
-          alert('가입 실패')
+          alert(error.response.data.message)
           console.log(depositName)
           console.log(depositMoney)
           console.log(depositInterest)
