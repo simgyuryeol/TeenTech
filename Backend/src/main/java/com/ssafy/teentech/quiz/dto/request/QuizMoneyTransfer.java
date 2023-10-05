@@ -16,7 +16,7 @@ public class QuizMoneyTransfer {
     @Getter
     public static class QuizData {
         private Long quizId;
-        private Answer answer;
+        private String answer;
     }
 
 }
