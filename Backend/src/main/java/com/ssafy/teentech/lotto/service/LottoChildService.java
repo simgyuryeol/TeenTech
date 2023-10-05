@@ -52,7 +52,7 @@ public class LottoChildService {
 
 
             AutoTransactionRequestDto autoTransactionRequestDto = new AutoTransactionRequestDto(
-                    childId,
+                    user.getParentId(),
                     withdrawAccountNumber,
                     depositAccountNumber,
                     (long)childDetail.getTotalLotteryPrize(),
