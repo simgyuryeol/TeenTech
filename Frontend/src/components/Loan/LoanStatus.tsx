@@ -14,6 +14,8 @@ const LoanStatus: React.FC<LoanStatusProps> = (props) => {
   const name = useRecoilValue(childIdAtom).name;
   const totalMoney = props.loanLimitation;
   const lendMoney = props.totalLoanBalance
+  const nowloanLimitation = totalMoney - lendMoney;
+  const totalLoanBalance = props.totalLoanBalance;
   const progress = (lendMoney / totalMoney) * 100;
   return (
     <div className="border rounded-xl mr-6 ml-6 bg-white text-xl mt-3 drop-shadow-md">
@@ -25,7 +27,7 @@ const LoanStatus: React.FC<LoanStatusProps> = (props) => {
       </div>
       <div className="my-1">
         <div className="ml-3 text-start">총 대출 잔액</div>
-        <div className="mr-3 text-end text-3xl">{props.totalLoanBalance}원</div>
+        <div className="mr-3 text-end text-3xl">{totalLoanBalance}원</div>
       </div>
       {/* <div className="flex justify-between text-red-500 my-3">
         <p className="flex ml-3">이자</p>
@@ -35,7 +37,7 @@ const LoanStatus: React.FC<LoanStatusProps> = (props) => {
         <p className="flex ml-4">대출 한도</p>
       </div> */}
       <div className="text-start mx-3">
-        대출받을 수 있는 금액은 {totalMoney - lendMoney} 입니다
+        대출받을 수 있는 금액은 {nowloanLimitation.toLocaleString()} 입니다
       </div>
       {/* progress바 */}
       <div className="">
