@@ -8,27 +8,27 @@ import { useRecoilState } from "recoil";
 const Data2 = [
   {
     q1: "밥",
-    point: "필요",
+    point: "필요소비",
   },
   {
     q1: "간식",
-    point: "욕구",
+    point: "욕구소비",
   },
   {
     q1: "준비물",
-    point: "필요",
+    point: "필요소비",
   },
   {
     q1: "장난감",
-    point: "욕구",
+    point: "욕구소비",
   },
   {
     q1: "게임",
-    point: "욕구",
+    point: "욕구소비",
   },
   {
     q1: "선물",
-    point: "필요",
+    point: "필요소비",
   },
 ];
 
@@ -69,7 +69,6 @@ const AccountBookAdd: React.FC = () => {
   const spendingAmount = location.state?.spendingAmount;
   const importAmount = location.state?.importAmount;
 
-  console.log("에드토탈" + total);
   const [Datedata, setDatedata] = useState([]);
 
   const getData = () => {
@@ -87,8 +86,6 @@ const AccountBookAdd: React.FC = () => {
 
   useEffect(() => {
     getData();
-    //const sum = Data.reduce((acc, item) => acc + item.case3, 0);
-    //setPriceSum(sum);
   }, []);
 
   // 라디오 버튼의 선택 핸들러 함수 추가
@@ -111,7 +108,7 @@ const AccountBookAdd: React.FC = () => {
 
     // 다 체크했는지 아닌지 확인
     const allSelected = Datedata.every((item) =>
-      item.assetType === "소비" && item.consumptionType === null
+      item.assetType === "WITHDRAW" && item.consumptionType === null
         ? selectedRadio[item.accountBookId] !== undefined
         : true
     );
@@ -123,10 +120,10 @@ const AccountBookAdd: React.FC = () => {
       return;
     }
 
-    // selectedRadio의 모든 값을 배열로 가져옵니다.
+    // selectedRadio의 모든 값을 배열로 가져옴
     const selectedValues = Object.values(selectedRadio);
 
-    // Promise.all을 사용하여 모든 요청이 완료될 때까지 기다립니다.
+    // Promise.all을 사용하여 모든 요청이 완료될 때까지 기다림
     Promise.all(
       selectedValues.map((item) =>
         axios.post(
@@ -162,7 +159,12 @@ const AccountBookAdd: React.FC = () => {
           {Datedata.map((item, index) => (
             <div key={index} className={`${styles.borderBottom} py-3`}>
               <div className="flex justify-between py-2">
-                <div className="w-1/3">{item.assetType}</div>
+                {item.assetType === "WITHDRAW" ? (
+                  <div className="w-1/3">지출</div>
+                ) : (
+                  <div className="w-1/3">소득</div>
+                )}
+
                 <div className="w-1/3">{item.content}</div>
                 {item.depositAmount > 0 && (
                   <div className="w-1/3 text-green-600">
@@ -176,7 +178,7 @@ const AccountBookAdd: React.FC = () => {
                 )}
               </div>
 
-              {item.assetType === "소비" && item.withdrawalAmount > 0 ? (
+              {item.assetType === "WITHDRAW" && item.withdrawalAmount > 0 ? (
                 <>
                   <button
                     className="bg-white-300 dropdown mt-2 drop-shadow-md text-lg"
