@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '../../../components/Common/Modal';
 import DepositList from '../../../components/Deposit/DepositList';
 import { Link, useLocation } from 'react-router-dom';
+import success from '../../../assets/success.png'
 
 
 
@@ -19,7 +20,7 @@ const DepositJoinSuccess: React.FC = () => {
                 </div>
                 <div className="text-center">
                     <div className='flex justify-center'>
-                        <img src='src/assets/success.png' width={'30%'}></img>
+                        <img src={success} width={'30%'}></img>
                     </div>
                     <p className="mt-4 text-lg">예금 상품에</p>
                     <p className="m-0 mb-10 text-lg">성공적으로 가입했어요.</p>
