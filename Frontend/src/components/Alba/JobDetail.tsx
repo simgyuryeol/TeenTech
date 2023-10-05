@@ -27,7 +27,7 @@ const JobDetail: React.FC<{job:Job}> = ({job}) => {
           </p>
         </div>
 
-        {job.status === "TRUE" ? (
+        {job.status === "COMPLETE" ? (
           <React.Fragment>
             {/* 시작한 날짜 */}
             <div className="flex flex-row text-sm">
