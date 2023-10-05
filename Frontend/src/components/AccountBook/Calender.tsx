@@ -171,7 +171,6 @@ const Calendar: React.FC = () => {
   const [state, setState] = useRecoilState(stateAtom);
   const [Datedata, setDatedata] = useState<dateDate[]>([]);
   const [childData] = useRecoilState(childIdAtom);
-  console.log();
 
   const navigate = useNavigate();
 
@@ -228,8 +227,6 @@ const Calendar: React.FC = () => {
           console.log(error);
         });
     } else if (state.id === 1) {
-      console.log(childData.id);
-      console.log(formatDate(currentMonth));
       axios
         .get(
           `https://j9e207.p.ssafy.io/api/v1/${
@@ -237,8 +234,6 @@ const Calendar: React.FC = () => {
           }/accountbooks/date/${formatDate(currentMonth)}`
         )
         .then((response) => {
-          console.log("월달력확인");
-          console.log(response.data.data);
           setDatedata(response.data.data);
         })
         .catch((error) => {
