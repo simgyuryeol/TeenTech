@@ -66,7 +66,9 @@ const Ploan: React.FC = () => {
                 <p className='text-3xl'>대출 신청서</p>
                 {applyloanList? (applyloanList.map((loan, index) => (
                 <LoanReview key={index} loanId={loan.loanId} title={loan.title} amount={loan.amount} interestRate={loan.interestRate} period={loan.period} reason={loan.reason}></LoanReview>
-                ))) : ('')}
+                ))) : (<div className="flex justify-center items-center h-full">
+                <p className="text-gray-500">대출 신청이 없습니다.</p>
+              </div>)}
             </div>
             <hr className='border-2'></hr>
             <div>
@@ -80,7 +82,9 @@ const Ploan: React.FC = () => {
                     {/* <div>{loan.loanId}</div> */}
                     <div>만료일: {loan.maturityDate}</div>
                     </div>
-                ))):('')}
+                ))):(<div className="flex justify-center items-center h-full">
+                <p className="text-gray-500">진행중인 대출이 없습니다.</p>
+              </div>)}
                 {/* {loanList? (loanList.map((loan, index)=>(
                     <LoanList children={undefined} children2={undefined} ></LoanList>
                 ))):('')} */}

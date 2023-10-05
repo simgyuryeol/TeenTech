@@ -40,7 +40,7 @@ const Pinterest: React.FC = () => {
   const pinmoneyset = () => {
     axios
       .post(base_URL + `/api/v1/parents/${parent_id}/${child_id}/pinmoney`, {
-        pinmoney: pocketMoney,
+        pinMoney: pocketMoney,
         cycle: pocketMoneycycle,
         // userId: window.localStorage.getItem('userId'),
       })
