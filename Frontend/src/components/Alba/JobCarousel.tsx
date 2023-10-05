@@ -10,7 +10,7 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const [curr, setCurr] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const albaId = selectedJob.albaId
+  const albaId = selectedJob.albaId;
 
   const prev = () =>
     setCurr((curr) => (curr === 0 ? jobs.length - 1 : curr - 1));
@@ -85,7 +85,7 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
             />
           </button>
           <JobDetail job={selectedJob} />
-          {selectedJob?.status === "POSTED" ? (
+          {selectedJob?.status === "게시" ? (
             <button onClick={(e) => handleClick(e, "accept")}>할래요😉</button>
           ) : (
             <div>

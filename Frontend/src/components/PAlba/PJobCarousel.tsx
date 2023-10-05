@@ -15,7 +15,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
 
   const urlForCompletion =
     import.meta.env.VITE_BASE_URL + "/api/v1/albas/parent/complete";
-    
+
   const prev = () =>
     setCurr((curr) => (curr === 0 ? jobs.length - 1 : curr - 1));
   const next = () =>
@@ -51,7 +51,6 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
           childId: selectedJob.childId,
           albaId: selectedJob.albaId,
         },
-        
       };
 
       const response = await axios(axiosConfig);
@@ -112,7 +111,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
             />
           </button>
           <JobDetail job={selectedJob} />
-          {selectedJob?.status === "POSTED" ? (
+          {selectedJob?.status === "게시" ? (
             <div>
               <button
                 onClick={handleDelete}
