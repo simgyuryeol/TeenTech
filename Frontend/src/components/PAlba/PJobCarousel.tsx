@@ -36,9 +36,10 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     setIsPinModalOpen(false);
   };
 
-  const handleApproval = () => {
-    setSelectedJob(null);
+  const handleApproval = (job) => {
+    console.log(selectedJob)
     setIsModalOpen(false);
+    setSelectedJob(job);
     setIsPinModalOpen(true);
   };
 
@@ -160,9 +161,10 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
             method="post"
             url={urlForCompletion}
             data={{
-              childId: selectedJob.childId,
-              albaId: selectedJob.albaId,
+              childId: jobs[0].childId,
+              albaId: jobs[0].albaId,
             }}
+            headers={{Authorization: `Bearer ${accessToken}`}}
           />
         </Modal>
       )}
