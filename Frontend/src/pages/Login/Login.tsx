@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 // import Bot from '../Child/Bot/Bot';
 import kakaoImg from "../../assets/kakao_login_large_narrow.png"
 import teentech from "../../assets/Teen-Tech2.mp4"

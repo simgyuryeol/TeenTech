@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react";
 import InterestInfo from "../../components/Deposit/DepositInterestInfo";
 import LoanInterestInfo from "../../components/Loan/LoanInterestInfo";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { childIdAtom } from "../../recoil/childIdAtom";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -13,8 +15,8 @@ const Pinterest: React.FC = () => {
   const [pocketMoneycycle, setPocketmoneycycle] = useState<number>(1);
   const [depositInterest, setDepositinterest] = useState(2);
   const [loanInterest, setLoaninterest] = useState(0);
-  const child_id = 34;
-  const parent_id = 34;
+  const child_id = useRecoilValue(childIdAtom).id
+  const parent_id = useRecoilValue(childIdAtom).pid
 
   const handlePocketmoneycycle = (e) => {
     const money = e.target.value;
