@@ -16,7 +16,7 @@ public class QuizHistorySaveDto {
     private Quiz quiz;
     private LocalDate date;
     private Integer point;
-    private Answer answer;
+    private String answer;
 
     public QuizHistory toEntity(){
         return QuizHistory.builder()
