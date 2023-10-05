@@ -92,7 +92,7 @@ public class UserService {
         User parent = getUser(userEmail);
         User child = getUser(childId);
 
-        if (!parent.getParentId().equals(child.getParentId())) {
+        if (!parent.getUserId().equals(child.getParentId())) {
             throw new PermissionDeniedException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
 
