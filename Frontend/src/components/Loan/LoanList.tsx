@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode } from "react";
 import LoanCompo from "./LoanCompo";
 import RunDog from "../../../src/assets/run_dog2.gif";
 
