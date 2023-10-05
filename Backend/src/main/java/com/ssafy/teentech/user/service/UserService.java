@@ -8,6 +8,7 @@ import com.ssafy.teentech.common.error.exception.AuthException;
 import com.ssafy.teentech.common.error.exception.InvalidRequestException;
 import com.ssafy.teentech.common.error.exception.NotFoundException;
 import com.ssafy.teentech.common.error.exception.PermissionDeniedException;
+import com.ssafy.teentech.common.util.Cycle;
 import com.ssafy.teentech.common.util.Role;
 import com.ssafy.teentech.user.domain.ChildDetail;
 import com.ssafy.teentech.user.domain.User;
@@ -77,7 +78,7 @@ public class UserService {
          * child라면 childDetail 테이블 생성
          */
         if(user.getRole().equals(Role.ROLE_CHILD)){
-            childDetailRepository.save(new ChildDetail(null,user,5,0,0,0,null,0,0,"Dog",0f,0f,0));
+            childDetailRepository.save(new ChildDetail(null,user,5,0,0,0, Cycle.WEEKLY,0,0,"Dog",2.0f,5.0f,0));
         }
 
     }
