@@ -4,27 +4,7 @@ import { useLocation } from "react-router-dom"; // Import useLocation
 import axios from "axios";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import { useRecoilState } from "recoil";
-
-const Data = [
-  {
-    case1: "마트",
-    case2: "씨유",
-    case3: -2000,
-    case4: "욕구",
-  },
-  {
-    case1: "퀴즈",
-    case2: "퀴즈용돈",
-    case3: 1000,
-    case4: "수입",
-  },
-  {
-    case1: "음료",
-    case2: "할리스",
-    case3: -5500,
-    case4: "욕구",
-  },
-];
+import Statics_month from "../../components/AccountBook/Statics_month";
 
 interface Props {
   date?: string;
@@ -37,7 +17,8 @@ const PaccountbookDetail: React.FC<Props> = () => {
   const importAmount = location.state?.importAmount;
   const [Datedata, setDatedata] = useState([]);
   const [childId] = useRecoilState(childIdAtom);
-
+  console.log("몇일이야??");
+  console.log(date?.toString());
   const getDetail = () => {
     axios
       .get(

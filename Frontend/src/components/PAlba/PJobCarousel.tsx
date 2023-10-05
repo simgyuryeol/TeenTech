@@ -16,7 +16,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
 
   const urlForCompletion =
     import.meta.env.VITE_BASE_URL + "/api/v1/albas/parent/complete";
-    
+
   const prev = () =>
     setCurr((curr) => (curr === 0 ? jobs.length - 1 : curr - 1));
   const next = () =>
@@ -55,7 +55,6 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        
       };
 
       const response = await axios(axiosConfig);
