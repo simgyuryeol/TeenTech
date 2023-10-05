@@ -178,7 +178,12 @@ const AccountBookDetail: React.FC<Props> = () => {
               {icon && (
                 <img src={icon} alt={item.case4} style={{ width: "35px" }} />
               )}
-              <div>{item.assetType}</div>
+              {item.assetType === "WITHDRAW" ? (
+                <div>소비</div>
+              ) : (
+                <div>소득</div>
+              )}
+
               <div>{item.content}</div>
               <div className={`${color}`}>{money}</div>
             </div>

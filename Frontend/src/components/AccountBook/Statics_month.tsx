@@ -194,9 +194,19 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
               // 소비
               else if (item2.assetType === "WITHDRAW") {
                 if (item2.consumptionType === null) {
-                  const formattedDate = item.date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
-                  if (!consumptionDate.includes(formattedDate)) {
-                    consumptionDate.push(formattedDate);
+                  if (
+                    item2.content === "투자 소비" ||
+                    item2.content === "대출"
+                  ) {
+                    setExpenditure((prevExpenditure) => ({
+                      ...prevExpenditure,
+                      필요: prevExpenditure.필요 + item2.withdrawalAmount,
+                    }));
+                  } else {
+                    const formattedDate = item.date.split(" ")[0].substring(8); // YYYY-MM-DD 형식에서 일자만 추출
+                    if (!consumptionDate.includes(formattedDate)) {
+                      consumptionDate.push(formattedDate);
+                    }
                   }
                 } else if (
                   item2.consumptionType === "필요소비" ||
@@ -209,7 +219,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
                 } else if (item2.consumptionType === "욕구소비") {
                   setExpenditure((prevExpenditure) => ({
                     ...prevExpenditure,
-                    필요: prevExpenditure.필요 + item2.withdrawalAmount,
+                    욕구: prevExpenditure.욕구 + item2.withdrawalAmount,
                   }));
                 }
               }
@@ -226,7 +236,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
   }, [Datedata]);
 
   const [tab, setTab] = useState("소득");
-  // console.log(consumptionTypeNull);
+  console.log("ㅇㅇ", consumptionTypeNull);
   return (
     <div className="mx-4">
       <div className="drop-shadow-lg rounded-xl bg-white mb-5">
@@ -329,7 +339,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
                 </div>
               </div>
             </div>
-            {Datedata != null && consumptionTypeNull != null && (
+            {Datedata != null && consumptionTypeNull.length != 0 && (
               <div className="mt-3 text-xl pb-3">
                 {consumptionTypeNull.map((item, index) => (
                   <div key={index}>{item} 일</div>
