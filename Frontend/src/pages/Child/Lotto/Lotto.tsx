@@ -4,9 +4,12 @@ import LottoList from "../../../components/Lotto/LottoList";
 import Jackpot from "../../../../src/assets/lotto/jackpot2.png";
 import Ticket from "../../../../src/assets/lotto/ticket2.png";
 import axios from "axios";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 const Lotto: React.FC = () => {
   const navigate = useNavigate();
+  const [childid] = useRecoilState(childIdAtom);
   const [lottoTicket, setLottoTicket] = useState(0);
   const [totalLotteryPrize, sedTotalLotteryPrize] = useState(0); // 부모가 설정한 당첨금액
 
@@ -16,7 +19,7 @@ const Lotto: React.FC = () => {
 
   const getlottoticket = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/lotto/ticket`)
+      .get(`https://j9e207.p.ssafy.io/api/v1/${childid.id}/lotto/ticket`)
       .then((response) => {
         setLottoTicket(response.data.data.lotteryCoupon);
         sedTotalLotteryPrize(response.data.data.totalLotteryPrize);

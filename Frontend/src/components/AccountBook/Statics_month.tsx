@@ -25,8 +25,7 @@ interface dateDate {
   spendingAmount: number;
 }
 const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
-  // const [Datedata, setDatedata] = useState<dateDate[]>([]);
-  console.log("넘어온 Datedata" + Datedata);
+  console.log("넘어온 Datedata", Datedata);
   const [importAmount, setImportAmount] = useState(0);
   const [spendingAmount, setSpendingAmount] = useState(0);
   const [consumptionTypeNull, setConsumptionTypeNull] = useState([]);
@@ -130,6 +129,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
 
     setImportAmount(0);
     setSpendingAmount(0);
+    console.log("useEffect안 ", Datedata);
     if (Datedata) {
       Datedata.forEach((item) => {
         setImportAmount(
@@ -145,6 +145,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
           )
           .then((response) => {
             let test = response.data.data;
+            console.log("test ", test);
             test.forEach((item2) => {
               if (item2.assetType === "욕구") {
                 setExpenditure((prevExpenditure) => ({
@@ -192,7 +193,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
                 }
               }
 
-              if (item2.assetType === "이체") {
+              if (item2.assetType === "용돈") {
                 setGetData((prevData) =>
                   prevData.map((data) =>
                     data.name === "용돈"

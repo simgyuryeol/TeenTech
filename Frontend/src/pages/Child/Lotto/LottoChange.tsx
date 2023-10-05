@@ -5,8 +5,11 @@ import { CreateTypes } from "canvas-confetti";
 import ReactCanvasConfetti from "./ReactCanvasConfetti";
 import { format } from "date-fns";
 import axios from "axios";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 const LottoChange: React.FC = () => {
+  const [childId] = useRecoilState(childIdAtom);
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const location = useLocation();
@@ -57,7 +60,7 @@ const LottoChange: React.FC = () => {
     const cost = totalLotteryPrize;
     console.log("날짜: " + date + " 당첨금: " + cost + " 성공여부: " + success);
     axios
-      .post(`https://j9e207.p.ssafy.io/api/v1/34/lotto/reward`, {
+      .post(`https://j9e207.p.ssafy.io/api/v1/${childId.id}/lotto/reward`, {
         date,
         cost,
         success,
