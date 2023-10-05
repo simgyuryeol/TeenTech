@@ -50,7 +50,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             oAuth2UserInfo.getNickName(),
             oAuth2UserInfo.getEmail(),
             oAuth2UserInfo.getImageUrl(),
-            Role.ROLE_USER);
+            Role.USER);
 
         return userRepository.save(user);
     }

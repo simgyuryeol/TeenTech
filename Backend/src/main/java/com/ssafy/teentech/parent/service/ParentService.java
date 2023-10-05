@@ -81,7 +81,7 @@ public class ParentService {
     public void childAdd(ChildAddRequestDto childAddRequestDto, Long parentId) {
         User user = userRepository.findByAccountNumber(childAddRequestDto.getAccountNumber()).orElseThrow(() -> new IllegalArgumentException());
 
-        if (!user.getRole().equals(Role.ROLE_CHILD) || !Objects.isNull(user.getParentId())) {
+        if (!user.getRole().equals(Role.CHILD) || !Objects.isNull(user.getParentId())) {
             throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
 

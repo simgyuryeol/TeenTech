@@ -7,6 +7,7 @@ import com.ssafy.teentech.common.oauth.HttpCookieOAuth2AuthorizationRequestRepos
 import com.ssafy.teentech.common.oauth.OAuth2AuthenticationFailureHandler;
 import com.ssafy.teentech.common.oauth.OAuth2AuthenticationSuccessHandler;
 import com.ssafy.teentech.common.util.RedisService;
+import com.ssafy.teentech.common.util.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +41,10 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-            .antMatchers("/", "/oauth2/**", "/**").permitAll()
+            .antMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
+            .antMatchers("/api/v1/**/parent/**", "/api/v1/parents/**", "/api/v1/**/reward/set").hasAuthority(
+                Role.PARENT.name())
+            .antMatchers("/api/v1/**/child/**").hasAuthority(Role.CHILD.name())
             .anyRequest().authenticated();
 
         //oauth2Login

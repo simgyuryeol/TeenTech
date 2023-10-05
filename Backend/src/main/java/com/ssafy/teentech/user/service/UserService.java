@@ -56,7 +56,7 @@ public class UserService {
         ExtraInformationRequestDto extraInformationRequestDto) {
         User user = getUser(userEmail);
 
-        if (!user.getRole().equals(Role.ROLE_USER)) {
+        if (!user.getRole().equals(Role.USER)) {
             throw new InvalidRequestException(ErrorCode.RESOURCE_PERMISSION_DENIED);
         }
 
@@ -77,7 +77,7 @@ public class UserService {
         /**
          * child라면 childDetail 테이블 생성
          */
-        if(user.getRole().equals(Role.ROLE_CHILD)){
+        if(user.getRole().equals(Role.CHILD)){
             childDetailRepository.save(new ChildDetail(null,user,5,0,0,0, Cycle.WEEKLY,0,0,"Dog",2.0f,5.0f,0));
         }
 
