@@ -6,6 +6,9 @@ import MyStock from "../../../components/Stock/MyStock";
 import EmptyStock from "../../../components/Stock/EmptyStock";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useStockStatistics from "../../../hooks/useStockStatistics";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { myStocksAtom } from "../../../recoil/myStocksAtom";
 
 import "intro.js/introjs.css";
 import { Steps } from "intro.js-react";
@@ -16,8 +19,9 @@ import {
 
 const Stock: React.FC = () => {
   const navigator = useNavigate();
-  const [myStocks, setMystocks] = useState([]);
+  const [myStocks, setMystocks] = useRecoilState(myStocksAtom);
   const { totalValue, totalGain, averageROR } = useStockStatistics(myStocks);
+  const child = useRecoilValue(childIdAtom);
 
   const [stepsEnabled, setStepsEnabled] = useState(false);
   const [initialStep] = useState(0);
@@ -28,15 +32,14 @@ const Stock: React.FC = () => {
 
   useEffect(() => {
     axios
-      // .get(import.meta.env.VITE_BASE_URL + `${child_id}/investments`, {
-      .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/investments")
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments`)
       .then((response) => {
         const initialData = response.data.data;
 
         const fetchDataForStock = async (stock) => {
           try {
             const additionalResponse = await axios.post(
-              import.meta.env.VITE_BASE_URL + "/api/v1/34/investments/detail",
+              import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/detail`,
               {
                 companyName: stock.companyName,
               }

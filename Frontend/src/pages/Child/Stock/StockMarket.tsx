@@ -47,7 +47,7 @@ const StockMarket: React.FC = () => {
                 companyName: currentStock.companyName,
                 value: currentStock.price,
                 priceChange: priceChange,
-                priceChangePercentage: priceChangePercentage,
+                priceChangePercentage: Number(priceChangePercentage.toFixed(2)),
               };
 
               const isDuplicate = newStockList.some(
@@ -75,7 +75,7 @@ const StockMarket: React.FC = () => {
   nextDay.setHours(15, 0, 0, 0);
 
   const handleCountdownZero = () => {
-    console.log("오후 4시 정각");
+    window.location.reload();
   };
 
   return (

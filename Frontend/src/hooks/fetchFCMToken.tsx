@@ -4,6 +4,13 @@ import messaging from "../firebase";
 
 const fetchFCMtoken = () => {
   console.log("Requesting permission...");
+
+  const accessToken = localStorage.getItem("accessToken");
+
+  const customHeaders = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
   Notification.requestPermission()
     .then((permission) => {
       if (permission === "granted") {
@@ -13,20 +20,19 @@ const fetchFCMtoken = () => {
         })
           .then(async (currentToken) => {
             if (currentToken) {
-              console.log("FCM Token : ", currentToken);
-
               try {
                 const response = await axios.post(
-                  import.meta.env.VITE_BASE_URL + "/api/v1/notification/save/token",
+                  import.meta.env.VITE_BASE_URL +
+                    "/api/v1/notification/save/token",
                   {
                     fcmToken: currentToken,
-                  }
+                  },
+                  { headers: customHeaders }
                 );
                 console.log("POST Request Response: ", response.data);
               } catch (error) {
                 console.error("Error sending POST request:", error);
               }
-
             } else {
               console.log("FCM Token Unavailable");
             }
