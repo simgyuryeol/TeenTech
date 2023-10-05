@@ -31,6 +31,7 @@ const Main: React.FC = () => {
 
   const getDetail = () => {
     console.log("asiox..");
+    console.log(child);
     setState({ id: 0 });
     axios
       .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${child.id}`)
@@ -40,7 +41,7 @@ const Main: React.FC = () => {
         setChild({
           id: child.id,
           pid: child.pid,
-          name: response.data.data.name,
+          name: response.data.data.username,
         });
         setQuizPoint(response.data.data.quizPoint);
         console.log(response.data.data);

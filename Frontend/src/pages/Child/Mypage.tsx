@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../../components/PMain/ChildAdd";
 import Bear from "../../../src/assets/Teen9/Bear.png";
 import Dog from "../../../src/assets/Teen9/Dog.png";
@@ -9,60 +9,74 @@ import Panda from "../../../src/assets/Teen9/Panda.png";
 import Sloth from "../../../src/assets/Teen9/Sloth.png";
 import axios from "axios";
 import { childIdAtom } from "../../recoil/childIdAtom";
+import { teen9Atom } from "../../recoil/teen9Atom";
 import { useRecoilState } from "recoil";
 import Bot from "./Bot/Bot";
 
 const profile = [
   {
     id: 1,
+    name: "Bear",
     url: Bear,
   },
   {
     id: 2,
+    name: "Dog",
     url: Dog,
   },
   {
     id: 3,
+    name: "Elephant",
     url: Elephant,
   },
   {
     id: 4,
+    name: "Koala",
     url: Koala,
   },
   {
     id: 5,
+    name: "monkey",
     url: monkey,
   },
   {
     id: 6,
+    name: "Panda",
     url: Panda,
   },
   {
     id: 7,
+    name: "Sloth",
     url: Sloth,
   },
 ];
 
+const imageMap = {
+  Bear: Bear,
+  Dog: Dog,
+  Elephant: Elephant,
+  Koala: Koala,
+  monkey: monkey,
+  Panda: Panda,
+  Sloth: Sloth,
+};
+
 const Mypage: React.FC = () => {
   const [isModal, setIsModal] = useState(false);
   const [childId] = useRecoilState(childIdAtom);
-  const [teen9, setTeen9] = useState(Dog);
+  const [teen9url, setTeen9url] = useRecoilState(teen9Atom);
   const [preTeen9, setPreTeen9] = useState("Dog");
   const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  // 틴구 불러오는 api
-  const getTeen9 = () => {
-    axios.get(`https://j9e207.p.ssafy.io/api/v1`);
-  };
 
   // 틴구 변경 api
   const changeTeen9 = () => {
     // child id 변경하기
     axios
-      .post(`https://j9e207.p.ssafy.io/api/v1/childs/34`, {
-        avatarImageUrl: teen9,
+      .post(`https://j9e207.p.ssafy.io/api/v1/childs/${childId.id}`, {
+        avatarImageUrl: preTeen9,
       })
       .then((response) => {
+        setTeen9url({ avatarImageUrl: preTeen9 });
         console.log(response);
       })
       .catch((error) => {
@@ -71,22 +85,14 @@ const Mypage: React.FC = () => {
   };
 
   const handleChangeTeen9 = () => {
+    // console.log(preTeen9);
     changeTeen9();
   };
 
   return (
     <div className="pt-24">
-      {/* 챗봇 */}
-      <div style={{ position: "fixed", bottom: 0, right: 0, zIndex: 9999 }}>
-        <div className="flex items-end">
-          <div className="bg-sky-200 rounded-lg drop-shadow-md p-2 mb-3">
-            질문해줘
-          </div>
-          <Bot />
-        </div>
-      </div>
       <section className="flex-row justify-start">
-        <div className="text-3xl m-4">인증코드</div>
+        <div className="text-3xl m-4">계좌번호</div>
         <input
           placeholder="  인증코드"
           className="h-10 w-10/12 mb-3 rounded-md"
@@ -94,7 +100,10 @@ const Mypage: React.FC = () => {
       </section>
       <section>
         <div className="h-15 bg-white rounded-full m-8">
-          <img src={teen9} style={{ width: "100%", height: "100%" }} />
+          <img
+            src={imageMap[teen9url.avatarImageUrl]}
+            style={{ width: "100%", height: "100%" }}
+          />
         </div>
         <button
           className="text-xl bg-white  drop-shadow"
@@ -118,7 +127,7 @@ const Mypage: React.FC = () => {
                       border: item.id === selectedId ? "2px solid #FF9FBC" : "",
                     }}
                     onClick={() => {
-                      setPreTeen9(item.url);
+                      setPreTeen9(item.name);
                       setSelectedId(item.id);
                     }}
                   />
@@ -129,7 +138,7 @@ const Mypage: React.FC = () => {
                   className="mt-5 bg-white rounded-2xl drop-shadow mr-3"
                   onClick={() => {
                     setIsModal(false);
-                    setTeen9(preTeen9);
+                    // setTeen9(preTeen9);
                     handleChangeTeen9();
                   }}
                 >
@@ -137,7 +146,10 @@ const Mypage: React.FC = () => {
                 </button>
                 <button
                   className="mt-5 bg-white rounded-2xl drop-shadow"
-                  onClick={() => setIsModal(false)}
+                  onClick={() => {
+                    setIsModal(false);
+                    // setTeen9url({ avatarImageUrl: preTeen9 });
+                  }}
                 >
                   취소
                 </button>

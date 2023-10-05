@@ -26,8 +26,9 @@ const Total: React.FC<Props> = ({ childId }) => {
   const [summary, setSummary] = useState([]);
   const [childDetail, setChildDetail] = useState<Detail>();
   const getDetail = () => {
+    console.log(childId);
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/34`)
+      .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${childId}`)
       .then((response) => {
         setChildDetail(response.data.data);
         console.log(response.data.data);
@@ -77,9 +78,17 @@ const Total: React.FC<Props> = ({ childId }) => {
           <div className="px-3 pb-2 text-end">
             {/* <div className="text-white text-xl">+ {childDetail.}</div> */}
             <div className="text-gray-700 text-2xl">
-              {childDetail?.deposit
+              {childDetail?.deposit === 0 ? (
+                <div className="pb-2 text-end">없어요</div>
+              ) : (
+                <div className="pb-2 text-end">
+                  {childDetail?.deposit.toLocaleString() + " 원 모았어요!" ||
+                    "Loading..."}
+                </div>
+              )}
+              {/* {childDetail?.deposit
                 ? `${childDetail.deposit.toLocaleString()} 원 모았어요!`
-                : "Loading..."}
+                : "Loading..."} */}
             </div>
           </div>
         </div>
@@ -168,10 +177,17 @@ const Total: React.FC<Props> = ({ childId }) => {
             style={{ backgroundColor: "white" }}
           >
             <div className="pt-2 pl-3 text-start">대출 상환일</div>
-            <div className="px-3 pt-4 pb-2 text-end">
+            {childDetail?.loneDay === 0 ? (
+              <div className="px-3 pb-2 text-end">없어요</div>
+            ) : (
+              <div className="px-3 pt-4 pb-2 text-end">
+                D - {childDetail?.loneDay || "Loading..."}
+              </div>
+            )}
+            {/* <div className="px-3 pt-4 pb-2 text-end">
               D - {childDetail?.loneDay || "Loading..."}
-              {/* D -{childDetail.loneDay} */}
-            </div>
+              D -{childDetail.loneDay}
+            </div> */}
           </div>
         </div>
       </div>
