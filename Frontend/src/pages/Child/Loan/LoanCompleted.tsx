@@ -29,7 +29,7 @@ const LoanCompleted: React.FC = () => {
       }, []);
 
     return (
-        <div className='mt-20'>
+        <div className='mt-20'  style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}>
         <h2 className="fixed inset-x-0 top-10 z-50 left-0">지난 대출</h2>
         {completedloans? (completedloans.map((loan, index) => (
                 <LoanDetail key={index} loanId={loan.loanId} title={loan.title} amount={loan.amount} interestRate={loan.interestRate} period={loan.period} reason={loan.reason} state={loan.state}></LoanDetail>

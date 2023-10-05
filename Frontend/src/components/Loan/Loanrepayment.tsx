@@ -1,7 +1,8 @@
 import React, { useState, ReactNode } from 'react';
 import Modal from '../Common/Modal';
 import axios from 'axios';
-
+import { useRecoilValue } from 'recoil';
+import { balanceAtom } from '../../recoil/balanceAtom';
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -13,7 +14,7 @@ interface LoanrepaymentProps {
   }
 
 const Loanrepayment: React.FC<LoanrepaymentProps> = (props) => {
-    const haveMoney = 100000;
+    const haveMoney = useRecoilValue(balanceAtom)
     // const depositMoney2 = depositMoney >= 10000 ? depositMoney / 10000 +'만' : depositMoney;
     // const interestrate = '2'
     const [loanMoney, setLoanmoney] = useState('');
@@ -60,7 +61,7 @@ const Loanrepayment: React.FC<LoanrepaymentProps> = (props) => {
                 </div>
                 <div>
                     <label htmlFor='repaymoney' className='flex w-[100%] text-sm'>상환액</label>
-                    <input className='border rounded-md w-[100%] p-3' type='number' id='repaymoney' placeholder='최소 금액 5,000원' value={loanMoney} onChange={e=> setLoanmoney(e.target.value)} required/>     
+                    <input className='border rounded-md w-[100%] p-3' type='number' id='repaymoney' placeholder='상환 금액을 입력해주세요.' value={loanMoney} onChange={e=> setLoanmoney(e.target.value)} required/>     
                 </div>
                 <div className=''>
                     <label htmlFor='password' className='flex w-[100%] text-sm'>비밀번호</label>

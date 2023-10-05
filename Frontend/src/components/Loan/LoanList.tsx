@@ -28,6 +28,9 @@ const LoanList: React.FC<LoanListProps> = (props) => {
   // 갚은 돈
   // const [LoanMoney, setLoanmoney] = useState(totalLoanMoney - props.lastBalance)
   const LoanMoney = totalLoanMoney - props.lastBalance;
+  //갚아야 될 돈
+  const LoanMoney2 = totalLoanMoney - LoanMoney;
+
   const progress = (LoanMoney / totalLoanMoney) * 100;
   // useEffect(() => {
   //   if (LoanMoney < 0){
@@ -85,14 +88,14 @@ const LoanList: React.FC<LoanListProps> = (props) => {
         {/* progress바 여기까지 */}
         <div className="flex justify-between mt-2">
           <div className="mt-1 mb-1 mx-3 text-red-500">
-            <div>{LoanMoney}</div>
+            <div>{LoanMoney.toLocaleString()}</div>
           </div>
           <div className="mt-1 mb-1 mx-3 text-gray-500">
-            <div>{totalLoanMoney}</div>
+            <div>{totalLoanMoney.toLocaleString()}</div>
           </div>
         </div>
         <div className="mx-3 text-xl text-start mb-3">
-          갚을 금액이 {totalLoanMoney - LoanMoney}원 남았어요!
+          갚을 금액이 {LoanMoney2.toLocaleString()}원 남았어요!
         </div>
         <div className="flex justify-end">
           <p
