@@ -20,9 +20,9 @@ const Login2: React.FC = () => {
 
   const [payload, Setpayload] = useState("");
   
-  useEffect(() => {
-    fetchFCMtoken();
-  }, []);
+  // useEffect(() => {
+  //   fetchFCMtoken();
+  // }, []);
 
   // const authtargetKey = 'auth';
   // const authregex = new RegExp(`"${authtargetKey}":"([^"]+)"`);
@@ -60,6 +60,7 @@ const Login2: React.FC = () => {
   useEffect(() => {
     const accessToken = new URL(window.location.href).searchParams.get("token");
     window.localStorage.setItem("accessToken", accessToken);
+    fetchFCMtoken();
     const payload = accessToken.substring(
       accessToken.indexOf(".") + 1,
       accessToken.lastIndexOf(".")
