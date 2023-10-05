@@ -23,6 +23,7 @@ const Pdeposit: React.FC = () => {
     };
     // Creditdata();
     fetchDeposits();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

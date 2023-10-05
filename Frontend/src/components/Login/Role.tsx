@@ -2,6 +2,8 @@ import React, {useState, useRef, useEffect}  from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from "../Common/Modal";
 import axios from 'axios';
+import { useRecoilState } from "recoil";
+import { stateAtom, state } from "../../recoil/stateAtom";
 
 interface RoleProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,6 +14,7 @@ interface RoleProps {
   
   const Role: React.FC<RoleProps> = () => {
     const [accessToken, setAccessToken] = useState('');
+    const [state, setState] = useRecoilState(stateAtom);
     useEffect(() => {
       setAccessToken(window.localStorage.getItem('accessToken'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,9 +65,11 @@ interface RoleProps {
                 console.log(response.data.data)
                 window.localStorage.setItem('accessToken', response.data.data.accessToken);
                 if (role === 'ROLE_PARENT'){
+                  setState({ id: 1 });
                   navigate('../pmain')
                 }
                 else{
+                  setState({ id: 0 });
                   navigate('../oauth/redirect2')
                 }
               })
