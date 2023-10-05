@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:5173", "http://127.0.0.1:5173", "http://j9e207.p.ssafy.io", "https://j9e207.p.ssafy.io")
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+            .allowedHeaders("Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Content-Type")
             .exposedHeaders("Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
             .allowCredentials(true)
             .maxAge(3600);
