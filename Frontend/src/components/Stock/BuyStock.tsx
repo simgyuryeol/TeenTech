@@ -117,7 +117,7 @@ const BuyStock: React.FC<BuyStockProps> = (props) => {
                 <input
                   type="number"
                   id="quantity"
-                  value={quantity}
+                  value={quantity.toString()}
                   onChange={handleQuantityChange}
                   className="w-20 px-3 py-1 text-2xl font-bold text-right border border-gray-300 rounded-lg"
                   max={buyLimit}

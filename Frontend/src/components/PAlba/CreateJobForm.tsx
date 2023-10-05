@@ -133,7 +133,7 @@ const CreateJobForm: React.FC = () => {
                 id="reward"
                 placeholder="1000"
                 className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                value={formData.reward}
+                value={formData.reward.toString()}
                 onChange={handleChange}
               />
             </div>
