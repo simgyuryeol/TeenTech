@@ -4,9 +4,13 @@ import QuizChart from "../../components/Quiz/QuizChart";
 import SetQuizPrize from "../../components/PQuiz/SetQuizPrize";
 import { useRecoilValue } from "recoil";
 import { quizScoreAtom } from "../../recoil/quizScoreAtom";
+import { quizPointAtom } from "../../recoil/quizPointAtom";
+import { childIdAtom } from "../../recoil/childIdAtom";
 
 const Pquiz: React.FC = () => {
   const quizScore = useRecoilValue(quizScoreAtom);
+  const quizPoint = useRecoilValue(quizPointAtom);
+  const child = useRecoilValue(childIdAtom);
   const [solved, setSolved] = useState(false);
   const [correctProblem, setCorrectProblem] = useState(0);
   const [wrongProblem, setWrongProblem] = useState(0);
@@ -20,7 +24,7 @@ const Pquiz: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_BASE_URL + "/api/v1/34/quizzes/histories")
+      .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes/histories`)
       .then((response) => {
         const fetchedData = response.data.data;
         setCorrectProblem(fetchedData.correctProblem);
@@ -45,12 +49,12 @@ const Pquiz: React.FC = () => {
           <p>해결 문제: {correctProblem}</p>
           <div className="bg-gray-300 m-1 p-1 rounded-xl">
             <p>오늘 맞힌 문제</p>
-            {solved ? <p>{quizScore}/3</p> : <p>-</p>}
+            {solved ? <p>{quizScore.score}/5</p> : <p>-</p>}
           </div>
           <div className="bg-gray-300 m-1 p-1 rounded-xl">
             <p>받은 포인트</p>
             {solved ? (
-              <p>오늘: {quizScore ? quizScore * 100 : 0}원</p>
+              <p>오늘: {quizScore.score ? quizScore.score * quizPoint : 0}원</p>
             ) : (
               <p>오늘: -</p>
             )}

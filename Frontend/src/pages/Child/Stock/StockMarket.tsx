@@ -3,6 +3,8 @@ import axios from "axios";
 import MarketStock from "../../../components/Stock/MarketStock";
 import CountdownTimer from "../../../components/Stock/CountdownTimer/CountdownTimer";
 import clockImg from "../../../assets/stock/clock.png";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilValue } from "recoil";
 
 interface Stock {
   companyName: string;
@@ -14,13 +16,14 @@ interface Stock {
 const StockMarket: React.FC = () => {
   const companyNameList = ["삼성전자", "카카오", "KB금융", "LG화학"];
   const [stockList, setStockList] = useState([]);
+  const child = useRecoilValue(childIdAtom)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const promises = companyNameList.map(async (companyName) => {
           const response = await axios.post(
-            import.meta.env.VITE_BASE_URL + "/api/v1/34/investments/detail",
+            import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/detail`,
             {
               companyName: companyName,
             }

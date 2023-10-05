@@ -7,6 +7,8 @@ import desire from "../../../assets/accountBook/desire.png";
 import need from "../../../assets/accountBook/need.png";
 import question from "../../../assets/accountBook/question.png";
 import axios from "axios";
+import { childIdAtom } from "../../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 const Data = [
   {
@@ -42,11 +44,14 @@ const AccountBookDetail: React.FC<Props> = () => {
   const [Datedata, setDatedata] = useState([]);
   // 필요, 욕구 소비 체크 다 되어있는지 확인 ( 0이면 수정, 1이면 쓰기 )
   const [buttonState, setButtonState] = useState(0);
+  const [childId] = useRecoilState(childIdAtom);
   console.log("토탈" + total);
 
   const getDetail = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .get(
+        `https://j9e207.p.ssafy.io/api/v1/${childId.id}/accountbooks/detail/${date}`
+      )
       .then((response) => {
         setDatedata(response.data.data);
       })

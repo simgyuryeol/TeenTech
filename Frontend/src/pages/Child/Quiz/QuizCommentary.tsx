@@ -4,8 +4,9 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import prizeImage from "../../../assets/quiz/prize.gif";
 import { useRecoilValue } from "recoil";
-import { quizScoreAtom } from "../../../recoil/quizScoreAtom";
+import { quizScoreAtom, solvedQuizAtom } from "../../../recoil/quizScoreAtom";
 import { quizPointAtom } from "../../../recoil/quizPointAtom";
+import { SolvedQuiz } from "../../../recoil/quizScoreAtom";
 import { childIdAtom } from "../../../recoil/childIdAtom";
 
 const QuizCommentary: React.FC = () => {
@@ -14,6 +15,7 @@ const QuizCommentary: React.FC = () => {
   const child = useRecoilValue(childIdAtom);
   const quizScore = useRecoilValue(quizScoreAtom);
   const quizPoint = useRecoilValue(quizPointAtom);
+  const solvedQuiz = useRecoilValue(solvedQuizAtom);
 
   const prize = quizScore.score !== null ? quizScore.score * quizPoint : 0;
 
@@ -49,6 +51,7 @@ const QuizCommentary: React.FC = () => {
 
     axios
       .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes`, {
+        quiz: solvedQuiz,
         subject: eng,
         date: formattedDate,
       })
