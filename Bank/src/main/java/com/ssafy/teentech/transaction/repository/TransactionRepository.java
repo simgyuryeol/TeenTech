@@ -11,6 +11,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    @Query("select t from Transaction t where t.withdrawAccount = :account or t.depositAccount = :account and t.transactionId > :indexNumber")
-    List<Transaction> findAllByWithdrawAccountOrDepositAccount(@Param("account") Account account, Integer indexNumber);
+    @Query("select t from Transaction t where (t.withdrawAccount = :account or t.depositAccount = :account) AND t.transactionId > :indexNumber")
+    List<Transaction> findAllByWithdrawAccountOrDepositAccountAndTransactionIdGreaterThan(@Param("account") Account account,  @Param("indexNumber") Integer indexNumber);
 }
