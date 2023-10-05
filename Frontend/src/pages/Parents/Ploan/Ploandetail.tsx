@@ -34,7 +34,7 @@ const Ploandetail: React.FC = () => {
 
   return (
     <div
-      className="pt-20 pb-3"
+      className="pt-20 pb-8"
       style={{
         width: "100%",
         minHeight: "100vh",

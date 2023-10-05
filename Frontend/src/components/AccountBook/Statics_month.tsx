@@ -295,7 +295,9 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
         </div>
         {tab === "소득" && (
           <div className="text-start py-2">
-            <div className="m-3 text-2xl">총 {importAmount}원 벌었어요!</div>
+            <div className="m-3 text-2xl">
+              총 {importAmount.toLocaleString()}원 벌었어요!
+            </div>
             {getData.map((item, index) => (
               <div
                 className="rounded-lg mx-5 my-1 flex justify-between"
@@ -309,7 +311,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
                   <div className="m-3 text-xl">{item.name}</div>
                 </div>
 
-                <div className="m-3 text-xl">{item.money}</div>
+                <div className="m-3 text-xl">{item.money.toLocaleString()}</div>
               </div>
             ))}
           </div>
@@ -317,7 +319,7 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
         {tab === "지출" && (
           <div>
             <div className="m-3 text-2xl text-start">
-              총 {spendingAmount}원 썼어요!
+              총 {spendingAmount.toLocaleString()}원 썼어요!
             </div>
             <div className="flex justify-between items-center">
               <div className="mt-2">
@@ -331,10 +333,14 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
               <div className="rounded-lg mr-10 my-1 ">
                 <div className="flex flex-col items-start	">
                   <div>
-                    <div className="text-xl">욕구소비 : {expenditure.욕구}</div>
+                    <div className="text-xl">
+                      욕구소비 : {expenditure.욕구.toLocaleString()}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-xl">필요소비 : {expenditure.필요}</div>
+                    <div className="text-xl">
+                      필요소비 : {expenditure.필요.toLocaleString()}
+                    </div>
                   </div>
                 </div>
               </div>
