@@ -69,7 +69,7 @@ const Login3: React.FC = () => {
             pid: Number(parentId3),
           }));
           console.log(childId.pid)
-          if (Number(parentId3) != 0) {
+          if (parentId3 !== null && parentId3 !== 0 && !isNaN(parentId3) && parentId3 !== "") {
             navigate("../main");
           }
 
@@ -101,9 +101,10 @@ const Login3: React.FC = () => {
     // console.log(parentId)
     console.log(`'차일드아이디':${childId.id}`);
     console.log(`'부모 아이디':${childId.pid}`);
-    if (childId.pid != 0) {
+    if (childId.pid !== null && childId.pid !== 0 && !isNaN(childId.pid)) {
       navigate("../main");
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
   return (
