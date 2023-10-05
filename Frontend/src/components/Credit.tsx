@@ -71,6 +71,7 @@ const Credit: React.FC<CreditProps> = (props) => {
         };
 
     Creditdata(); // Creditdata 함수 호출
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); 
 
   const [credit, SetCredit] = useState(1)

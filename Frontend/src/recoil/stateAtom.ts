@@ -10,7 +10,7 @@ export const stateAtom = atom<state>({
   // state 1 -> 부모 0 -> 자녀
   key: "stateAtom",
   default: {
-    id: 0,
+    id: 2,
   },
   effects_UNSTABLE: [persistAtom],
 });
