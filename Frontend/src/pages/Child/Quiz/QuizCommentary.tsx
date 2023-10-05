@@ -14,9 +14,8 @@ const QuizCommentary: React.FC = () => {
   const child = useRecoilValue(childIdAtom);
   const quizScore = useRecoilValue(quizScoreAtom);
   const quizPoint = useRecoilValue(quizPointAtom);
-  const prizePerQuiz = Number(quizPoint);
 
-  const prize = quizScore.score !== null ? quizScore.score * prizePerQuiz : 0;
+  const prize = quizScore.score !== null ? quizScore.score * quizPoint : 0;
 
   let topic: string;
   switch (eng) {
@@ -98,7 +97,7 @@ const QuizCommentary: React.FC = () => {
           </div>
         )}
 
-        <button className="mt-6 bg-white" onClick={handleClick}>
+        <button className="mt-6 bg-bgblue" onClick={handleClick}>
           메인으로 돌아가기
         </button>
       </div>

@@ -9,7 +9,6 @@ import { quizPointAtom } from "../../../recoil/quizPointAtom";
 const Quiz: React.FC = () => {
   const [quizScore, setQuizScore] = useRecoilState(quizScoreAtom);
   const quizPoint = useRecoilValue(quizPointAtom);
-  const prizePerQuiz = Number(quizPoint);
   const [solved, setSolved] = useState(false);
   const [correctProblem, setCorrectProblem] = useState(0);
   const [wrongProblem, setWrongProblem] = useState(0);
@@ -69,7 +68,7 @@ const Quiz: React.FC = () => {
             <p>받은 포인트</p>
             {solved ? (
               <p>
-                오늘: {quizScore.score ? quizScore.score * prizePerQuiz : 0}원
+                오늘: {quizScore.score ? quizScore.score * quizPoint : 0}원
               </p>
             ) : (
               <p>오늘: -</p>

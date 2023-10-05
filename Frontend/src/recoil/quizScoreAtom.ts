@@ -3,7 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist({
   key: "quizScore",
-  storage: localStorage,
+  storage: sessionStorage,
 });
 
 export interface QuizScore {

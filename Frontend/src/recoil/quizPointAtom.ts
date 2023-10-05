@@ -2,14 +2,12 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
-export interface money {
-  quizPoint: number;
-}
+// export interface money {
+//   quizPoint: number;
+// }
 
-export const quizPointAtom = atom<money>({
+export const quizPointAtom = atom<number>({
   key: "quizPointAtom",
-  default: {
-    quizPoint: 0,
-  },
+  default: 0,
   effects_UNSTABLE: [persistAtom],
 });
