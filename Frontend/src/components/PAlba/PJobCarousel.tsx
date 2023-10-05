@@ -51,6 +51,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
           childId: selectedJob.childId,
           albaId: selectedJob.albaId,
         },
+        
       };
 
       const response = await axios(axiosConfig);
@@ -111,7 +112,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
             />
           </button>
           <JobDetail job={selectedJob} />
-          {selectedJob?.status === "PRE" ? (
+          {selectedJob?.status === "POSTED" ? (
             <div>
               <button
                 onClick={handleDelete}
