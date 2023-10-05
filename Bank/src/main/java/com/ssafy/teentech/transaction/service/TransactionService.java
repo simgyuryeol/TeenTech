@@ -13,6 +13,8 @@ import com.ssafy.teentech.transaction.dto.request.TransactionRequestDto;
 import com.ssafy.teentech.transaction.dto.response.TransactionListResponseDto;
 import com.ssafy.teentech.transaction.dto.response.TransactionResponseDto;
 import com.ssafy.teentech.transaction.repository.TransactionRepository;
+
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -98,15 +100,29 @@ public class TransactionService {
             transactionRepository.findAllByWithdrawAccountOrDepositAccountAndTransactionIdGreaterThan(account, new Long(transactionListRequestDto.getIndex())).stream()
                 .map(t -> {
                     if (account.equals(t.getDepositAccount())) {
-                        return new TransactionResponseDto(t.getTransactionId(),
-                            TransactionType.DEPOSIT, t.getWithdrawAccount().getUserName(),
-                            t.getBalanceAfterDeposit(), t.getTransferAmount(), t.getContent(),
-                            t.getCreatedDateTime());
+                        if (Objects.isNull(t.getWithdrawAccount())) {
+                            return new TransactionResponseDto(t.getTransactionId(),
+                                    TransactionType.DEPOSIT, null,
+                                    t.getBalanceAfterDeposit(), t.getTransferAmount(), t.getContent(),
+                                    t.getCreatedDateTime());
+                        } else {
+                            return new TransactionResponseDto(t.getTransactionId(),
+                                    TransactionType.DEPOSIT, t.getWithdrawAccount().getUserName(),
+                                    t.getBalanceAfterDeposit(), t.getTransferAmount(), t.getContent(),
+                                    t.getCreatedDateTime());
+                        }
                     } else {
-                        return new TransactionResponseDto(t.getTransactionId(),
-                            TransactionType.WITHDRAW, t.getDepositAccount().getUserName(),
-                            t.getBalanceAfterWithdraw(), t.getTransferAmount(), t.getContent(),
-                            t.getCreatedDateTime());
+                        if (Objects.isNull(t.getDepositAccount())) {
+                            return new TransactionResponseDto(t.getTransactionId(),
+                                    TransactionType.WITHDRAW, null,
+                                    t.getBalanceAfterWithdraw(), t.getTransferAmount(), t.getContent(),
+                                    t.getCreatedDateTime());
+                        } else {
+                            return new TransactionResponseDto(t.getTransactionId(),
+                                    TransactionType.WITHDRAW, t.getDepositAccount().getUserName(),
+                                    t.getBalanceAfterWithdraw(), t.getTransferAmount(), t.getContent(),
+                                    t.getCreatedDateTime());
+                        }
                     }
                 }).collect(Collectors.toList()));
 
