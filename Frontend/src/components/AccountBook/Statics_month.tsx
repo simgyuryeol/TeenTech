@@ -220,8 +220,6 @@ const Statics_month: React.FC<Props> = ({ date, Datedata }) => {
           });
       });
     }
-    console.log("타입없는거");
-    console.log(consumptionDate);
     setConsumptionTypeNull(
       consumptionDate.sort((a, b) => parseInt(a) - parseInt(b))
     );
