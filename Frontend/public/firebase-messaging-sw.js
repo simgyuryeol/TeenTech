@@ -8,24 +8,26 @@ self.addEventListener("activate", function (e) {
 });
 
 self.addEventListener("push", function (e) {
-  console.log("push하면 오는 데이터: ", e.data.json());
   if (!e.data.json()) return;
+  
+  const resultData = e.data.json();
+  console.log("알림 정보: ", resultData.notification);
+  console.log("알림 제목: ", resultData.notification.title);
+  console.log("알림 내용: ", resultData.notification.body);
+  // const notificationTitle = resultData.notification.title;
 
-  const resultData = e.data.json().data;
-  const notificationTitle = resultData.title;
-
-  const notificationOptions = {
-    body: resultData.content,
+  // const notificationOptions = {
+  //   body: resultData.notification.body,
     //     body: resultData.body,
     //     icon: resultData.image,
     //     tag: resultData.tag,
     //     ...resultData,
-  };
+  // };
 
-  console.log("push: ", { resultData, notificationTitle, notificationOptions });
+  // console.log("push: ", { resultData, notificationTitle, notificationOptions });
   //   console.log("push: ", { notificationTitle, notificationOptions });
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 self.addEventListener("notificationclick", function (event) {
