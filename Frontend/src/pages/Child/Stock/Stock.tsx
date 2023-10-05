@@ -99,7 +99,7 @@ const Stock: React.FC = () => {
         options={tour.options}
       />
 
-      <div className="mt-16">
+      <div className="mt-16" style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}>
         <div className="p-3" />
         <div className="flex justify-end mr-4">
           <Icon
@@ -135,6 +135,8 @@ const Stock: React.FC = () => {
         >
           주식시장 둘러보기
         </button>
+
+        <div className="p-8"/>
       </div>
     </React.Fragment>
   );
