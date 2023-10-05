@@ -45,7 +45,7 @@ const Main: React.FC = () => {
           name: response.data.data.username,
         });
         setQuizPoint(response.data.data.quizPoint);
-        setTeen9Url(response.data.data.avatarImageUrl);
+        // setTeen9Url(response.data.data.avatarImageUrl);
         console.log(response.data.data);
       })
       .catch((error) => {

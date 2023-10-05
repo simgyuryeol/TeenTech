@@ -109,7 +109,7 @@ const Total: React.FC<Props> = ({ childId }) => {
             오늘 주식시장엔 어떤 변화가 있을까요?
           </div>
           <div className="px-3 pb-2 text-end">
-            <div className="text-gray-700 text-xl flex justify-end items-center">
+            {/* <div className="text-gray-700 text-xl flex justify-end items-center">
               {childDetail?.stockRate > 0 || childDetail?.stockRate === 0 ? (
                 <img
                   style={{ width: "10px", height: "10px", marginRight: "5px" }}
@@ -123,12 +123,12 @@ const Total: React.FC<Props> = ({ childId }) => {
                   alt="Down"
                 />
               )}
-              {Math.abs(childDetail?.stockRate)}
-              {/* {childDetail?.stockRate > 0 || childDetail?.stockRate === 0
+              {Math.abs(childDetail?.stockRate)} */}
+            {/* {childDetail?.stockRate > 0 || childDetail?.stockRate === 0
                 ? childDetail?.stockRate
                 : "Loading..."} */}
-              {/* {childDetail?.stockRate ? childDetail?.stockRate : "Loading..."} */}
-            </div>
+            {/* {childDetail?.stockRate ? childDetail?.stockRate : "Loading..."} */}
+            {/* </div> */}
             <div className="text-gray-700 text-3xl">
               {childDetail?.stock.toLocaleString()}
             </div>
