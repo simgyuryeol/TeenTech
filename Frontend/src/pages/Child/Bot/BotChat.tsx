@@ -24,7 +24,7 @@ const BotChat: React.FC = () => {
       setLoading(true);
       // http://127.0.0.1:8000
       await axios
-        .post(`${base_URL}}`, {
+        .post(`${base_URL}/chat`, {
           conversation_id: `${conversation_id}`,
           message: `${prompt}`,
         })
