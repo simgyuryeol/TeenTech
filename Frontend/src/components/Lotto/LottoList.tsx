@@ -58,7 +58,12 @@ const LottoList: React.FC = () => {
       <div>
         <div className="p-3">당첨내역</div>
         {lottoList.length === 0 ? ( // lottoList가 비어있는지 확인
-          <p>당첨내역이 없습니다.</p> // 비어있다면 이 문구를 출력
+          <p
+            className="m-3 p-4 rounded-2xl drop-shadow mb-3 text-xl"
+            style={{ backgroundColor: "white" }}
+          >
+            당첨내역이 없습니다.
+          </p> // 비어있다면 이 문구를 출력
         ) : (
           lottoList.map((
             item,
