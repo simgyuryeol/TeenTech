@@ -185,7 +185,7 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
         } else if (item.consumptionType === "욕구소비") {
           setExpenditure((prevExpenditure) => ({
             ...prevExpenditure,
-            필요: prevExpenditure.필요 + item.withdrawalAmount,
+            욕구: prevExpenditure.욕구 + item.withdrawalAmount,
           }));
         }
       }
