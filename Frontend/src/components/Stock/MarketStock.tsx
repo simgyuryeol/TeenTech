@@ -56,7 +56,7 @@ const MarketStock: React.FC<MarketStockProps> = (props) => {
 
         <div className="flex items-center">
           <div className="text-2xl font-bold">
-            {value}
+            {value.toLocaleString()}
             <span className="text-sm">원</span>
           </div>
 
@@ -65,14 +65,14 @@ const MarketStock: React.FC<MarketStockProps> = (props) => {
               <div className="flex flex-col items-center text-red-600">
                 <Icon icon="circum:circle-chev-up" className="w-10 h-10" />
                 <p className="text-sm">
-                  {priceChange}원(+{priceChangePercentage}%)
+                  {priceChange.toLocaleString()}원(+{priceChangePercentage}%)
                 </p>
               </div>
             ) : (
               <div className="flex flex-col items-center text-blue-700">
                 <Icon icon="circum:circle-chev-down" className="w-10 h-10" />
                 <p className="text-sm">
-                  {priceChange}원({priceChangePercentage}%)
+                  {priceChange.toLocaleString()}원({priceChangePercentage}%)
                 </p>
               </div>
             )}

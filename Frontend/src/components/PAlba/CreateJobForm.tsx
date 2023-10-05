@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 
 const CreateJobForm: React.FC = () => {
   const child = useRecoilValue(childIdAtom);
+  const accessToken = localStorage.getItem("accessToken");
   const [formError, setFormError] = useState("");
   const [formData, setFormData] = useState({
     childId: child.id,
@@ -74,6 +75,9 @@ const CreateJobForm: React.FC = () => {
         method: "post",
         url: "https://j9e207.p.ssafy.io/api/v1/albas/parent",
         data: formData,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       };
 
       const response = await axios(axiosConfig);

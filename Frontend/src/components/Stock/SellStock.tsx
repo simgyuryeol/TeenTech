@@ -23,6 +23,7 @@ const FormBlock: React.FC<FormBlockProps> = (props) => {
 };
 
 interface SellStockProps {
+  unmaskedName: string;
   companyName: string;
   price: number;
   onClose: () => void;
@@ -31,6 +32,7 @@ interface SellStockProps {
 const SellStock: React.FC<SellStockProps> = (props) => {
   const [isOrdered, setIsOrdered] = useState(false);
   const [quantity, setQuantity] = useState(0);
+  const accessToken = localStorage.getItem("accessToken");
   const today = new Date();
   const todayToString = useDate(today);
   const child = useRecoilValue(childIdAtom);
@@ -40,7 +42,7 @@ const SellStock: React.FC<SellStockProps> = (props) => {
   useEffect(() => {
     if (mystock.length > 0) {
       mystock.forEach((stockItem) => {
-        if (stockItem.companyName === props.companyName) {
+        if (stockItem.companyName === props.unmaskedName) {
           setSellLimit(stockItem.amount);
         }
       });
@@ -48,13 +50,23 @@ const SellStock: React.FC<SellStockProps> = (props) => {
   }, [mystock, props.companyName]);
 
   const handleSellStock = () => {
+    console.log("Data sent: ", {
+      companyName: props.unmaskedName,
+      date: todayToString,
+      amount: quantity,
+    });
     axios
       .post(
         import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/sell`,
         {
-          companyName: props.companyName,
+          companyName: props.unmaskedName,
           date: todayToString,
           amount: quantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       )
       .then((response) => {

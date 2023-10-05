@@ -124,8 +124,15 @@ const StockDetail: React.FC = () => {
         onExit={onExit}
         options={tour.options}
       />
-
-      <div className="mt-12">
+      <div className="p-2" />
+      <div
+        className="mt-12"
+        style={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#f6f6f6",
+        }}
+      >
         <div className="py-4" />
         <p className="font-bold text-3xl">{maskedCompanyName}</p>
         <div className="flex justify-end mr-4">
@@ -145,26 +152,30 @@ const StockDetail: React.FC = () => {
           <div>로딩 중...</div>
         )}
 
-        <p className="font-bold text-2xl text-left ml-8">주요 뉴스</p>
-        {companyNews.map((news, index) => (
-          <StockNews key={index} news={news} />
-        ))}
-
-        <button
-          onClick={handleBuyClick}
-          className="border-2 border-red-300 w-32 font-bold"
-          id="buy-btn"
-        >
-          살래요
-        </button>
-        <span className="m-5" />
-        <button
-          onClick={handleSellClick}
-          className="border-2 border-blue-300 w-32 font-bold"
-          id="sell-btn"
-        >
-          팔래요
-        </button>
+        <div className="bg-bgblue py-1 pt-3 m-5 rounded-lg">
+          <p className="font-bold text-2xl text-left ml-8">주요 뉴스</p>
+          {companyNews.map((news, index) => (
+            <StockNews key={index} news={news} />
+          ))}
+        </div>
+        <div className="pb-4">
+          <button
+            onClick={handleBuyClick}
+            className="border-2 border-red-300 w-32 font-bold bg-mainpink text-white text-xl"
+            id="buy-btn"
+          >
+            살래요
+          </button>
+          <span className="m-5" />
+          <button
+            onClick={handleSellClick}
+            className="border-2 border-blue-300 w-32 font-bold bg-mainblue text-white text-xl"
+            id="sell-btn"
+          >
+            팔래요
+          </button>
+        </div>
+        <div className="p-4" />
       </div>
 
       {isBuyModalOpen && (
@@ -180,6 +191,7 @@ const StockDetail: React.FC = () => {
           </button>
           <BuyStock
             companyName={maskedCompanyName}
+            unmaskedName={companyName}
             price={stockChartInfo.price}
             onClose={handleBuyClose}
           />
@@ -199,6 +211,7 @@ const StockDetail: React.FC = () => {
           </button>
           <SellStock
             companyName={maskedCompanyName}
+            unmaskedName={companyName}
             price={stockChartInfo.price}
             onClose={handleSellClose}
           />

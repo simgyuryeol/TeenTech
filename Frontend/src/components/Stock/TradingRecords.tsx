@@ -35,10 +35,10 @@ const TradingRecord: React.FC<TradingRecordProps> = ({ record, className }) => {
         {amount}
       </td>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {price}
+        {price.toLocaleString()}
       </td>
       <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-        {amount * price}
+        {(amount * price).toLocaleString()}
       </td>
     </tr>
   );

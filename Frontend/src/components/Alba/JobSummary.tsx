@@ -19,7 +19,7 @@ const JobSummary: React.FC<Job> = (props) => {
 
             <div className="flex items-center justify-between" style={{width: "70vw"}}>
               <p className="font-semibold text-gray-400">{closeDate}까지</p>
-              <p className="text-xl font-bold text-yellow-500">+ {reward}</p>
+              <p className="text-xl font-bold text-yellow-500">+ {reward.toLocaleString()}원</p>
             </div>
           </div>
         </div>
