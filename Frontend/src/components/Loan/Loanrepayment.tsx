@@ -9,6 +9,7 @@ const base_URL = import.meta.env.VITE_SERVER_URL;
 interface LoanrepaymentProps {
     children: ReactNode;
     loanId: number;
+    initialBalance: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     closeModal: (value: any) => void;
   }
@@ -55,9 +56,13 @@ const Loanrepayment: React.FC<LoanrepaymentProps> = (props) => {
             <Modal>
             <div className=''>
             <div className="">
-                <div>
-                    <p className='flex w-[100%] text-lg'>상환 가능한 금액</p>
-                    <p className='flex justify-end font-bold text-2xl w-[100%] bg-white'>{haveMoney.toLocaleString()}원</p> 
+                <div className='flex'>
+                    <p className='flex w-[100%] text-md'>상환 가능한 금액</p>
+                    <p className='flex justify-end font-bold text-md w-[100%] bg-white'>{haveMoney.toLocaleString()}원</p> 
+                </div>
+                <div className='flex mb-4'>
+                    <p className='flex w-[100%] text-md'>남은 대출 금액:</p>
+                    <p className='flex text-md justify-end font-bold w-[100%] bg-white'>{props.initialBalance.toLocaleString()}원</p> 
                 </div>
                 <div>
                     <label htmlFor='repaymoney' className='flex w-[100%] text-sm'>상환액</label>
