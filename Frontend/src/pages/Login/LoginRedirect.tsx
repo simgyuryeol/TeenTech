@@ -5,6 +5,8 @@ import Role from "../../components/Login/Role";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { childIdAtom } from "../../recoil/childIdAtom";
 import fetchFCMtoken from "../../hooks/fetchFCMToken";
+import { useRecoilState } from "recoil";
+import { stateAtom, state } from "../../recoil/stateAtom";
 
 // const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -13,6 +15,8 @@ const Login2: React.FC = () => {
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
   const childId = useRecoilValue(childIdAtom);
   const SetChildid = useSetRecoilState(childIdAtom);
+
+  const [state, setState] = useRecoilState(stateAtom);
 
   const [payload, Setpayload] = useState("");
   
@@ -70,6 +74,7 @@ const Login2: React.FC = () => {
         ...prevChild,
         pid: userId,
       }));
+      setState({ id: 1 });
       navigate("../Pmain");
     } else if (auth === '"ROLE_CHILD"') {
       //recoil에 userId 를 childId로 넣어줘야함
@@ -78,6 +83,7 @@ const Login2: React.FC = () => {
         id: userId,
         pid: parentId,
       }));
+      setState({ id: 0 });
       console.log(childId);
       navigate("../oauth/redirect2");
     }
