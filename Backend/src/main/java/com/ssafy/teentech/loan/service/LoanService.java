@@ -161,7 +161,7 @@ public class LoanService {
         TransactionRequestDto transactionRequestDto = new TransactionRequestDto(child.getUserId(),
             childAccountInformation.getAccountNumber(),
             repayRequestDto.getPassword(), parentAccountInformation.getAccountNumber(),
-            new Long(repayRequestDto.getAmount()), loan.getTitle() + " 대출 상환");
+            new Long(repayRequestDto.getAmount()), "대출");
 
         ApiResponse transferResponse = bankService.transfer(transactionRequestDto);
 
