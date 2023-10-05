@@ -69,7 +69,8 @@ const Pinterest: React.FC = () => {
         // navigate(`/DepositJoinSuccess/${depositid}`);
       })
       .catch((error) => {
-        alert(error.responce.data.message);
+        alert("이자율 설정 실패")
+        // alert(error.responce.data.message);
         console.log(depositInterest);
         console.log(loanInterest);
         console.log(child_id);
