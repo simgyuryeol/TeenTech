@@ -52,7 +52,7 @@ const Loan: React.FC<Loan> = () => {
   }, []);
 
   return (
-    <div className="pt-24">
+    <div className="pt-24"  style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}>
       <Credit children={""} />
       <div className="flex flex-col justify-center">
         <LoanStatus

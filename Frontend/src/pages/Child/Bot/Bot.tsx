@@ -37,7 +37,7 @@ const Bot: React.FC = () => {
         </div>
         <img
           src={imageMap[teen9url.avatarImageUrl]}
-          width={"100px"}
+          width={"70px"}
           onClick={() => handleOpen(1)}
         ></img>
 
