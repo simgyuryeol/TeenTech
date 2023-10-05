@@ -5,11 +5,13 @@ interface News {
 }
 
 interface Choice {
+  id: number;
   text: string;
   correct: boolean;
 }
 
 interface Quiz {
+  id: number;
   question: string;
   choices: Choice[];
   explanation: string;
