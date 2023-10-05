@@ -3,12 +3,15 @@ import Modal from '../../../components/Common/Modal';
 import DepositList from '../../../components/Deposit/DepositList';
 import { Link, useLocation } from 'react-router-dom';
 import success from '../../../assets/success.png'
+import { useRecoilValue,} from 'recoil';
+import { CreditAtom } from '../../../recoil/creditAtom';
 
 
 
 const DepositJoinSuccess: React.FC = () => {
     const location = useLocation();
     const responseData = location.state
+    const interest = useRecoilValue(CreditAtom).depositinterest
     return (
         <Modal>
             <div className="">
@@ -27,7 +30,7 @@ const DepositJoinSuccess: React.FC = () => {
                 </div>
                 <div className='w-[100%] border-2 rounded-lg'>
                     <div className='w-[100%]'>
-                        <DepositList interestrate={responseData.interest} depositName={responseData.depositName} depositMoney={responseData.money} maturity={responseData.endDate}>
+                        <DepositList interestrate={interest} depositName={responseData.depositName} depositMoney={responseData.money} maturity={responseData.endDate}>
                             <div className="flex justify-around w-[100%] mt-1 pb-1">
                                 <p className=''>만기 지급액:</p>
                                 <p className=''>{responseData.maturityPaymentAmount.toLocaleString()}원</p>
