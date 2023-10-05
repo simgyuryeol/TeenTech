@@ -20,13 +20,13 @@ const Data: Winning[] = [
 const LottoList: React.FC = () => {
   //1->부모, 0->자녀
   const [state, setState] = useRecoilState(stateAtom);
-  const [childData] = useRecoilState(childIdAtom);
+  const [childId] = useRecoilState(childIdAtom);
   const [lottoList, setLottoList] = useState([]);
 
   const lottohistory = () => {
     if (state.id === 0) {
       axios
-        .get(`https://j9e207.p.ssafy.io/api/v1/34/lotto`)
+        .get(`https://j9e207.p.ssafy.io/api/v1/${childId.id}/lotto`)
         .then((response) => {
           console.log("리스트 정보");
           console.log(response.data.data);
@@ -37,7 +37,7 @@ const LottoList: React.FC = () => {
         });
     } else if (state.id === 1) {
       axios
-        .get(`https://j9e207.p.ssafy.io/api/v1/${childData.id}/lotto`)
+        .get(`https://j9e207.p.ssafy.io/api/v1/${childId.id}/lotto`)
         .then((response) => {
           console.log("자식 리스트 정보");
           setLottoList(response.data.data);

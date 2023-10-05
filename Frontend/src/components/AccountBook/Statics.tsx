@@ -12,6 +12,8 @@ import Equal from "../../../src/assets/equal.png";
 import minus from "../../../src/assets/accountBook/minus.png";
 import axios from "axios";
 import { previousDay } from "date-fns";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 interface Props {
   spendingAmount: number;
@@ -28,6 +30,7 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
   });
   const [sobi, setSobi] = useState(false);
   const total = importAmount - spendingAmount;
+  const [childId] = useRecoilState(childIdAtom);
 
   const donutData: ApexCharts.ApexOptions = {
     series: [expenditure.욕구, expenditure.필요],
@@ -99,7 +102,9 @@ const Statics: React.FC<Props> = ({ spendingAmount, importAmount, date }) => {
 
   const getDetail = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .get(
+        `https://j9e207.p.ssafy.io/api/v1/${childId.id}/accountbooks/detail/${date}`
+      )
       .then((response) => {
         setDatedata(response.data.data);
         console.log(response.data.data);
