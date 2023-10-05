@@ -129,6 +129,15 @@ const Palba: React.FC = () => {
             <NoJob status="등록한" />
           )}
         </React.Fragment>
+
+        <React.Fragment>
+          <p className="text-lg font-bold">승인 대기 중인 아르바이트</p>
+          {waitForApprovalJobs && waitForApprovalJobs.length ? (
+            <PJobCarousel jobs={waitForApprovalJobs} />
+          ) : (
+            <NoJob status="승인 대기 중인" />
+          )}
+        </React.Fragment>
       </div>
     </div>
   );
