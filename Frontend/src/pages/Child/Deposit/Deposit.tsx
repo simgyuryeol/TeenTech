@@ -65,7 +65,7 @@ const Deposit: React.FC = () => {
         </div>
       </div>
         <hr></hr>
-      <div className='bg-green-300 ml-2 mr-2 rounded-md pt-1 pb-80'>
+      <div className='bg-green-300 ml-2 mr-2 rounded-md pt-1' style={{minHeight: "50vh"}}>
         <div className="text-2xl font-bold mt-3 mb-3">가입한 예금 상품</div>
         {deposits.length > 0 ? (
     deposits.map((item, index) => (
