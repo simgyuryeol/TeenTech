@@ -27,13 +27,16 @@ const imageMap = {
 const Bot: React.FC = () => {
   const [open, setOpen] = React.useState(0);
   const [teen9url, setTeen9Url] = useRecoilState(teen9Atom);
-  const [child] = useRecoilState(childIdAtom);
+  const [child, setChild] = useRecoilState(childIdAtom);
 
   const getDetail = () => {
+    console.log("asiox..");
+    console.log(child);
     axios
       .get(`https://j9e207.p.ssafy.io/api/v1/childs/child/${child.id}`)
       .then((response) => {
         setTeen9Url(response.data.data.avatarImageUrl);
+        console.log(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -54,7 +57,8 @@ const Bot: React.FC = () => {
           질문해줘
         </div>
         <img
-          src={imageMap[teen9url.avatarImageUrl]}
+          // src={imageMap[teen9url.avatarImageUrl]}
+          src={Dog}
           width={"70px"}
           onClick={() => handleOpen(1)}
         ></img>
