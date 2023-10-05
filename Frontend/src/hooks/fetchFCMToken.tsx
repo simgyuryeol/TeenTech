@@ -19,6 +19,7 @@ const fetchFCMtoken = () => {
           vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         })
           .then(async (currentToken) => {
+            console.log("FCM Token:", currentToken);
             if (currentToken) {
               try {
                 const response = await axios.post(

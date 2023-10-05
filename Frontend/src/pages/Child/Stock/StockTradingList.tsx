@@ -19,6 +19,7 @@ const StockTradingList: React.FC = () => {
       .get(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/sales`)
       .then((response) => {
         const fetchedData = response.data.data;
+        console.log("매매내역:", fetchedData);
         setTotalInvestment(fetchedData.totalInvestment);
         setRealizedProfit(fetchedData.totalNetProfit);
         setRateOfReturn(fetchedData.rateOfReturn);
