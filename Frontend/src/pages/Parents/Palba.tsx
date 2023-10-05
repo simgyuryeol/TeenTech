@@ -14,11 +14,18 @@ const Palba: React.FC = () => {
   const [createdJobs, setCreatedJobs] = useState<Job[]>([]);
   const [waitForApprovalJobs, setWaitForApprovalJobs] = useState<Job[]>([]);
   const child = useRecoilValue(childIdAtom);
+  const accessToken = window.localStorage.getItem("accessToken");
 
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BASE_URL + `/api/v1/albas/parent/lists/${child.id}`
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/albas/parent/lists/${child.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       )
       .then((response) => {
         const fetchedData = response.data.data;
@@ -28,7 +35,12 @@ const Palba: React.FC = () => {
         axios
           .get(
             import.meta.env.VITE_BASE_URL +
-              `/api/v1/albas/parent/wait-for-check-lists/${child.id}`
+              `/api/v1/albas/parent/wait-for-check-lists/${child.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
           )
           .then((secondResponse) => {
             const secondFetchedData = secondResponse.data.data;

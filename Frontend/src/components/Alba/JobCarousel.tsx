@@ -85,7 +85,7 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
             />
           </button>
           <JobDetail job={selectedJob} />
-          {selectedJob?.status === "PRE" ? (
+          {selectedJob?.status === "POSTED" ? (
             <button onClick={(e) => handleClick(e, "accept")}>할래요😉</button>
           ) : (
             <div>

@@ -17,7 +17,13 @@ interface Quiz {
   explanation: string;
 }
 
-type Status = "PRE" | "ING" | "TRUE" | "FALSE"
+type Status =
+  | "POSTED"
+  | "IN_PROGRESS"
+  | "WAIT_FOR_CHECK"
+  | "REJECT"
+  | "COMPLETE"
+  | "EXPIRED";
 
 interface Job {
   albaId: number;
