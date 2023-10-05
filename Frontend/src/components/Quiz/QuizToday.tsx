@@ -62,18 +62,21 @@ const QuizToday: React.FC<QuizTopic> = (props) => {
             <p>맞힌 문제: {quizScore.score ? quizScore.score : 0}</p>
             <p>틀린 문제: {quizScore.score ? 5 - quizScore.score : 0}</p>
           </div>
-          <div className="mt-5 text-center text-lg">
-            <p>오늘 퀴즈는 이미 다 풀었어요!</p>
-            <p>내일 다시 도전해주세요.</p>
-            <p>틀린 문제는 언젠가 퀴즈에 다시 나올지도..?</p>
+          <div className="mt-5 text-center text-lg bg-white p-2 rounded-lg">
+            <p className="text-xl my-2">오늘 퀴즈는 이미 다 풀었어요!</p>
+            <p className="text-gray-500">
+              내일 다시 도전해주세요.
+              <br />
+              틀린 문제는 언젠가 퀴즈에 다시 나올지도..?
+            </p>
           </div>
         </div>
       ) : (
         <div>
           <p className="text-right">주제: ???</p>
-          <div className="mt-5 text-center text-lg">
-            <p>오늘의 퀴즈를 아직 풀지 않았어요!</p>
-            <p>퀴즈를 맞히고 상금도 얻으러 가볼까요?</p>
+          <div className="mt-5 text-center text-lg bg-white p-2 rounded-lg">
+            <p className="text-xl my-2">오늘의 퀴즈를 아직 풀지 않았어요!</p>
+            <p className="text-gray-500">퀴즈를 맞히고 상금도 얻으러 가볼까요?</p>
           </div>
           <div className="mt-5">
             <Link to={`/QuizPlay/${eng}`}>
