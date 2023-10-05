@@ -88,22 +88,22 @@ const Login3: React.FC = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const payload = accessToken.substring(
-      accessToken.indexOf(".") + 1,
-      accessToken.lastIndexOf(".")
-    );
-    const dec = base64.decode(payload);
-    Setpayload(dec);
-    // const parentIdtargetKey = "parentId";
-    // const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
-    // const parentIdmatch = payload.match(parentIdregex);
-    // const parentId = parentIdmatch ? parentIdmatch[1] : "";
-    // console.log(parentId)
-    console.log(`'차일드아이디':${childId.id}`);
-    console.log(`'부모 아이디':${childId.pid}`);
-    if (childId.pid !== null && childId.pid !== 0 && !isNaN(childId.pid)) {
-      navigate("../main");
-    }
+    // const payload = accessToken.substring(
+    //   accessToken.indexOf(".") + 1,
+    //   accessToken.lastIndexOf(".")
+    // );
+    // const dec = base64.decode(payload);
+    // Setpayload(dec);
+    // // const parentIdtargetKey = "parentId";
+    // // const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
+    // // const parentIdmatch = payload.match(parentIdregex);
+    // // const parentId = parentIdmatch ? parentIdmatch[1] : "";
+    // // console.log(parentId)
+    // console.log(`'차일드아이디':${childId.id}`);
+    // console.log(`'부모 아이디':${childId.pid}`);
+    // if (childId.pid !== null && childId.pid !== 0 && !isNaN(childId.pid)) {
+    //   navigate("../main");
+    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
