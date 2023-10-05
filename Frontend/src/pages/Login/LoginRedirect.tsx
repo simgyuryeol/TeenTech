@@ -4,6 +4,7 @@ import base64 from "base-64";
 import Role from "../../components/Login/Role";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { childIdAtom } from "../../recoil/childIdAtom";
+import fetchFCMtoken from "../../hooks/fetchFCMToken";
 
 // const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -14,6 +15,10 @@ const Login2: React.FC = () => {
   const SetChildid = useSetRecoilState(childIdAtom);
 
   const [payload, Setpayload] = useState("");
+  
+  useEffect(() => {
+    fetchFCMtoken();
+  }, []);
 
   // const authtargetKey = 'auth';
   // const authregex = new RegExp(`"${authtargetKey}":"([^"]+)"`);

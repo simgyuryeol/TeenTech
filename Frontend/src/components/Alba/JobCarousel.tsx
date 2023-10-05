@@ -32,7 +32,7 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   ) => {
     axios
       // .post(import.meta.env.VITE_BASE_URL + `/albas/child/${alba_id}/${status}`)
-      .post(import.meta.env.VITE_BASE_URL + `/albas/child/alba_id/${status}`)
+      .post(import.meta.env.VITE_BASE_URL + `/api/v1/albas/child/alba_id/${status}`)
       .then((response) => {
         console.log(response.data);
       })

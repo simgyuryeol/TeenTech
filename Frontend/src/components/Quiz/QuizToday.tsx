@@ -1,20 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { quizScoreAtom } from "../../recoil/quizScoreAtom";
 
 interface QuizTopic {
-  topic?: string;
+  topic: string;
 }
 
 const QuizToday: React.FC<QuizTopic> = (props) => {
   const eng = props.topic;
 
-  const quizScore = useRecoilValue(quizScoreAtom);
+  const [quizScore, setQuizScore] = useRecoilState(quizScoreAtom);
   const [solved, setSolved] = useState(false);
 
+  let title: string;
+  switch (eng) {
+    case "MONEY":
+      title = "돈, 화폐";
+      break;
+    case "SAVING":
+      title = "소득, 지출";
+      break;
+    case "INVEST":
+      title = "투자, 펀드";
+      break;
+    case "PRICE":
+      title = "물가";
+      break;
+    case "TAX":
+      title = "세금";
+      break;
+    default:
+      title = "";
+      break;
+  }
+
   useEffect(() => {
-    if (quizScore !== null) {
+    const today = new Date().toDateString();
+    if (quizScore.score !== null) {
+      const dateSolved = quizScore.date.toDateString();
+      if (dateSolved !== today) {
+        setQuizScore({
+          score: null,
+          date: null,
+          topic: null,
+        });
+        return;
+      }
       setSolved(true);
     }
   }, [quizScore]);
@@ -25,10 +57,10 @@ const QuizToday: React.FC<QuizTopic> = (props) => {
 
       {solved ? (
         <div>
-          <p className="text-right">주제: 물가</p>
+          <p className="text-right">주제: {title}</p>
           <div className="flex justify-between mt-2">
-            <p>맞힌 문제: {quizScore ? quizScore : 0}</p>
-            <p>틀린 문제: {quizScore ? 3 - quizScore : 0}</p>
+            <p>맞힌 문제: {quizScore.score ? quizScore.score : 0}</p>
+            <p>틀린 문제: {quizScore.score ? 5 - quizScore.score : 0}</p>
           </div>
           <div className="mt-5 text-left">
             <p>오늘 퀴즈는 이미 다 풀었어요!</p>

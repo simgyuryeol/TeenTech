@@ -15,6 +15,7 @@ export default defineConfig({
         importScripts: ["my-custom-sw.js"],
       },
       manifest: {
+        display: "standalone",
         icons: [
           {
             src: "/moneybox-192.png",

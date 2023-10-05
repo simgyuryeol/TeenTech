@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Card from "../Common/Card";
+import { quizPointAtom } from "../../recoil/quizPointAtom";
+import { useRecoilState } from "recoil";
 
 const SetQuizPrize: React.FC = () => {
-  const [prize, setPrize] = useState(0);
+  const [prize, setPrize] = useRecoilState(quizPointAtom);
+  const prizeToString: string = "현재 상금"+ prize.toString();
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -43,13 +46,20 @@ const SetQuizPrize: React.FC = () => {
             value={prize}
             onChange={handleQuantityChange}
             className="w-20 px-3 py-1 text-xl font-bold text-right border border-gray-300 rounded-lg"
+            placeholder={prizeToString}
           />
           <p className="ml-1 text-xl font-bold text-right">원</p>
         </div>
       </div>
       <p className="text-sm text-right pr-4 text-gray-500">최대 500원</p>
 
-      <button onClick={handleSet} className="m-4">
+      <button
+        onClick={handleSet}
+        className={`m-4 ${
+          prize === 0 || prize > 500 ? "bg-gray-200" : "bg-blue-300"
+        }`}
+        disabled={prize === 0 || prize > 500}
+      >
         등록하기
       </button>
     </Card>
