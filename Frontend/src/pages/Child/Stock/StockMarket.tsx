@@ -82,7 +82,8 @@ const StockMarket: React.FC = () => {
   };
 
   return (
-    <div className="mt-20 ">
+    <div className="mt-12 ">
+      <div className="p-8"/>
       <div className="mx-5 p-8 bg-bgblue rounded-xl drop-shadow-lg flex items-center justify-between">
         <img src={clockImg} alt="" className="w-20 h-20" />
 

@@ -6,6 +6,7 @@ import LoanInterestInfo from "../../components/Loan/LoanInterestInfo";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { childIdAtom } from "../../recoil/childIdAtom";
+import { CreditAtom } from "../../recoil/creditAtom";
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -13,8 +14,8 @@ const Pinterest: React.FC = () => {
   const [pocketMoney, setPocketmoney] = useState(50000);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [pocketMoneycycle, setPocketmoneycycle] = useState<number>(1);
-  const [depositInterest, setDepositinterest] = useState(2);
-  const [loanInterest, setLoaninterest] = useState(0);
+  const [depositInterest, setDepositinterest] = useState(useRecoilValue(CreditAtom).depositinterest);
+  const [loanInterest, setLoaninterest] = useState(useRecoilValue(CreditAtom).loaninterest);
   const child_id = useRecoilValue(childIdAtom).id
   const parent_id = useRecoilValue(childIdAtom).pid
 
@@ -39,7 +40,8 @@ const Pinterest: React.FC = () => {
   const pinmoneyset = () => {
     axios
       .post(base_URL + `/api/v1/parents/${parent_id}/${child_id}/pinmoney`, {
-        pinmoney: pocketMoney,
+        pinMoney: pocketMoney,
+        cycle: pocketMoneycycle,
         // userId: window.localStorage.getItem('userId'),
       })
       .then((response) => {
@@ -67,7 +69,7 @@ const Pinterest: React.FC = () => {
         // navigate(`/DepositJoinSuccess/${depositid}`);
       })
       .catch((error) => {
-        alert("이자율 설정 실패");
+        alert(error.responce.data.message);
         console.log(depositInterest);
         console.log(loanInterest);
         console.log(child_id);
@@ -91,7 +93,7 @@ const Pinterest: React.FC = () => {
             <div className="border-2 rounded-md">
               <select onChange={handlePocketmoneycycle}>
                 <option value={1}>매달 1일</option>
-                <option value={2}>매주 월요일</option>
+                <option value={0}>매주 월요일</option>
               </select>
             </div>
           </div>

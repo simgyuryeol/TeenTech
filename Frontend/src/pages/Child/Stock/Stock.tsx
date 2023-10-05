@@ -131,7 +131,7 @@ const Stock: React.FC = () => {
         <button
           onClick={handleClick}
           id="stock-market"
-          className="bg-indigo-200 mt-4"
+          className="bg-indigo-200 mt-4 text-xl"
         >
           주식시장 둘러보기
         </button>

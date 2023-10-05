@@ -6,7 +6,6 @@ import prizeImage from "../../../assets/quiz/prize.gif";
 import { useRecoilValue } from "recoil";
 import { quizScoreAtom, solvedQuizAtom } from "../../../recoil/quizScoreAtom";
 import { quizPointAtom } from "../../../recoil/quizPointAtom";
-import { SolvedQuiz } from "../../../recoil/quizScoreAtom";
 import { childIdAtom } from "../../../recoil/childIdAtom";
 
 const QuizCommentary: React.FC = () => {
@@ -18,6 +17,7 @@ const QuizCommentary: React.FC = () => {
   const solvedQuiz = useRecoilValue(solvedQuizAtom);
 
   const prize = quizScore.score !== null ? quizScore.score * quizPoint : 0;
+  // const accessToken = localStorage.getItem("accessToken");
 
   let topic: string;
   switch (eng) {
@@ -49,6 +49,12 @@ const QuizCommentary: React.FC = () => {
 
     const formattedDate = `${year}-${month}-${day}`;
 
+    console.log("Data Sent: ", {
+      quiz: solvedQuiz,
+      subject: eng,
+      date: formattedDate,
+    });
+
     axios
       .post(import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/quizzes`, {
         quiz: solvedQuiz,
@@ -57,12 +63,12 @@ const QuizCommentary: React.FC = () => {
       })
       .then((response) => {
         const fetchedData = response.data.data;
-        console.log(fetchedData);
+        console.log("Fetched Data: ", fetchedData);
       })
       .catch((error) => {
         console.log(error);
       });
-  },[]);
+  }, []);
 
   const handleClick = () => {
     navigate("/Main");
@@ -74,7 +80,8 @@ const QuizCommentary: React.FC = () => {
         <div>
           <p className="text-xl">
             <span className="font-bold text-lg">{topic}</span>에 대해{" "}
-            <span className="font-bold text-lg">{quizScore.score}</span> 문제를 맞혔어요!
+            <span className="font-bold text-lg">{quizScore.score}</span> 문제를
+            맞혔어요!
           </p>
         </div>
 

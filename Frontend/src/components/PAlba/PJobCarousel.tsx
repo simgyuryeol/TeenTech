@@ -12,6 +12,7 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const accessToken = localStorage.getItem("accessToken");
 
   const urlForCompletion =
     import.meta.env.VITE_BASE_URL + "/api/v1/albas/parent/complete";
@@ -46,10 +47,13 @@ const PJobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     try {
       const axiosConfig: AxiosRequestConfig = {
         method: "post",
-        url: import.meta.env.VITE_BASE_URL + "/albas/parent/reject",
+        url: import.meta.env.VITE_BASE_URL + "/api/v1/albas/parent/reject",
         data: {
           childId: selectedJob.childId,
           albaId: selectedJob.albaId,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         },
       };
 

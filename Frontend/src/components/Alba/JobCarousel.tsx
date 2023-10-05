@@ -10,7 +10,10 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
   const [curr, setCurr] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const albaId = selectedJob.albaId;
+  const accessToken = localStorage.getItem("accessToken");
+  const customHeaders = {
+    Authorization: `Bearer ${accessToken}`,
+  };
 
   const prev = () =>
     setCurr((curr) => (curr === 0 ? jobs.length - 1 : curr - 1));
@@ -32,7 +35,13 @@ const JobCarousel: React.FC<{ jobs: Job[] }> = (props) => {
     status: string
   ) => {
     axios
-      .post(import.meta.env.VITE_BASE_URL + `/albas/child/${albaId}/${status}`)
+      .post(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/albas/child/${selectedJob.albaId}/${status}`,
+        {
+          headers: customHeaders,
+        }
+      )
       .then((response) => {
         console.log(response.data);
       })

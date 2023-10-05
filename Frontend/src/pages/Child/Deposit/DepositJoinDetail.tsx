@@ -5,11 +5,13 @@ import axios from 'axios';
 import { useRecoilValue,} from 'recoil';
 import { childIdAtom } from '../../../recoil/childIdAtom';
 import { CreditAtom } from '../../../recoil/creditAtom';
+import { balanceAtom } from '../../../recoil/balanceAtom';
 
 const base_URL = import.meta.env.VITE_SERVER_URL;
 
 const DepositJoinDetail: React.FC = () => {
     const navigate = useNavigate();
+    const Limit = useRecoilValue(balanceAtom)
     const interestrate = useRecoilValue(CreditAtom).depositinterest;
     const [depositName, setDepositname] = useState('');
     const [depositMoney, setDepositmoney] = useState('');
@@ -70,7 +72,7 @@ const DepositJoinDetail: React.FC = () => {
           // navigate(`/DepositJoinSuccess/${depositid}`);
         })
         .catch(error => {
-          alert('가입 실패')
+          alert(error.response.data.message)
           console.log(depositName)
           console.log(depositMoney)
           console.log(depositInterest)
@@ -86,14 +88,15 @@ const DepositJoinDetail: React.FC = () => {
         <div className='w-[95%]'>
             <h2 className="flex justify-center text-2xl mb-2">신규 예금 가입</h2>
             <div className='border border-gray-400 rounded-md pl-5 pr-5'>
-            <div className='mt-2 pt-2 flex'>
+                <p className='text-sm mt-3'>남은 용돈: {Limit.toLocaleString()}원</p>
+            <div className='mt-2 flex'>
                 <label htmlFor='name' className='flex w-[100%] text-lg'>예금 이름</label>
                 <input className='border rounded-md flex text-center' type='text' id='name' placeholder='' value={depositName} onChange={e=> setDepositname(e.target.value)} required/>
             </div>
             <div className='mt-4 flex'>
                 <label htmlFor='money' className='flex w-[100%] text-lg'>예치 금액</label>
                 <div>
-                <input className='border rounded-md flex text-center' type='number' id='money' placeholder='최소 금액 5,000원' value={depositMoney} onChange={handleDepositMoneyChange} required/>                
+                <input className='border rounded-md flex text-center' type='number' id='money' placeholder='남은 용돈 이상으로 불가' value={depositMoney} onChange={handleDepositMoneyChange} required/>                
                 <p className='text-sm flex justify-end'>{depositMoney2}원</p>
                 </div>
             </div>
@@ -142,7 +145,8 @@ const DepositJoinDetail: React.FC = () => {
                   </div>
               </div>
             </div>
-            <div className='mt-4 mb-4 flex'>
+              <div className='text-sm'>복리는 신용 3등급 이상만 신청 가능합니다.</div>
+            <div className='mt-2 mb-4 flex'>
               <p className='flex  w-[100%] text-lg'>만기 지급액</p>
                 <p className='border rounded-md flex justify-center w-[100%]'>
                 {deposittotal.toLocaleString()}원
