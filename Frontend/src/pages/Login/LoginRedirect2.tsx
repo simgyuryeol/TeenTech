@@ -44,6 +44,22 @@ const Login3: React.FC = () => {
         console.log(response.data.data);
         window.localStorage.setItem("accessToken", response.data.data.accessToken);
         setAccessToken(window.localStorage.getItem("accessToken"))
+
+            const payload = accessToken.substring(
+            accessToken.indexOf(".") + 1,
+            accessToken.lastIndexOf(".")
+          );
+          const dec = base64.decode(payload);
+          Setpayload(dec);
+          const parentIdtargetKey = "parentId";
+          const parentIdregex = new RegExp(`"${parentIdtargetKey}":([^"]+),`);
+          const parentIdmatch = payload.match(parentIdregex);
+          const parentId = parentIdmatch ? parentIdmatch[1] : "";
+          if (Number(parentId) != 0) {
+            navigate("../main");
+          }
+
+
         performReload();
       })
       .catch((error) => {
