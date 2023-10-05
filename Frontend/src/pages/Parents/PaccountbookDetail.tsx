@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Statics from "../../components/AccountBook/Statics";
 import { useLocation } from "react-router-dom"; // Import useLocation
 import axios from "axios";
+import { childIdAtom } from "../../recoil/childIdAtom";
+import { useRecoilState } from "recoil";
 
 const Data = [
   {
@@ -34,10 +36,13 @@ const PaccountbookDetail: React.FC<Props> = () => {
   const spendingAmount = location.state?.spendingAmount;
   const importAmount = location.state?.importAmount;
   const [Datedata, setDatedata] = useState([]);
+  const [childId] = useRecoilState(childIdAtom);
 
   const getDetail = () => {
     axios
-      .get(`https://j9e207.p.ssafy.io/api/v1/34/accountbooks/detail/${date}`)
+      .get(
+        `https://j9e207.p.ssafy.io/api/v1/${childId.id}/accountbooks/detail/${date}`
+      )
       .then((response) => {
         setDatedata(response.data.data);
         console.log(response.data.data);
