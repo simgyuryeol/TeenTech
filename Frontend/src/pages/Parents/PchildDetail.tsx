@@ -86,7 +86,7 @@ const PchildDetail: React.FC = () => {
               onClick={() => handleLinkClick(list.childId, list.childName)}
             >
               <div className="w-16 h-16 rounded-full bg-blue-500 mb-2"></div>
-              <p>{list.name}</p>
+              <p>{list.childName}</p>
             </Link>
           ))}
       </div>
