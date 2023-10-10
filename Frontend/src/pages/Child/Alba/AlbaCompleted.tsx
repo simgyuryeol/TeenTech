@@ -36,9 +36,9 @@ const AlbaCompleted: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-10">
-      <p className="text-2xl">자식 완료한 알바</p>
-      <hr />
+    <div className="mt-10 ml-20">
+      <div className="p-8"/>
+      <p className="text-2xl mr-16">지난 아르바이트</p>
       {completedJobs && completedJobs.length ? (
         completedJobs.map((job, index) => <AlbaDetail key={index} job={job} />)
       ) : (
