@@ -39,7 +39,8 @@ const Stock: React.FC = () => {
         const fetchDataForStock = async (stock) => {
           try {
             const additionalResponse = await axios.post(
-              import.meta.env.VITE_BASE_URL + `/api/v1/${child.id}/investments/detail`,
+              import.meta.env.VITE_BASE_URL +
+                `/api/v1/${child.id}/investments/detail`,
               {
                 companyName: stock.companyName,
               }
@@ -55,6 +56,7 @@ const Stock: React.FC = () => {
               ((additionalData[0].price - stock.averagePrice) /
                 stock.averagePrice) *
               100;
+            stock.ror = Number(stock.ror.toFixed(2));
           } catch (error) {
             console.error(
               `Error fetching data for stock ${stock.companyName}:`,
@@ -102,7 +104,14 @@ const Stock: React.FC = () => {
         options={tour.options}
       />
 
-      <div className="mt-16" style={{ width: "100%", minHeight: "100vh", backgroundColor: "#f6f6f6" }}>
+      <div
+        className="mt-16"
+        style={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#f6f6f6",
+        }}
+      >
         <div className="p-3" />
         <div className="flex justify-end mr-4">
           <Icon
@@ -139,7 +148,7 @@ const Stock: React.FC = () => {
           주식시장 둘러보기
         </button>
 
-        <div className="p-8"/>
+        <div className="p-8" />
       </div>
     </React.Fragment>
   );
