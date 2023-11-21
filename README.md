@@ -115,6 +115,8 @@
 
 <br/>
 
+<img src="image/틴테크_아키텍처.PNG">
+
 
 
 <br/>
