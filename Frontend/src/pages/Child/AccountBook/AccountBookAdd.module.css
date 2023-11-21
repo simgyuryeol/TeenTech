@@ -1,0 +1,9 @@
+.container {
+  height: 100hv;
+}
+
+.borderBottom {
+  border-bottom-width: 2px;
+  border-bottom-style: dashed;
+  border-bottom-color: gray;
+}
