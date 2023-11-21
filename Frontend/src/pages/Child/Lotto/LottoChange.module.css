@@ -1,0 +1,141 @@
+.selectedcircle {
+  background-color: lightblue;
+  border: 1px solid #ccc;
+  width: 30px;
+  height: 30px;
+}
+
+/* LottoChange.module.css */
+
+.pt-16 {
+  /* padding-top: 4rem; */
+}
+
+/* 숫자 출력 부분 */
+.number_display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.number_display .number {
+  margin: 0 0.5rem;
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+/* 응모하기 버튼 */
+.lottery_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.lottery_button button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.lottery_button button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.lottery_button button:hover {
+  background-color: #0056b3;
+}
+
+/* 선택한 숫자 섹션 */
+.selected_numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.selected_numbers .title {
+  font-size: 1.5rem;
+}
+
+.selected_numbers .number-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.selected_numbers .number {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin: 0.5rem; */
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* 가능한 번호 선택 섹션 */
+.available_numbers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.available_numbers .number {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.available_numbers .number:hover {
+  background-color: #f0f0f0;
+}
+
+/* 초기화와 랜덤 버튼 */
+.action_buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.action_buttons button {
+  margin: 0 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.action_buttons button:hover {
+  background-color: #e0e0e0;
+}
