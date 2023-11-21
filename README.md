@@ -115,6 +115,8 @@
 
 <br/>
 
+### 시스템 아키텍쳐
+
 <img src="image/틴테크_아키텍처.PNG">
 
 
@@ -193,7 +195,7 @@
 |   **Name**   |                       권은정                       |                       김은비                       |                       심규렬                       |                       정재범                       |                                      황세진                                       |
 | :----------: | :------------------------------------------------: | :------------------------------------------------: | :------------------------------------------------: | :------------------------------------------------: | :-------------------------------------------------------------------------------: | 
 | **Profile**  | ![image](image/권은정.png) | ![image](image/김은비.png) | ![image](image/심규렬.png) | ![image](image/정재범.png) | ![image](image/황세진.png) |
-| **Position** | Leader <br/> Frontend | Frontend | Backend | Frontend | Backend |
+| **Position** | Leader <br/> Frontend | Member <br/> Frontend | Member <br/> Backend | Member <br/> Frontend | Member <br/> Backend |
 |   **Git**    |      [GitHub](https://주소)       |     [GitHub](https://github.com/yoon-b)       |     [GitHub](https://github.com/simgyuryeol)      |       [GitHub](https://github.com/JJaeBeom)        | [GitHub](https://github.com/hsj4436)  |
 
 </div>
