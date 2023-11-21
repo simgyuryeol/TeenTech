@@ -120,7 +120,8 @@
 ## 💾 ERD
 
 <a name="erd"></a>
-<img src="image/금융7요_ERD.png">
+<img src="image/틴테크_db.PNG">
+<img src="image/틴테크_bankDB.PNG">
 
 <br/>
 
