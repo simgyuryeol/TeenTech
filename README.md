@@ -197,7 +197,7 @@
 | :----------: | :------------------------------------------------: | :------------------------------------------------: | :------------------------------------------------: | :------------------------------------------------: | :-------------------------------------------------------------------------------: | 
 | **Profile**  | ![image](image/권은정.png) | ![image](image/김은비.png) | ![image](image/심규렬.png) | ![image](image/정재범.png) | ![image](image/황세진.png) |
 | **Position** | Leader <br/> Frontend | Member <br/> Frontend | Member <br/> Backend | Member <br/> Frontend | Member <br/> Backend |
-|   **Git**    |      [GitHub](https://주소)       |     [GitHub](https://github.com/yoon-b)       |     [GitHub](https://github.com/simgyuryeol)      |       [GitHub](https://github.com/JJaeBeom)        | [GitHub](https://github.com/hsj4436)  |
+|   **Git**    |      [GitHub](https://github.com/jjeoungS2)       |     [GitHub](https://github.com/yoon-b)       |     [GitHub](https://github.com/simgyuryeol)      |       [GitHub](https://github.com/JJaeBeom)        | [GitHub](https://github.com/hsj4436)  |
 
 </div>
 
@@ -233,11 +233,15 @@
 #### BackEnd
 
  **심규렬** :
-- 가계부, 퀴즈, 복권, 주식, 예금 API 구현
+- 가계부, 퀴즈, 복권 API 구현
+- 주식, 예금 API와 스케줄러 구현
+- DB 설계 및 구축
+- Chat GPT API 연동
 
 
  **황세진** : 
 - 계좌, 이체 API 구현
+- DB 설계 및 구축
 - 아르바이트, 대출 API와 스케줄러 구현
 - FCM을 이용한 푸시 알림 구현
 - Spring Security, Oauth2와 JWT를 이용한 소셜 로그인 구현
